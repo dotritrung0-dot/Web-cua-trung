@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="vi">
+<!--
+📞 FILE: lien-he.html — TRANG LIÊN HỆ, ĐỘI NGŨ CỔ ĐÔNG & HỎI ĐÁP (FAQ)
+📌 CẤU TRÚC CÁC MỤC TRONG TRANG NÀY:
+   - MỤC 1 : Phần HEAD (Tiêu đề tab, nạp 3 file CSS).
+   - MỤC 2 : Dải thông báo trên cùng (.topbar).
+   - MỤC 3 : Thanh đầu trang (.header).
+   - MỤC 4 : Thanh Menu điều hướng (.nav).
+   - MỤC 5 : Khu vực Mở đầu trang Liên hệ (.lh-hero - Lời chào & Khung chat minh họa).
+   - MỤC 6 : 4 Thẻ Liên Lạc Nhanh (.lh-cards - Điện thoại, Email, Địa chỉ, Góc tư vấn).
+   - MỤC 7 : Giới thiệu Đội ngũ 3 Cổ đông chính (.lh-team).
+   - MỤC 8 : Biểu mẫu Gửi lời nhắn (#contactForm) & Cột Câu hỏi thường gặp (.lh-faq).
+   - MỤC 9 : Banner kêu gọi cuối trang (.lh-cta).
+   - MỤC CUỐI 1 & 2: Chân trang (.site-footer) và nạp 3 file JS chính.
+-->
+<!--
+📘 CẨM NANG ĐỌC & SỬA FILE HTML NÀY (DÀNH CHO NGƯỜI CHƯA BIẾT CODE)
+1. HTML LÀ GÌ?
+   - HTML giống như "bộ khung và nội dung chữ/ảnh" của trang web.
+   - Mọi thứ bạn nhìn thấy trên trang (chữ, hình ảnh, nút bấm, đường link) đều được viết ở đây.
+
+2. CÁCH ĐỌC CÁC THẺ (TAG) CƠ BẢN TRONG FILE NÀY:
+   - Cặp thẻ mở và đóng: <ten-the> Nội dung ở giữa </ten-the>
+   - <h1>, <h2>, <h3>, <h4> : Các dòng TIÊU ĐỀ (h1 là to nhất, h4 là nhỏ nhất).
+   - <p> ... </p>           : Một ĐOẠN VĂN BẢN bình thường.
+   - <span>, <small>        : Một cụm chữ nhỏ hoặc nhãn ngắn.
+   - <strong>, <b>          : Chữ IN ĐẬM (thường dùng để viết GIÁ TIỀN hoặc từ quan trọng).
+   - <del> ... </del>       : Chữ GẠCH NGANG ở giữa (thường dùng để viết GIÁ CŨ trước khi giảm).
+   - <a href="địa-chỉ.html">Chữ hiện ra</a> : ĐƯỜNG LINK bấm vào để chuyển sang trang khác.
+     + href="..." là tên file trang web sẽ mở ra khi bấm vào.
+   - <img src="đường-dẫn-ảnh" alt="mô tả">  : HÌNH ẢNH hiển thị trên trang.
+     + src="..." là đường dẫn chỉ tới tấm ảnh trong thư mục "anh/..."
+     + alt="..." là dòng mô tả ảnh (hiện ra nếu ảnh bị lỗi).
+   - <button> ... </button> : NÚT BẤM để thực hiện hành động (lọc đồ, thêm giỏ hàng, thả tim...).
+   - <div>, <section>, <article>, <header>, <nav>, <main>, <footer>:
+     + Là các "CHIẾC HỘP" gom nhóm các phần lại với nhau để chia bố cục trang web.
+
+3. ⚠️ QUY TẮC VÀNG KHI TỰ SỬA CODE (ĐỌC KỸ ĐỂ KHÔNG BỊ LỖI GIAO DIỆN):
+   - ✅ ĐƯỢC SỬA:
+     + Sửa chữ tiếng Việt nằm GIỮA cặp dấu > và < (Ví dụ: <h3>Tên mới</h3>, <strong>500.000đ</strong>).
+     + Sửa đường dẫn ảnh trong src="anh/..." (nhưng phải giữ nguyên cặp dấu ngoặc kép "").
+     + Sửa đường dẫn trang trong href="..." (giữ nguyên cặp dấu ngoặc kép "").
+   - ❌ TUYỆT ĐỐI KHÔNG XÓA / KHÔNG SỬA:
+     + Không xóa các dấu đóng mở ngoặc nhọn < , > , </...>.
+     + Không tự ý đổi tên tiếng Anh trong class="..." hoặc id="..." (Vì file CSS và JS dựa vào
+       đúng tên class/id đó để tô màu và chạy tính năng. Đổi tên là mất màu hoặc hỏng nút!).
+   - 💡 MẸO: Lỡ tay sửa nhầm làm hỏng giao diện? Bấm tổ hợp phím Ctrl + Z (hoặc Cmd + Z trên Mac)
+     để quay lại bước trước đó ngay lập tức!
+-->
+<head>
+    <!--
+         MỤC 1: PHẦN ĐẦU TÀI LIỆU (Thẻ head) — CÀI ĐẶT TRANG & NẠP FILE CSS
+         📍 Tác dụng: Phần head chứa thông tin cài đặt ngầm cho trình duyệt.
+            Khách vào web không nhìn thấy trực tiếp phần này trên màn hình chính,
+            ngoại trừ dòng <title> hiện ở thanh Tab phía trên cùng của trình duyệt.
+         🛠️ Cách sửa:
+            - Muốn đổi TÊN TAB TRÌNH DUYỆT: Sửa chữ nằm giữa <title> ... </title>.
+            - Muốn đổi MÔ TẢ TRANG (khi chia sẻ link lên Facebook/Zalo): Sửa chữ trong
+              content="..." của thẻ <meta name="description"> và <meta property="og:description">.
+            - ⚠️ KHÔNG XÓA 3 dòng <link rel="stylesheet" href="css/..."> vì đó là 3 file
+              tô màu và dàn trang (style_new.css, tech.css, upgrade.css).
+    -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Liên hệ AnimeVerse: gọi, nhắn tin hoặc gửi lời nhắn cho đội ngũ cửa hàng.">
+    <title>Liên hệ | AnimeVerse</title>
+    <link rel="stylesheet" href="css/style_new.css">
+    <meta name="theme-color" content="#07060f">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23090912'/%3E%3Ctext x='32' y='46' font-size='40' text-anchor='middle' fill='%23ff4fa3'%3E%E2%9C%A6%3C/text%3E%3C/svg%3E">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="AnimeVerse">
+    <meta property="og:locale" content="vi_VN">
+    <meta property="og:title" content="Liên hệ | AnimeVerse">
+    <meta property="og:description" content="Liên hệ AnimeVerse: gọi, nhắn tin hoặc gửi lời nhắn cho đội ngũ cửa hàng.">
+    <link rel="stylesheet" href="css/tech.css">
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="css/upgrade.css">
+    <link rel="stylesheet" href="css/theme-fix.css">
+    <link rel="stylesheet" href="css/motion.css">
+</head>
+<body>
+    <!--
+         MỤC 2: DẢI THÔNG BÁO TRÊN CÙNG (.topbar)
+         📍 Vị trí: Thanh ngang nhỏ nằm ở sát mép trên cùng của màn hình.
+         🛠️ Cách sửa:
+            - Mỗi dòng <span>...</span> là một câu thông báo ngắn.
+            - Muốn đổi nội dung thông báo (ví dụ đổi "500.000đ" thành "300.000đ"),
+              bạn chỉ cần sửa chữ tiếng Việt nằm giữa <span> và </span>.
+            - Lưu ý: Khi web chạy, file js/tech.js sẽ tự động gắn thêm dòng chữ chạy
+              và huy hiệu Cấp độ VIP (Tân Binh / Thợ Săn / Trụ Cột / Tứ Hoàng) vào thanh này.
+    -->
+    <div class="topbar">
+        <div class="container topbar-inner">
+            <span>🚚 Freeship đơn từ 500.000đ</span>
+            <span>🎁 Thành viên mới giảm 10%</span>
+            <span>↩ Đổi trả trong 7 ngày</span>
+        </div>
+    </div>
+    <!--
+         MỤC 3: THANH ĐẦU TRANG (.header) — LOGO, Ô TÌM KIẾM & NÚT CÔNG CỤ
+         📍 Vị trí: Nằm ngay dưới dải thông báo trên cùng, gồm 3 phần xếp ngang:
+            1) Logo thương hiệu "✦ ANIMEVERSE" bên trái (bấm vào sẽ về Trang chủ).
+            2) Ô tìm kiếm sản phẩm ở giữa (gõ tên sản phẩm sẽ tự xổ ra gợi ý có ảnh).
+            3) Cụm nút công cụ bên phải (.header-actions): Giỏ hàng, Hỗ trợ.
+         💡 Điều thú vị: Khi mở trang, file js/tech.js sẽ tự động gắn thêm 5 nút tiện ích
+            nữa vào trong <div class="header-actions"> (gồm: Gacha, So sánh, Đã thích,
+            Chủ đề giao diện, và Nhạc nền).
+         🛠️ Cách sửa:
+            - Đổi tên shop trên Logo: sửa chữ ANIME và VERSE trong thẻ <a class="logo">.
+            - Đổi chữ gợi ý mờ trong ô tìm kiếm: sửa chữ trong placeholder="...".
+    -->
+    <header class="header">
+        <div class="container header-inner">
+            <a class="logo" href="trang-chu.html" aria-label="AnimeVerse - Trang chủ">
+                <span>✦</span>
+                ANIME<span>VERSE</span>
+            </a>
+            <form class="search" id="searchForm" role="search">
+                <input id="searchInput" type="search" placeholder="Tìm kiếm figure, cosplay, phụ kiện..." aria-label="Tìm kiếm sản phẩm">
+                <button type="submit" aria-label="Tìm kiếm">⌕</button>
+            </form>
+            <div class="header-actions">
+                <!-- Nút mở Giỏ hàng -->
+                <a class="icon-btn cart-nav" href="gio-hang.html" title="Giỏ hàng" aria-label="Giỏ hàng">
+                    🛒
+                    <small>Giỏ hàng</small>
+                    <span class="cart-badge" hidden>0</span>
+                </a>
+                
+                <!-- Nút chuyển sang trang Liên hệ hỗ trợ -->
+                <a class="icon-btn" href="lien-he.html" title="Liên hệ hỗ trợ">
+                    ♙
+                    <small>Hỗ trợ</small>
+                </a>
+            </div>
+        </div>
+    </header>
+    <!--
+         MỤC 4: THANH MENU ĐIỀU HƯỚNG CHÍNH (Thẻ nav.nav)
+         📍 Vị trí: Thanh menu nằm ngay dưới Header, giúp khách bấm chuyển qua lại
+            giữa 6 trang chính: Trang chủ, Sản phẩm, Tư vấn, Khuyến mãi, Bán chạy, Liên hệ.
+         🔍 Giải thích:
+            - Mỗi thẻ <a href="ten-file.html">Tên Mục</a> là 1 nút trên thanh menu.
+            - Nút nào có thêm chữ class="active" thì nút đó sẽ sáng màu hồng/tím để báo
+              cho khách biết họ đang đứng ở trang đó.
+         🛠️ Cách sửa:
+            - Muốn đổi tên mục trên menu: Sửa chữ tiếng Việt giữa > và </a>.
+            - Muốn đổi trang đích khi bấm vào: Sửa tên file trong href="...".
+                -->
+    <nav class="nav" aria-label="Điều hướng chính">
+        <div class="container nav-inner">
+            <a href="trang-chu.html">Trang chủ</a>
+            <a href="san-pham.html">Sản phẩm</a>
+            <a href="tu-van.html">Tư vấn</a>
+            <a href="khuyen-mai.html">Khuyến mãi</a>
+            <a href="ban-chay.html">Bán chạy</a>
+            <a class="active" aria-current="page" href="lien-he.html">Liên hệ</a>
+        </div>
+    </nav>
+    <main>
+
+        <!--
+             MỤC 5: KHU VỰC MỞ ĐẦU TRANG LIÊN HỆ (.lh-hero)
+             📍 Vị trí: Gồm lời chào và 2 nút bấm bên trái, khung bong bóng chat
+                trang trí (.lh-chat) bên phải.
+             🛠️ Cách sửa:
+                - Đổi tiêu đề trong <h1>, đoạn giới thiệu trong <p class="lh-lead">.
+                - Đổi số điện thoại nút gọi nhanh: Sửa trong href="tel:0936271107" và chữ bên trong.
+        -->
+        <section class="container lh-hero">
+            <div class="lh-reveal">
+                <p class="eyebrow">ANIMEVERSE • CONTACT</p>
+                <h1>Có gì cần hỏi,<br><em>nhắn tụi mình nhé.</em></h1>
+                <p class="lh-lead">
+                    Hỏi về đơn hàng, nhờ chọn size cosplay hay chỉ muốn góp ý thôi cũng được.
+                    Bạn nhắn, tụi mình đọc.
+                </p>
+                <div class="lh-actions">
+                    <a class="btn primary" href="#lh-form">Gửi lời nhắn ↓</a>
+                    <a class="btn ghost" href="tel:0936271107">Gọi 093 627 1107</a>
+                </div>
+                <div class="lh-chips">
+                    <span>📦 Hỏi về đơn hàng</span>
+                    <span>👘 Tư vấn cosplay</span>
+                    <span>🤝 Hợp tác</span>
+                </div>
+            </div>
+
+            <!-- Khung chat bên phải chỉ để trang trí, không phải chat thật -->
+            <div class="lh-hero-art lh-reveal" aria-hidden="true">
+                <div class="lh-orbit"></div>
+                <div class="lh-orbit two"></div>
+                <span class="lh-spark a">✦</span>
+                <span class="lh-spark b">✧</span>
+                <div class="lh-chat">
+                    <div class="lh-chat-top">
+                        <span class="lh-dot"></span>
+                        <div><b>AnimeVerse</b><small>Cửa hàng anime &amp; cosplay</small></div>
+                    </div>
+                    <div class="lh-bubble me">Shop ơi, set Gojo còn size M không?</div>
+                    <div class="lh-bubble">Còn nha bạn ✦ Bạn cần tụi mình tư vấn thêm gì không?</div>
+                    <div class="lh-typing"><i></i><i></i><i></i></div>
+                </div>
+            </div>
+        </section>
+
+        <!--
+             MỤC 6: 4 THẺ LIÊN LẠC NHANH (.lh-cards)
+             📍 Vị trí: 4 hộp thông tin nằm ngang: Điện thoại, Email, Địa chỉ, Góc tư vấn.
+             🛠️ Cách sửa:
+                - Thẻ Điện thoại: Sửa số hiển thị trong <strong>093 627 1107</strong> VÀ
+                  sửa số trong data-copy="0936271107" của nút <button class="lh-copy">
+                  (để khi khách bấm "Sao chép số" sẽ chép đúng số mới).
+                - Thẻ Email: Sửa email trong <strong>...</strong> VÀ trong data-copy="...".
+                - Thẻ Địa chỉ: Sửa tên địa chỉ trong <strong>CUWC</strong> và mô tả trong <p>.
+            -->
+        <section class="container lh-section">
+            <div class="lh-cards">
+                <article class="lh-card lh-reveal">
+                    <span class="lh-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg>
+                    </span>
+                    <small>ĐIỆN THOẠI</small>
+                    <strong>093 627 1107</strong>
+                    <p>Gọi trực tiếp khi cần hỗ trợ gấp.</p>
+                    <button class="lh-copy" type="button" data-copy="0936271107">Sao chép số</button>
+                </article>
+
+                <article class="lh-card lh-reveal">
+                    <span class="lh-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="3"/><path d="m22 7-10 6L2 7"/></svg>
+                    </span>
+                    <small>EMAIL</small>
+                    <strong>dotritrung0@gmail.com</strong>
+                    <p>Hợp tác, góp ý hoặc câu hỏi dài.</p>
+                    <button class="lh-copy" type="button" data-copy="dotritrung0@gmail.com">Sao chép email</button>
+                </article>
+
+                <article class="lh-card lh-reveal">
+                    <span class="lh-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                    </span>
+                    <small>ĐỊA CHỈ</small>
+                    <strong>CUWC</strong>
+                    <p>Địa chỉ chi tiết sẽ được cập nhật sau.</p>
+                </article>
+
+                <a class="lh-card lh-reveal" href="tu-van.html">
+                    <span class="lh-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L3 21l1.9-5.4A8 8 0 1 1 21 12z"/></svg>
+                    </span>
+                    <small>GÓC TƯ VẤN</small>
+                    <strong>Đọc mẹo cosplay →</strong>
+                    <p>Nhiều câu hỏi quen thuộc đã có sẵn ở đây.</p>
+                </a>
+            </div>
+        </section>
+
+        <!--
+             MỤC 7: GIỚI THIỆU ĐỘI NGŨ 3 CỔ ĐÔNG CHÍNH (.lh-team)
+             📍 Vị trí: 3 tấm thẻ giới thiệu 3 thành viên sáng lập/điều hành shop.
+                Khi rê chuột vào trên máy tính, thẻ sẽ nghiêng 3D nhẹ (nhờ class .lh-tilt).
+             🛠️ Cách sửa thông tin từng thành viên (<article class="lh-member">):
+                - Đổi ảnh đại diện : Thay đường dẫn trong <img src="anh/co_dong/..." alt="...">
+                - Đổi chức vụ      : Sửa chữ trong <p class="lh-role">CỔ ĐÔNG CHÍNH</p>
+                - Đổi họ và tên    : Sửa chữ trong <h3>...</h3>
+                - Đổi câu giới thiệu: Sửa chữ trong thẻ <p> cuối cùng của mỗi thẻ.
+        -->
+        <section class="container lh-section">
+            <div class="lh-head center lh-reveal">
+                <p class="eyebrow">ĐỘI NGŨ ĐIỀU HÀNH</p>
+                <h2>Ba cổ đông chính</h2>
+                <p>Những người đứng sau AnimeVerse.</p>
+            </div>
+
+            <!-- .lh-tilt: JS làm thẻ nghiêng nhẹ theo chuột (xem initContact trong js/site.js) -->
+            <div class="lh-team">
+                <article class="lh-member lh-tilt lh-reveal">
+                    <div class="lh-avatar"><img src="anh/co_dong/thgg trung 1.jpg" alt="Đỗ Trí Trung"></div>
+                    <p class="lh-role">CỔ ĐÔNG CHÍNH</p>
+                    <h3>Đỗ Trí Trung</h3>
+                    <p>Đại diện đội ngũ cổ đông AnimeVerse.</p>
+                </article>
+                <article class="lh-member lh-tilt lh-reveal">
+                    <div class="lh-avatar"><img src="anh/co_dong/thg thun.jpg" alt="Nguyễn Bá Thuận"></div>
+                    <p class="lh-role">CỔ ĐÔNG CHÍNH</p>
+                    <h3>Nguyễn Bá Thuận</h3>
+                    <p>Đồng hành cùng định hướng phát triển AnimeVerse.</p>
+                </article>
+                <article class="lh-member lh-tilt lh-reveal">
+                    <div class="lh-avatar"><img src="anh/co_dong/thg nu.jpg" alt="Trương Tiến Dũng"></div>
+                    <p class="lh-role">CỔ ĐÔNG CHÍNH</p>
+                    <h3>Trương Tiến Dũng</h3>
+                    <p>Đồng hành cùng hoạt động và phát triển cửa hàng.</p>
+                </article>
+            </div>
+        </section>
+
+        <!--
+             MỤC 8: FORM GỬI LỜI NHẮN (#contactForm) & CÂU HỎI THƯỜNG GẶP (.lh-faq)
+             📍 Vị trí: Chia làm 2 cột:
+                - Cột trái (.lh-form-box): Form cho khách chọn chủ đề (Đơn hàng, Sản phẩm,
+                  Hợp tác, Góp ý), nhập Họ tên, Email, Nội dung lời nhắn và bấm Gửi.
+                  (Được kiểm tra hợp lệ bởi hàm initContact trong file js/site.js).
+                - Cột phải (.lh-faq): Các câu hỏi thường gặp dùng thẻ details. Khi khách
+                  bấm vào câu hỏi (<summary>), câu trả lời (<p>) sẽ tự động mở ra!
+             🛠️ Cách sửa / thêm câu hỏi thường gặp (FAQ):
+                - Sửa câu hỏi trong <summary>...</summary> và câu trả lời trong <p>...</p>.
+                - Muốn thêm 1 câu hỏi mới: Copy nguyên một khối <details> ... </details>
+                  rồi dán xuống dưới là xong!
+            -->
+        <section class="container lh-section" id="lh-form">
+            <div class="lh-layout">
+
+                <div class="lh-form-box lh-reveal" id="lhBox">
+                    <form class="lh-form" id="contactForm" novalidate>
+                        <h2>Gửi lời nhắn</h2>
+                        <p>Điền vài dòng bên dưới, tụi mình sẽ đọc.</p>
+
+                        <fieldset class="lh-topics">
+                            <legend>Bạn muốn trao đổi về</legend>
+                            <label class="lh-topic"><input type="radio" name="topic" value="Đơn hàng" checked><span>📦 Đơn hàng</span></label>
+                            <label class="lh-topic"><input type="radio" name="topic" value="Sản phẩm"><span>🛍 Sản phẩm</span></label>
+                            <label class="lh-topic"><input type="radio" name="topic" value="Hợp tác"><span>🤝 Hợp tác</span></label>
+                            <label class="lh-topic"><input type="radio" name="topic" value="Góp ý"><span>💬 Góp ý</span></label>
+                        </fieldset>
+
+                        <div class="lh-row">
+                            <div>
+                                <div class="lh-field">
+                                    <input id="lhName" name="name" type="text" placeholder=" " autocomplete="name" required>
+                                    <label for="lhName">Họ và tên</label>
+                                </div>
+                                <span class="lh-error" data-for="lhName"></span>
+                            </div>
+                            <div>
+                                <div class="lh-field">
+                                    <input id="lhEmail" name="email" type="email" placeholder=" " autocomplete="email" required>
+                                    <label for="lhEmail">Email</label>
+                                </div>
+                                <span class="lh-error" data-for="lhEmail"></span>
+                            </div>
+                        </div>
+
+                        <div class="lh-field">
+                            <textarea id="lhMsg" name="message" maxlength="500" placeholder=" " required></textarea>
+                            <label for="lhMsg">Nội dung lời nhắn</label>
+                            <span class="lh-count" id="lhCount">0/500</span>
+                        </div>
+                        <span class="lh-error" data-for="lhMsg"></span>
+
+                        <button class="lh-submit" type="submit" id="lhSubmit">Gửi lời nhắn →</button>
+                        <p class="lh-demo">Bản demo: tin nhắn chưa được gửi đến máy chủ.</p>
+                    </form>
+
+                    <!-- Hiện ra sau khi bấm gửi thành công (JS thêm class "sent" cho khung này) -->
+                    <div class="lh-done" role="status" aria-live="polite">
+                        <svg class="lh-check" viewBox="0 0 92 92" aria-hidden="true">
+                            <circle cx="46" cy="46" r="41"/>
+                            <path d="M28 47l12 12 24-26"/>
+                        </svg>
+                        <h2>Đã nhận lời nhắn!</h2>
+                        <p>Cảm ơn bạn. Khi cửa hàng kết nối email thật, tụi mình sẽ trả lời qua đó.</p>
+                        <button class="btn ghost" type="button" id="lhAgain">Gửi thêm lời nhắn</button>
+                    </div>
+                </div>
+
+                <aside class="lh-faq lh-reveal">
+                    <h2>Hỏi nhanh đáp gọn</h2>
+                    <details>
+                        <summary>Đơn bao nhiêu thì được freeship?</summary>
+                        <p>Đơn từ 500.000đ được miễn phí vận chuyển. Dưới mức này, phí ship sẽ tính khi giao hàng.</p>
+                    </details>
+                    <details>
+                        <summary>Mình là khách mới, có ưu đãi không?</summary>
+                        <p>Có. Thành viên mới được giảm 10%. Nhập mã <b>WELCOME10</b> ở trang giỏ hàng nhé.</p>
+                    </details>
+                    <details>
+                        <summary>Mua rồi không ưng thì sao?</summary>
+                        <p>Bạn được đổi trả trong 7 ngày. Nhắn cho tụi mình kèm thông tin đơn hàng là được.</p>
+                    </details>
+                    <details>
+                        <summary>Mình chưa biết chọn size hay nhân vật nào?</summary>
+                        <p>Cứ nhắn nhé. Bạn cũng có thể xem thêm ở <a href="tu-van.html">Góc tư vấn</a>.</p>
+                    </details>
+                </aside>
+            </div>
+        </section>
+
+        <!--
+             MỤC 9: BANNER KÊU GỌI CUỐI TRANG (.lh-cta)
+                    -->
+        <section class="container">
+            <div class="lh-cta lh-reveal">
+                <div>
+                    <p class="eyebrow">SẴN SÀNG CHƯA?</p>
+                    <h2>Xem hết kệ rồi hãy nhắn cũng được</h2>
+                    <p>Biết đâu món bạn đang tìm đã nằm sẵn trong shop.</p>
+                </div>
+                <a class="btn primary" href="san-pham.html">Xem sản phẩm →</a>
+            </div>
+        </section>
+
+    </main>
+    <!--
+         MỤC CUỐI 1: CHÂN TRANG (Thẻ footer.site-footer)
+         📍 Vị trí: Phần dưới cùng của trang web, chia làm 4 cột thông tin:
+            - Cột 1: Logo và câu giới thiệu ngắn về cửa hàng AnimeVerse.
+            - Cột 2 (Danh mục): Các đường link dẫn tới 6 trang danh mục sản phẩm.
+            - Cột 3 (Khám phá): Các đường link dẫn tới các trang chính.
+            - Cột 4 (Liên hệ): Địa chỉ, Số điện thoại và Email của shop.
+         🛠️ Cách sửa:
+            - Đổi địa chỉ: Sửa chữ sau biểu tượng 📍 (hiện tại là "CUWC").
+            - Đổi số điện thoại: Sửa số trong href="tel:0936271107" VÀ số hiển thị bên ngoài.
+            - Đổi email: Sửa địa chỉ email trong href="mailto:..." VÀ chữ hiển thị bên ngoài.
+            - Đổi dòng bản quyền dưới cùng: Sửa chữ trong <div class="copyright">.
+    -->
+
+    <footer class="site-footer">
+        <div class="container footer-grid">
+            <div>
+                <a class="logo" href="trang-chu.html">
+                    <span>✦</span>
+                    ANIME<span>VERSE</span>
+                </a>
+                <p>Cửa hàng nhỏ cho hội mê anime, manga và cosplay.
+                    Món nào lên kệ cũng được chọn kỹ.</p>
+            </div>
+            <div>
+                <h4>Danh mục</h4>
+                <a href="figure.html">Figure</a>
+                <a href="cosplay.html">Cosplay</a>
+                <a href="plush.html">Plush</a>
+                <a href="dao-cu.html">Đạo cụ</a>
+                <a href="thoi-trang.html">Thời trang</a>
+                <a href="qua-tang.html">Quà tặng</a>
+            </div>
+            <div>
+                <h4>Khám phá</h4>
+                <a href="san-pham.html">Tất cả sản phẩm</a>
+                <a href="ban-chay.html">Bán chạy</a>
+                <a href="khuyen-mai.html">Khuyến mãi</a>
+                <a href="tu-van.html">Góc tư vấn</a>
+                <a href="lien-he.html">Liên hệ</a>
+            </div>
+            <div>
+                <h4>Liên hệ</h4>
+                <p>📍 CUWC</p>
+                <p>☎ <a href="tel:0936271107">093 627 1107</a></p>
+                <p>✉ <a href="mailto:dotritrung0@gmail.com">dotritrung0@gmail.com</a></p>
+            </div>
+        </div>
+        <div class="copyright">© 2026 AnimeVerse. Made with ♡ for Otaku.</div>
+    </footer>
+
+    <!--
+         MỤC CUỐI 2: NẠP 3 FILE JAVASCRIPT ("BỘ NÃO" CỦA WEBSITE)
+         📍 Tác dụng: 3 dòng script dưới đây nối trang HTML này với 3 file xử lý
+            thông minh nằm trong thư mục "js/":
+            1) js/site.js    : Quản lý Giỏ hàng, Yêu thích, So sánh, Mã giảm giá, Điểm VIP.
+            2) js/tech.js    : Chứa dữ liệu 50 sản phẩm, Đổi 4 giao diện, Vòng quay Gacha,
+                               AI chọn Size, Quiz, Tìm kiếm gợi ý, Đánh giá 5 sao, Chatbot AV-Bot.
+            3) js/upgrade.js : Giữ cho nhạc nền phát liên tục không bị ngắt khi chuyển trang
+                               và tối ưu nút bấm trên điện thoại.
+         ⚠️ LƯU Ý QUAN TRỌNG: TUYỆT ĐỐI KHÔNG XÓA 3 dòng script này, nếu xóa web sẽ
+            mất giỏ hàng, mất nhạc và các nút bấm không hoạt động!
+    -->
+    <script src="js/site.js" defer></script>
+    <script src="js/tech.js" defer></script>
+    <script src="js/upgrade.js" defer></script>
+    <script src="js/motion.js" defer></script>
+</body>
+</html>

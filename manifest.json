@@ -1,0 +1,16 @@
+{
+  "name": "AnimeVerse",
+  "short_name": "AnimeVerse",
+  "start_url": "trang-chu.html",
+  "display": "standalone",
+  "background_color": "#07060f",
+  "theme_color": "#07060f",
+  "lang": "vi",
+  "icons": [
+    {
+      "src": "anh/logo/logo-cosplay.webp",
+      "sizes": "512x512",
+      "type": "image/webp"
+    }
+  ]
+}

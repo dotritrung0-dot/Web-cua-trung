@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="vi">
+<!--
+🏠 FILE: index.html — TRANG CHỦ CỦA CỬA HÀNG ANIMEVERSE
+(Lưu ý: index.html là trang mặc định khi mở web, có bản sao là trang-chu.html. Khi sửa Trang chủ, bạn có thể copy nội dung file này sang trang-chu.html để 2 file luôn giống nhau nhé!)
+📌 CẤU TRÚC CÁC MỤC TRONG TRANG CHỦ NÀY:
+   - MỤC 1 : Phần HEAD (Tiêu đề tab, nạp 3 file CSS giao diện).
+   - MỤC 2 : Dải thông báo trên cùng (.topbar - Freeship, giảm 10%, đổi trả).
+   - MỤC 3 : Thanh đầu trang (.header - Logo, Ô tìm kiếm, Nút Giỏ hàng & Hỗ trợ).
+   - MỤC 4 : Thanh Menu điều hướng (.nav - 6 link chuyển trang chính).
+   - MỤC 5 : Tấm ảnh Banner ngang lớn đầu trang (.home-banner).
+   - MỤC 6 : Khu vực Mở đầu / Sân khấu chính (.hero - Tiêu đề lớn, thống kê, thẻ ảnh).
+   - MỤC 7 : Trung tâm Tương tác Otaku 3.0 (#otaku-hub-showcase - 4 ô tính năng: Gacha, Size, Quiz, So sánh).
+   - MỤC 8 : Khu vực 6 Danh mục sản phẩm (#categories - Cosplay, Figure, Plush, Đạo cụ, Thời trang, Quà tặng).
+   - MỤC 9 : Khu vực 8 Sản phẩm nổi bật & Nút lọc nhanh (#products).
+   - MỤC 10: Banner Khuyến mãi Tuần lễ Otaku Sale & Đồng hồ đếm ngược (#sale).
+   - MỤC 11: Khu vực 4 Cam kết "Mua sắm an tâm" (#best).
+   - MỤC CUỐI 1: Chân trang (.site-footer - Thông tin liên hệ, bản quyền).
+   - MỤC CUỐI 2: Đoạn mã JS lọc sản phẩm + đếm ngược và nạp 3 file JS chính.
+-->
+<!--
+📘 CẨM NANG ĐỌC & SỬA FILE HTML NÀY (DÀNH CHO NGƯỜI CHƯA BIẾT CODE)
+1. HTML LÀ GÌ?
+   - HTML giống như "bộ khung và nội dung chữ/ảnh" của trang web.
+   - Mọi thứ bạn nhìn thấy trên trang (chữ, hình ảnh, nút bấm, đường link) đều được viết ở đây.
+
+2. CÁCH ĐỌC CÁC THẺ (TAG) CƠ BẢN TRONG FILE NÀY:
+   - Cặp thẻ mở và đóng: <ten-the> Nội dung ở giữa </ten-the>
+   - <h1>, <h2>, <h3>, <h4> : Các dòng TIÊU ĐỀ (h1 là to nhất, h4 là nhỏ nhất).
+   - <p> ... </p>           : Một ĐOẠN VĂN BẢN bình thường.
+   - <span>, <small>        : Một cụm chữ nhỏ hoặc nhãn ngắn.
+   - <strong>, <b>          : Chữ IN ĐẬM (thường dùng để viết GIÁ TIỀN hoặc từ quan trọng).
+   - <del> ... </del>       : Chữ GẠCH NGANG ở giữa (thường dùng để viết GIÁ CŨ trước khi giảm).
+   - <a href="địa-chỉ.html">Chữ hiện ra</a> : ĐƯỜNG LINK bấm vào để chuyển sang trang khác.
+     + href="..." là tên file trang web sẽ mở ra khi bấm vào.
+   - <img src="đường-dẫn-ảnh" alt="mô tả">  : HÌNH ẢNH hiển thị trên trang.
+     + src="..." là đường dẫn chỉ tới tấm ảnh trong thư mục "anh/..."
+     + alt="..." là dòng mô tả ảnh (hiện ra nếu ảnh bị lỗi).
+   - <button> ... </button> : NÚT BẤM để thực hiện hành động (lọc đồ, thêm giỏ hàng, thả tim...).
+   - <div>, <section>, <article>, <header>, <nav>, <main>, <footer>:
+     + Là các "CHIẾC HỘP" gom nhóm các phần lại với nhau để chia bố cục trang web.
+
+3. ⚠️ QUY TẮC VÀNG KHI TỰ SỬA CODE (ĐỌC KỸ ĐỂ KHÔNG BỊ LỖI GIAO DIỆN):
+   - ✅ ĐƯỢC SỬA:
+     + Sửa chữ tiếng Việt nằm GIỮA cặp dấu > và < (Ví dụ: <h3>Tên mới</h3>, <strong>500.000đ</strong>).
+     + Sửa đường dẫn ảnh trong src="anh/..." (nhưng phải giữ nguyên cặp dấu ngoặc kép "").
+     + Sửa đường dẫn trang trong href="..." (giữ nguyên cặp dấu ngoặc kép "").
+   - ❌ TUYỆT ĐỐI KHÔNG XÓA / KHÔNG SỬA:
+     + Không xóa các dấu đóng mở ngoặc nhọn < , > , </...>.
+     + Không tự ý đổi tên tiếng Anh trong class="..." hoặc id="..." (Vì file CSS và JS dựa vào
+       đúng tên class/id đó để tô màu và chạy tính năng. Đổi tên là mất màu hoặc hỏng nút!).
+   - 💡 MẸO: Lỡ tay sửa nhầm làm hỏng giao diện? Bấm tổ hợp phím Ctrl + Z (hoặc Cmd + Z trên Mac)
+     để quay lại bước trước đó ngay lập tức!
+-->
+
+<head>
+    <!--
+         MỤC 1: PHẦN ĐẦU TÀI LIỆU (Thẻ head) — CÀI ĐẶT TRANG & NẠP FILE CSS
+         📍 Tác dụng: Phần head chứa thông tin cài đặt ngầm cho trình duyệt.
+            Khách vào web không nhìn thấy trực tiếp phần này trên màn hình chính,
+            ngoại trừ dòng <title> hiện ở thanh Tab phía trên cùng của trình duyệt.
+         🛠️ Cách sửa:
+            - Muốn đổi TÊN TAB TRÌNH DUYỆT: Sửa chữ nằm giữa <title> ... </title>.
+            - Muốn đổi MÔ TẢ TRANG (khi chia sẻ link lên Facebook/Zalo): Sửa chữ trong
+              content="..." của thẻ <meta name="description"> và <meta property="og:description">.
+            - ⚠️ KHÔNG XÓA 3 dòng <link rel="stylesheet" href="css/..."> vì đó là 3 file
+              tô màu và dàn trang (style_new.css, tech.css, upgrade.css).
+    -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AnimeVerse - cửa hàng figure, cosplay, plush và phụ kiện Anime.">
+    <title>AnimeVerse | Shop Anime & Cosplay</title>
+    <link rel="stylesheet" href="css/style_new.css">
+    <link rel="preload" as="image" href="anh/banner-animeverse.webp">
+    <meta name="theme-color" content="#07060f">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23090912'/%3E%3Ctext x='32' y='46' font-size='40' text-anchor='middle' fill='%23ff4fa3'%3E%E2%9C%A6%3C/text%3E%3C/svg%3E">
+    <style>
+        /* Khung bao tấm ảnh Banner lớn đầu Trang chủ */
+        .home-banner {
+            width: min(100% - 32px, 1600px);
+            margin: 22px auto 8px;
+            overflow: hidden;
+            border-radius: 18px;
+            line-height: 0;
+        }
+
+        .home-banner img {
+            display: block;
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+        }
+
+        @media (max-width: 600px) {
+            .home-banner {
+                width: calc(100% - 20px);
+                margin-top: 12px;
+                border-radius: 10px;
+            }
+        }
+    </style>
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="AnimeVerse">
+    <meta property="og:locale" content="vi_VN">
+    <meta property="og:title" content="AnimeVerse | Shop Anime & Cosplay">
+    <meta property="og:description" content="AnimeVerse - cửa hàng figure, cosplay, plush và phụ kiện Anime.">
+    <link rel="stylesheet" href="css/tech.css">
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="css/upgrade.css">
+    <link rel="stylesheet" href="css/theme-fix.css">
+    <link rel="stylesheet" href="css/motion.css">
+</head>
+
+<body>
+    <!--
+         MỤC 2: DẢI THÔNG BÁO TRÊN CÙNG (.topbar)
+         📍 Vị trí: Thanh ngang nhỏ nằm ở sát mép trên cùng của màn hình.
+         🛠️ Cách sửa:
+            - Mỗi dòng <span>...</span> là một câu thông báo ngắn.
+            - Muốn đổi nội dung thông báo (ví dụ đổi "500.000đ" thành "300.000đ"),
+              bạn chỉ cần sửa chữ tiếng Việt nằm giữa <span> và </span>.
+            - Lưu ý: Khi web chạy, file js/tech.js sẽ tự động gắn thêm dòng chữ chạy
+              và huy hiệu Cấp độ VIP (Tân Binh / Thợ Săn / Trụ Cột / Tứ Hoàng) vào thanh này.
+    -->
+    <div class="topbar">
+        <div class="container topbar-inner">
+            <span>🚚 Freeship đơn từ 500.000đ</span>
+            <span>🎁 Thành viên mới giảm 10%</span>
+            <span>↩ Đổi trả trong 7 ngày</span>
+        </div>
+    </div>
+    <!--
+         MỤC 3: THANH ĐẦU TRANG (.header) — LOGO, Ô TÌM KIẾM & NÚT CÔNG CỤ
+         📍 Vị trí: Nằm ngay dưới dải thông báo trên cùng, gồm 3 phần xếp ngang:
+            1) Logo thương hiệu "✦ ANIMEVERSE" bên trái (bấm vào sẽ về Trang chủ).
+            2) Ô tìm kiếm sản phẩm ở giữa (gõ tên sản phẩm sẽ tự xổ ra gợi ý có ảnh).
+            3) Cụm nút công cụ bên phải (.header-actions): Giỏ hàng, Hỗ trợ.
+         💡 Điều thú vị: Khi mở trang, file js/tech.js sẽ tự động gắn thêm 5 nút tiện ích
+            nữa vào trong <div class="header-actions"> (gồm: Gacha, So sánh, Đã thích,
+            Chủ đề giao diện, và Nhạc nền).
+         🛠️ Cách sửa:
+            - Đổi tên shop trên Logo: sửa chữ ANIME và VERSE trong thẻ <a class="logo">.
+            - Đổi chữ gợi ý mờ trong ô tìm kiếm: sửa chữ trong placeholder="...".
+    -->
+    <header class="header">
+        <div class="container header-inner">
+            <a class="logo" href="trang-chu.html" aria-label="AnimeVerse - Trang chủ">
+                <span>✦</span>
+                ANIME<span>VERSE</span>
+            </a>
+            <form class="search" id="searchForm" role="search">
+                <input id="searchInput" type="search" placeholder="Tìm kiếm figure, cosplay, phụ kiện..." aria-label="Tìm kiếm sản phẩm">
+                <button type="submit" aria-label="Tìm kiếm">⌕</button>
+            </form>
+            <div class="header-actions">
+                <!-- Nút mở Giỏ hàng -->
+                <a class="icon-btn cart-nav" href="gio-hang.html" title="Giỏ hàng" aria-label="Giỏ hàng">
+                    🛒
+                    <small>Giỏ hàng</small>
+                    <span class="cart-badge" hidden>0</span>
+                </a>
+                
+                <!-- Nút chuyển sang trang Liên hệ hỗ trợ -->
+                <a class="icon-btn" href="lien-he.html" title="Liên hệ hỗ trợ">
+                    ♙
+                    <small>Hỗ trợ</small>
+                </a>
+            </div>
+        </div>
+    </header>
+    <!--
+         MỤC 4: THANH MENU ĐIỀU HƯỚNG CHÍNH (Thẻ nav.nav)
+         📍 Vị trí: Thanh menu nằm ngay dưới Header, giúp khách bấm chuyển qua lại
+            giữa 6 trang chính: Trang chủ, Sản phẩm, Tư vấn, Khuyến mãi, Bán chạy, Liên hệ.
+         🔍 Giải thích:
+            - Mỗi thẻ <a href="ten-file.html">Tên Mục</a> là 1 nút trên thanh menu.
+            - Nút nào có thêm chữ class="active" thì nút đó sẽ sáng màu hồng/tím để báo
+              cho khách biết họ đang đứng ở trang đó.
+         🛠️ Cách sửa:
+            - Muốn đổi tên mục trên menu: Sửa chữ tiếng Việt giữa > và </a>.
+            - Muốn đổi trang đích khi bấm vào: Sửa tên file trong href="...".
+                -->
+    <nav class="nav" aria-label="Điều hướng chính">
+        <div class="container nav-inner">
+            <a class="active" aria-current="page" href="trang-chu.html">Trang chủ</a>
+            <a href="san-pham.html">Sản phẩm</a>
+            <a href="tu-van.html">Tư vấn</a>
+            <a href="khuyen-mai.html">Khuyến mãi</a>
+            <a href="ban-chay.html">Bán chạy</a>
+            <a href="lien-he.html">Liên hệ</a>
+        </div>
+    </nav>
+    <main id="home">
+        <!--
+             MỤC 5: TẤM ẢNH BANNER NGANG LỚN ĐẦU TRANG (.home-banner)
+             📍 Vị trí: Tấm hình ngang sắc nét nằm ngay dưới thanh Menu và trên khu vực Hero.
+             🛠️ Cách sửa:
+                - Thay ảnh banner mới: Bạn chép ảnh vào thư mục anh/ rồi sửa tên file trong src="anh/banner-animeverse.webp".
+        -->
+        <section class="home-banner">
+            <img src="anh/banner-animeverse.webp" alt="Banner AnimeVerse" width="1600" height="480" fetchpriority="high" decoding="async">
+        </section>
+
+        <!--
+             MỤC 6: KHU VỰC MỞ ĐẦU / SÂN KHẤU CHÍNH (.hero)
+             📍 Vị trí: Nằm dưới Banner, chia làm 2 nửa trái - phải:
+                - Bên trái (.hero-copy): Dòng chữ nhỏ (eyebrow), Tiêu đề lớn (h1),
+                  đoạn giới thiệu ngắn (p), 2 nút bấm (.hero-buttons) và 3 con số
+                  thống kê (.hero-stats: 500+ Sản phẩm, 10M+ Khách hàng, 4.3/5 Đánh giá).
+                - Bên phải (.hero-art): Khung trang trí hình tròn phát sáng và tấm thẻ
+                  ảnh nhân vật (src="anh/anh-manh.jpg").
+             🛠️ Cách sửa:
+                - Đổi khẩu hiệu lớn: Sửa chữ trong <h1> ... <strong>...</strong> </h1>.
+                - Đổi các con số thống kê: Sửa số trong <b>500+</b>, <b>10M+</b>, <b>4.3/5</b>.
+                - Đổi ảnh bên phải: Thay đường dẫn trong src="anh/anh-manh.jpg".
+        -->
+        <section class="hero container">
+            <div class="hero-copy">
+                <p class="eyebrow">✦ BỘ SƯU TẬP 2026</p>
+                <h1>
+                    Thế giới Anime
+                    <br>
+                    <strong>thu nhỏ trong tay bạn.</strong>
+                </h1>
+                <p>
+                    Figure, cosplay, phụ kiện anime.
+                    Món nào lên kệ cũng được tụi mình chọn kỹ.
+                </p>
+                <div class="hero-buttons">
+                    <a class="btn primary" href="san-pham.html">Khám phá ngay →</a>
+                    <a class="btn ghost" href="san-pham.html">Xem danh mục</a>
+                </div>
+                <div class="hero-stats">
+                    <span><b>500+</b> Sản phẩm</span>
+                    <span><b>10M+</b> Khách hàng</span>
+                    <span><b>4.3/5</b> Đánh giá</span>
+                </div>
+            </div>
+            <div class="hero-art">
+                <div class="circle c1"></div>
+                <div class="circle c2"></div>
+                <div class="anime-card">
+                    <span><img src="anh/anh-manh.jpg" alt="Otaku Collection"></span>
+                    <small>LIMITED</small>
+                    <b>OTAKU<br>COLLECTION</b>
+                </div>
+                <div class="floating-tag">✦ LIMITED ITEM</div>
+            </div>
+        </section>
+        <!--
+             MỤC 7: TRUNG TÂM TƯƠNG TÁC OTAKU 3.0 (#otaku-hub-showcase)
+             📍 Vị trí: 4 ô tính năng thông minh nằm ngang dưới khu vực Hero:
+                1) 🎰 Vòng Quay Gacha      (bấm vào mở vòng quay săn mã giảm giá)
+                2) 📏 AI Tư Vấn Chọn Size  (bấm vào mở bảng đo chiều cao/cân nặng)
+                3) 🧭 Quiz Tìm Đồ Hợp Hệ   (bấm vào mở trắc nghiệm gợi ý sản phẩm)
+                4) ⚖️ So Sánh & Xem Nhanh  (bấm vào mở bảng so sánh các món đã chọn)
+             🔍 Giải thích:
+                - Thuộc tính onclick="window.AVOpenHub('...')" là lệnh gọi cửa sổ tương ứng
+                  được lập trình sẵn trong file js/tech.js.
+             🛠️ Cách sửa:
+                - Bạn có thể thoải mái sửa tiêu đề <h3>...</h3> và câu mô tả <p>...</p>
+                  bên trong mỗi ô. Đừng sửa chữ trong onclick="..." để nút vẫn bấm được nhé!
+        -->
+        <section class="container section" id="otaku-hub-showcase">
+            <div class="section-head">
+                <div>
+                    <h2>Trải nghiệm Siêu Nâng Cấp</h2>
+                </div>
+            </div>
+            <div class="benefits" style="grid-template-columns:repeat(auto-fit,minmax(230px,1fr))">
+                <div style="cursor:pointer;border:1px solid rgba(255,79,163,.35)" onclick="window.AVOpenHub && window.AVOpenHub('gacha')">
+                    <span>🎰</span>
+                    <h3>Vòng Quay Gacha</h3>
+                    <p>Triệu hồi thẻ bài nhận ngay Voucher giảm tới 25% (UR-NIKA25) lưu vào ví.</p>
+                </div>
+                <div style="cursor:pointer;border:1px solid rgba(56,232,255,.35)" onclick="window.AVOpenHub && window.AVOpenHub('size')">
+                    <span>📏</span>
+                    <h3>AI Tư Vấn Chọn Size</h3>
+                    <p>Nhập chiều cao & cân nặng, AI gợi ý chuẩn size Cosplay & Hoodie trong 3 giây.</p>
+                </div>
+                <div style="cursor:pointer;border:1px solid rgba(139,92,246,.35)" onclick="window.AVOpenHub && window.AVOpenHub('quiz')">
+                    <span>🧭</span>
+                    <h3>Quiz Tìm Đồ Hợp Hệ</h3>
+                    <p>Trắc nghiệm nhanh tìm ra món đồ Anime sinh ra dành riêng cho góc phòng bạn.</p>
+                </div>
+                <div style="cursor:pointer;border:1px solid rgba(251,191,36,.35)" onclick="window.AVOpenCompare && window.AVOpenCompare()">
+                    <span>⚖️</span>
+                    <h3>So Sánh & Xem Nhanh</h3>
+                    <p>Đặt tối đa 3 sản phẩm lên bàn cân đối chiếu giá, chất liệu, đánh giá 5 sao.</p>
+                </div>
+            </div>
+        </section>
+
+        <!--
+             MỤC 8: KHU VỰC 6 DANH MỤC SẢN PHẨM (#categories)
+             📍 Vị trí: 6 ô vuông có icon đại diện cho 6 nhóm hàng của shop:
+                Cosplay, Figure, Plush (Gấu bông), Đạo cụ, Thời trang, Quà tặng.
+             🔍 Cấu trúc mỗi ô (<a class="category">):
+                - href="ten-trang.html" : Bấm vào ô sẽ chuyển sang trang danh mục đó.
+                - <img src="...">       : Ảnh biểu tượng của danh mục (nằm trong anh/logo/).
+                - <b>...</b>            : Tên danh mục in đậm.
+                - <small>...</small>    : Dòng mô tả ngắn bên dưới tên danh mục.
+             🛠️ Cách sửa:
+                - Muốn đổi tên hoặc mô tả danh mục: Sửa chữ trong <b>...</b> và <small>...</small>.
+                - Muốn đổi ảnh icon: Sửa đường dẫn trong src="anh/logo/...".
+        -->
+        <section class="container section" id="categories">
+            <div class="section-head">
+                <div>
+                    <h2>Khám phá danh mục</h2>
+                </div>
+                <a href="san-pham.html">Xem tất cả →</a>
+            </div>
+            <div class="categories">
+                <a href="cosplay.html" class="category">
+                    <span><img loading="lazy" decoding="async" src="anh/logo/logo-cosplay.webp" alt=""></span>
+                    <b>Cosplay</b>
+                    <small>Trang phục & tóc giả</small>
+                </a>
+                <a href="figure.html" class="category">
+                    <span><img loading="lazy" decoding="async" src="anh/logo/logo-fig.webp" alt=""></span>
+                    <b>Figure</b>
+                    <small>Mô hình nhân vật</small>
+                </a>
+                <a href="plush.html" class="category">
+                    <span><img loading="lazy" decoding="async" src="anh/logo/logo-plush.webp" alt=""></span>
+                    <b>Plush</b>
+                    <small>Gấu bông Anime</small>
+                </a>
+                <a href="dao-cu.html" class="category">
+                    <span><img loading="lazy" decoding="async" src="anh/logo/logo-dao-du.webp" alt=""></span>
+                    <b>Đạo cụ</b>
+                    <small>Props & phụ kiện</small>
+                </a>
+                <a href="thoi-trang.html" class="category">
+                    <span><img loading="lazy" decoding="async" src="anh/logo/logo-costume.webp" alt=""></span>
+                    <b>Thời trang</b>
+                    <small>Áo & phụ kiện</small>
+                </a>
+                <a href="qua-tang.html" class="category">
+                    <span><img loading="lazy" decoding="async" src="anh/logo/logo-qua.webp" alt=""></span>
+                    <b>Quà tặng</b>
+                    <small>Gift cho Otaku</small>
+                </a>
+            </div>
+        </section>
+        <!--
+             MỤC 9: KHU VỰC SẢN PHẨM NỔI BẬT & BỘ LỌC NHANH (#products)
+             📍 Vị trí: Hiển thị 8 sản phẩm tiêu biểu ngay trên Trang chủ, kèm hàng nút
+                lọc nhanh (Tất cả, Figure, Cosplay, Thời trang, Phụ kiện, Plush).
+             🔍 Giải thích cách bộ lọc hoạt động:
+                - Mỗi nút lọc <button class="filter" data-filter="..."> mang 1 mã lọc
+                  (ví dụ: data-filter="figure").
+                - Mỗi thẻ sản phẩm thẻ article.product-card
+                  cũng mang mã loại hàng tương ứng (ví dụ: data-category="figure").
+                - Khi khách bấm nút nào, đoạn JS ở cuối trang sẽ chỉ hiện những thẻ có
+                  data-category trùng với data-filter của nút đó!
+             🛠️ Cách sửa 1 thẻ sản phẩm (thẻ article.product-card):
+                1) Đổi ảnh sản phẩm : Sửa đường dẫn trong <img src="anh/...">
+                2) Đổi nhãn góc ảnh : Sửa chữ trong <span class="badge">HOT</span> (hoặc SALE, NEW)
+                3) Đổi dòng bộ Anime: Sửa chữ trong <small>MÔ HÌNH FIGURE · ...</small>
+                4) Đổi tên sản phẩm : Sửa chữ trong <h3>Tên sản phẩm</h3>
+                5) Đổi số sao       : Sửa trong <div class="rating">★★★★★ <span>(4.9)</span></div>
+                6) Đổi giá tiền     : Sửa số tiền trong <strong>750.000đ</strong>.
+                   Nếu có giảm giá, thêm <del>Giá cũ</del> ngay bên dưới <strong>.
+                7) Đổi trang đích   : Sửa href="chi-tiet-X.html" ở thẻ <a class="add">.
+        -->
+        <section class="container section" id="products">
+            <div class="section-head">
+                <div>
+                    <h2>Sản phẩm nổi bật</h2>
+                </div>
+                <div class="filters">
+                    <button class="filter active" data-filter="all">Tất cả</button>
+                    <button class="filter" data-filter="figure">Figure</button>
+                    <button class="filter" data-filter="cosplay">Cosplay</button>
+                    <button class="filter" data-filter="fashion">Thời trang</button>
+                    <button class="filter" data-filter="accessory">Phụ kiện</button>
+                    <button class="filter" data-filter="plush">Plush</button>
+                </div>
+            </div>
+
+            <!--8 SẢN PHẨM-->
+            <div class="product-grid" id="productGrid">
+            <!-- ----- Thẻ sản phẩm nổi bật #1 (Trang chủ) ----- -->
+            <article class="product-card" data-category="figure">
+                <div class="product-image">
+                    <img loading="lazy" decoding="async" src="anh/gojo_limit/gojo-limit_1.webp" alt="Figure Gojo Satoru Vô Hạ Hạn">
+                    <span class="badge">HOT</span>
+                    <button class="heart" type="button" aria-label="Yêu thích Figure Gojo Satoru Vô Hạ Hạn" aria-pressed="false">♡</button>
+                </div>
+                <div class="product-info">
+                    <small>MÔ HÌNH FIGURE · Jujutsu Kaisen</small>
+                    <h3>Figure Gojo Satoru Vô Hạ Hạn</h3>
+                    <div class="rating">★★★★★
+                    <span>(4.9)</span>
+                </div>
+                    <div class="price">
+                        <strong>750.000đ</strong>
+                    </div>
+                    <a href="chi-tiet-8.html" class="add">Xem chi tiết →</a>
+                </div>
+            </article>
+
+            <!-- ----- Thẻ sản phẩm nổi bật #2 (Trang chủ) ----- -->
+            <article class="product-card" data-category="figure">
+                <div class="product-image">
+                    <img loading="lazy" decoding="async" src="anh/luffy/luffy_1.webp" alt="Figure Luffy Gear 5 Nika">
+                    <span class="badge">HOT</span>
+                    <button class="heart" type="button" aria-label="Yêu thích Figure Luffy Gear 5 Nika" aria-pressed="false">♡</button>
+                </div>
+                <div class="product-info">
+                    <small>MÔ HÌNH FIGURE · One Piece</small>
+                    <h3>Figure Luffy Gear 5 Nika</h3>
+                    <div class="rating">★★★★★
+                    <span>(4.8)</span>
+                    </div><div class="price">
+                        <strong>590.000đ</strong>
+                </div>
+                    <a href="chi-tiet-1.html" class="add">Xem chi tiết →</a>
+                </div>
+            </article>
+
+            <!-- ----- Thẻ sản phẩm nổi bật #3 (Trang chủ) ----- -->
+            <article class="product-card" data-category="figure">
+                <div class="product-image">
+                    <img loading="lazy" decoding="async" src="anh/nezuko_demon/nezuko_demon_1.webp" alt="Figure Nezuko Hóa Quỷ">
+                    <span class="badge">SALE</span>
+                    <button class="heart" type="button" aria-label="Yêu thích Figure Nezuko Hóa Quỷ" aria-pressed="false">♡</button>
+                </div>
+                <div class="product-info">
+                    <small>MÔ HÌNH FIGURE · Demon Slayer</small>
+                    <h3>Figure Nezuko Hóa Quỷ</h3>
+                    <div class="rating">★★★★★
+                    <span>(4.9)</span>
+                </div>
+                    <div class="price">
+                        <strong>490.000đ</strong>
+                        <del>600.000đ</del>
+                    </div><a href="chi-tiet-3.html" class="add">Xem chi tiết →</a>
+                    </div>
+            </article>
+
+            <!-- ----- Thẻ sản phẩm nổi bật #4 (Trang chủ) ----- -->
+            <article class="product-card" data-category="cosplay">
+                <div class="product-image">
+                    <img loading="lazy" decoding="async" src="anh/11_jujutsu_kaisen/05_nhan_vat_gojo.webp" alt="Set Cosplay Gojo Satoru">
+                    <span class="badge">SALE</span>
+                    <button class="heart" type="button" aria-label="Yêu thích Set Cosplay Gojo Satoru" aria-pressed="false">♡</button>
+                </div>
+                <div class="product-info">
+                    <small>COSPLAY · Jujutsu Kaisen</small>
+                    <h3>Set Cosplay Gojo Satoru</h3>
+                    <div class="rating">★★★★★
+                    <span>(4.7)</span>
+                </div>
+                    <div class="price">
+                        <strong>450.000đ</strong>
+                        <del>650.000đ</del>
+                    </div>
+                    <a href="chi-tiet-9.html" class="add">Xem chi tiết →</a>
+                </div>
+            </article>
+
+            <!-- ----- Thẻ sản phẩm nổi bật #5 (Trang chủ) ----- -->
+            <article class="product-card" data-category="fashion">
+                <div class="product-image">
+                    <img loading="lazy" decoding="async" src="anh/08_naruto_akatsuki_hoodie/mat_truoc.png" alt="Áo Hoodie Akatsuki (Naruto)">
+                    <span class="badge">NEW</span>
+                    <button class="heart" type="button" aria-label="Yêu thích Áo Hoodie Akatsuki (Naruto)" aria-pressed="false">♡</button>
+                </div>
+                <div class="product-info">
+                    <small>THỜI TRANG · Naruto</small>
+                    <h3>Áo Hoodie Akatsuki (Naruto)</h3>
+                    <div class="rating">★★★★★
+                    <span>(4.8)</span>
+                </div>
+                    <div class="price">
+                        <strong>320.000đ</strong>
+                    </div>
+                    <a href="chi-tiet-33.html" class="add">Xem chi tiết →</a>
+                </div>
+            </article>
+
+            <!-- ----- Thẻ sản phẩm nổi bật #6 (Trang chủ) ----- -->
+            <article class="product-card" data-category="accessory">
+                <div class="product-image">
+                    <img loading="lazy" decoding="async" src="anh/sp43/sp43_1.webp" alt="Combo 5 Móc Khóa Mica">
+                    <span class="badge">SALE</span>
+                    <button class="heart" type="button" aria-label="Yêu thích Combo 5 Móc Khóa Mica" aria-pressed="false">♡</button>
+                </div>
+                <div class="product-info">
+                    <small>QUÀ TẶNG · Nhiều anime</small>
+                    <h3>Combo 5 Móc Khóa Mica</h3>
+                    <div class="rating">★★★★★
+                    <span>(4.9)</span>
+                </div>
+                    <div class="price">
+                        <strong>120.000đ</strong>
+                        <del>150.000đ</del>
+                    </div>
+                    <a href="chi-tiet-43.html" class="add">Xem chi tiết →</a>
+                </div>
+            </article>
+
+            <!-- ----- Thẻ sản phẩm nổi bật #7 (Trang chủ) ----- -->
+            <article class="product-card" data-category="accessory">
+                <div class="product-image">
+                    <img loading="lazy" decoding="async" src="anh/sp17/sp17_1.webp" alt="Kiếm Nichirin Tanjiro">
+                    <span class="badge">LIMITED</span>
+                    <button class="heart" type="button" aria-label="Yêu thích Kiếm Nichirin Tanjiro" aria-pressed="false">♡</button>
+                </div>
+                <div class="product-info">
+                    <small>ĐẠO CỤ · Demon Slayer</small>
+                    <h3>Kiếm Nichirin Tanjiro</h3>
+                    <div class="rating">★★★★★
+                    <span>(4.8)</span>
+                </div>
+                    <div class="price">
+                        <strong>780.000đ</strong>
+                    </div>
+                    <a href="chi-tiet-17.html" class="add">Xem chi tiết →</a>
+                </div>
+            </article>
+
+            <!-- ----- Thẻ sản phẩm nổi bật #8 (Trang chủ) ----- -->
+            <article class="product-card" data-category="plush">
+                <div class="product-image">
+                    <img loading="lazy" decoding="async" src="anh/sp27/sp27_1.webp" alt="Gấu bông Pikachu (50cm)">
+                    <span class="badge">SALE</span>
+                    <button class="heart" type="button" aria-label="Yêu thích Gấu bông Pikachu (50cm)" aria-pressed="false">♡</button>
+                </div>
+                <div class="product-info">
+                    <small>GẤU BÔNG · Pokémon</small>
+                    <h3>Gấu bông Pikachu (50cm)</h3>
+                    <div class="rating">★★★★★
+                    <span>(5.0)</span>
+                </div>
+                    <div class="price">
+                        <strong>280.000đ</strong>
+                        <del>350.000đ</del>
+                    </div>
+                    <a href="chi-tiet-27.html" class="add">Xem chi tiết →</a>
+                </div>
+            </article>
+
+            </div>
+        </section>
+        <!--
+             MỤC 10: KHUNG KHUYẾN MÃI & ĐỒNG HỒ ĐẾM NGƯỢC (#sale)
+             📍 Vị trí: Hộp lớn nổi bật thông báo chương trình "Tuần lễ Otaku Sale"
+                kèm đồng hồ đếm ngược Ngày : Giờ : Phút : Giây.
+             🛠️ Cách sửa:
+                - Đổi chữ tiêu đề / mức giảm giá: Sửa trong <h2> và <p>Giảm đến <strong>30%</strong>...</p>.
+                - Đổi số ngày/giờ đếm ngược ban đầu: Sửa trong đoạn script ở cuối file này
+                  (chỗ dòng let secondsLeft = ...).
+            -->
+        <section class="sale container" id="sale">
+            <div>
+                <h2>Tuần lễ Otaku Sale</h2>
+                <p>Giảm đến <strong>30%</strong> cho một số sản phẩm được yêu thích nhất.</p>
+            </div>
+
+            <div class="countdown">
+                <span><b id="days">02</b><small>Ngày</small></span><i>:</i>
+                <span><b id="hours">18</b><small>Giờ</small></span><i>:</i>
+                <span><b id="minutes">42</b><small>Phút</small></span><i>:</i>
+                <span><b id="seconds">00</b><small>Giây</small></span>
+            </div>
+            <a class="btn light" href="khuyen-mai.html">Mua ngay →</a>
+        </section>
+        <!--
+             MỤC 11: KHU VỰC 4 CAM KẾT "MUA SẮM AN TÂM" (#best)
+             📍 Vị trí: 4 hộp nhỏ nằm ngang phía trên Chân trang (Giao hàng nhanh,
+                Hàng chọn lọc, Đổi trả dễ dàng, Hỗ trợ 24/7).
+             🛠️ Cách sửa:
+                - Mỗi <div> bên trong <div class="benefits"> là 1 hộp cam kết.
+                - Sửa biểu tượng trong <span>, tiêu đề trong <h3> và mô tả trong <p>.
+        -->
+        <section class="container section" id="best">
+            <div class="section-head">
+                <div>
+                    <h2>Mua sắm an tâm</h2>
+                </div>
+            </div>
+            <div class="benefits">
+                <div><span>🚚</span><h3>Giao hàng nhanh</h3><p>Đóng gói kỹ, giao đi mọi tỉnh thành.</p></div>
+                <div><span>✓</span><h3>Hàng chọn lọc</h3><p>Hàng đúng mô tả, giá rõ ràng.</p></div>
+                <div><span>↩</span><h3>Đổi trả dễ dàng</h3><p>Không ưng? Đổi trả trong 7 ngày.</p></div>
+                <div><span>💬</span><h3>Hỗ trợ 24/7</h3><p>Cần chọn đồ? Nhắn tụi mình là có người tư vấn.</p></div>
+            </div>
+        </section>
+    </main>
+    <!--
+         MỤC CUỐI 1: CHÂN TRANG (Thẻ footer.site-footer)
+         📍 Vị trí: Phần dưới cùng của trang web, chia làm 4 cột thông tin:
+            - Cột 1: Logo và câu giới thiệu ngắn về cửa hàng AnimeVerse.
+            - Cột 2 (Danh mục): Các đường link dẫn tới 6 trang danh mục sản phẩm.
+            - Cột 3 (Khám phá): Các đường link dẫn tới các trang chính.
+            - Cột 4 (Liên hệ): Địa chỉ, Số điện thoại và Email của shop.
+         🛠️ Cách sửa:
+            - Đổi địa chỉ: Sửa chữ sau biểu tượng 📍 (hiện tại là "CUWC").
+            - Đổi số điện thoại: Sửa số trong href="tel:0936271107" VÀ số hiển thị bên ngoài.
+            - Đổi email: Sửa địa chỉ email trong href="mailto:..." VÀ chữ hiển thị bên ngoài.
+            - Đổi dòng bản quyền dưới cùng: Sửa chữ trong <div class="copyright">.
+    -->
+    <footer class="site-footer">
+        <div class="container footer-grid">
+            <div>
+                <a class="logo" href="trang-chu.html">
+                    <span>✦</span>
+                    ANIME<span>VERSE</span>
+                </a>
+                <p>Cửa hàng nhỏ cho hội mê anime, manga và cosplay.
+                    Món nào lên kệ cũng được chọn kỹ.</p>
+            </div>
+            <div>
+                <h4>Danh mục</h4>
+                <a href="figure.html">Figure</a>
+                <a href="cosplay.html">Cosplay</a>
+                <a href="plush.html">Plush</a>
+                <a href="dao-cu.html">Đạo cụ</a>
+                <a href="thoi-trang.html">Thời trang</a>
+                <a href="qua-tang.html">Quà tặng</a>
+            </div>
+            <div>
+                <h4>Khám phá</h4>
+                <a href="san-pham.html">Tất cả sản phẩm</a>
+                <a href="ban-chay.html">Bán chạy</a>
+                <a href="khuyen-mai.html">Khuyến mãi</a>
+                <a href="tu-van.html">Góc tư vấn</a>
+                <a href="lien-he.html">Liên hệ</a>
+            </div>
+            <div>
+                <h4>Liên hệ</h4>
+                <p>📍 CUWC</p>
+                <p>☎ <a href="tel:0936271107">093 627 1107</a></p>
+                <p>✉ <a href="mailto:dotritrung0@gmail.com">dotritrung0@gmail.com</a></p>
+            </div>
+        </div>
+        <div class="copyright">© 2026 AnimeVerse. Made with ♡ for Otaku.</div>
+    </footer>
+    <!--
+         MỤC PHỤ: ĐOẠN JAVASCRIPT RIÊNG CỦA TRANG CHỦ (LỌC SẢN PHẨM & ĐẾM NGƯỢC)
+         📍 Tác dụng:
+            1) Lắng nghe khi khách bấm vào các nút lọc (Tất cả, Figure, Cosplay...)
+               để ẩn/hiện các thẻ sản phẩm tương ứng ở MỤC 9.
+            2) Chạy đồng hồ đếm ngược từng giây ở MỤC 10.
+         🛠️ Cách sửa thời gian đếm ngược:
+            - Nhìn xuống dòng: let secondsLeft = 2 * 24 * 60 * 60 + 18 * 60 * 60 + 42 * 60;
+              Trong đó: số 2 là 2 ngày, 18 là 18 giờ, 42 là 42 phút. Bạn đổi các số đó
+              thành số ngày/giờ/phút bạn muốn là đồng hồ sẽ tự đếm ngược theo!
+    -->
+    <script>
+        // Tính năng click vào các bộ lọc (Tất cả, Figure, Cosplay...) để ẩn/hiện sản phẩm
+        document.querySelectorAll(".filter").forEach(button => {
+            button.addEventListener("click", () => {
+                // Xóa nút active cũ, thêm vào nút vừa click
+                document.querySelectorAll(".filter").forEach(item => item.classList.remove("active"));
+                button.classList.add("active");
+                
+                const filterValue = button.getAttribute("data-filter");
+                const allProducts = document.querySelectorAll(".product-card");
+
+                // Ẩn các thẻ không thuộc nhóm đang chọn và tạo hiệu ứng nảy mượt cho các thẻ hiện ra
+                allProducts.forEach((card, index) => {
+                    const isMatch = (filterValue === "all") || (card.getAttribute("data-category") === filterValue);
+                    if (isMatch) {
+                        card.style.display = "flex";
+                        card.classList.remove("av-card-pop");
+                        void card.offsetWidth;
+                        card.style.animationDelay = (index * 45) + "ms";
+                        card.classList.add("av-card-pop");
+                    } else {
+                        card.style.display = "none";
+                    }
+                });
+            });
+        });
+
+        // Đồng hồ đếm ngược Sale
+        function startCountdown() {
+            let secondsLeft = 2 * 24 * 60 * 60 + 18 * 60 * 60 + 42 * 60;
+            setInterval(() => {
+                if (secondsLeft <= 0) return;
+                secondsLeft--;
+                const days = Math.floor(secondsLeft / 86400);
+                const hours = Math.floor((secondsLeft % 86400) / 3600);
+                const minutes = Math.floor((secondsLeft % 3600) / 60);
+                const seconds = secondsLeft % 60;
+
+                document.getElementById("days").textContent = String(days).padStart(2, "0");
+                document.getElementById("hours").textContent = String(hours).padStart(2, "0");
+                document.getElementById("minutes").textContent = String(minutes).padStart(2, "0");
+                document.getElementById("seconds").textContent = String(seconds).padStart(2, "0");
+            }, 1000);
+        }
+        startCountdown();
+    </script>
+    <!--
+         MỤC CUỐI 2: NẠP 3 FILE JAVASCRIPT ("BỘ NÃO" CỦA WEBSITE)
+         📍 Tác dụng: 3 dòng script dưới đây nối trang HTML này với 3 file xử lý
+            thông minh nằm trong thư mục "js/":
+            1) js/site.js    : Quản lý Giỏ hàng, Yêu thích, So sánh, Mã giảm giá, Điểm VIP.
+            2) js/tech.js    : Chứa dữ liệu 50 sản phẩm, Đổi 4 giao diện, Vòng quay Gacha,
+                               AI chọn Size, Quiz, Tìm kiếm gợi ý, Đánh giá 5 sao, Chatbot AV-Bot.
+            3) js/upgrade.js : Giữ cho nhạc nền phát liên tục không bị ngắt khi chuyển trang
+                               và tối ưu nút bấm trên điện thoại.
+         ⚠️ LƯU Ý QUAN TRỌNG: TUYỆT ĐỐI KHÔNG XÓA 3 dòng script này, nếu xóa web sẽ
+            mất giỏ hàng, mất nhạc và các nút bấm không hoạt động!
+    -->
+    <script src="js/site.js" defer></script>
+    <script src="js/tech.js" defer></script>
+    <script src="js/upgrade.js" defer></script>
+    <script src="js/motion.js" defer></script>
+</body>
+
+</html>

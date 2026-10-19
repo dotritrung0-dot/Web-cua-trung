@@ -1,0 +1,730 @@
+/* ============================================================================
+   THEME-FIX.CSS — SỬA LỖI ĐỔI MÀU CHỦ ĐỀ (chữ trùng màu nền)
+   📍 Vấn đề cũ: nhiều quy tắc trong style_new.css / tech.css / upgrade.css ghi cứng
+      màu chữ trắng (#fff) hoặc nền tối (#110e24...) nên khi đổi sang chủ đề sáng
+      (Sakura) thì chữ trắng nằm trên nền trắng, chữ tối nằm trên nền tối; còn ở
+      Gear 5 / Gojo thì chữ trắng nằm trên nút vàng/xanh neon sáng.
+   🛠️ Cách hoạt động: file này phải được nạp CUỐI CÙNG (sau upgrade.css).
+      - Mỗi chủ đề có thêm các biến: --on-accent (chữ nằm trên nút/nhãn màu nổi),
+        --surface, --surface-2, --hero-bg, --sale-bg, --text-strong...
+      - Chủ đề Sakura: đổi mọi khung tối cứng sang khung sáng + chữ tối.
+      - Chủ đề Gear 5 / Gojo: chữ trên nền vàng/xanh sáng chuyển sang màu đen đậm.
+   ============================================================================ */
+
+/* ---------- 1) Biến bổ sung cho từng chủ đề ---------- */
+:root {
+  --on-accent: #ffffff;
+  --text-strong: #ffffff;
+  --accent-grad: linear-gradient(135deg, #ff3d9a 0%, #9b6bff 100%);
+}
+html[data-theme="sakura"] {
+  --on-accent: #ffffff;
+  --text-strong: #24142c;
+  --accent-grad: linear-gradient(135deg, #e11d74 0%, #9333ea 100%);
+  --surface: #ffffff;
+  --surface-2: #fdf2f8;
+  --hero-bg: linear-gradient(135deg, #ffe4f1 0%, #f3e8ff 55%, #ffeef6 100%);
+  --sale-bg: linear-gradient(100deg, #ffe0ef, #f1e4ff 50%, #ffe8f0);
+  --star: #b45309;
+  --price: #be185d;
+  color-scheme: light;
+}
+html[data-theme="gear5"] {
+  --on-accent: #1a1204;
+  --text-strong: #fff7e0;
+  --accent-grad: linear-gradient(135deg, #fbbf24 0%, #f97316 100%);
+}
+html[data-theme="gojo"] {
+  --on-accent: #02121f;
+  --text-strong: #eaf6ff;
+  --accent-grad: linear-gradient(135deg, #00f0ff 0%, #818cf8 100%);
+}
+
+/* ---------- 2) Nút / nhãn nền màu nổi: chữ phải tương phản ---------- */
+html[data-theme="gear5"] .btn.primary,
+html[data-theme="gear5"] .btn-primary,
+html[data-theme="gear5"] .btn-buy-now,
+html[data-theme="gear5"] .lh-submit,
+html[data-theme="gojo"] .btn.primary,
+html[data-theme="gojo"] .btn-primary,
+html[data-theme="gojo"] .btn-buy-now,
+html[data-theme="gojo"] .lh-submit {
+  background: var(--accent-grad) !important;
+  color: var(--on-accent) !important;
+  border-color: rgba(255, 255, 255, 0.25) !important;
+  box-shadow: 0 8px 24px var(--glass-border) !important;
+}
+html[data-theme="gear5"] .badge,
+html[data-theme="gear5"] .pro-price .badge,
+html[data-theme="gear5"] .skip-link,
+html[data-theme="gear5"] .cart-badge,
+html[data-theme="gear5"] .av-badge-count,
+html[data-theme="gear5"] .search button,
+html[data-theme="gear5"] .nav-toggle,
+html[data-theme="gear5"] .to-top,
+html[data-theme="gear5"] .av-toast,
+html[data-theme="gear5"] #avBotBtn,
+html[data-theme="gear5"] #avBotHead,
+html[data-theme="gear5"] .avm.u,
+html[data-theme="gear5"] #avForm button,
+html[data-theme="gear5"] .av-hub-tab.active,
+html[data-theme="gear5"] .av-view-toggle button.active,
+html[data-theme="gear5"] .av-fandom-pill:hover,
+html[data-theme="gear5"] .av-fandom-pill.active,
+html[data-theme="gear5"] .filter:hover,
+html[data-theme="gear5"] .filter.active,
+html[data-theme="gear5"] .size-btn:hover,
+html[data-theme="gear5"] .size-btn.selected,
+html[data-theme="gear5"] .av-qv-size.selected,
+html[data-theme="gear5"] .lh-bubble.me,
+html[data-theme="gear5"] .lh-topic input:checked + span,
+html[data-theme="gear5"] .lh-avatar,
+html[data-theme="gojo"] .lh-bubble.me,
+html[data-theme="gojo"] .lh-topic input:checked + span,
+html[data-theme="gojo"] .lh-avatar,
+html[data-theme="gojo"] .badge,
+html[data-theme="gojo"] .pro-price .badge,
+html[data-theme="gojo"] .skip-link,
+html[data-theme="gojo"] .cart-badge,
+html[data-theme="gojo"] .av-badge-count,
+html[data-theme="gojo"] .search button,
+html[data-theme="gojo"] .nav-toggle,
+html[data-theme="gojo"] .to-top,
+html[data-theme="gojo"] .av-toast,
+html[data-theme="gojo"] #avBotBtn,
+html[data-theme="gojo"] #avBotHead,
+html[data-theme="gojo"] .avm.u,
+html[data-theme="gojo"] #avForm button,
+html[data-theme="gojo"] .av-hub-tab.active,
+html[data-theme="gojo"] .av-view-toggle button.active,
+html[data-theme="gojo"] .av-fandom-pill:hover,
+html[data-theme="gojo"] .av-fandom-pill.active,
+html[data-theme="gojo"] .filter:hover,
+html[data-theme="gojo"] .filter.active,
+html[data-theme="gojo"] .size-btn:hover,
+html[data-theme="gojo"] .size-btn.selected,
+html[data-theme="gojo"] .av-qv-size.selected,
+html[data-theme="gojo"] .rank-4 .rank-badge {
+  color: var(--on-accent) !important;
+}
+/* Nút "+ Giỏ" khi rê chuột: nền --cyan / --purple sáng → chữ đậm */
+html[data-theme="gear5"] .av-quick-cart-btn:hover,
+html[data-theme="gojo"] .av-quick-cart-btn:hover,
+html[data-theme="gear5"] .av-card-cta-row a.add,
+html[data-theme="gojo"] .av-card-cta-row a.add,
+html[data-theme="gear5"] .av-card-cta-row a.deal-cta,
+html[data-theme="gojo"] .av-card-cta-row a.deal-cta {
+  color: var(--on-accent) !important;
+}
+/* Chữ tiêu đề dạng gradient: lấy màu theo chủ đề (upgrade.css đang ghi cứng hồng-tím-xanh) */
+html[data-theme] #home .hero-copy h1 strong,
+html[data-theme] .products-hero-copy h1 span,
+html[data-theme] .promo-page .hero-copy h1 span {
+  background-image: linear-gradient(95deg, var(--neon) 0%, var(--violet) 50%, var(--cyan) 100%) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+}
+/* Sakura: dải màu ĐẬM để nổi trên nền sáng */
+html[data-theme="sakura"] #home .hero-copy h1 strong,
+html[data-theme="sakura"] .products-hero-copy h1 span,
+html[data-theme="sakura"] .promo-page .hero-copy h1 span {
+  background-image: linear-gradient(95deg, #e11d74 0%, #9333ea 55%, #0369a1 100%) !important;
+}
+
+/* ============================================================================
+   3) CHỦ ĐỀ SAKURA (SÁNG) — chuyển mọi khung tối cứng sang sáng
+   ============================================================================ */
+html[data-theme="sakura"] body {
+  background-color: var(--bg) !important;
+  background-image:
+    radial-gradient(ellipse 85% 460px at 50% 0%, rgba(225, 29, 116, 0.10), rgba(147, 51, 234, 0.05) 55%, transparent 80%),
+    radial-gradient(circle at 12% 30%, rgba(225, 29, 116, 0.05), transparent 45%) !important;
+  color: var(--text) !important;
+}
+
+/* Thanh trên cùng, header, menu, chân trang */
+html[data-theme="sakura"] .topbar,
+html[data-theme="sakura"] .promo-page .topbar,
+html[data-theme="sakura"] .header,
+html[data-theme="sakura"] .promo-page .header,
+html[data-theme="sakura"] .nav,
+html[data-theme="sakura"] .promo-page .nav,
+html[data-theme="sakura"] body.nav-open .nav,
+html[data-theme="sakura"] .site-footer {
+  background: rgba(255, 245, 250, 0.96) !important;
+  border-color: var(--line) !important;
+  color: var(--text) !important;
+}
+html[data-theme="sakura"] .nav a,
+html[data-theme="sakura"] .promo-page .nav a {
+  color: #5b4366 !important;
+  text-shadow: none !important;
+}
+html[data-theme="sakura"] .nav a:hover,
+html[data-theme="sakura"] .nav a.active,
+html[data-theme="sakura"] .nav a[aria-current="page"],
+html[data-theme="sakura"] .promo-page .nav a:hover,
+html[data-theme="sakura"] .promo-page .nav a.active {
+  color: var(--neon) !important;
+  text-shadow: none !important;
+}
+html[data-theme="sakura"] body.nav-open .nav a { border-bottom-color: var(--line) !important; }
+html[data-theme="sakura"] .site-footer,
+html[data-theme="sakura"] .site-footer p,
+html[data-theme="sakura"] .site-footer a,
+html[data-theme="sakura"] .site-footer li { color: #5b4366 !important; }
+html[data-theme="sakura"] .footer-grid h4,
+html[data-theme="sakura"] .promo-page .footer-grid h4 { color: var(--text-strong) !important; }
+html[data-theme="sakura"] .site-footer a:hover { color: var(--neon) !important; }
+html[data-theme="sakura"] .logo,
+html[data-theme="sakura"] .brand { color: var(--text-strong); }
+
+/* Ô tìm kiếm + các nút icon trên header */
+html[data-theme="sakura"] .search input,
+html[data-theme="sakura"] .products-page .product-search,
+html[data-theme="sakura"] .products-page .sort-control select {
+  background: #ffffff !important;
+  color: var(--text) !important;
+  border-color: var(--line) !important;
+}
+html[data-theme="sakura"] .search input::placeholder { color: #8a7194; }
+html[data-theme="sakura"] .search button { color: #fff !important; }
+html[data-theme="sakura"] .icon-btn,
+html[data-theme="sakura"] .header-actions a,
+html[data-theme="sakura"] .header-actions button { color: #3d2748 !important; }
+html[data-theme="sakura"] .heart { background: rgba(255, 255, 255, 0.92) !important; color: var(--neon) !important; }
+
+/* Hero trang chủ */
+html[data-theme="sakura"] #home .hero {
+  background: var(--hero-bg) !important;
+  border-color: var(--line) !important;
+  box-shadow: 0 14px 40px rgba(225, 29, 116, 0.12) !important;
+}
+html[data-theme="sakura"] #home .hero h1,
+html[data-theme="sakura"] #home .hero-copy,
+html[data-theme="sakura"] #home .hero-copy > p:not(.eyebrow) { color: var(--text) !important; }
+html[data-theme="sakura"] #home .hero-copy > p:not(.eyebrow) { color: #5b4366 !important; }
+html[data-theme="sakura"] #home .hero-stats span {
+  background: rgba(255, 255, 255, 0.85) !important;
+  border-color: var(--line) !important;
+  color: #5b4366 !important;
+}
+html[data-theme="sakura"] #home .hero-stats b { color: var(--neon) !important; }
+html[data-theme="sakura"] .hero-art,
+html[data-theme="sakura"] .promo-page .hero-art { background: transparent !important; }
+html[data-theme="sakura"] .products-page .products-hero h1,
+html[data-theme="sakura"] .products-page .hero-product-tile small { color: var(--text) !important; }
+html[data-theme="sakura"] .products-page .tile-back { background: #ffffff !important; }
+html[data-theme="sakura"] .av-hero-switcher { background: rgba(255, 255, 255, 0.85) !important; }
+
+/* Khung/thẻ nội dung chung */
+html[data-theme="sakura"] .anime-card,
+html[data-theme="sakura"] .category,
+html[data-theme="sakura"] .categories > .category,
+html[data-theme="sakura"] .product-card,
+html[data-theme="sakura"] .deal-card,
+html[data-theme="sakura"] .promo-page .deal-card,
+html[data-theme="sakura"] .cart-panel,
+html[data-theme="sakura"] .pro-details-section,
+html[data-theme="sakura"] .av-reviews-box,
+html[data-theme="sakura"] .cart-summary,
+html[data-theme="sakura"] .cart-item,
+html[data-theme="sakura"] .sidebar-card,
+html[data-theme="sakura"] .products-page .category-sidebar,
+html[data-theme="sakura"] .lh-form-box,
+html[data-theme="sakura"] .lh-card,
+html[data-theme="sakura"] .lh-member,
+html[data-theme="sakura"] .lh-faq details,
+html[data-theme="sakura"] .lh-cta,
+html[data-theme="sakura"] .cosplay-tip,
+html[data-theme="sakura"] .article-cta,
+html[data-theme="sakura"] .product-pro-layout .action-group,
+html[data-theme="sakura"] #otaku-hub-showcase .benefits > div,
+html[data-theme="sakura"] #best .benefits > div,
+html[data-theme="sakura"] .promo-page .benefits article,
+html[data-theme="sakura"] .promo-page .coupon-banner {
+  background: #ffffff !important;
+  border: 1px solid #f3cfe2 !important;
+  color: var(--text) !important;
+  box-shadow: 0 8px 24px rgba(225, 29, 116, 0.07) !important;
+}
+html[data-theme="sakura"] .product-image,
+html[data-theme="sakura"] .products-page .product-image,
+html[data-theme="sakura"] .gallery-main,
+html[data-theme="sakura"] .gallery-thumbs img,
+html[data-theme="sakura"] .article-cover,
+html[data-theme="sakura"] .av-qv-main-img,
+html[data-theme="sakura"] .av-quiz-img,
+html[data-theme="sakura"] .av-gacha-stage {
+  background: var(--surface-2) !important;
+}
+html[data-theme="sakura"] .filter,
+html[data-theme="sakura"] .promo-page .filter {
+  background: #ffffff !important;
+  color: #5b4366 !important;
+  border-color: var(--line) !important;
+}
+html[data-theme="sakura"] .filter:hover,
+html[data-theme="sakura"] .filter.active,
+html[data-theme="sakura"] .promo-page .filter:hover,
+html[data-theme="sakura"] .promo-page .filter.active {
+  background: var(--accent-grad) !important;
+  color: #ffffff !important;
+  border-color: transparent !important;
+  box-shadow: 0 6px 16px rgba(225, 29, 116, 0.25) !important;
+}
+
+/* Chữ trong thẻ */
+html[data-theme="sakura"] .product-info h3,
+html[data-theme="sakura"] .related-section .product-info h3,
+html[data-theme="sakura"] .category b,
+html[data-theme="sakura"] .categories > .category b,
+html[data-theme="sakura"] .benefits h3,
+html[data-theme="sakura"] .cart-head h2,
+html[data-theme="sakura"] .cart-item b,
+html[data-theme="sakura"] .cart-info b,
+html[data-theme="sakura"] .cart-footer strong,
+html[data-theme="sakura"] .cart-total strong,
+html[data-theme="sakura"] .pro-title,
+html[data-theme="sakura"] .variant-group h4,
+html[data-theme="sakura"] .empty-state h3,
+html[data-theme="sakura"] .rank-title,
+html[data-theme="sakura"] .article-title,
+html[data-theme="sakura"] .advice-article .cosplay-tip h4,
+html[data-theme="sakura"] .advice-article .article-cta h3,
+html[data-theme="sakura"] .sidebar-card h2,
+html[data-theme="sakura"] .sidebar-links a,
+html[data-theme="sakura"] .lh-copy,
+html[data-theme="sakura"] .products-page .sidebar-note b,
+html[data-theme="sakura"] .av-rev-score strong {
+  color: var(--text-strong) !important;
+}
+html[data-theme="sakura"] .cart-item small,
+html[data-theme="sakura"] .category small,
+html[data-theme="sakura"] .categories > .category small { color: #6e5578 !important; }
+html[data-theme="sakura"] .rating,
+html[data-theme="sakura"] .av-card-meta .av-stars { color: var(--star) !important; }
+html[data-theme="sakura"] .price strong,
+html[data-theme="sakura"] .promo-page .price strong,
+html[data-theme="sakura"] .pro-price,
+html[data-theme="sakura"] .coupon-row b { color: var(--price) !important; }
+html[data-theme="sakura"] .av-quick-cart-btn {
+  background: rgba(2, 132, 199, 0.10) !important;
+  border-color: #0284c7 !important;
+  color: #075985 !important;
+}
+html[data-theme="sakura"] .av-quick-cart-btn:hover {
+  background: #0284c7 !important;
+  color: #ffffff !important;
+}
+html[data-theme="sakura"] .quantity button,
+html[data-theme="sakura"] .cart-qty button,
+html[data-theme="sakura"] .cart-remove,
+html[data-theme="sakura"] .cart-head button {
+  color: var(--text) !important;
+  background: #fdf2f8 !important;
+  border-color: var(--line) !important;
+}
+html[data-theme="sakura"] .qty-input,
+html[data-theme="sakura"] .form-group input,
+html[data-theme="sakura"] .form-group textarea,
+html[data-theme="sakura"] .cart-coupon input,
+html[data-theme="sakura"] .cart-form input,
+html[data-theme="sakura"] .cart-form textarea,
+html[data-theme="sakura"] .lh-field input,
+html[data-theme="sakura"] .lh-field textarea,
+html[data-theme="sakura"] .av-rev-form input,
+html[data-theme="sakura"] .av-rev-form select,
+html[data-theme="sakura"] .av-rev-form textarea {
+  background: #ffffff !important;
+  color: var(--text) !important;
+  border-color: var(--line) !important;
+}
+html[data-theme="sakura"] .size-btn { background: #fff !important; color: var(--text) !important; border-color: var(--line) !important; }
+html[data-theme="sakura"] .size-btn:hover,
+html[data-theme="sakura"] .size-btn.selected,
+html[data-theme="sakura"] .av-qv-size.selected {
+  background: var(--accent-grad) !important;
+  color: #fff !important;
+}
+html[data-theme="sakura"] .lh-error { color: #b91c1c !important; }
+html[data-theme="sakura"] .lh-topic span { color: var(--text) !important; }
+
+/* Khối ưu đãi (sale) trên trang chủ */
+html[data-theme="sakura"] .sale {
+  background: var(--sale-bg) !important;
+  border-color: #f3cfe2 !important;
+}
+html[data-theme="sakura"] .sale h2 { color: var(--text-strong) !important; }
+html[data-theme="sakura"] .sale p,
+html[data-theme="sakura"] .sale .eyebrow { color: #5b4366 !important; }
+html[data-theme="sakura"] .sale strong { color: var(--price) !important; }
+html[data-theme="sakura"] .countdown span {
+  background: #ffffff !important;
+  border-color: var(--line) !important;
+}
+html[data-theme="sakura"] .countdown b { color: var(--text-strong) !important; }
+html[data-theme="sakura"] .countdown small { color: #6e5578 !important; }
+html[data-theme="sakura"] .countdown i { color: var(--neon) !important; }
+
+/* Cửa sổ nổi, ngăn kéo, chatbot, trung tâm Otaku */
+html[data-theme="sakura"] .av-modal-card,
+html[data-theme="sakura"] #avDrawer,
+html[data-theme="sakura"] #avBotBox,
+html[data-theme="sakura"] .av-quiz-body,
+html[data-theme="sakura"] .av-drawer-foot {
+  background: #ffffff !important;
+  border-color: var(--line) !important;
+  color: var(--text) !important;
+}
+html[data-theme="sakura"] .av-drawer-tabs { background: #fdf2f8 !important; border-bottom-color: var(--line) !important; }
+html[data-theme="sakura"] .av-modal-card *:not(button):not(a):not(.av-badge-count),
+html[data-theme="sakura"] #avDrawer *:not(button):not(a):not(.av-badge-count) { border-color: var(--line); }
+html[data-theme="sakura"] .av-modal-card,
+html[data-theme="sakura"] .av-modal-card h2,
+html[data-theme="sakura"] .av-modal-card h3,
+html[data-theme="sakura"] .av-modal-card h4,
+html[data-theme="sakura"] .av-modal-card p,
+html[data-theme="sakura"] .av-modal-card label,
+html[data-theme="sakura"] .av-modal-card li,
+html[data-theme="sakura"] #avDrawer h2,
+html[data-theme="sakura"] #avDrawer h3,
+html[data-theme="sakura"] #avDrawer strong,
+html[data-theme="sakura"] #avDrawer p,
+html[data-theme="sakura"] #avDrawer li { color: var(--text-strong); }
+html[data-theme="sakura"] .av-modal-close,
+html[data-theme="sakura"] #avDrawerClose {
+  color: var(--text) !important;
+  background: #fdf2f8 !important;
+  border-color: var(--line) !important;
+}
+html[data-theme="sakura"] .av-modal-close:hover { background: var(--neon) !important; color: #fff !important; }
+html[data-theme="sakura"] .av-drawer-tab { color: #5b4366 !important; }
+html[data-theme="sakura"] .av-drawer-tab.active {
+  background: rgba(225, 29, 116, 0.12) !important;
+  color: var(--text-strong) !important;
+  border-color: var(--neon) !important;
+}
+html[data-theme="sakura"] .av-hub-tab {
+  background: #fdf2f8 !important;
+  color: var(--text) !important;
+  border-color: var(--line) !important;
+}
+html[data-theme="sakura"] .av-hub-tab.active {
+  background: var(--accent-grad) !important;
+  color: #fff !important;
+  border-color: transparent !important;
+}
+html[data-theme="sakura"] #avBotBox .avm { color: var(--text); }
+html[data-theme="sakura"] #avBotBox .avm.b { background: #fdf2f8; color: var(--text); }
+html[data-theme="sakura"] #avBotBox .avm.u { background: var(--accent-grad); color: #fff !important; }
+html[data-theme="sakura"] #avBotBtn,
+html[data-theme="sakura"] #avBotHead { color: #fff !important; }
+html[data-theme="sakura"] #avLiveTicker { background: rgba(255, 255, 255, 0.96) !important; color: var(--text) !important; border-color: var(--line) !important; }
+html[data-theme="sakura"] .av-checkin-btn { background: var(--accent-grad) !important; color: #fff !important; }
+html[data-theme="sakura"] .av-checkin-btn.done { background: #ecfdf5 !important; color: #047857 !important; }
+html[data-theme="sakura"] .av-toast,
+html[data-theme="sakura"] .promo-page .toast { color: #fff !important; }
+
+/* Nút chính: giữ chữ trắng trên nền gradient hồng-tím */
+html[data-theme="sakura"] .btn.primary,
+html[data-theme="sakura"] .btn-primary,
+html[data-theme="sakura"] .btn-buy-now,
+html[data-theme="sakura"] .lh-submit,
+html[data-theme="sakura"] .btn-add-cart,
+html[data-theme="sakura"] .cart-coupon button {
+  background: var(--accent-grad) !important;
+  color: #ffffff !important;
+}
+html[data-theme="sakura"] .btn.secondary,
+html[data-theme="sakura"] .btn:not(.primary):not(.btn-primary) {
+  color: var(--text);
+}
+
+/* ---------- 4) Gear 5 / Gojo: nút lọc đang chọn cần nền nổi để chữ đậm đọc được ---------- */
+html[data-theme="gear5"] .filter:hover,
+html[data-theme="gear5"] .filter.active,
+html[data-theme="gear5"] .promo-page .filter:hover,
+html[data-theme="gear5"] .promo-page .filter.active,
+html[data-theme="gear5"] .av-fandom-pill:hover,
+html[data-theme="gear5"] .av-fandom-pill.active,
+html[data-theme="gear5"] .size-btn:hover,
+html[data-theme="gear5"] .size-btn.selected,
+html[data-theme="gear5"] .av-qv-size.selected,
+html[data-theme="gear5"] .av-view-toggle button.active,
+html[data-theme="gojo"] .filter:hover,
+html[data-theme="gojo"] .filter.active,
+html[data-theme="gojo"] .promo-page .filter:hover,
+html[data-theme="gojo"] .promo-page .filter.active,
+html[data-theme="gojo"] .av-fandom-pill:hover,
+html[data-theme="gojo"] .av-fandom-pill.active,
+html[data-theme="gojo"] .size-btn:hover,
+html[data-theme="gojo"] .size-btn.selected,
+html[data-theme="gojo"] .av-qv-size.selected,
+html[data-theme="gojo"] .av-view-toggle button.active {
+  background: var(--accent-grad) !important;
+  color: var(--on-accent) !important;
+  border-color: transparent !important;
+}
+
+/* ============================================================================
+   5) SỬA CHUNG CHO MỌI CHỦ ĐỀ: tem giảm giá, nhãn giảm %, mũi tên CTA (trang Khuyến mãi)
+   ============================================================================ */
+.promo-page .sale-sticker small,
+.promo-page .sale-sticker strong,
+.promo-page .sale-sticker em,
+.promo-page .sale-sticker span { color: #4a0d33 !important; text-shadow: none !important; }
+.promo-page .discount { background: #d61f78 !important; color: #ffffff !important; }
+.promo-page .deal-cta span { color: inherit !important; }
+html[data-theme="gear5"] .btn-add-cart,
+html[data-theme="gojo"] .btn-add-cart { color: var(--text) !important; }
+
+/* ============================================================================
+   6) SAKURA — các trang Sản phẩm, Chi tiết, Khuyến mãi, Liên hệ, Tư vấn
+   ============================================================================ */
+html[data-theme="sakura"] .eyebrow,
+html[data-theme="sakura"] p.eyebrow,
+html[data-theme="sakura"] .hero-copy .eyebrow { color: #be185d !important; }
+html[data-theme="sakura"] .products-hero-tags span,
+html[data-theme="sakura"] .hero-tags span,
+html[data-theme="sakura"] .lh-chips span {
+  color: #5b4366 !important;
+  background: rgba(255, 255, 255, 0.85) !important;
+  border-color: var(--line) !important;
+}
+html[data-theme="sakura"] .products-page .hero-product-tile,
+html[data-theme="sakura"] .products-page .tile-front {
+  background: #ffffff !important;
+  border-color: var(--line) !important;
+}
+html[data-theme="sakura"] .products-page .tile-front span,
+html[data-theme="sakura"] .products-page .tile-front small,
+html[data-theme="sakura"] .products-page .tile-front b { color: var(--text-strong) !important; }
+html[data-theme="sakura"] .products-page .sort-control,
+html[data-theme="sakura"] .products-page .sort-control span,
+html[data-theme="sakura"] .products-page .active-filter-row,
+html[data-theme="sakura"] #active-filter-label { color: #5b4366 !important; }
+html[data-theme="sakura"] .products-page .category-filter { color: #5b4366 !important; background: transparent !important; }
+html[data-theme="sakura"] .products-page .category-filter span { color: var(--purple) !important; }
+html[data-theme="sakura"] .products-page .category-filter:hover { background: #fdf2f8 !important; color: var(--text-strong) !important; }
+html[data-theme="sakura"] .products-page .category-filter.active {
+  background: var(--accent-grad) !important;
+  color: #ffffff !important;
+}
+html[data-theme="sakura"] .products-page .category-filter.active span { color: #ffffff !important; }
+html[data-theme="sakura"] .pro-details-section,
+html[data-theme="sakura"] .pro-details-section p,
+html[data-theme="sakura"] .pro-details-section li,
+html[data-theme="sakura"] .pro-details-section strong,
+html[data-theme="sakura"] .pro-details-section td,
+html[data-theme="sakura"] .pro-details-section th,
+html[data-theme="sakura"] .article-lead,
+html[data-theme="sakura"] .article-checklist li,
+html[data-theme="sakura"] .advice-article p,
+html[data-theme="sakura"] .advice-article li { color: #3d2748 !important; }
+html[data-theme="sakura"] .pro-details-section h2,
+html[data-theme="sakura"] .pro-details-section h3,
+html[data-theme="sakura"] .advice-article h2,
+html[data-theme="sakura"] .advice-article h3 { color: var(--text-strong) !important; }
+html[data-theme="sakura"] .av-rev-item {
+  background: #fdf2f8 !important;
+  border-color: var(--line) !important;
+  color: var(--text) !important;
+}
+html[data-theme="sakura"] .av-rev-item b span { color: #047857 !important; }
+html[data-theme="sakura"] .av-rev-item div { color: var(--star); }
+html[data-theme="sakura"] .av-rev-item p,
+html[data-theme="sakura"] .av-rev-item b { color: var(--text) !important; }
+
+/* Trang Khuyến mãi */
+html[data-theme="sakura"] .promo-page .hero-copy .eyebrow { color: #be185d !important; }
+html[data-theme="sakura"] .promo-page .art-caption span { color: var(--purple) !important; }
+html[data-theme="sakura"] .promo-page .art-caption small { color: #5b4366 !important; }
+html[data-theme="sakura"] .promo-page .spark,
+html[data-theme="sakura"] .lh-spark { color: var(--neon) !important; }
+html[data-theme="sakura"] .promo-page .timer strong,
+html[data-theme="sakura"] .promo-page .timer span,
+html[data-theme="sakura"] .promo-page .timer > b,
+html[data-theme="sakura"] .promo-page .countdown-inner h2,
+html[data-theme="sakura"] .promo-page .countdown-inner p,
+html[data-theme="sakura"] .promo-page .countdown-inner .eyebrow { color: #ffffff !important; }
+html[data-theme="sakura"] .promo-page .deal-label { color: #ffffff !important; }
+html[data-theme="sakura"] .promo-page .demo-note,
+html[data-theme="sakura"] .demo-note { color: #6e5578 !important; }
+html[data-theme="sakura"] .promo-page .welcome-code strong,
+html[data-theme="sakura"] .welcome-code strong { color: var(--price) !important; }
+html[data-theme="sakura"] .promo-page .copy-code,
+html[data-theme="sakura"] .copy-code {
+  background: #f3e8ff !important;
+  color: #6b21a8 !important;
+  border-color: #c4a1ee !important;
+}
+html[data-theme="sakura"] .promo-page .deal-cta { color: var(--text) !important; }
+html[data-theme="sakura"] .promo-page .coupon-row b { color: var(--price) !important; }
+
+/* Trang Liên hệ */
+html[data-theme="sakura"] .lh-chat {
+  background: #ffffff !important;
+  border-color: var(--line) !important;
+  color: var(--text) !important;
+}
+html[data-theme="sakura"] .lh-chat b,
+html[data-theme="sakura"] .lh-chat small,
+html[data-theme="sakura"] .lh-chat span { color: var(--text) !important; }
+html[data-theme="sakura"] .lh-bubble { background: #fdf2f8 !important; color: var(--text) !important; }
+html[data-theme="sakura"] .lh-bubble.me { background: var(--accent-grad) !important; color: #ffffff !important; }
+html[data-theme="sakura"] .lh-member { background: #ffffff !important; }
+html[data-theme="sakura"] .lh-member b,
+html[data-theme="sakura"] .lh-member small,
+html[data-theme="sakura"] .lh-card b,
+html[data-theme="sakura"] .lh-card small,
+html[data-theme="sakura"] .lh-card p,
+html[data-theme="sakura"] .lh-faq summary,
+html[data-theme="sakura"] .lh-faq p,
+html[data-theme="sakura"] .lh-cta h2,
+html[data-theme="sakura"] .lh-cta p,
+html[data-theme="sakura"] .lh-form-box label,
+html[data-theme="sakura"] .lh-form-box h2,
+html[data-theme="sakura"] .lh-form-box p { color: var(--text) !important; }
+html[data-theme="sakura"] .lh-demo { color: #b45309 !important; }
+html[data-theme="sakura"] .lh-topic input:checked + span { background: var(--accent-grad) !important; color: #fff !important; }
+html[data-theme="sakura"] .lh-avatar { color: #ffffff !important; }
+
+/* ---------- 7) Vá nốt các điểm nhỏ còn sót ---------- */
+html[data-theme] .rank-3 .rank-badge,
+html[data-theme] .rank-4 .rank-badge { color: #ffffff !important; }
+.promo-page .search button { color: #1b0f2e !important; }
+
+html[data-theme="sakura"] .products-page .products-hero { background: var(--hero-bg) !important; }
+html[data-theme="sakura"] .products-page .sort-control { background: transparent !important; }
+html[data-theme="sakura"] .products-page .category-filter.active b,
+html[data-theme="sakura"] .products-page .category-filter.active small { color: #ffffff !important; }
+html[data-theme="sakura"] .av-rev-item div,
+html[data-theme="sakura"] .av-rev-item div * { color: var(--star) !important; }
+html[data-theme="sakura"] .logo span,
+html[data-theme="sakura"] a.logo span { color: var(--neon) !important; }
+html[data-theme="sakura"] .promo-page .hero { background: var(--hero-bg) !important; }
+html[data-theme="sakura"] .art-caption span,
+html[data-theme="sakura"] .promo-page .art-caption span { color: var(--purple) !important; }
+html[data-theme="sakura"] .art-caption small,
+html[data-theme="sakura"] .promo-page .art-caption small { color: #5b4366 !important; }
+html[data-theme="sakura"] .promo-page .hero h1,
+html[data-theme="sakura"] .promo-page .hero-copy > p,
+html[data-theme="sakura"] .lh-hero h1,
+html[data-theme="sakura"] .lh-hero p,
+html[data-theme="sakura"] .products-hero-copy h1,
+html[data-theme="sakura"] .products-hero-copy > p:not(.eyebrow) { color: var(--text) !important; }
+html[data-theme="sakura"] .lh-hero { background: var(--hero-bg) !important; }
+
+/* ---------- 8) Vá tiếp: nhãn nút header (điện thoại), thanh công cụ danh mục, nút tìm kiếm trang Khuyến mãi ---------- */
+body:has(.promo-page) .search button { color: #1b0f2e !important; }
+html[data-theme="sakura"] .icon-btn small,
+html[data-theme="sakura"] .header-actions small { color: #5b4366 !important; }
+html[data-theme="sakura"] .header-actions .cart-nav small,
+html[data-theme="sakura"] a.icon-btn.cart-nav small { color: #5b4366 !important; }
+html[data-theme="sakura"] .catalog-toolbar,
+html[data-theme="sakura"] .products-page .catalog-toolbar {
+  background: #ffffff !important;
+  border-color: var(--line) !important;
+  color: var(--text) !important;
+}
+html[data-theme="sakura"] .catalog-toolbar * { color: #5b4366; }
+html[data-theme="sakura"] .catalog-toolbar select,
+html[data-theme="sakura"] .catalog-toolbar input { color: var(--text) !important; background: #fff !important; }
+html[data-theme="sakura"] .art-caption span,
+html[data-theme="sakura"] .promo-page .art-caption span { color: #7e22ce !important; }
+html[data-theme="sakura"] .deal-content .category,
+html[data-theme="sakura"] .deal-content span.category { color: #7e22ce !important; background: transparent !important; box-shadow: none !important; border: 0 !important; }
+html[data-theme="sakura"] .header-actions .icon-btn:not(.cart-nav) small,
+html[data-theme="sakura"] .header-actions .icon-btn:not(.cart-nav) { color: #5b4366 !important; }
+html[data-theme="sakura"] .header-actions .icon-btn:not(.cart-nav) small { color: #5b4366 !important; }
+
+/* Viên cầu Gacha: dấu ✦ luôn màu trắng cho nổi trên nền cầu */
+.av-gacha-orb { color: #ffffff !important; }
+
+/* ============================================================================
+   9) GEAR 5 / GOJO — bỏ nền tím cứng của upgrade.css để khung nền đổi theo màu chủ đề
+   ============================================================================ */
+html[data-theme="gear5"] .topbar, html[data-theme="gojo"] .topbar,
+html[data-theme="gear5"] .header, html[data-theme="gojo"] .header,
+html[data-theme="gear5"] .nav, html[data-theme="gojo"] .nav {
+  background: color-mix(in srgb, var(--bg-deep) 94%, transparent) !important;
+  border-color: var(--line) !important;
+}
+html[data-theme="gear5"] #home .hero,
+html[data-theme="gojo"] #home .hero {
+  background:
+    radial-gradient(circle at 82% 28%, color-mix(in srgb, var(--neon) 22%, transparent), transparent 55%),
+    radial-gradient(circle at 12% 80%, color-mix(in srgb, var(--violet) 16%, transparent), transparent 50%),
+    var(--panel) !important;
+  border-color: var(--line) !important;
+}
+html[data-theme="gear5"] .sale,
+html[data-theme="gojo"] .sale {
+  background: linear-gradient(100deg, color-mix(in srgb, var(--neon) 18%, var(--panel)), var(--panel) 55%, color-mix(in srgb, var(--violet) 18%, var(--panel))) !important;
+  border-color: var(--line) !important;
+}
+html[data-theme="gear5"] .categories > .category, html[data-theme="gojo"] .categories > .category,
+html[data-theme="gear5"] .product-card, html[data-theme="gojo"] .product-card,
+html[data-theme="gear5"] .deal-card, html[data-theme="gojo"] .deal-card,
+html[data-theme="gear5"] .av-modal-card, html[data-theme="gojo"] .av-modal-card,
+html[data-theme="gear5"] #avDrawer, html[data-theme="gojo"] #avDrawer,
+html[data-theme="gear5"] #avBotBox, html[data-theme="gojo"] #avBotBox,
+html[data-theme="gear5"] .pro-details-section, html[data-theme="gojo"] .pro-details-section,
+html[data-theme="gear5"] .av-reviews-box, html[data-theme="gojo"] .av-reviews-box,
+html[data-theme="gear5"] .cart-summary, html[data-theme="gojo"] .cart-summary,
+html[data-theme="gear5"] .cart-item, html[data-theme="gojo"] .cart-item,
+html[data-theme="gear5"] .sidebar-card, html[data-theme="gojo"] .sidebar-card,
+html[data-theme="gear5"] .lh-form-box, html[data-theme="gojo"] .lh-form-box,
+html[data-theme="gear5"] .lh-card, html[data-theme="gojo"] .lh-card,
+html[data-theme="gear5"] #otaku-hub-showcase .benefits > div, html[data-theme="gojo"] #otaku-hub-showcase .benefits > div,
+html[data-theme="gear5"] #best .benefits > div, html[data-theme="gojo"] #best .benefits > div {
+  background: var(--panel) !important;
+  border-color: var(--line) !important;
+}
+
+/* ============================================================================
+   CHỦ ĐỀ CHO OTAKU QUICK DOCK (SAKURA / GEAR 5 / GOJO)
+   ============================================================================ */
+html[data-theme="sakura"] .av-quick-dock {
+  background: rgba(255, 255, 255, 0.94) !important;
+  border-color: rgba(236, 72, 153, 0.3) !important;
+  box-shadow: 0 10px 30px rgba(236, 72, 153, 0.18) !important;
+}
+html[data-theme="sakura"] .av-quick-dock .icon-btn {
+  background: rgba(255, 240, 246, 0.85) !important;
+  border-color: rgba(236, 72, 153, 0.25) !important;
+  color: #3d2748 !important;
+}
+html[data-theme="sakura"] .av-quick-dock .icon-btn small {
+  color: #5b4366 !important;
+}
+
+html[data-theme="gear5"] .av-quick-dock {
+  background: rgba(22, 16, 8, 0.94) !important;
+  border-color: rgba(245, 158, 11, 0.35) !important;
+  box-shadow: 0 10px 30px rgba(245, 158, 11, 0.15) !important;
+}
+html[data-theme="gear5"] .av-quick-dock .icon-btn {
+  background: rgba(245, 158, 11, 0.08) !important;
+  border-color: rgba(245, 158, 11, 0.25) !important;
+  color: #fbbf24 !important;
+}
+html[data-theme="gear5"] .av-quick-dock .icon-btn small {
+  color: #fde68a !important;
+}
+
+html[data-theme="gojo"] .av-quick-dock {
+  background: rgba(8, 14, 30, 0.94) !important;
+  border-color: rgba(56, 189, 248, 0.35) !important;
+  box-shadow: 0 10px 30px rgba(56, 189, 248, 0.15) !important;
+}
+html[data-theme="gojo"] .av-quick-dock .icon-btn {
+  background: rgba(56, 189, 248, 0.08) !important;
+  border-color: rgba(56, 189, 248, 0.25) !important;
+  color: #38bdf8 !important;
+}
+html[data-theme="gojo"] .av-quick-dock .icon-btn small {
+  color: #bae6fd !important;
+}
+

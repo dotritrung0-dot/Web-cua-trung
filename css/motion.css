@@ -1,0 +1,157 @@
+/* ============================================================================
+ * FILE: css/motion.css — BỘ HIỆU ỨNG CHUYỂN ĐỘNG NÂNG CẤP ANIMEVERSE
+ * 
+ * Quy tắc thiết kế:
+ *   - Chỉ animate thuộc tính transform và opacity để đạt 60fps trên điện thoại.
+ *   - Tôn trọng triệt để chế độ người dùng giảm chuyển động (prefers-reduced-motion).
+ *   - Tương thích hoàn toàn với cả 4 chủ đề màu sắc: Default, Sakura, Gear 5, Gojo.
+ *   - Mọi khối chú thích đều được đóng đúng chuẩn bằng cú pháp hoa sao gạch chéo.
+ * ============================================================================ */
+
+/* ----------------------------------------------------------------------------
+ * 1. HIỆU ỨNG CUỘN HIỆN DẦN (SCROLL REVEAL)
+ * Áp dụng cho: thẻ sản phẩm, thẻ deal, tiêu đề mục, danh mục, lợi ích, bài viết...
+ * ---------------------------------------------------------------------------- */
+.av-motion-reveal {
+    opacity: 0;
+    transform: translateY(24px) scale(0.98);
+    transition: opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: opacity, transform;
+}
+
+.av-motion-reveal.av-motion-in {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+/* ----------------------------------------------------------------------------
+ * 2. HIỆU ỨNG NGHIÊNG 3D NHẸ CHO THẺ SẢN PHẨM (3D TILT EFFECT)
+ * Dùng transform perspective + rotateX/rotateY do JS tính toán
+ * ---------------------------------------------------------------------------- */
+.product-card,
+.deal-card {
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+}
+
+.av-motion-tilt {
+    transition: transform 0.22s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    will-change: transform;
+}
+
+.av-motion-tilt:hover,
+.av-motion-tilt:focus-within {
+    transform: perspective(900px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg)) translateZ(6px);
+}
+
+/* Hiệu ứng tia sáng phản chiếu nhẹ trên thẻ khi nghiêng */
+.av-motion-tilt::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    background: radial-gradient(320px circle at var(--tilt-gx, 50%) var(--tilt-gy, 50%), rgba(255, 255, 255, 0.14), transparent 70%);
+    mix-blend-mode: overlay;
+    z-index: 2;
+}
+
+.av-motion-tilt:hover::after {
+    opacity: 1;
+}
+
+/* Tinh chỉnh riêng theo từng chủ đề màu sắc cho lớp sáng phản chiếu */
+html[data-theme="sakura"] .av-motion-tilt::after {
+    background: radial-gradient(320px circle at var(--tilt-gx, 50%) var(--tilt-gy, 50%), rgba(225, 29, 116, 0.12), transparent 70%);
+}
+
+html[data-theme="gear5"] .av-motion-tilt::after {
+    background: radial-gradient(320px circle at var(--tilt-gx, 50%) var(--tilt-gy, 50%), rgba(251, 191, 36, 0.16), transparent 70%);
+}
+
+html[data-theme="gojo"] .av-motion-tilt::after {
+    background: radial-gradient(320px circle at var(--tilt-gx, 50%) var(--tilt-gy, 50%), rgba(0, 240, 255, 0.16), transparent 70%);
+}
+
+/* ----------------------------------------------------------------------------
+ * 3. HIỆU ỨNG ẢNH SẢN PHẨM BAY VÀO ICON GIỎ HÀNG (FLY TO CART)
+ * ---------------------------------------------------------------------------- */
+.av-motion-flyer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 100050;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: var(--panel, #120f24);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35), 0 0 0 2px var(--pink, #ff3d9a);
+    transition: transform 0.68s cubic-bezier(0.2, 0.82, 0.32, 1),
+                opacity 0.68s cubic-bezier(0.55, 0, 0.8, 0.6);
+    will-change: transform, opacity;
+}
+
+/* Viền phát sáng hài hòa theo từng chủ đề màu */
+html[data-theme="sakura"] .av-motion-flyer {
+    box-shadow: 0 8px 24px rgba(225, 29, 116, 0.35), 0 0 0 2px #e11d74;
+}
+
+html[data-theme="gear5"] .av-motion-flyer {
+    box-shadow: 0 8px 24px rgba(251, 191, 36, 0.4), 0 0 0 2px #fbbf24;
+}
+
+html[data-theme="gojo"] .av-motion-flyer {
+    box-shadow: 0 8px 24px rgba(0, 240, 255, 0.45), 0 0 0 2px #00f0ff;
+}
+
+/* Nhịp nảy của icon giỏ hàng khi nhận ảnh bay vào */
+.av-motion-cart-bump {
+    animation: avMotionCartBump 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    will-change: transform;
+}
+
+@keyframes avMotionCartBump {
+    0% {
+        transform: scale(1);
+    }
+    35% {
+        transform: scale(1.28) rotate(-8deg);
+    }
+    70% {
+        transform: scale(1.1) rotate(4deg);
+    }
+    100% {
+        transform: scale(1) rotate(0deg);
+    }
+}
+
+/* ----------------------------------------------------------------------------
+ * 4. TÔN TRỌNG PREFERS-REDUCED-MOTION (NGƯỜI DÙNG GIẢM CHUYỂN ĐỘNG)
+ * ---------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+    .av-motion-reveal {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+    }
+    .av-motion-tilt {
+        transform: none !important;
+        transition: none !important;
+    }
+    .av-motion-tilt::after {
+        display: none !important;
+    }
+    .av-motion-flyer {
+        display: none !important;
+    }
+    .av-motion-cart-bump {
+        animation: none !important;
+    }
+}

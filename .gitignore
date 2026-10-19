@@ -1,0 +1,5 @@
+# Hệ điều hành & file tạm
+.DS_Store
+Thumbs.db
+*.log
+.impeccable/
