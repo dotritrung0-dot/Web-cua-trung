@@ -1837,4 +1837,12 @@ a.deal-cta,
   letter-spacing: 0.02em !important;
 }
 
+/* Gỡ bỏ nút cuộn lên đầu trang */
+#avTop {
+  display: none !important;
+  pointer-events: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+}
+
 

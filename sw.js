@@ -20,7 +20,7 @@
 // Mẹo nhỏ khi bạn sửa code:
 // Nếu bạn sửa HTML/CSS/JS xong mà mở trình duyệt vẫn thấy giao diện cũ,
 // hãy đổi chữ 'av-v8-motion' bên dưới thành 'av-v9-...' (hoặc bấm Ctrl + F5).
-const V = 'av-v13-split-banner';
+const V = 'av-v14-remove-avtop';
 
 // Danh sách các file cốt lõi được lưu sẵn ngay từ lần đầu mở trang
 const CORE = [

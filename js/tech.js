@@ -2074,24 +2074,13 @@
   bar.id = 'avProgress';
   document.body.appendChild(bar);
 
-  var topBtn = document.createElement('button');
-  topBtn.id = 'avTop';
-  topBtn.textContent = '↑';
-  topBtn.setAttribute('aria-label', 'Lên đầu trang');
-  topBtn.onclick = function () {
-    window.scrollTo({
-      top: 0,
-      behavior: calm ? 'auto' : 'smooth'
-    });
-  };
-  document.body.appendChild(topBtn);
+  // Nút lên đầu trang (#avTop) đã được gỡ bỏ theo yêu cầu
 
   window.addEventListener('scroll', function () {
     var h = document.documentElement;
     var maxScroll = h.scrollHeight - h.clientHeight;
     var pct = (maxScroll > 0) ? (h.scrollTop / maxScroll * 100) : 0;
     bar.style.width = pct + '%';
-    topBtn.classList.toggle('show', h.scrollTop > 420);
   }, { passive: true });
 
   // Khởi tạo hiệu ứng quầng sáng đi theo chuột và hạt năng lượng tương tác trên máy tính
