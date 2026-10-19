@@ -1937,8 +1937,9 @@ a.deal-cta,
   width: 100%;
   overflow: hidden;
   position: relative;
-  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
-  mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+  /* Giảm mask hai bên để ảnh khi trôi qua mép không bị mờ khuyết */
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 2.5%, black 97.5%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0%, black 2.5%, black 97.5%, transparent 100%);
   padding: 10px 0 16px;
 }
 
@@ -1956,14 +1957,14 @@ a.deal-cta,
 
 .av-stream-item {
   position: relative;
-  flex: 0 0 190px;
-  width: 190px;
+  flex: 0 0 160px;
+  width: 160px;
   height: 250px;
   border-radius: 16px;
   overflow: hidden;
-  background: var(--panel, #110e24);
-  border: 1px solid rgba(155, 107, 255, 0.22);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+  background: radial-gradient(circle at 50% 35%, rgba(155, 107, 255, 0.18) 0%, rgba(17, 14, 36, 0.95) 75%);
+  border: 1px solid rgba(155, 107, 255, 0.25);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
   text-decoration: none;
   display: flex;
   flex-direction: column;
@@ -1977,36 +1978,41 @@ a.deal-cta,
 .av-stream-item:focus-visible {
   transform: translateY(-8px) scale(1.03);
   border-color: var(--pink, #ff3d9a);
-  box-shadow: 0 14px 32px rgba(255, 61, 154, 0.32), 0 0 0 1px var(--pink, #ff3d9a);
+  box-shadow: 0 14px 32px rgba(255, 61, 154, 0.35), 0 0 0 1px var(--pink, #ff3d9a);
   z-index: 5;
 }
 
+/* Ảnh nhân vật hiển thị trọn vẹn 100% không bị khuyết đầu hoặc thân */
 .av-stream-item img {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.4s ease;
+  top: 8px;
+  left: 8px;
+  right: 8px;
+  bottom: 46px;
+  width: calc(100% - 16px);
+  height: calc(100% - 54px);
+  object-fit: contain;
+  object-position: center bottom;
+  filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.65));
+  transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 .av-stream-item:hover img {
-  transform: scale(1.08);
+  transform: scale(1.08) translateY(-4px);
 }
 
 .av-stream-info {
   position: relative;
   z-index: 2;
-  padding: 24px 12px 12px;
-  background: linear-gradient(to top, rgba(7, 6, 15, 0.95) 0%, rgba(7, 6, 15, 0.7) 60%, transparent 100%);
+  padding: 16px 10px 10px;
+  background: linear-gradient(to top, rgba(7, 6, 15, 0.96) 0%, rgba(7, 6, 15, 0.75) 65%, transparent 100%);
   display: flex;
   flex-direction: column;
   gap: 2px;
 }
 
 .av-stream-info b {
-  font-size: 14px;
+  font-size: 13.5px;
   color: #ffffff;
   white-space: nowrap;
   overflow: hidden;
@@ -2015,7 +2021,7 @@ a.deal-cta,
 }
 
 .av-stream-info small {
-  font-size: 11.5px;
+  font-size: 11px;
   color: var(--muted, #a69ec8);
   white-space: nowrap;
   overflow: hidden;
@@ -2036,19 +2042,27 @@ a.deal-cta,
     margin: 20px 0 16px;
   }
   .av-stream-item {
-    flex: 0 0 145px;
-    width: 145px;
-    height: 195px;
+    flex: 0 0 130px;
+    width: 130px;
+    height: 205px;
     border-radius: 12px;
   }
+  .av-stream-item img {
+    top: 6px;
+    left: 6px;
+    right: 6px;
+    bottom: 40px;
+    width: calc(100% - 12px);
+    height: calc(100% - 46px);
+  }
   .av-stream-info {
-    padding: 18px 8px 8px;
+    padding: 14px 8px 8px;
   }
   .av-stream-info b {
-    font-size: 12.5px;
+    font-size: 12px;
   }
   .av-stream-info small {
-    font-size: 10.5px;
+    font-size: 10px;
   }
   .av-stream-track {
     gap: 12px;
