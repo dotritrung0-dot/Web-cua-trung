@@ -1946,7 +1946,7 @@ a.deal-cta,
 .av-stream-track {
   display: flex;
   width: max-content;
-  animation: avStreamScroll 30s linear infinite;
+  animation: avStreamScroll 52s linear infinite;
   will-change: transform;
 }
 
@@ -2071,7 +2071,7 @@ a.deal-cta,
     font-size: 10px;
   }
   .av-stream-track {
-    animation-duration: 24s;
+    animation-duration: 44s;
   }
   .av-stream-group {
     gap: 12px;

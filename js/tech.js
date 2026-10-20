@@ -2007,69 +2007,33 @@
   //   4. gojo   : Đen Xanh Băng Tuyết Vô Hạ Hạn
   // Muốn đổi tên hiển thị của các chủ đề, bạn sửa chữ trong biến THEMES dưới đây:
 
+  // ---------------------------------------------------------------------------
+  // MỤC 1: CHỦ ĐỀ GIAO DIỆN CỐ ĐỊNH: NỀN TRẮNG HOA ANH ĐÀO & HOA HỒNG (SAKURA)
+  // ---------------------------------------------------------------------------
   var THEMES = [
     {
-      id: 'cyber',
-      label: '🌌 Cyber Neon'
-    },
-    {
       id: 'sakura',
-      label: '🌸 Sakura Dawn'
-    },
-    {
-      id: 'gear5',
-      label: '⚡ Gear 5 Gold'
-    },
-    {
-      id: 'gojo',
-      label: '❄️ Infinity Gojo'
+      label: '🌸 Sakura & Rose'
     }
   ];
 
   function getTheme() {
-    try {
-      return localStorage.getItem('av_theme') || 'cyber';
-    } catch (e) {
-      return 'cyber';
-    }
+    return 'sakura';
   }
 
   function applyTheme(id, notify) {
-    document.documentElement.setAttribute('data-theme', id);
+    document.documentElement.setAttribute('data-theme', 'sakura');
     try {
-      localStorage.setItem('av_theme', id);
+      localStorage.setItem('av_theme', 'sakura');
     } catch (e) {}
-
-    var matched = THEMES.filter(function (t) {
-      return t.id === id;
-    })[0];
-    var info = matched || THEMES[0];
-
-    var btn = $('#avThemeBtn');
-    if (btn) {
-      var iconPart = info.label.split(' ')[0];
-      var isMob = window.innerWidth <= 768;
-      var textPart = isMob ? 'Chủ đề' : 'Giao diện';
-      btn.innerHTML = iconPart + '<small>' + textPart + '</small>';
-    }
-
-    if (notify && Store) {
-      Store.toast('🎨 Đã chuyển giao diện: ' + info.label);
-    }
   }
 
-  applyTheme(getTheme(), false);
+  applyTheme('sakura', false);
 
 
   // ---------------------------------------------------------------------------
-  // MỤC 2: THANH TIẾN ĐỘ CUỘN (#avProgress), NÚT LÊN ĐẦU TRANG (#avTop)
-  //        & HẠT NĂNG LƯỢNG / HOA ANH ĐÀO TƯƠNG TÁC THEO CHỦ ĐỀ (#avParticles)
+  // MỤC 2: THANH TIẾN ĐỘ CUỘN (#avProgress) & HIỆU ỨNG CÁNH HOA RƠI TỰ NHIÊN (#avParticles)
   // ---------------------------------------------------------------------------
-  // Tác dụng:
-  //   - Tạo vạch màu chạy ngang trên mép trên màn hình khi cuộn trang.
-  //   - Tạo nút mũi tên "↑" ở góc dưới để bấm phát cuộn mượt về đầu trang.
-  //   - Vẽ các hạt ánh sáng / cánh hoa Sakura bay lơ lửng và tương tác né nhẹ khi rê chuột.
-
   var bar = document.createElement('div');
   bar.id = 'avProgress';
   document.body.appendChild(bar);
@@ -2083,27 +2047,8 @@
     bar.style.width = pct + '%';
   }, { passive: true });
 
-  // Khởi tạo hiệu ứng quầng sáng đi theo chuột và hạt năng lượng tương tác trên máy tính
-  if (fine && !calm) {
-    var g = document.createElement('div');
-    g.id = 'avGlow';
-    document.body.appendChild(g);
-
-    var mouseX = -9999;
-    var mouseY = -9999;
-
-    var glowRaf = null;
-    document.addEventListener('mousemove', function (e) {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-      if (!glowRaf) {
-        glowRaf = requestAnimationFrame(function () {
-          g.style.transform = 'translate(' + mouseX + 'px, ' + mouseY + 'px)';
-          glowRaf = null;
-        });
-      }
-    }, { passive: true });
-
+  // Khởi tạo hiệu ứng cánh hoa hồng rơi bồng bềnh trên nền trắng
+  if (!calm) {
     var cv = document.createElement('canvas');
     cv.id = 'avParticles';
     document.body.appendChild(cv);
@@ -2120,106 +2065,104 @@
     resizeCv();
     window.addEventListener('resize', resizeCv, { passive: true });
 
-    // Tạo 32 hạt chuyển động linh hoạt theo chủ đề giao diện đang chọn
-    var pts = [];
-    for (var i = 0; i < 32; i++) {
-      pts.push({
+    // Quầng sáng chuột trên PC
+    var mouseX = -9999;
+    var mouseY = -9999;
+    if (fine) {
+      var g = document.createElement('div');
+      g.id = 'avGlow';
+      document.body.appendChild(g);
+
+      var glowRaf = null;
+      document.addEventListener('mousemove', function (e) {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        if (!glowRaf) {
+          glowRaf = requestAnimationFrame(function () {
+            g.style.transform = 'translate(' + mouseX + 'px, ' + mouseY + 'px)';
+            glowRaf = null;
+          });
+        }
+      }, { passive: true });
+    }
+
+    // Tạo các cánh hoa hồng rơi mềm mại
+    var petalCount = (window.innerWidth <= 768) ? 26 : 46;
+    var petals = [];
+    var petalColors = [
+      'rgba(244, 63, 94, 0.72)',   // Hồng đào đậm (Rose pink)
+      'rgba(251, 113, 133, 0.75)', // Hồng cam phấn (Coral rose)
+      'rgba(244, 114, 182, 0.70)', // Cánh anh đào (Sakura petal)
+      'rgba(253, 164, 175, 0.82)'  // Hồng phấn nhẹ (Blush)
+    ];
+
+    for (var i = 0; i < petalCount; i++) {
+      petals.push({
         x: Math.random() * W,
         y: Math.random() * H,
-        r: 1.6 + Math.random() * 2.8,
-        vx: (Math.random() - 0.5) * 0.5,
-        vy: -0.3 - Math.random() * 0.5,
+        r: 3.5 + Math.random() * 5.5,
+        vx: (Math.random() - 0.5) * 0.7,
+        vy: 0.9 + Math.random() * 1.3,
+        sway: Math.random() * Math.PI * 2,
+        swaySpeed: 0.02 + Math.random() * 0.02,
         angle: Math.random() * Math.PI * 2,
-        spin: (Math.random() - 0.5) * 0.03,
-        variant: i % 2
+        spin: (Math.random() - 0.5) * 0.025,
+        color: petalColors[i % petalColors.length]
       });
     }
 
-    (function drawPts() {
+    (function drawPetals() {
       ctx.clearRect(0, 0, W, H);
-      var currentTheme = document.documentElement.getAttribute('data-theme') || 'cyber';
 
-      for (var j = 0; j < pts.length; j++) {
-        var p = pts[j];
+      for (var j = 0; j < petals.length; j++) {
+        var p = petals[j];
 
-        // Nếuเป็น chủ đề Sakura thì cánh hoa rơi nhẹ từ trên xuống, các chủ đề khác hạt bay lơ lửng lên
-        if (currentTheme === 'sakura') {
-          p.x += p.vx + Math.sin(p.angle) * 0.35;
-          p.y += Math.abs(p.vy) * 1.1;
-          p.angle += p.spin;
-        } else {
-          p.x += p.vx;
-          p.y += p.vy;
-          p.angle += p.spin;
+        p.sway += p.swaySpeed;
+        p.x += p.vx + Math.sin(p.sway) * 0.75;
+        p.y += p.vy;
+        p.angle += p.spin;
+
+        // Tương tác nhẹ khi con trỏ chuột ở gần trên máy tính
+        if (fine) {
+          var dx = p.x - mouseX;
+          var dy = p.y - mouseY;
+          var dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist > 0 && dist < 120) {
+            var force = (120 - dist) / 120;
+            p.x += (dx / dist) * force * 2.2;
+            p.y += (dy / dist) * force * 1.5;
+          }
         }
 
-        // Tương tác đẩy nhẹ hạt khi con trỏ chuột lại gần trong bán kính 110px
-        var dx = p.x - mouseX;
-        var dy = p.y - mouseY;
-        var dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist > 0 && dist < 110) {
-          var force = (110 - dist) / 110;
-          p.x += (dx / dist) * force * 1.8;
-          p.y += (dy / dist) * force * 1.8;
-        }
-
-        // Khi hạt bay ra khỏi mép màn hình thì đưa về phía đối diện
-        if (p.y < -15) {
-          p.y = H + 12;
+        // Tái tạo lại cánh hoa khi rơi khỏi đáy màn hình
+        if (p.y > H + 20) {
+          p.y = -15;
           p.x = Math.random() * W;
         }
-        if (p.y > H + 15) {
-          p.y = -12;
-          p.x = Math.random() * W;
+        if (p.x < -20) {
+          p.x = W + 15;
         }
-        if (p.x < -15) {
-          p.x = W + 12;
-        }
-        if (p.x > W + 15) {
-          p.x = -12;
-        }
-
-        // Chọn màu hạt theo chủ đề hiện tại
-        var fillColor = 'rgba(255, 61, 154, 0.55)';
-        if (currentTheme === 'sakura') {
-          fillColor = p.variant === 0 ? 'rgba(244, 114, 182, 0.65)' : 'rgba(251, 182, 206, 0.75)';
-        } else if (currentTheme === 'gear5') {
-          fillColor = p.variant === 0 ? 'rgba(251, 191, 36, 0.65)' : 'rgba(249, 115, 22, 0.55)';
-        } else if (currentTheme === 'gojo') {
-          fillColor = p.variant === 0 ? 'rgba(0, 240, 255, 0.6)' : 'rgba(129, 140, 248, 0.55)';
-        } else {
-          fillColor = p.variant === 0 ? 'rgba(255, 61, 154, 0.55)' : 'rgba(92, 225, 230, 0.55)';
+        if (p.x > W + 20) {
+          p.x = -15;
         }
 
         ctx.save();
         ctx.translate(p.x, p.y);
         ctx.rotate(p.angle);
-        ctx.fillStyle = fillColor;
+        ctx.fillStyle = p.color;
 
-        if (currentTheme === 'sakura') {
-          // Vẽ hình cánh hoa anh đào bầu dục
-          ctx.beginPath();
-          ctx.ellipse(0, 0, p.r * 1.6, p.r * 0.95, 0, 0, Math.PI * 2);
-          ctx.fill();
-        } else {
-          // Vẽ hạt sáng tròn kèm tia nối mảnh tới con trỏ chuột khi ở gần
-          ctx.beginPath();
-          ctx.arc(0, 0, p.r, 0, Math.PI * 2);
-          ctx.fill();
-        }
+        // Vẽ cánh hoa hình cánh hồng tự nhiên
+        ctx.beginPath();
+        ctx.moveTo(0, -p.r * 1.1);
+        ctx.bezierCurveTo(p.r * 1.2, -p.r * 0.4, p.r * 1.3, p.r * 0.8, 0, p.r * 1.3);
+        ctx.bezierCurveTo(-p.r * 1.3, p.r * 0.8, -p.r * 1.2, -p.r * 0.4, 0, -p.r * 1.1);
+        ctx.closePath();
+        ctx.fill();
+
         ctx.restore();
-
-        if (currentTheme !== 'sakura' && dist < 125) {
-          ctx.beginPath();
-          ctx.moveTo(p.x, p.y);
-          ctx.lineTo(mouseX, mouseY);
-          ctx.strokeStyle = 'rgba(155, 107, 255, ' + ((1 - dist / 125) * 0.22).toFixed(3) + ')';
-          ctx.lineWidth = 1;
-          ctx.stroke();
-        }
       }
 
-      requestAnimationFrame(drawPts);
+      requestAnimationFrame(drawPetals);
     })();
   }
 
@@ -2720,23 +2663,7 @@
       openDrawer('wish');
     };
 
-    // 4. Nút Đổi giao diện màu sắc (4 chế độ)
-    var themeBtn = document.createElement('button');
-    themeBtn.type = 'button';
-    themeBtn.id = 'avThemeBtn';
-    themeBtn.className = 'icon-btn';
-    themeBtn.innerHTML = '🌌<small>Chủ đề</small>';
-    themeBtn.title = 'Đổi chủ đề màu sắc (4 chế độ)';
-    themeBtn.onclick = function () {
-      var cur = getTheme();
-      var idx = THEMES.findIndex(function (t) {
-        return t.id === cur;
-      });
-      var next = THEMES[(idx + 1) % THEMES.length];
-      applyTheme(next.id, true);
-    };
-
-    // 5. Nút Bật / Tắt nhạc nền MP3
+    // 4. Nút Bật / Tắt nhạc nền MP3
     var musicBtn = document.createElement('button');
     musicBtn.type = 'button';
     musicBtn.id = 'avMusicBtn';
@@ -2745,7 +2672,7 @@
     musicBtn.title = 'Bật/Tắt nhạc nền';
     musicBtn.onclick = toggleMusic;
 
-    // 6. Nút Chuyển bài nhạc kế tiếp
+    // 5. Nút Chuyển bài nhạc kế tiếp
     var nextMusicBtn = document.createElement('button');
     nextMusicBtn.type = 'button';
     nextMusicBtn.id = 'avMusicNextBtn';
@@ -2754,7 +2681,7 @@
     nextMusicBtn.title = 'Chuyển bài tiếp theo';
     nextMusicBtn.onclick = nextMusicTrack;
 
-    // Tinh gọn Header: Chuyển toàn bộ tiện ích phụ (Gacha, Đã thích, So sánh, Theme, Nhạc) sang Quick Dock nổi
+    // Tinh gọn Header: Chuyển toàn bộ tiện ích phụ (Gacha, Đã thích, So sánh, Nhạc) sang Quick Dock nổi
     var quickDock = document.getElementById('avQuickDock');
     if (!quickDock) {
       quickDock = document.createElement('nav');
@@ -2766,7 +2693,6 @@
     quickDock.appendChild(gachaBtn);
     quickDock.appendChild(wishBtn);
     quickDock.appendChild(compBtn);
-    quickDock.appendChild(themeBtn);
     quickDock.appendChild(musicBtn);
     quickDock.appendChild(nextMusicBtn);
     restoreMusicOnPageLoad();
