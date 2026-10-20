@@ -728,3 +728,195 @@ html[data-theme="gojo"] .av-quick-dock .icon-btn small {
   color: #bae6fd !important;
 }
 
+/* ============================================================================
+   TỐI ƯU TOÀN DIỆN CHỦ ĐỀ SAKURA (XÓA BỎ TRIỆT ĐỂ CÁC MẢNG NỀN TỐI & VIỀN ĐEN)
+   ============================================================================ */
+
+/* 1. Banner ngang Trang chủ (.home-banner) */
+html[data-theme="sakura"] .home-banner {
+  background: #ffffff !important;
+  border: 1px solid #f3cfe2 !important;
+  box-shadow: 0 12px 32px rgba(225, 29, 116, 0.09) !important;
+}
+
+html[data-theme="sakura"] .home-banner:hover {
+  box-shadow: 0 16px 36px rgba(225, 29, 116, 0.16) !important;
+  border-color: rgba(225, 29, 116, 0.35) !important;
+}
+
+/* 2. Dải sản phẩm chuyển động Marquee (.av-stream-item & nhân vật) */
+html[data-theme="sakura"] .av-stream-item {
+  background: #ffffff !important;
+  border: 1px solid #f3cfe2 !important;
+  box-shadow: 0 6px 18px rgba(225, 29, 116, 0.08) !important;
+}
+
+html[data-theme="sakura"] .av-stream-item:hover,
+html[data-theme="sakura"] .av-stream-item:focus-visible {
+  border-color: var(--pink) !important;
+  box-shadow: 0 12px 28px rgba(225, 29, 116, 0.2), 0 0 0 1px var(--pink) !important;
+}
+
+html[data-theme="sakura"] .av-stream-item img {
+  filter: drop-shadow(0 6px 14px rgba(225, 29, 116, 0.12)) !important;
+}
+
+/* 3. Nút nổi trên ảnh sản phẩm (Xem nhanh / So sánh .av-ov-btn) */
+html[data-theme="sakura"] .av-ov-btn {
+  background: rgba(255, 255, 255, 0.94) !important;
+  border: 1px solid #f3cfe2 !important;
+  color: #24142c !important;
+  box-shadow: 0 4px 12px rgba(225, 29, 116, 0.12) !important;
+  backdrop-filter: blur(8px) !important;
+}
+
+html[data-theme="sakura"] .av-ov-btn:hover,
+html[data-theme="sakura"] .av-ov-btn.active {
+  background: var(--accent-grad) !important;
+  color: #ffffff !important;
+  border-color: transparent !important;
+  box-shadow: 0 4px 14px rgba(225, 29, 116, 0.3) !important;
+}
+
+/* 4. Huy hiệu VIP & Header sticky shadow */
+html[data-theme="sakura"] .av-vip-pill {
+  background: rgba(255, 240, 246, 0.9) !important;
+  border: 1px solid #f3cfe2 !important;
+  color: #5b4366 !important;
+}
+
+html[data-theme="sakura"] .header {
+  box-shadow: 0 4px 20px rgba(225, 29, 116, 0.07) !important;
+}
+
+/* 5. Nút phụ / Nút ghost / Nút thêm giỏ hàng phụ */
+html[data-theme="sakura"] .btn.ghost,
+html[data-theme="sakura"] .product-pro-layout .action-group .btn.ghost {
+  background: #ffffff !important;
+  border: 1.5px solid rgba(225, 29, 116, 0.35) !important;
+  color: #e11d74 !important;
+}
+
+html[data-theme="sakura"] .btn.ghost:hover,
+html[data-theme="sakura"] .product-pro-layout .action-group .btn.ghost:hover {
+  background: #fdf2f8 !important;
+  border-color: #e11d74 !important;
+  color: #be185d !important;
+}
+
+/* 6. Ô tìm kiếm gợi ý (#avSug) */
+html[data-theme="sakura"] #avSug {
+  background: rgba(255, 255, 255, 0.98) !important;
+  border: 1px solid #f3cfe2 !important;
+  box-shadow: 0 16px 40px rgba(225, 29, 116, 0.15) !important;
+}
+
+html[data-theme="sakura"] #avSug a {
+  color: #24142c !important;
+  border-bottom: 1px solid #fceef5 !important;
+}
+
+html[data-theme="sakura"] #avSug a:hover,
+html[data-theme="sakura"] #avSug a.sel {
+  background: #fff0f7 !important;
+}
+
+html[data-theme="sakura"] #avSug small {
+  color: #e11d74 !important;
+}
+
+/* 7. Thanh mua hàng cố định trên mobile (.action-group) */
+html[data-theme="sakura"] .product-pro-layout .action-group {
+  background: rgba(255, 255, 255, 0.96) !important;
+  border-top: 1px solid #f3cfe2 !important;
+  box-shadow: 0 -8px 25px rgba(225, 29, 116, 0.1) !important;
+}
+
+/* 8. Ảnh sản phẩm chi tiết trên mobile */
+html[data-theme="sakura"] .gallery-main {
+  background: #ffffff !important;
+  border: 1px solid #f3cfe2 !important;
+}
+
+/* 9. Nút Fandom, Bộ lọc giá & Toggle dạng xem */
+html[data-theme="sakura"] .av-adv-filters {
+  background: rgba(255, 255, 255, 0.92) !important;
+  border: 1px solid #f3cfe2 !important;
+  box-shadow: 0 6px 18px rgba(225, 29, 116, 0.05) !important;
+}
+
+html[data-theme="sakura"] .av-fandom-pill {
+  background: #ffffff !important;
+  border: 1px solid #f3cfe2 !important;
+  color: #5b4366 !important;
+}
+
+html[data-theme="sakura"] .av-price-select,
+html[data-theme="sakura"] .av-view-toggle {
+  background: #ffffff !important;
+  border: 1px solid #f3cfe2 !important;
+  color: #24142c !important;
+}
+
+html[data-theme="sakura"] .av-view-toggle button {
+  color: #6e5578 !important;
+}
+
+html[data-theme="sakura"] .av-view-toggle button.active {
+  background: var(--accent-grad) !important;
+  color: #ffffff !important;
+}
+
+/* 10. Chatbot & Trợ lý ảo */
+html[data-theme="sakura"] #avBotBtn {
+  box-shadow: 0 8px 22px rgba(225, 29, 116, 0.32) !important;
+}
+
+html[data-theme="sakura"] #avBotBox {
+  box-shadow: 0 16px 45px rgba(225, 29, 116, 0.16) !important;
+  border-color: #f3cfe2 !important;
+}
+
+html[data-theme="sakura"] #avForm {
+  border-top: 1px solid #f3cfe2 !important;
+}
+
+html[data-theme="sakura"] #avIn {
+  background: #ffffff !important;
+  color: #24142c !important;
+}
+
+html[data-theme="sakura"] #avChips button {
+  background: #fff0f7 !important;
+  border: 1px solid #f3cfe2 !important;
+  color: #e11d74 !important;
+}
+
+/* 11. Các nhãn phụ & Toast thông báo */
+html[data-theme="sakura"] .products-page .floating-two {
+  background: #ffffff !important;
+  border: 1px solid #f3cfe2 !important;
+  color: #e11d74 !important;
+  box-shadow: 0 8px 20px rgba(225, 29, 116, 0.1) !important;
+}
+
+html[data-theme="sakura"] .promo-page .deal-visual.has-photo small {
+  background: rgba(255, 255, 255, 0.92) !important;
+  color: #24142c !important;
+}
+
+html[data-theme="sakura"] .av-toast,
+html[data-theme="sakura"] .promo-page .toast {
+  background: rgba(36, 20, 44, 0.95) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(225, 29, 116, 0.35) !important;
+  box-shadow: 0 10px 30px rgba(225, 29, 116, 0.22) !important;
+}
+
+/* 12. Hiệu ứng bay vào giỏ hàng */
+html[data-theme="sakura"] .av-motion-flyer {
+  background-color: #ffffff !important;
+  box-shadow: 0 8px 24px rgba(225, 29, 116, 0.35), 0 0 0 2px #e11d74 !important;
+}
+
+
