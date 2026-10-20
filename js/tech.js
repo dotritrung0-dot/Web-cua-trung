@@ -4477,6 +4477,14 @@
         box.style.display = 'none';
       }
     });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === '/' && document.activeElement !== inp && !['INPUT', 'TEXTAREA', 'SELECT'].includes((document.activeElement || {}).tagName)) {
+        e.preventDefault();
+        inp.focus();
+        inp.select();
+      }
+    });
   }
 
 

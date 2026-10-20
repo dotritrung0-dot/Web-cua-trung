@@ -919,4 +919,45 @@ html[data-theme="sakura"] .av-motion-flyer {
   box-shadow: 0 8px 24px rgba(225, 29, 116, 0.35), 0 0 0 2px #e11d74 !important;
 }
 
+/* 13. Phím tắt "/" trên thanh tìm kiếm (Khắc phục lỗi đè lên nút tìm kiếm) */
+.search {
+  position: relative;
+}
+
+.search input {
+  padding-right: 48px !important;
+}
+
+.av-kbd {
+  right: 68px !important;
+}
+
+@media (min-width: 1440px) {
+  .av-kbd {
+    right: 76px !important;
+  }
+}
+
+html[data-theme="sakura"] .av-kbd {
+  color: #a04977 !important;
+  border: 1px solid #f3cfe2 !important;
+  background: #fff5fa !important;
+  box-shadow: 0 1px 3px rgba(225, 29, 116, 0.08) !important;
+  opacity: 0.9 !important;
+}
+
+.search:focus-within .av-kbd,
+.search input:not(:placeholder-shown) ~ .av-kbd {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transform: translateY(-50%) scale(0.85) !important;
+}
+
+@media (max-width: 820px), (hover: none) and (pointer: coarse) {
+  .av-kbd {
+    display: none !important;
+  }
+}
+
+
 
