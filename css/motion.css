@@ -2,7 +2,7 @@
  * FILE: css/motion.css — BỘ HIỆU ỨNG CHUYỂN ĐỘNG NÂNG CẤP ANIMEVERSE
  * 
  * Quy tắc thiết kế:
- *   - Chỉ animate thuộc tính transform và opacity để đạt 60fps trên điện thoại.
+ *   - Chỉ animate thuộc tính transform và opacity để đạt 60fps/120fps trên PC & điện thoại.
  *   - Tôn trọng triệt để chế độ người dùng giảm chuyển động (prefers-reduced-motion).
  *   - Tương thích hoàn toàn với cả 4 chủ đề màu sắc: Default, Sakura, Gear 5, Gojo.
  *   - Mọi khối chú thích đều được đóng đúng chuẩn bằng cú pháp hoa sao gạch chéo.
@@ -14,20 +14,23 @@
  * ---------------------------------------------------------------------------- */
 .av-motion-reveal {
     opacity: 0;
-    transform: translateY(24px) scale(0.98);
-    transition: opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
-                transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+    transform: translateY(20px);
+    transition: opacity 0.5s cubic-bezier(0.2, 0.8, 0.2, 1),
+                transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
     will-change: opacity, transform;
 }
 
 .av-motion-reveal.av-motion-in {
     opacity: 1;
-    transform: translateY(0) scale(1);
+}
+
+.av-motion-reveal.av-motion-in:not(:hover) {
+    transform: translateY(0);
 }
 
 /* ----------------------------------------------------------------------------
- * 2. HIỆU ỨNG NGHIÊNG 3D NHẸ CHO THẺ SẢN PHẨM (3D TILT EFFECT)
- * Dùng transform perspective + rotateX/rotateY do JS tính toán
+ * 2. HIỆU ỨNG NGHIÊNG 3D MƯỢT MÀ CHO THẺ SẢN PHẨM TRÊN PC (SMOOTH 3D TILT)
+ * Tự động chuyển đổi mượt mà giữa trạng thái rê chuột (0.05s) và trả về (0.4s)
  * ---------------------------------------------------------------------------- */
 .product-card,
 .deal-card {
@@ -36,13 +39,23 @@
 }
 
 .av-motion-tilt {
-    transition: transform 0.22s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     will-change: transform;
+    /* Khi chuột rời đi: thẻ trả về vị trí phẳng ban đầu êm ái */
+    transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1),
+                box-shadow 0.3s ease,
+                border-color 0.3s ease;
+}
+
+/* Khi con trỏ chuột đang di chuyển trên thẻ: bám sát tọa độ, không bị trễ lag */
+.av-motion-tilt.is-tilting {
+    transition: transform 0.05s ease-out,
+                box-shadow 0.3s ease,
+                border-color 0.3s ease;
 }
 
 .av-motion-tilt:hover,
 .av-motion-tilt:focus-within {
-    transform: perspective(900px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg)) translateZ(6px);
+    transform: perspective(900px) translateY(-6px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg)) translateZ(6px);
 }
 
 /* Hiệu ứng tia sáng phản chiếu nhẹ trên thẻ khi nghiêng */
@@ -53,7 +66,7 @@
     border-radius: inherit;
     pointer-events: none;
     opacity: 0;
-    transition: opacity 0.3s ease;
+    transition: opacity 0.25s ease;
     background: radial-gradient(320px circle at var(--tilt-gx, 50%) var(--tilt-gy, 50%), rgba(255, 255, 255, 0.14), transparent 70%);
     mix-blend-mode: overlay;
     z-index: 2;

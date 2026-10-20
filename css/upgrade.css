@@ -1945,14 +1945,20 @@ a.deal-cta,
 
 .av-stream-track {
   display: flex;
-  gap: 16px;
   width: max-content;
-  animation: avStreamScroll 32s linear infinite;
+  animation: avStreamScroll 30s linear infinite;
   will-change: transform;
 }
 
-.av-stream-wrapper:hover .av-stream-track {
+.av-stream-track:hover {
   animation-play-state: paused;
+}
+
+.av-stream-group {
+  display: flex;
+  gap: 16px;
+  padding-right: 16px;
+  flex-shrink: 0;
 }
 
 .av-stream-item {
@@ -2065,8 +2071,11 @@ a.deal-cta,
     font-size: 10px;
   }
   .av-stream-track {
-    gap: 12px;
     animation-duration: 24s;
+  }
+  .av-stream-group {
+    gap: 12px;
+    padding-right: 12px;
   }
 }
 

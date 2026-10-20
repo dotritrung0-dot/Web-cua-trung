@@ -2,14 +2,14 @@
  * FILE: js/motion.js — MODULE HIỆU ỨNG CHUYỂN ĐỘNG NÂNG CẤP ANIMEVERSE
  * 
  * Tính năng chính:
- *   1. Scroll Reveal: Cuộn tới đâu, thẻ sản phẩm và tiêu đề hiện dần tới đó.
- *   2. 3D Tilt: Thẻ sản phẩm nghiêng nhẹ 3D khi chạm hoặc rê chuột.
+ *   1. Scroll Reveal: Cuộn tới đâu, thẻ sản phẩm và tiêu đề hiện dần tới đó mượt mà.
+ *   2. Smooth 3D Tilt: Thẻ sản phẩm nghiêng 3D chính xác theo chuột trên PC (RAF 60/120fps).
  *   3. Fly to Cart: Ảnh sản phẩm bay mượt vào icon giỏ hàng khi bấm thêm giỏ.
  * 
  * Cam kết kỹ thuật:
- *   - Chỉ can thiệp transform & opacity, đảm bảo 60fps trên điện thoại.
- *   - Không làm trùng / ghi đè các hàm của upgrade.js.
+ *   - Tối ưu hóa GPU (transform & opacity), không gây giật lag / rubber-banding trên PC.
  *   - Tôn trọng hoàn toàn prefers-reduced-motion.
+ *   - Đồng bộ hoàn hảo với hệ thống CSS và JS của toàn bộ AnimeVerse.
  * ============================================================================ */
 
 (function () {
@@ -22,121 +22,170 @@
     }
 
     // ========================================================================
-    // 1. HIỆU ỨNG CUỘN HIỆN DẦN (SCROLL REVEAL)
+    // 1. HIỆU ỨNG CUỘN HIỆN DẦN ĐỒNG BỘ (UNIFIED SCROLL REVEAL)
     // ========================================================================
-    function initScrollReveal() {
-        var targets = document.querySelectorAll(
-            '.product-card, .deal-card, h1, h2, .section-title, .category, .categories-item, .benefit-card, .benefits > div, .cosplay-tip, .article-card, .home-banner'
+    var revealObserver = null;
+
+    function applyRevealElement(el, index) {
+        if (!el || el._avRevealBound) {
+            return;
+        }
+        el._avRevealBound = true;
+        el.classList.add('av-motion-reveal');
+
+        var vh = window.innerHeight || document.documentElement.clientHeight;
+        var rect = el.getBoundingClientRect();
+
+        // Nếu phần tử đang nằm trong tầm nhìn lúc tải trang thì hiển thị ngay lập tức không trễ
+        if (rect.top < vh * 0.95 && rect.bottom > 0) {
+            el.classList.add('av-motion-in', 'in');
+            setTimeout(function () {
+                el.style.willChange = 'auto';
+            }, 600);
+            return;
+        }
+
+        // Nếu ở dưới tầm nhìn, gán delay so le nhẹ và theo dõi bằng IntersectionObserver
+        if (revealObserver) {
+            el.style.transitionDelay = ((index % 4) * 45) + 'ms';
+            revealObserver.observe(el);
+        } else {
+            el.classList.add('av-motion-in', 'in');
+        }
+    }
+
+    function initScrollReveal(scope) {
+        var root = scope || document;
+        var targets = root.querySelectorAll(
+            '.product-card, .deal-card, h1, h2, .section-title, .category, .categories-item, .benefit-card, .benefits > div, .cosplay-tip, .article-card, .home-banner, .av-reveal'
         );
 
         if (!targets.length) {
             return;
         }
 
-        // Đánh dấu class để css/motion.css áp dụng transition
-        targets.forEach(function (el) {
-            el.classList.add('av-motion-reveal');
-        });
-
-        // Nếu trình duyệt hỗ trợ IntersectionObserver
-        if ('IntersectionObserver' in window) {
-            var observer = new IntersectionObserver(function (entries) {
+        if ('IntersectionObserver' in window && !revealObserver) {
+            revealObserver = new IntersectionObserver(function (entries) {
                 entries.forEach(function (entry) {
                     if (entry.isIntersecting) {
-                        entry.target.classList.add('av-motion-in');
-                        observer.unobserve(entry.target);
+                        var target = entry.target;
+                        target.classList.add('av-motion-in', 'in');
+                        revealObserver.unobserve(target);
+                        setTimeout(function () {
+                            target.style.willChange = 'auto';
+                        }, 600);
                     }
                 });
             }, {
                 threshold: 0.08,
                 rootMargin: '0px 0px 40px 0px'
             });
-
-            var vh = window.innerHeight || document.documentElement.clientHeight;
-            targets.forEach(function (el, index) {
-                var rect = el.getBoundingClientRect();
-                // Nếu phần tử đã nằm trong tầm nhìn lúc tải trang thì hiển thị ngay
-                if (rect.top < vh * 0.95 && rect.bottom > 0) {
-                    el.classList.add('av-motion-in');
-                } else {
-                    // Thêm delay so le nhẹ giữa các thẻ cạnh nhau
-                    el.style.transitionDelay = ((index % 4) * 45) + 'ms';
-                    observer.observe(el);
-                }
-            });
-        } else {
-            // Dự phòng cho trình duyệt cũ
-            targets.forEach(function (el) {
-                el.classList.add('av-motion-in');
-            });
-        }
-    }
-
-    // ========================================================================
-    // 2. HIỆU ỨNG THẺ SẢN PHẨM NGHIÊNG 3D NHẸ (3D TILT EFFECT)
-    // Hỗ trợ cả chuột trên máy tính (mousemove) và cảm ứng trên điện thoại (touch)
-    // ========================================================================
-    function init3DTilt() {
-        var cards = document.querySelectorAll('.product-card, .deal-card');
-        if (!cards.length) {
-            return;
         }
 
-        cards.forEach(function (card) {
-            card.classList.add('av-motion-tilt');
-
-            // Xử lý di chuột trên máy tính
-            card.addEventListener('mousemove', function (e) {
-                var rect = card.getBoundingClientRect();
-                if (!rect.width || !rect.height) {
-                    return;
-                }
-                var x = (e.clientX - rect.left) / rect.width;
-                var y = (e.clientY - rect.top) / rect.height;
-
-                var rotX = ((0.5 - y) * 9).toFixed(2);
-                var rotY = ((x - 0.5) * 9).toFixed(2);
-
-                card.style.setProperty('--tilt-x', rotX + 'deg');
-                card.style.setProperty('--tilt-y', rotY + 'deg');
-                card.style.setProperty('--tilt-gx', (x * 100).toFixed(1) + '%');
-                card.style.setProperty('--tilt-gy', (y * 100).toFixed(1) + '%');
-            });
-
-            card.addEventListener('mouseleave', function () {
-                card.style.setProperty('--tilt-x', '0deg');
-                card.style.setProperty('--tilt-y', '0deg');
-            });
-
-            // Xử lý chạm vuốt trên điện thoại
-            card.addEventListener('touchmove', function (e) {
-                if (!e.touches || !e.touches[0]) {
-                    return;
-                }
-                var touch = e.touches[0];
-                var rect = card.getBoundingClientRect();
-                if (!rect.width || !rect.height) {
-                    return;
-                }
-                var x = (touch.clientX - rect.left) / rect.width;
-                var y = (touch.clientY - rect.top) / rect.height;
-
-                if (x >= 0 && x <= 1 && y >= 0 && y <= 1) {
-                    var rotX = ((0.5 - y) * 7).toFixed(2);
-                    var rotY = ((x - 0.5) * 7).toFixed(2);
-                    card.style.setProperty('--tilt-x', rotX + 'deg');
-                    card.style.setProperty('--tilt-y', rotY + 'deg');
-                    card.style.setProperty('--tilt-gx', (x * 100).toFixed(1) + '%');
-                    card.style.setProperty('--tilt-gy', (y * 100).toFixed(1) + '%');
-                }
-            }, { passive: true });
-
-            card.addEventListener('touchend', function () {
-                card.style.setProperty('--tilt-x', '0deg');
-                card.style.setProperty('--tilt-y', '0deg');
-            });
+        targets.forEach(function (el, index) {
+            applyRevealElement(el, index);
         });
     }
+
+    window.AVInitScrollReveal = function (container) {
+        initScrollReveal(container);
+    };
+
+    // ========================================================================
+    // 2. HIỆU ỨNG THẺ SẢN PHẨM NGHIÊNG 3D MƯỢT MÀ TRÊN PC (SMOOTH 3D TILT)
+    // Dùng requestAnimationFrame triệt tiêu độ trễ, bám chuẩn tọa độ con trỏ chuột
+    // ========================================================================
+    var isFinePointer = window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+    function attachCardTilt(card) {
+        if (!card || card._avTiltBound || !isFinePointer) {
+            return;
+        }
+        card._avTiltBound = true;
+        card.classList.add('av-motion-tilt');
+
+        var rafId = null;
+        var rect = null;
+
+        function updateTilt(clientX, clientY) {
+            if (!rect) {
+                rect = card.getBoundingClientRect();
+            }
+            if (!rect.width || !rect.height) {
+                return;
+            }
+
+            var x = (clientX - rect.left) / rect.width;
+            var y = (clientY - rect.top) / rect.height;
+
+            // Kẹp trong khoảng 0 đến 1 để tránh nhảy góc khi con trỏ ở sát mép viền
+            x = Math.max(0, Math.min(1, x));
+            y = Math.max(0, Math.min(1, y));
+
+            var rotX = ((0.5 - y) * 8.5).toFixed(2);
+            var rotY = ((x - 0.5) * 8.5).toFixed(2);
+
+            card.classList.add('is-tilting');
+            card.style.setProperty('--tilt-x', rotX + 'deg');
+            card.style.setProperty('--tilt-y', rotY + 'deg');
+
+            var gx = (x * 100).toFixed(1) + '%';
+            var gy = (y * 100).toFixed(1) + '%';
+            card.style.setProperty('--tilt-gx', gx);
+            card.style.setProperty('--tilt-gy', gy);
+            // Đồng bộ với lớp quầng sáng radial trong tech.css (--mx, --my)
+            card.style.setProperty('--mx', gx);
+            card.style.setProperty('--my', gy);
+        }
+
+        card.addEventListener('mouseenter', function () {
+            rect = card.getBoundingClientRect();
+        });
+
+        card.addEventListener('mousemove', function (e) {
+            var clientX = e.clientX;
+            var clientY = e.clientY;
+            if (rafId) {
+                cancelAnimationFrame(rafId);
+            }
+            rafId = requestAnimationFrame(function () {
+                updateTilt(clientX, clientY);
+                rafId = null;
+            });
+        }, { passive: true });
+
+        card.addEventListener('mouseleave', function () {
+            if (rafId) {
+                cancelAnimationFrame(rafId);
+                rafId = null;
+            }
+            rect = null;
+            card.classList.remove('is-tilting');
+            card.style.setProperty('--tilt-x', '0deg');
+            card.style.setProperty('--tilt-y', '0deg');
+        });
+    }
+
+    function init3DTilt(scope) {
+        if (!isFinePointer) {
+            return;
+        }
+        var root = scope || document;
+        var cards = root.querySelectorAll('.product-card, .deal-card');
+        cards.forEach(attachCardTilt);
+    }
+
+    window.AVInitTilt = function (target) {
+        if (!target) {
+            init3DTilt();
+            return;
+        }
+        if (target.matches && target.matches('.product-card, .deal-card')) {
+            attachCardTilt(target);
+        } else if (target.querySelectorAll) {
+            target.querySelectorAll('.product-card, .deal-card').forEach(attachCardTilt);
+        }
+    };
 
     // ========================================================================
     // 3. HIỆU ỨNG ẢNH SẢN PHẨM BAY VÀO ICON GIỎ HÀNG (FLY TO CART)

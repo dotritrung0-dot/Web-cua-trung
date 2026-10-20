@@ -2092,10 +2092,16 @@
     var mouseX = -9999;
     var mouseY = -9999;
 
+    var glowRaf = null;
     document.addEventListener('mousemove', function (e) {
       mouseX = e.clientX;
       mouseY = e.clientY;
-      g.style.transform = 'translate(' + e.clientX + 'px, ' + e.clientY + 'px)';
+      if (!glowRaf) {
+        glowRaf = requestAnimationFrame(function () {
+          g.style.transform = 'translate(' + mouseX + 'px, ' + mouseY + 'px)';
+          glowRaf = null;
+        });
+      }
     }, { passive: true });
 
     var cv = document.createElement('canvas');
@@ -2818,23 +2824,9 @@
       }
       card.dataset.fandom = prod.fandom;
 
-      // Hiệu ứng nghiêng 3D khi di chuột trên thẻ
-      if (fine && !calm) {
-        card.addEventListener('mousemove', function (e) {
-          var r = card.getBoundingClientRect();
-          var x = (e.clientX - r.left) / r.width;
-          var y = (e.clientY - r.top) / r.height;
-          var rotY = ((x - 0.5) * 9).toFixed(2);
-          var rotX = ((0.5 - y) * 9).toFixed(2);
-
-          card.style.transform = 'perspective(850px) rotateY(' + rotY + 'deg) rotateX(' + rotX + 'deg) translateZ(4px)';
-          card.style.setProperty('--mx', (x * 100) + '%');
-          card.style.setProperty('--my', (y * 100) + '%');
-        });
-
-        card.addEventListener('mouseleave', function () {
-          card.style.transform = '';
-        });
+      // Hiệu ứng nghiêng 3D mượt mà trên PC — kết nối qua module motion.js (RAF 60/120fps)
+      if (typeof window.AVInitTilt === 'function') {
+        window.AVInitTilt(card);
       }
 
       var imgWrap = $('.product-image, .deal-visual', card);
@@ -5001,22 +4993,36 @@
       }, 5500);
     }
 
-    // Hiệu ứng nghiêng chiều sâu Parallax khi di chuột trên khu vực Hero
+    // Hiệu ứng nghiêng chiều sâu Parallax khi di chuột trên khu vực Hero (RAF 60/120fps)
     if (fine && !calm) {
+      var heroRaf = null;
       heroSection.addEventListener('mousemove', function (e) {
         var r = heroSection.getBoundingClientRect();
         var nx = (e.clientX - r.left) / r.width - 0.5;
         var ny = (e.clientY - r.top) / r.height - 0.5;
 
-        animeCard.style.transform = 'rotate(' + (-4 + nx * 8).toFixed(2) + 'deg) translate(' + (nx * 14).toFixed(1) + 'px, ' + (ny * 12).toFixed(1) + 'px)';
-        if (floatingTag) {
-          floatingTag.style.transform = 'translate(' + (-nx * 18).toFixed(1) + 'px, ' + (-ny * 14).toFixed(1) + 'px)';
+        if (!heroRaf) {
+          heroRaf = requestAnimationFrame(function () {
+            animeCard.style.transition = 'transform 0.08s ease-out';
+            animeCard.style.transform = 'rotate(' + (-4 + nx * 8).toFixed(2) + 'deg) translate(' + (nx * 14).toFixed(1) + 'px, ' + (ny * 12).toFixed(1) + 'px)';
+            if (floatingTag) {
+              floatingTag.style.transition = 'transform 0.08s ease-out';
+              floatingTag.style.transform = 'translate(' + (-nx * 18).toFixed(1) + 'px, ' + (-ny * 14).toFixed(1) + 'px)';
+            }
+            heroRaf = null;
+          });
         }
-      });
+      }, { passive: true });
 
       heroSection.addEventListener('mouseleave', function () {
+        if (heroRaf) {
+          cancelAnimationFrame(heroRaf);
+          heroRaf = null;
+        }
+        animeCard.style.transition = 'transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1)';
         animeCard.style.transform = '';
         if (floatingTag) {
+          floatingTag.style.transition = 'transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1)';
           floatingTag.style.transform = '';
         }
       });
@@ -5118,7 +5124,9 @@
   initLiveActivityTicker();
 
   // 15c. Hiệu ứng các thẻ sản phẩm & tiêu đề trượt lên mượt mà khi khách cuộn trang xuống
-  if ('IntersectionObserver' in window && !calm) {
+  if (typeof window.AVInitScrollReveal === 'function') {
+    window.AVInitScrollReveal();
+  } else if ('IntersectionObserver' in window && !calm) {
     var io = new IntersectionObserver(function (es) {
       es.forEach(function (e) {
         if (e.isIntersecting) {
@@ -5131,11 +5139,10 @@
     var revealTargets = $$('.product-card, .hero-copy, section h2, .category, .deal-card, .benefits > div, .cosplay-tip, .sidebar-card');
     revealTargets.forEach(function (el, idx) {
       el.classList.add('av-reveal');
-      el.style.transitionDelay = ((idx % 4) * 55) + 'ms';
+      el.style.transitionDelay = ((idx % 4) * 45) + 'ms';
 
-      // Nếu phần tử đang nằm sẵn trong màn hình đầu tiên thì hiện luôn, còn ở dưới thì chờ cuộn tới
       var rect = el.getBoundingClientRect();
-      if (rect.top < window.innerHeight * 0.92) {
+      if (rect.top < window.innerHeight * 0.95 && rect.bottom > 0) {
         el.classList.add('in');
       } else {
         io.observe(el);
