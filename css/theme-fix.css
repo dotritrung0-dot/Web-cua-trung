@@ -1648,24 +1648,32 @@ html[data-theme="sakura"] .filter-more-body p {
 /* Image Showcase */
 .minimal-img-box {
   position: relative;
-  display: block;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
   width: 100%;
-  height: 220px;
+  height: 280px;
   border-radius: 14px;
   overflow: hidden;
-  background: #110c1c;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: radial-gradient(circle at 50% 50%, rgba(255, 79, 163, 0.08), rgba(17, 12, 28, 0.95));
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 14px;
 }
 
 .minimal-img-box img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  max-width: 100%;
+  max-height: 100%;
+  width: auto !important;
+  height: 100% !important;
+  object-fit: contain !important;
+  object-position: center !important;
+  display: block;
+  filter: drop-shadow(0 10px 24px rgba(0, 0, 0, 0.55));
   transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .minimal-card:hover .minimal-img-box img {
-  transform: scale(1.05);
+  transform: scale(1.06);
 }
 
 .minimal-img-badge {
@@ -1952,8 +1960,12 @@ html[data-theme="sakura"] .minimal-pill {
 }
 
 html[data-theme="sakura"] .minimal-img-box {
-  background: #fdf5f9;
-  border-color: #f0e6ed;
+  background: radial-gradient(circle at 50% 50%, #fff0f6, #fce7f3) !important;
+  border-color: #f0e6ed !important;
+}
+
+html[data-theme="sakura"] .minimal-img-box img {
+  filter: drop-shadow(0 8px 16px rgba(225, 29, 116, 0.18)) !important;
 }
 
 html[data-theme="sakura"] .minimal-title a {
@@ -2022,7 +2034,8 @@ html[data-theme="sakura"] .minimal-status {
     padding: 16px 18px;
   }
   .minimal-img-box {
-    height: 180px;
+    height: 240px;
+    padding: 10px;
   }
   .minimal-contact-channels {
     grid-template-columns: 1fr;
