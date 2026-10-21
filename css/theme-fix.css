@@ -684,48 +684,107 @@ html[data-theme="gear5"] #best .benefits > div, html[data-theme="gojo"] #best .b
 }
 
 /* ============================================================================
-   CHỦ ĐỀ CHO OTAKU QUICK DOCK (SAKURA / GEAR 5 / GOJO)
+   CHỦ ĐỀ CHO OTAKU QUICK DOCK FAB & MENU (SAKURA / GEAR 5 / GOJO)
    ============================================================================ */
-html[data-theme="sakura"] .av-quick-dock {
-  background: rgba(255, 255, 255, 0.94) !important;
-  border-color: rgba(236, 72, 153, 0.3) !important;
-  box-shadow: 0 10px 30px rgba(236, 72, 153, 0.18) !important;
+.av-quick-dock {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
 }
-html[data-theme="sakura"] .av-quick-dock .icon-btn {
+
+/* SAKURA THEME (Mặc định) */
+html[data-theme="sakura"] .av-dock-fab {
+  background: rgba(255, 255, 255, 0.95) !important;
+  border-color: rgba(236, 72, 153, 0.35) !important;
+  color: #b81565 !important;
+  box-shadow: 0 8px 24px rgba(236, 72, 153, 0.18), 0 2px 6px rgba(0, 0, 0, 0.05) !important;
+}
+html[data-theme="sakura"] .av-quick-dock.is-open .av-dock-fab {
+  background: #ec4899 !important;
+  color: #ffffff !important;
+  border-color: #db2777 !important;
+}
+html[data-theme="sakura"] .av-dock-menu {
+  background: rgba(255, 255, 255, 0.96) !important;
+  border-color: rgba(236, 72, 153, 0.3) !important;
+  box-shadow: 0 14px 36px rgba(236, 72, 153, 0.16) !important;
+}
+html[data-theme="sakura"] .av-dock-menu .icon-btn {
   background: rgba(255, 240, 246, 0.85) !important;
   border-color: rgba(236, 72, 153, 0.25) !important;
   color: #3d2748 !important;
 }
-html[data-theme="sakura"] .av-quick-dock .icon-btn small {
+html[data-theme="sakura"] .av-dock-menu .icon-btn small {
   color: #5b4366 !important;
 }
-
-html[data-theme="gear5"] .av-quick-dock {
-  background: rgba(22, 16, 8, 0.94) !important;
-  border-color: rgba(245, 158, 11, 0.35) !important;
-  box-shadow: 0 10px 30px rgba(245, 158, 11, 0.15) !important;
+html[data-theme="sakura"] .av-dock-menu .icon-btn:hover {
+  background: #fce7f3 !important;
+  border-color: #ec4899 !important;
+  color: #9d174d !important;
 }
-html[data-theme="gear5"] .av-quick-dock .icon-btn {
+html[data-theme="sakura"] .av-dock-menu .icon-btn:hover small {
+  color: #9d174d !important;
+}
+
+/* GEAR 5 THEME */
+html[data-theme="gear5"] .av-dock-fab {
+  background: rgba(22, 16, 8, 0.95) !important;
+  border-color: rgba(245, 158, 11, 0.35) !important;
+  color: #fbbf24 !important;
+  box-shadow: 0 8px 24px rgba(245, 158, 11, 0.18) !important;
+}
+html[data-theme="gear5"] .av-quick-dock.is-open .av-dock-fab {
+  background: #f59e0b !important;
+  color: #1a1005 !important;
+  border-color: #d97706 !important;
+}
+html[data-theme="gear5"] .av-dock-menu {
+  background: rgba(22, 16, 8, 0.96) !important;
+  border-color: rgba(245, 158, 11, 0.35) !important;
+  box-shadow: 0 14px 36px rgba(245, 158, 11, 0.18) !important;
+}
+html[data-theme="gear5"] .av-dock-menu .icon-btn {
   background: rgba(245, 158, 11, 0.08) !important;
   border-color: rgba(245, 158, 11, 0.25) !important;
   color: #fbbf24 !important;
 }
-html[data-theme="gear5"] .av-quick-dock .icon-btn small {
+html[data-theme="gear5"] .av-dock-menu .icon-btn small {
   color: #fde68a !important;
 }
-
-html[data-theme="gojo"] .av-quick-dock {
-  background: rgba(8, 14, 30, 0.94) !important;
-  border-color: rgba(56, 189, 248, 0.35) !important;
-  box-shadow: 0 10px 30px rgba(56, 189, 248, 0.15) !important;
+html[data-theme="gear5"] .av-dock-menu .icon-btn:hover {
+  background: rgba(245, 158, 11, 0.2) !important;
+  color: #fffbeb !important;
 }
-html[data-theme="gojo"] .av-quick-dock .icon-btn {
+
+/* GOJO THEME */
+html[data-theme="gojo"] .av-dock-fab {
+  background: rgba(8, 14, 30, 0.95) !important;
+  border-color: rgba(56, 189, 248, 0.35) !important;
+  color: #38bdf8 !important;
+  box-shadow: 0 8px 24px rgba(56, 189, 248, 0.18) !important;
+}
+html[data-theme="gojo"] .av-quick-dock.is-open .av-dock-fab {
+  background: #0284c7 !important;
+  color: #ffffff !important;
+  border-color: #0369a1 !important;
+}
+html[data-theme="gojo"] .av-dock-menu {
+  background: rgba(8, 14, 30, 0.96) !important;
+  border-color: rgba(56, 189, 248, 0.35) !important;
+  box-shadow: 0 14px 36px rgba(56, 189, 248, 0.18) !important;
+}
+html[data-theme="gojo"] .av-dock-menu .icon-btn {
   background: rgba(56, 189, 248, 0.08) !important;
   border-color: rgba(56, 189, 248, 0.25) !important;
   color: #38bdf8 !important;
 }
-html[data-theme="gojo"] .av-quick-dock .icon-btn small {
+html[data-theme="gojo"] .av-dock-menu .icon-btn small {
   color: #bae6fd !important;
+}
+html[data-theme="gojo"] .av-dock-menu .icon-btn:hover {
+  background: rgba(56, 189, 248, 0.2) !important;
+  color: #f0f9ff !important;
 }
 
 /* ============================================================================
@@ -1158,6 +1217,60 @@ footer,
     padding: 20px 0 14px !important;
   }
 }
+
+/* ============================================================================
+   MỤC 15: KHẮC PHỤC TRIỆT ĐỂ LỖI TƯƠNG PHẢN NÚT .add & CỠ CHỮ SÀN >= 11.5PX
+   ============================================================================ */
+/* 1. Nút "Xem chi tiết →" trên thẻ sản phẩm (.add):
+   Khắc phục lỗi màu chữ #eee trên nền sáng đạt 1.1:1, chuyển sang màu đậm đạt chuẩn WCAG AA >= 4.5:1 */
+.add,
+a.add,
+.product-card .add,
+.deal-card .add,
+html[data-theme="sakura"] .add,
+html[data-theme="sakura"] a.add {
+  color: #b81565 !important;
+  background: rgba(255, 240, 246, 0.95) !important;
+  border: 1px solid rgba(236, 72, 153, 0.35) !important;
+  font-size: 12.5px !important;
+  font-weight: 700 !important;
+  text-decoration: none !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: 8px !important;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.add:hover,
+a.add:hover,
+.product-card .add:hover,
+.deal-card .add:hover,
+html[data-theme="sakura"] .add:hover,
+html[data-theme="sakura"] a.add:hover {
+  background: linear-gradient(135deg, #ec4899, #db2777) !important;
+  color: #ffffff !important;
+  border-color: transparent !important;
+  box-shadow: 0 4px 14px rgba(236, 72, 153, 0.35) !important;
+}
+
+/* 2. Chuẩn hóa cỡ chữ sàn >= 11.5px cho các nhãn phụ, ticker, deal chip */
+.av-stream-item small,
+.ticker-item,
+.deal-tag,
+.deal-card small,
+.product-card small,
+.product-meta small {
+  font-size: 11.5px !important;
+}
+
+/* 3. Placeholder trên thanh tìm kiếm đạt độ tương phản chuẩn */
+.search-input::placeholder,
+#searchInput::placeholder {
+  color: #64748b !important;
+  opacity: 1 !important;
+}
+
 
 
 

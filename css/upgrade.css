@@ -1704,32 +1704,162 @@ a.deal-cta,
 }
 
 /* ============================================================================
-   OTAKU QUICK DOCK — THANH TIỆN ÍCH NỔI TINH TẾ (GACHA, THEME, NHẠC, SO SÁNH)
+   OTAKU QUICK DOCK — FAB THU GỌN VÀ KHAY TIỆN ÍCH KÍNH MỜ (GACHA, NHẠC, SO SÁNH)
    ============================================================================ */
 .av-quick-dock {
   position: fixed;
-  bottom: 24px;
-  left: 24px;
+  bottom: 20px;
+  left: 20px;
   z-index: 980;
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: flex-start;
+  gap: 10px;
+  pointer-events: none;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+}
+
+/* Nút FAB chính (Trigger) */
+.av-dock-fab {
+  pointer-events: auto;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 44px;
+  padding: 0 16px;
+  border-radius: 999px;
+  border: 1px solid rgba(236, 72, 153, 0.35);
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  color: #b81565;
+  font-family: inherit;
+  font-size: 13.5px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(236, 72, 153, 0.18), 0 2px 6px rgba(0, 0, 0, 0.05);
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.av-dock-fab:hover {
+  transform: translateY(-2px);
+  border-color: #ec4899;
+  background: #ffffff;
+  box-shadow: 0 12px 28px rgba(236, 72, 153, 0.26), 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.av-dock-fab:focus-visible {
+  outline: 2px solid #ec4899;
+  outline-offset: 2px;
+}
+
+.av-dock-fab .av-dock-fab-icon {
+  font-size: 16px;
+  line-height: 1;
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.av-dock-fab .av-dock-fab-label {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.av-dock-fab .av-dock-fab-close {
+  display: none;
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+/* Trạng thái mở menu */
+.av-quick-dock.is-open .av-dock-fab {
+  background: #ec4899;
+  color: #ffffff;
+  border-color: #db2777;
+  box-shadow: 0 8px 24px rgba(236, 72, 153, 0.35);
+}
+
+.av-quick-dock.is-open .av-dock-fab .av-dock-fab-icon,
+.av-quick-dock.is-open .av-dock-fab .av-dock-fab-label {
+  display: none;
+}
+
+.av-quick-dock.is-open .av-dock-fab .av-dock-fab-close {
+  display: inline-flex;
+}
+
+/* Badge số lượng thông báo trên FAB */
+.av-dock-fab .av-badge-count {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #e11d48, #be123c);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 800;
+  line-height: 18px;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(225, 29, 72, 0.4);
+}
+
+/* Hiệu ứng nhịp điệu khi đang phát nhạc */
+.av-dock-fab.is-music-playing::before {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  border-radius: 999px;
+  border: 2px solid #ec4899;
+  opacity: 0.5;
+  animation: avMusicPulse 2s ease-out infinite;
+  pointer-events: none;
+}
+
+@keyframes avMusicPulse {
+  0% { transform: scale(0.98); opacity: 0.7; }
+  70% { transform: scale(1.12); opacity: 0; }
+  100% { transform: scale(1.14); opacity: 0; }
+}
+
+/* Menu tiện ích con (Dock Menu) */
+.av-dock-menu {
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(12px) scale(0.95);
+  transform-origin: bottom left;
+  transition: opacity 0.2s ease, transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.2s;
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 6px 10px;
-  background: rgba(14, 11, 28, 0.88);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 6px 8px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(236, 72, 153, 0.25);
   border-radius: 999px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45), 0 0 1px rgba(255, 255, 255, 0.2);
-  transition: all 0.25s ease;
+  box-shadow: 0 14px 36px rgba(236, 72, 153, 0.16), 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
-.av-quick-dock:hover {
-  border-color: rgba(255, 61, 154, 0.4);
-  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.55), 0 0 15px rgba(255, 61, 154, 0.15);
+.av-quick-dock.is-open .av-dock-menu {
+  pointer-events: auto;
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
 }
 
-.av-quick-dock .icon-btn {
+.av-dock-menu .icon-btn {
   position: relative;
   display: inline-flex;
   align-items: center;
@@ -1738,39 +1868,40 @@ a.deal-cta,
   height: 38px;
   padding: 0 12px;
   border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(255, 255, 255, 0.04);
-  color: var(--text, #fff);
-  font-size: 14px;
+  border: 1px solid rgba(236, 72, 153, 0.2);
+  background: rgba(255, 240, 246, 0.85);
+  color: #3d2748;
+  font-size: 13.5px;
+  font-family: inherit;
   cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
   white-space: nowrap;
 }
 
-.av-quick-dock .icon-btn small {
+.av-dock-menu .icon-btn small {
   font-size: 12px;
   font-weight: 600;
   line-height: 1;
-  color: var(--text-dim, #d6cff2);
+  color: #6b4372;
 }
 
-.av-quick-dock .icon-btn:hover {
-  background: rgba(255, 61, 154, 0.18);
-  border-color: var(--pink, #ff3d9a);
+.av-dock-menu .icon-btn:hover {
+  background: #fce7f3 !important;
+  border-color: #ec4899 !important;
+  color: #9d174d !important;
   transform: translateY(-2px);
 }
 
-.av-quick-dock .icon-btn:hover small {
-  color: #fff;
+.av-dock-menu .icon-btn:hover small {
+  color: #9d174d !important;
 }
 
-.av-quick-dock .icon-btn:focus-visible {
-  outline: 2px solid var(--pink, #ff3d9a);
+.av-dock-menu .icon-btn:focus-visible {
+  outline: 2px solid #ec4899;
   outline-offset: 2px;
 }
 
-/* Chấm số lượng badge trên Quick Dock */
-.av-quick-dock .av-badge-count {
+.av-dock-menu .av-badge-count {
   position: absolute;
   top: -4px;
   right: -4px;
@@ -1778,34 +1909,68 @@ a.deal-cta,
   height: 18px;
   padding: 0 4px;
   border-radius: 999px;
-  background: linear-gradient(135deg, #ff3d9a, #e0227d);
+  background: linear-gradient(135deg, #ec4899, #db2777);
   color: #fff;
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 800;
   line-height: 18px;
   text-align: center;
-  box-shadow: 0 2px 6px rgba(255, 61, 154, 0.4);
+  box-shadow: 0 2px 6px rgba(236, 72, 153, 0.4);
 }
 
+/* ============================================================================
+   TỐI ƯU CÔNG THÁI HỌC CHO MOBILE (MOBILE FAB & VERTICAL STACK)
+   ============================================================================ */
 @media (max-width: 768px) {
   .av-quick-dock {
-    bottom: 16px;
-    left: 12px;
-    gap: 6px;
-    padding: 5px 8px;
+    bottom: 18px;
+    left: 16px;
+    gap: 8px;
   }
-  .av-quick-dock .icon-btn {
-    width: 38px;
-    height: 38px;
+  /* Trên Mobile: FAB là nút tròn 46x46px chuẩn chạm một tay */
+  .av-dock-fab {
+    width: 46px;
+    height: 46px;
     padding: 0;
     border-radius: 50%;
-    font-size: 16px;
   }
-  .av-quick-dock .icon-btn small {
+  .av-dock-fab .av-dock-fab-label {
     display: none !important;
   }
-  .av-quick-dock .icon-btn#avMusicNextBtn {
-    display: none !important;
+  .av-dock-fab .av-dock-fab-icon {
+    font-size: 18px;
+  }
+  .av-quick-dock.is-open .av-dock-fab {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+  }
+
+  /* Khi mở menu trên mobile: bung khay trượt dọc thanh thoát, có tên rõ ràng */
+  .av-dock-menu {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 6px;
+    padding: 10px 10px;
+    border-radius: 18px;
+    min-width: 175px;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.14), 0 2px 8px rgba(236, 72, 153, 0.15);
+  }
+  .av-dock-menu .icon-btn {
+    width: 100%;
+    height: 42px;
+    justify-content: flex-start;
+    padding: 0 12px;
+    border-radius: 12px;
+    font-size: 14px;
+  }
+  .av-dock-menu .icon-btn small {
+    display: inline-block !important;
+    font-size: 12.5px;
+    margin-left: 2px;
+  }
+  .av-dock-menu .icon-btn#avMusicNextBtn {
+    display: inline-flex !important;
   }
   body.has-sticky-action .av-quick-dock {
     bottom: 76px;
