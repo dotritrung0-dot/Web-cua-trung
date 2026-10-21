@@ -14,16 +14,20 @@
 /* ---------- 1) Biến bổ sung cho từng chủ đề (Quad-Theme & WCAG AA) ---------- */
 :root {
   --on-accent: #ffffff;
-  --text-strong: #ffffff;
-  --accent-grad: linear-gradient(135deg, #d81469 0%, #7c3aed 100%);
-  --surface: #110e24;
-  --surface-2: #181432;
-  --surface-elevated: #1b1638;
-  --hero-bg: linear-gradient(135deg, rgba(22, 17, 48, 0.92) 0%, rgba(13, 10, 28, 0.96) 100%);
-  --sale-bg: linear-gradient(100deg, #3a1752, #20133a 50%, #44152d);
-  --star: #fbbf24;
-  --price: #ff3d9a;
-  color-scheme: dark;
+  --text-strong: #24142c;
+  --accent-grad: linear-gradient(135deg, #e11d74 0%, #9333ea 100%);
+  --surface: #ffffff;
+  --surface-2: #fdf2f8;
+  --surface-elevated: #fff0f7;
+  --hero-bg: linear-gradient(135deg, #ffe4f1 0%, #f3e8ff 55%, #ffeef6 100%);
+  --sale-bg: linear-gradient(100deg, #ffe0ef, #f1e4ff 50%, #ffe8f0);
+  --star: #b45309;
+  --price: #be185d;
+  --text: #24142c;
+  --muted: #6e5578;
+  --bg: #ffffff;
+  --page-bg: #ffffff;
+  color-scheme: light;
 }
 html[data-theme="cyber"],
 html[data-theme="default"] {

@@ -2050,37 +2050,20 @@
     'cyberneon': 'gojo'
   };
 
-  // Chuẩn hóa mã chủ đề: hỗ trợ cả canonical keys lẫn aliases, fallback an toàn về 'cyber'
+  // Chuẩn hóa mã chủ đề: Cố định vĩnh viễn trên Sakura Pastel (nền trắng tinh tế, phong cách anime pastel)
   function normalizeTheme(id) {
-    if (!id || typeof id !== 'string') return 'cyber';
-    var key = id.toLowerCase().trim();
-    if (Object.prototype.hasOwnProperty.call(THEME_ALIASES, key)) {
-      return THEME_ALIASES[key];
-    }
-    for (var i = 0; i < THEMES.length; i++) {
-      if (THEMES[i].id === key) return key;
-    }
-    return 'cyber';
+    return 'sakura';
   }
 
   // Bộ nhớ đệm trong trường hợp trình duyệt chặn localStorage (Private Mode, QuotaExceededError)
-  var _themeMem = null;
+  var _themeMem = 'sakura';
 
   function getTheme() {
-    try {
-      var saved = localStorage.getItem('av_theme');
-      if (saved) return normalizeTheme(saved);
-    } catch (e) {}
-
-    if (_themeMem) {
-      return normalizeTheme(_themeMem);
-    }
-
-    return 'cyber';
+    return 'sakura';
   }
 
   function applyTheme(id, notify) {
-    var canonical = normalizeTheme(id);
+    var canonical = 'sakura';
     _themeMem = canonical;
 
     document.documentElement.setAttribute('data-theme', canonical);
@@ -2874,7 +2857,6 @@
     dockMenu.appendChild(gachaBtn);
     dockMenu.appendChild(wishBtn);
     dockMenu.appendChild(compBtn);
-    dockMenu.appendChild(themeBtn);
     dockMenu.appendChild(musicBtn);
     dockMenu.appendChild(nextMusicBtn);
 
