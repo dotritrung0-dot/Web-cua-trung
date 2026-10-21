@@ -5232,6 +5232,130 @@
     })(performance.now());
   });
 
+  // ---------------------------------------------------------------------------
+  // MỤC 15f: XỬ LÝ SÂN KHẤU MASCOT TƯƠNG TÁC CHUYỂN ĐỘNG (INTERACTIVE MOTION STAGES)
+  // Dành cho 3 trang: san-pham.html, khuyen-mai.html, lien-he.html
+  // ---------------------------------------------------------------------------
+  (function initMotionStages() {
+    // 1. Trang Sản phẩm: Sân khấu Catalog
+    var catalogMascot = $('#catalogMascot');
+    var catalogBubble = $('#catalogBubble span');
+    if (catalogMascot && catalogBubble) {
+      var catalogQuotes = [
+        '✦ 50+ siêu phẩm anime mới cập bến!',
+        '✦ Gojo Vô Hạ Hạn đang cháy hàng đó Senpai!',
+        '✦ Bạn cần tìm Figure, Cosplay hay Plushie?',
+        '✦ Khám phá 50 món đồ chuẩn gu ngay bên dưới ↓'
+      ];
+      var catIdx = 0;
+      catalogMascot.addEventListener('click', function () {
+        catIdx = (catIdx + 1) % catalogQuotes.length;
+        catalogBubble.textContent = catalogQuotes[catIdx];
+        catalogBubble.parentElement.classList.add('active');
+        setTimeout(function () {
+          catalogBubble.parentElement.classList.remove('active');
+        }, 600);
+      });
+    }
+
+    // 2. Trang Khuyến mãi: Sân khấu Săn Deal & Sao chép mã
+    var promoMascot = $('#promoMascot');
+    var promoBubble = $('#promoBubble span');
+    if (promoMascot && promoBubble) {
+      var promoQuotes = [
+        '✦ Chạm voucher để copy mã nhé!',
+        '✦ Nhập WELCOME10 giảm ngay 10% đơn đầu!',
+        '✦ Đơn từ 500k là Freeship luôn nha Senpai!',
+        '✦ Săn deal chớp nhoáng tiết kiệm đến 30%!'
+      ];
+      var promoIdx = 0;
+      promoMascot.addEventListener('click', function () {
+        promoIdx = (promoIdx + 1) % promoQuotes.length;
+        promoBubble.textContent = promoQuotes[promoIdx];
+        promoBubble.parentElement.classList.add('active');
+        setTimeout(function () {
+          promoBubble.parentElement.classList.remove('active');
+        }, 600);
+      });
+    }
+
+    var voucherCard = $('#promoVoucherCard');
+    if (voucherCard) {
+      voucherCard.addEventListener('click', function () {
+        var code = voucherCard.getAttribute('data-voucher') || 'WELCOME10';
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(code).catch(function () {});
+        }
+        var hint = $('.av-copy-hint', voucherCard);
+        if (hint) {
+          hint.textContent = '✓ Đã chép mã: ' + code + '!';
+          hint.style.color = '#10b981';
+        }
+        if (promoBubble) {
+          promoBubble.textContent = '🎉 Đã chép mã ' + code + '! Nhập ở giỏ hàng nha!';
+          promoBubble.parentElement.classList.add('active');
+        }
+      });
+    }
+
+    // 3. Trang Liên hệ: Sân khấu Lễ tân & Mở Chatbot
+    var contactMascot = $('#contactMascot');
+    var contactBubble = $('#contactBubble span');
+    if (contactMascot && contactBubble) {
+      var contactQuotes = [
+        '✦ Cần tư vấn size hay đơn hàng cứ click tụi mình nha!',
+        '✦ Nhắn tin là tụi mình phản hồi < 5 phút!',
+        '✦ Bạn chưa rõ chọn size nào? Bấm chat nha!',
+        '✦ Đội ngũ AnimeVerse luôn sẵn sàng hỗ trợ bạn!'
+      ];
+      var contactIdx = 0;
+      contactMascot.addEventListener('click', function () {
+        contactIdx = (contactIdx + 1) % contactQuotes.length;
+        contactBubble.textContent = contactQuotes[contactIdx];
+        contactBubble.parentElement.classList.add('active');
+        setTimeout(function () {
+          contactBubble.parentElement.classList.remove('active');
+        }, 600);
+      });
+    }
+
+    var stageChatBtn = $('#stageOpenChat');
+    if (stageChatBtn) {
+      stageChatBtn.addEventListener('click', function () {
+        var botBtn = $('#avBotBtn');
+        if (botBtn) {
+          botBtn.click();
+        }
+      });
+    }
+
+    // Hiệu ứng tương tác 3D Parallax khi di chuột qua sân khấu
+    $$('.av-motion-stage').forEach(function (stage) {
+      stage.addEventListener('mousemove', function (e) {
+        var rect = stage.getBoundingClientRect();
+        var x = (e.clientX - rect.left) / rect.width - 0.5;
+        var y = (e.clientY - rect.top) / rect.height - 0.5;
+        var mascot = $('.av-mascot-core', stage);
+        if (mascot) {
+          mascot.style.transform = 'translate(' + (x * 12) + 'px, ' + (y * 12) + 'px) scale(1.04)';
+        }
+        $$('.av-float-card', stage).forEach(function (card, i) {
+          var factor = (i + 1) * 8;
+          card.style.transform = 'translate(' + (-x * factor) + 'px, ' + (-y * factor) + 'px)';
+        });
+      });
+      stage.addEventListener('mouseleave', function () {
+        var mascot = $('.av-mascot-core', stage);
+        if (mascot) {
+          mascot.style.transform = '';
+        }
+        $$('.av-float-card', stage).forEach(function (card) {
+          card.style.transform = '';
+        });
+      });
+    });
+  })();
+
   // 15e. Đăng ký Service Worker (sw.js) để web tải nhanh và hoạt động cả khi mất mạng
   if ('serviceWorker' in navigator && location.protocol.indexOf('http') === 0) {
     navigator.serviceWorker.register('sw.js').catch(function () {});
