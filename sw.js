@@ -20,17 +20,13 @@
 // Mẹo nhỏ khi bạn sửa code:
 // Nếu bạn sửa HTML/CSS/JS xong mà mở trình duyệt vẫn thấy giao diện cũ,
 // hãy đổi chữ 'av-v8-motion' bên dưới thành 'av-v9-...' (hoặc bấm Ctrl + F5).
-const V = 'av-v31-contact-upgraded';
+const V = 'av-v32-css-bundled';
 
 // Danh sách các file cốt lõi được lưu sẵn ngay từ lần đầu mở trang
 const CORE = [
     'trang-chu.html',
     'san-pham.html',
-    'css/style_new.css',
-    'css/tech.css',
-    'css/upgrade.css',
-    'css/theme-fix.css',
-    'css/motion.css',
+    'css/bundle.css',
     'js/site.js',
     'js/tech.js',
     'js/upgrade.js',

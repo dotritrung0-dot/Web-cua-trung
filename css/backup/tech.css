@@ -1,0 +1,2209 @@
+/*
+ * FILE: css/tech.css — GIAO DIỆN 4 CHỦ ĐỀ MÀU, CỬA SỔ TƯƠNG TÁC & HIỆU ỨNG CHUYỂN ĐỘNG
+ *
+ * Chào bạn! File CSS này phụ trách trang trí cho toàn bộ các tính năng tương tác mới:
+ *   - 4 chế độ màu giao diện (Cyber Neon, Sakura Sáng, Gear 5 Vàng, Gojo Xanh)
+ *   - Các nút tiện ích trên Header, Vòng quay Gacha, AI Tính Size, Quiz, Bàn cân So sánh
+ *   - Cửa sổ Xem nhanh (Quick View), Ngăn kéo Giỏ hàng trượt, Khung Chat AV-Bot
+ *   - Các hiệu ứng chuyển động: Ảnh bay vào giỏ hàng, Pháo hoa trái tim, Chấm đổi góc ảnh,
+ *     Nút điểm danh nhận XP, Sân khấu Hero 3D và Thông báo hoạt động mua sắm trực tiếp.
+ *
+ * BẢN ĐỒ CÁC MỤC TRONG FILE NÀY (Bấm Ctrl + F rồi gõ "MỤC 1", "MỤC 2"...):
+ *   - MỤC 1 : 4 chế độ giao diện màu sắc (html[data-theme="..."])
+ *   - MỤC 2 : Nền lưới Cyber, Thanh tiến độ cuộn (#avProgress) & Hạt năng lượng (#avParticles)
+ *   - MỤC 3 : Huy hiệu cấp độ VIP trên Topbar (.av-vip-pill)
+ *   - MỤC 4 : Các nút công cụ trên Header (.header-actions .icon-btn)
+ *   - MỤC 5 : Hiệu ứng chữ phát sáng chuyển màu trên Trang chủ (Hero & Typography Glow)
+ *   - MỤC 6 : Thẻ sản phẩm nâng cấp (3D Tilt, Nút Xem nhanh, So sánh, + Giỏ)
+ *   - MỤC 7 : Ô tìm kiếm gợi ý có ảnh thu nhỏ (#avSug)
+ *   - MỤC 8 : Cửa sổ nổi & Ngăn kéo trượt (Quick View, Mini-Cart, Tủ Yêu thích, So sánh)
+ *   - MỤC 9 : Giao diện Vòng quay Gacha, AI Tính Size & Bài trắc nghiệm Quiz
+ *   - MỤC 10: Kính lúp phóng to ảnh (#avLightbox) & Khung Đánh giá 5 sao (.av-reviews-box)
+ *   - MỤC 11: Bộ lọc nâng cao theo Bộ Anime (.av-adv-filters) & Chế độ xem Danh sách ngang
+ *   - MỤC 12: Nút lên đầu trang (#avTop) & Khung Trợ lý ảo Chatbot (#avBot)
+ *   - MỤC 13: Hiệu ứng cuộn trang (.av-reveal) & Quy tắc co giãn trên điện thoại
+ *   - MỤC 14: Hiệu ứng chuyển động & tương tác mới (Bay vào giỏ, Bắn tim, Chấm góc ảnh,
+ *             Điểm danh +50 XP, Sân khấu Hero 3D, Thông báo mua sắm trực tiếp)
+ */
+
+:root {
+  --neon: #ff4fa3;
+  --cyan: #38e8ff;
+  --violet: #8b5cf6;
+  --gold: #fbbf24;
+  --emerald: #10b981;
+  --glass-bg: rgba(18, 18, 32, 0.82);
+  --glass-border: rgba(56, 232, 255, 0.28);
+  --card-glow: rgba(255, 79, 163, 0.28);
+  --surface-elevated: #16162a;
+}
+
+/* ============================================================================
+   MỤC 1: 4 CHẾ ĐỘ GIAO DIỆN MÀU SẮC (THEME SWITCHER)
+   📍 Tác dụng: Khi khách bấm nút "Chủ đề" trên thanh đầu trang, JavaScript sẽ gắn
+      thuộc tính data-theme="sakura" (hoặc "gear5", "gojo") vào thẻ <html>.
+      - Mặc định (cyber) : Nền tối Tím - Hồng Neon.
+      - sakura           : Giao diện Sáng Hồng Anh Đào (nền trắng hồng dịu mắt).
+      - gear5            : Giao diện Vàng Hoàng Kim Nika (nền nâu đen ánh vàng cam).
+      - gojo             : Giao diện Vô Hạ Hạn (nền đen sâu ánh xanh băng tuyết).
+   🛠️ Cách sửa:
+      - Muốn chỉnh màu của chủ đề nào, bạn sửa các mã màu (#...) bên trong khối
+        html[data-theme="tên-chủ-đề"] tương ứng ở dưới đây.
+   ============================================================================ */
+html[data-theme="sakura"] {
+  --bg: #fff7fb;
+  --bg-deep: #fceef5;
+  --bg-footer: #f7e2ed;
+  --page-bg: radial-gradient(circle at 85% 10%, rgba(255, 130, 190, 0.25) 0, transparent 32%), #fff7fb;
+  --panel: #ffffff;
+  --panel-light: #fdf2f8;
+  --text: #24142c;
+  --muted: #6e5578;
+  --pink: #e11d74;
+  --purple: #9333ea;
+  --neon: #e11d74;
+  --cyan: #0284c7;
+  --violet: #9333ea;
+  --line: #f2d0e2;
+  --glass-bg: rgba(255, 255, 255, 0.88);
+  --glass-border: rgba(225, 29, 116, 0.25);
+  --surface-elevated: #fff0f7;
+}
+
+html[data-theme="sakura"] .topbar,
+html[data-theme="sakura"] .header,
+html[data-theme="sakura"] .nav,
+html[data-theme="sakura"] .site-footer {
+  background: rgba(255, 245, 250, 0.92) !important;
+  color: #24142c !important;
+}
+
+html[data-theme="sakura"] .product-card,
+html[data-theme="sakura"] .category,
+html[data-theme="sakura"] .pro-details-section,
+html[data-theme="sakura"] .cart-summary,
+html[data-theme="sakura"] .cart-item,
+html[data-theme="sakura"] .sidebar-card {
+  background: #ffffff !important;
+  border-color: #f3cfe2 !important;
+  color: #24142c !important;
+  box-shadow: 0 10px 28px rgba(225, 29, 116, 0.08);
+}
+
+html[data-theme="gear5"] {
+  --bg: #0c0a06;
+  --bg-deep: #141008;
+  --bg-footer: #080603;
+  --page-bg: radial-gradient(circle at 85% 10%, #422b08 0, transparent 32%), #0c0a06;
+  --panel: #17130a;
+  --panel-light: #211b0e;
+  --pink: #f59e0b;
+  --purple: #ef4444;
+  --neon: #fbbf24;
+  --cyan: #fde047;
+  --violet: #f97316;
+  --line: #3b2f15;
+  --glass-bg: rgba(23, 19, 10, 0.88);
+  --glass-border: rgba(251, 191, 36, 0.35);
+  --surface-elevated: #231c0d;
+}
+
+html[data-theme="gojo"] {
+  --bg: #050b14;
+  --bg-deep: #081221;
+  --bg-footer: #03070e;
+  --page-bg: radial-gradient(circle at 85% 10%, #0c2d57 0, transparent 34%), #050b14;
+  --panel: #0b1829;
+  --panel-light: #11223a;
+  --pink: #00f0ff;
+  --purple: #6366f1;
+  --neon: #00f0ff;
+  --cyan: #38bdf8;
+  --violet: #818cf8;
+  --line: #1b3556;
+  --glass-bg: rgba(11, 24, 41, 0.88);
+  --glass-border: rgba(0, 240, 255, 0.35);
+  --surface-elevated: #0f2138;
+}
+
+/* ============================================================================
+   MỤC 2: NỀN LƯỚI CYBER, THANH TIẾN ĐỘ CUỘN (#avProgress) & HẠT SÁNG (#avParticles)
+   📍 Tác dụng:
+      - #avProgress  : Thanh vạch màu hồng-xanh mỏng 3px chạy ngang trên cùng màn hình khi cuộn trang.
+      - #avParticles : Khung vẽ các hạt đom đóm bay lơ lửng trên nền.
+      - #avGlow      : Quầng sáng mờ đi theo con trỏ chuột trên máy tính.
+   ============================================================================ */
+body {
+  background-image:
+    linear-gradient(rgba(56, 232, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(56, 232, 255, 0.03) 1px, transparent 1px);
+  background-size: 44px 44px;
+  transition: background-color 0.35s ease, color 0.35s ease;
+}
+
+#avParticles {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;  /* Thứ tự lớp nổi lên trên */
+  opacity: 0.55;
+}
+
+#avProgress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3.5px;
+  width: 0;
+  z-index: 10001;  /* Thứ tự lớp nổi lên trên */
+  background: linear-gradient(90deg, var(--cyan), var(--neon), var(--violet), var(--gold));
+  box-shadow: 0 0 14px var(--neon);
+}
+
+#avGlow {
+  position: fixed;
+  width: 360px;
+  height: 360px;
+  margin: -180px 0 0 -180px;
+  border-radius: 50%;  /* Độ bo tròn góc khung */
+  pointer-events: none;
+  z-index: 0;
+  background: radial-gradient(circle, rgba(255, 79, 163, 0.14), transparent 65%);
+  transition: opacity 0.3s;
+}
+
+@media (hover: none) {
+    #avGlow {
+        display: none;
+    }
+}
+
+
+/* ============================================================================
+   MỤC 3: HUY HIỆU CẤP ĐỘ VIP TRÊN TOPBAR (.av-vip-pill)
+   📍 Vị trí: Nút nhỏ lấp lánh góc phải thanh Topbar hiển thị cấp bậc hiện tại của khách
+      (ví dụ: "🌱 Tân Binh Wibu · 120 XP"). Bấm vào sẽ mở ngăn kéo thông tin VIP.
+   ============================================================================ */
+.topbar-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.av-vip-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 10px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(255, 79, 163, 0.22), rgba(139, 92, 246, 0.25));
+  border: 1px solid var(--glass-border);
+  color: var(--cyan);
+  font-weight: 700;
+  font-size: 11.5px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.av-vip-pill:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 0 12px var(--pink-glow);
+}
+
+/* ============================================================================
+   MỤC 4: CÁC NÚT CÔNG CỤ MỚI TRÊN HEADER (.header-actions .icon-btn)
+   📍 Vị trí: Định dạng cho hàng nút tiện ích (Gacha, So sánh, Đã thích, Chủ đề, Nhạc, Giỏ hàng)
+      và các chấm số lượng nhỏ (.cart-badge, .av-wish-badge, .av-compare-badge).
+   ============================================================================ */
+.header {
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  background: var(--glass-bg) !important;
+  border-bottom: 1px solid var(--glass-border);
+  position: sticky;
+  top: 0;
+  z-index: 900;
+}
+
+.header.is-scrolled {
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.header-actions .icon-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 7px 11px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text);
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.22s ease;
+}
+
+.header-actions .icon-btn:hover {
+  border-color: var(--cyan);
+  background: rgba(56, 232, 255, 0.1);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(56, 232, 255, 0.18);
+}
+
+.av-badge-count {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 999px;  /* Độ bo tròn góc khung */
+  background: linear-gradient(135deg, var(--neon), var(--violet));
+  color: #fff;
+  font-size: 10px;
+  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 8px var(--neon);
+}
+
+.av-badge-count[hidden] {
+    display: none !important;
+}
+
+
+/* ============================================================================
+   MỤC 5: HIỆU ỨNG CHỮ PHÁT SÁNG NEON TRÊN TRANG CHỦ (HERO & TYPOGRAPHY GLOW)
+   ============================================================================ */
+.hero-copy h1 strong,
+.products-hero-copy h1 span,
+.promo-page .hero-copy h1 span {
+  background: linear-gradient(90deg, var(--cyan), var(--neon), var(--violet), var(--cyan));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  background-size: 200% 100%;
+  animation: avFlow 5s linear infinite;
+}
+
+@keyframes avFlow {
+    to {
+        background-position: 200% 0;
+    }
+}
+
+
+.eyebrow {
+  letter-spacing: 0.04em;
+}
+
+.btn.primary, .btn-primary {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45), 0 2px 6px rgba(216, 20, 105, 0.25);
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease;
+}
+
+.btn.primary:hover, .btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.55), 0 4px 12px rgba(216, 20, 105, 0.35);
+}
+
+/* ============================================================================
+   MỤC 6: THẺ SẢN PHẨM NÂNG CẤP (3D TILT + NÚT XEM NHANH + SO SÁNH + THÊM GIỎ NHANH)
+   📍 Vị trí: Trang trí thêm cho mọi thẻ sản phẩm (.product-card):
+      - .av-card-overlay : Cụm 2 nút "👁 Xem nhanh" và "⚖ So sánh" hiện lên trên ảnh khi rê chuột vào.
+      - .av-card-actions : Hàng nút ở đáy thẻ gồm nút "Xem chi tiết →" và nút "+ Giỏ" màu hồng.
+      - .av-card-meta    : Dòng hiển thị số sao đánh giá và số lượng "Đã bán" trên mỗi thẻ.
+   ============================================================================ */
+.product-card, .deal-card {
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.18s ease-out, box-shadow 0.3s ease, border-color 0.3s ease;
+  will-change: transform;
+  overflow: hidden;
+}
+
+.product-card:hover, .deal-card:hover {
+  box-shadow: 0 0 0 1px var(--cyan), 0 16px 42px var(--card-glow);
+}
+
+.product-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;  /* Độ bo tròn góc khung */
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.25s;
+  background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(255, 255, 255, 0.16), transparent 55%);
+}
+
+.product-card:hover::after {
+    opacity: 1;
+}
+
+
+/* Cụm nút nổi trên ảnh sản phẩm (Quick View + So sánh) */
+.product-image, .deal-visual {
+  position: relative;
+  overflow: hidden;
+}
+
+.av-card-overlay {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  right: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 6px;
+  z-index: 4;  /* Thứ tự lớp nổi lên trên */
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.22s ease, transform 0.22s ease;
+  pointer-events: none;
+}
+
+.product-card:hover .av-card-overlay,
+.deal-card:hover .av-card-overlay,
+.product-card:focus-within .av-card-overlay {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+@media (hover: none) {
+  .av-card-overlay {
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+  }
+}
+
+.av-ov-btn {
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: rgba(12, 12, 24, 0.84);
+  backdrop-filter: blur(8px);
+  color: #fff;
+  font-size: 11.5px;  /* Cỡ chữ lớn hay nhỏ */
+  font-weight: 600;
+  padding: 6px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.2s ease;
+}
+
+.av-ov-btn:hover, .av-ov-btn.active {
+  background: var(--neon);
+  border-color: var(--neon);
+  box-shadow: 0 0 12px var(--neon);
+}
+
+/* Hàng nút dưới cùng của thẻ sản phẩm */
+.av-card-cta-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.av-card-cta-row .add,
+.av-card-cta-row .deal-cta {
+  flex: 1;
+  margin-top: 0 !important;
+  text-align: center;
+}
+
+.av-quick-cart-btn {
+  padding: 9px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--cyan);
+  background: rgba(56, 232, 255, 0.12);
+  color: var(--cyan);
+  font-weight: 700;
+  font-size: 12.5px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.av-quick-cart-btn:hover {
+  background: var(--cyan);
+  color: #090912;
+  box-shadow: 0 0 14px var(--cyan);
+}
+
+/* Thông tin phụ (Đã bán + Fandom tag) trên thẻ */
+.av-card-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 11.5px;
+  color: var(--muted);
+  margin: 4px 0 6px;
+}
+
+.av-card-meta .av-stars {
+  color: #fbbf24;
+  letter-spacing: 1px;
+}
+
+/* ============================================================================
+   MỤC 7: KHUNG GỢI Ý TÌM KIẾM TRỰC TIẾP CÓ ẢNH NHỎ (.av-search-drop)
+   📍 Vị trí: Bảng xổ xuống ngay dưới ô tìm kiếm trên Header khi khách gõ tên món đồ,
+      hiển thị ảnh thu nhỏ, tên món, giá tiền và nút xem nhanh.
+   ============================================================================ */
+.search {
+    position: relative;
+}
+
+#avSug {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(100% + 8px);
+  background: var(--glass-bg);
+  backdrop-filter: blur(18px);
+  border: 1px solid var(--glass-border);
+  border-radius: 14px;
+  overflow: hidden;
+  z-index: 1200;
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.65);
+  display: none;
+  max-height: 420px;
+  overflow-y: auto;
+}
+
+#avSug a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px;
+  color: var(--text);
+  text-decoration: none;
+  font-size: 13.5px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  transition: background 0.18s;
+}
+
+#avSug a:last-child {
+    border-bottom: 0;
+}
+
+#avSug a:hover, #avSug a.sel {
+  background: rgba(255, 79, 163, 0.18);
+}
+
+.av-sug-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.av-sug-left img {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.av-sug-left div {
+  min-width: 0;
+}
+
+.av-sug-left b {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 13.5px;  /* Cỡ chữ lớn hay nhỏ */
+}
+
+.av-sug-left span {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+#avSug small {
+  color: var(--cyan);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.av-kbd {
+  position: absolute;
+  right: 68px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 11px;
+  font-family: inherit;
+  font-weight: 600;
+  line-height: 1;
+  opacity: 0.65;
+  color: inherit;
+  border: 1px solid currentColor;
+  border-radius: 5px;
+  padding: 2px 6px;
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  z-index: 2;
+}
+
+.search:focus-within .av-kbd,
+.search input:not(:placeholder-shown) ~ .av-kbd {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-50%) scale(0.85);
+}
+
+@media (min-width: 1440px) {
+  .av-kbd {
+    right: 76px;
+  }
+}
+
+@media (max-width: 820px), (hover: none) and (pointer: coarse) {
+  .av-kbd {
+    display: none !important;
+  }
+}
+
+/* ============================================================================
+   MỤC 8: BỘ LỌC NÂNG CAO THEO BỘ ANIME (FANDOM), KHOẢNG GIÁ & KIỂU XEM LƯỚI/DANH SÁCH
+   📍 Vị trí: Thanh công cụ lọc màu tím/xanh tự động chèn vào phía trên danh sách sản phẩm
+      (.av-adv-bar, .av-fandom-pills, .av-price-range, .av-view-toggle).
+   ============================================================================ */
+.av-adv-filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 14px 0 22px;
+  padding: 14px 18px;
+  border-radius: 16px;  /* Độ bo tròn góc khung */
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+}
+
+.av-fandom-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.av-fandom-pill {
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.av-fandom-pill:hover, .av-fandom-pill.active {
+  background: linear-gradient(90deg, var(--neon), var(--violet));
+  border-color: transparent;
+  color: #fff;
+  box-shadow: 0 0 12px var(--pink-glow);
+}
+
+.av-price-View-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.av-price-select {
+  padding: 7px 12px;
+  border-radius: 10px;  /* Độ bo tròn góc khung */
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: var(--surface-elevated);
+  color: var(--text);
+  font-size: 12.5px;
+}
+
+.av-view-toggle {
+  display: inline-flex;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+.av-view-toggle button {
+  padding: 6px 10px;
+  background: transparent;
+  border: 0;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.av-view-toggle button.active {
+  background: var(--neon);
+  color: #fff;
+}
+
+.product-grid.av-list-view {
+  grid-template-columns: 1fr !important;  /* Chia số cột hiển thị ngang */
+}
+
+.product-grid.av-list-view .product-card {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  align-items: center;
+  gap: 20px;
+}
+
+@media (max-width: 640px) {
+  .product-grid.av-list-view .product-card {
+    grid-template-columns: 120px 1fr;  /* Chia số cột hiển thị ngang */
+    gap: 12px;
+  }
+}
+
+/* ============================================================================
+   MỤC 9: HỆ THỐNG CỬA SỔ NỔI GIỮA MÀN HÌNH (.av-modal-backdrop) & XEM NHANH (.av-qv-grid)
+   📍 Vị trí: Khung hộp thoại bật lên giữa màn hình khi khách bấm "👁 Xem nhanh" một món đồ,
+      cho phép xem nhiều góc ảnh, chọn Size và thêm vào giỏ ngay lập tức.
+   ============================================================================ */
+.av-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(5, 5, 12, 0.76);
+  backdrop-filter: blur(8px);
+  z-index: 9990;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.av-backdrop.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.av-modal-card {
+  width: min(920px, 100%);
+  max-height: 90vh;
+  overflow-y: auto;
+  background: var(--panel);
+  border: 1px solid var(--glass-border);
+  border-radius: 22px;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.75), 0 0 32px rgba(255, 79, 163, 0.16);
+  padding: 24px;
+  position: relative;
+  transform: translateY(16px) scale(0.97);
+  transition: transform 0.25s ease;
+  color: var(--text);
+}
+
+.av-backdrop.open .av-modal-card {
+  transform: none;
+}
+
+.av-modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text);
+  font-size: 18px;
+  cursor: pointer;
+  z-index: 5;  /* Thứ tự lớp nổi lên trên */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.av-modal-close:hover {
+  background: var(--neon);
+  color: #fff;
+  transform: rotate(90deg);
+}
+
+/* Quick View Layout */
+.av-qv-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.15fr;  /* Chia số cột hiển thị ngang */
+  gap: 24px;
+  align-items: start;
+}
+
+@media (max-width: 720px) {
+  .av-qv-grid {
+      grid-template-columns: 1fr;
+  }
+}
+
+.av-qv-main-img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: #0d0d18;
+}
+
+.av-qv-thumbs {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.av-qv-thumbs img {
+  width: 58px;
+  height: 58px;
+  border-radius: 10px;
+  object-fit: cover;
+  cursor: pointer;
+  opacity: 0.6;
+  border: 2px solid transparent;
+  transition: all 0.2s;
+}
+
+.av-qv-thumbs img.active, .av-qv-thumbs img:hover {
+  opacity: 1;
+  border-color: var(--neon);
+}
+
+.av-qv-price {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--neon);
+  margin: 8px 0 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.av-qv-price del {
+  font-size: 15px;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.av-qv-specs {
+  list-style: none;
+  padding: 12px 14px;
+  margin: 12px 0;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 13px;
+}
+
+.av-qv-specs li {
+    margin: 4px 0;
+}
+
+.av-qv-sizes {
+  display: flex;
+  gap: 8px;
+  margin: 8px 0 14px;
+  flex-wrap: wrap;
+}
+
+.av-qv-size {
+  padding: 7px 14px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: transparent;
+  color: var(--text);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.av-qv-size.selected {
+  background: var(--neon);
+  border-color: var(--neon);
+  color: #fff;
+}
+
+/* ============================================================================
+   MỤC 10: NGĂN KÉO TRƯỢT TỪ CẠNH PHẢI (#avDrawer: GIỎ HÀNG NHANH, YÊU THÍCH, ĐƠN HÀNG)
+   📍 Vị trí: Ngăn kéo trượt ra từ mép phải màn hình khi khách bấm nút Giỏ hàng, Đã thích,
+      hoặc huy hiệu VIP. Bao gồm cả thanh tiến trình Freeship (.av-ship-bar) và Ví Voucher.
+   ============================================================================ */
+#avDrawerBackdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(5, 5, 12, 0.72);
+  backdrop-filter: blur(6px);
+  z-index: 9992;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+#avDrawerBackdrop.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+#avDrawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: min(440px, 100vw);
+  background: var(--panel);
+  border-left: 1px solid var(--glass-border);
+  z-index: 9993;
+  transform: translateX(102%);
+  transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+  display: flex;
+  flex-direction: column;
+  color: var(--text);
+  box-shadow: -20px 0 50px rgba(0, 0, 0, 0.7);
+}
+
+#avDrawerBackdrop.open #avDrawer {
+  transform: translateX(0);
+}
+
+.av-drawer-head {
+  padding: 16px 18px 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.av-drawer-tabs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  padding: 10px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(0, 0, 0, 0.18);
+}
+
+.av-drawer-tab {
+  padding: 8px 6px;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--muted);
+  font-size: 12.5px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.av-drawer-tab.active {
+  background: linear-gradient(90deg, rgba(255, 79, 163, 0.22), rgba(139, 92, 246, 0.22));
+  border-color: var(--neon);
+  color: var(--text);
+}
+
+.av-drawer-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+}
+
+.av-drawer-foot {
+  padding: 14px 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.av-mini-item {
+  display: grid;
+  grid-template-columns: 64px 1fr auto;  /* Chia số cột hiển thị ngang */
+  gap: 12px;
+  align-items: center;
+  padding: 10px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  margin-bottom: 10px;
+}
+
+.av-mini-item img {
+  width: 64px;
+  height: 64px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.av-mini-item h4 {
+  margin: 0 0 4px;
+  font-size: 13.5px;
+  line-height: 1.3;
+}
+
+.av-mini-item small {
+  color: var(--muted);
+  display: block;
+  font-size: 11.5px;
+}
+
+.av-mini-item b {
+  color: var(--cyan);
+  font-size: 13px;
+}
+
+.av-mini-qty {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.av-mini-qty button {
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+}
+
+/* Ví Voucher trong Giỏ hàng & Drawer */
+.av-voucher-wallet {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 6px 0 10px;
+}
+
+.av-voucher-chip {
+  flex-shrink: 0;
+  padding: 7px 11px;
+  border-radius: 10px;  /* Độ bo tròn góc khung */
+  border: 1px dashed var(--cyan);
+  background: rgba(56, 232, 255, 0.08);
+  color: var(--text);
+  font-size: 11.5px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.av-voucher-chip:hover, .av-voucher-chip.active {
+  background: rgba(255, 79, 163, 0.22);
+  border-color: var(--neon);
+  box-shadow: 0 0 10px var(--pink-glow);
+}
+
+.av-voucher-chip b {
+  color: var(--cyan);
+  display: block;
+}
+
+/* ============================================================================
+   MỤC 11: BẢNG SO SÁNH SẢN PHẨM ĐẶT CẠNH NHAU (.av-compare-table)
+   📍 Vị trí: Bảng đối chiếu tối đa 3 sản phẩm (Ảnh, Giá, Bộ Anime, Danh mục, Đánh giá, Thông số).
+   ============================================================================ */
+.av-compare-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 14px;
+  font-size: 13.5px;
+}
+
+.av-compare-table th, .av-compare-table td {
+  padding: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  text-align: center;
+  vertical-align: middle;
+}
+
+.av-compare-table th {
+  width: 130px;
+  text-align: left;
+  color: var(--muted);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.av-compare-table img {
+  width: 110px;
+  height: 110px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin: 0 auto 8px;
+  display: block;
+}
+
+/* ============================================================================
+   MỤC 12: VÒNG QUAY GACHA SĂN VOUCHER (.av-gacha-stage) & AI TƯ VẤN CHỌN SIZE (.av-size-grid)
+   📍 Vị trí: Giao diện của cửa sổ Trung tâm Otaku 3.0 (Hộp triệu hồi thẻ bài Gacha
+      và bảng thanh trượt đo Chiều cao / Cân nặng để gợi ý Size S, M, L, XL).
+   ============================================================================ */
+.av-hub-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 18px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+.av-hub-tab {
+  padding: 9px 16px;
+  border-radius: 12px;  /* Độ bo tròn góc khung */
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text);
+  font-weight: 700;
+  font-size: 13px;  /* Cỡ chữ lớn hay nhỏ */
+  cursor: pointer;
+}
+
+.av-hub-tab.active {
+  background: linear-gradient(90deg, var(--neon), var(--violet));
+  border-color: transparent;
+  color: #fff;
+}
+
+.av-gacha-stage {
+  text-align: center;
+  padding: 24px 16px;
+  border-radius: 18px;
+  background: radial-gradient(circle at center, rgba(139, 92, 246, 0.28), rgba(9, 9, 18, 0.9));
+  border: 1px solid var(--glass-border);
+}
+
+.av-gacha-orb {
+  width: 130px;
+  height: 130px;
+  margin: 0 auto 16px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #fff, var(--cyan) 35%, var(--neon) 70%, var(--violet));
+  box-shadow: 0 0 40px var(--neon), inset 0 0 24px #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 52px;  /* Cỡ chữ lớn hay nhỏ */
+  transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.av-gacha-orb.spinning {
+  animation: avSpinOrb 0.9s linear infinite;
+}
+
+@keyframes avSpinOrb {
+  0% {
+      transform: rotate(0deg) scale(1);
+      filter: hue-rotate(0deg);
+  }
+
+  50% {
+      transform: rotate(180deg) scale(1.18);
+      filter: hue-rotate(180deg);
+  }
+
+  100% {
+      transform: rotate(360deg) scale(1);
+      filter: hue-rotate(360deg);
+  }
+}
+
+.av-gacha-result {
+  margin-top: 16px;
+  padding: 14px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--gold);
+  display: none;
+}
+
+.av-gacha-result.show {
+    display: block;
+}
+
+
+/* AI Size Calculator */
+.av-size-calc {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  align-items: center;
+}
+
+@media (max-width: 680px) {
+    .av-size-calc {
+        grid-template-columns: 1fr;
+    }
+}
+
+.av-size-badge-big {
+  font-size: 56px;
+  font-weight: 900;
+  color: var(--cyan);
+  text-shadow: 0 0 20px var(--cyan);
+  line-height: 1;
+  margin: 8px 0;
+}
+
+/* ============================================================================
+   MỤC 13: TRANG CHI TIẾT — KHUNG ĐÁNH GIÁ 5 SAO (.av-reviews-box) & KÍNH LÚP LIGHTBOX
+   📍 Vị trí:
+      - .av-reviews-box : Khu vực chấm điểm sao, lọc nhận xét và form gửi đánh giá mới.
+      - .av-lightbox    : Màn hình phóng to ảnh sản phẩm khi khách bấm vào ảnh chính.
+   ============================================================================ */
+.av-reviews-box {
+  margin-top: 32px;
+  padding: 24px;
+  border-radius: 20px;
+  background: var(--panel);
+  border: 1px solid var(--glass-border);
+}
+
+.av-rev-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.av-rev-score strong {
+  font-size: 40px;
+  color: #fbbf24;
+}
+
+.av-rev-list {
+  display: grid;
+  gap: 12px;
+  margin: 18px 0;
+}
+
+.av-rev-item {
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.av-rev-item-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+  font-size: 13px;  /* Cỡ chữ lớn hay nhỏ */
+}
+
+.av-rev-form {
+  display: grid;
+  gap: 10px;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.av-rev-form input, .av-rev-form select, .av-rev-form textarea {
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(0, 0, 0, 0.25);
+  color: var(--text);
+}
+
+/* Lightbox Zoom Ảnh */
+.gallery-main {
+  cursor: zoom-in;
+  transition: transform 0.25s ease;
+}
+
+#avLightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(4, 4, 10, 0.92);
+  z-index: 10000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+#avLightbox.open {
+    display: flex;
+}
+
+#avLightbox img {
+  max-width: 92vw;
+  max-height: 88vh;
+  border-radius: 16px;
+  box-shadow: 0 0 50px rgba(56, 232, 255, 0.35);
+}
+
+/* ============================================================================
+   MỤC 14: TRỢ LÝ CHATBOT AV-BOT 3.0 (#avBot, #avChat) & KHUNG MÃ QR (.av-qr-box)
+   📍 Vị trí:
+      - #avBot  : Nút tròn hình khuôn mặt robot ở góc dưới bên phải màn hình.
+      - #avChat : Khung cửa sổ chat bật lên khi bấm vào #avBot.
+      - #avTop  : Nút mũi tên "↑" đưa khách cuộn nhanh lên đầu trang.
+      - .av-qr-box: Khung hiển thị mã QR chuyển khoản trên trang Giỏ hàng.
+   ============================================================================ */
+#avBot {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: 9985;
+  font-family: inherit;
+}
+
+#avBotBtn {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 0;
+  cursor: pointer;
+  font-size: 25px;
+  color: #fff;
+  background: linear-gradient(135deg, var(--neon), var(--violet));
+  box-shadow: 0 0 0 0 rgba(255, 79, 163, 0.7);
+  animation: avPulse 2.4s infinite;
+}
+
+@keyframes avPulse {
+  70% {
+      box-shadow: 0 0 0 16px rgba(255, 79, 163, 0);
+  }
+
+  100% {
+      box-shadow: 0 0 0 0 rgba(255, 79, 163, 0);
+  }
+}
+
+#avBotBox {
+  display: none;
+  position: absolute;
+  right: 0;
+  bottom: 68px;
+  width: min(360px, calc(100vw - 32px));
+  height: 470px;
+  max-height: 74vh;
+  flex-direction: column;
+  background: var(--panel);
+  border: 1px solid var(--glass-border);
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 0 30px rgba(56, 232, 255, 0.2), 0 20px 50px rgba(0, 0, 0, 0.75);
+}
+
+#avBotBox.open {
+    display: flex;
+}
+
+#avBotHead {
+  padding: 12px 14px;
+  font-weight: 700;
+  color: #fff;
+  background: linear-gradient(90deg, var(--neon), var(--violet));
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#avBotHead small {
+  display: block;
+  font-weight: 400;
+  opacity: 0.9;
+  font-size: 11px;
+}
+
+#avMsgs {
+  flex: 1;
+  overflow: auto;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.avm {
+  max-width: 86%;
+  padding: 9px 12px;
+  border-radius: 12px;
+  font-size: 13.5px;
+  line-height: 1.45;
+  color: var(--text);
+  background: var(--surface-elevated);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  align-self: flex-start;
+}
+
+.avm.u {
+  align-self: flex-end;
+  background: var(--neon);
+  color: #fff;
+  border-color: transparent;
+}
+
+.avm a {
+    color: var(--cyan);
+    font-weight: 700;
+    text-decoration: underline;
+}
+
+#avChips {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  padding: 0 12px 8px;
+}
+
+#avChips button {
+  border: 1px solid var(--cyan);
+  background: rgba(56, 232, 255, 0.08);
+  color: var(--cyan);
+  border-radius: 20px;
+  padding: 4px 10px;
+  font-size: 11.5px;
+  cursor: pointer;
+}
+
+#avForm {
+  display: flex;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+#avIn {
+  flex: 1;
+  border: 0;
+  background: var(--surface-elevated);
+  color: var(--text);
+  padding: 12px;
+  font-size: 13.5px;
+  outline: 0;
+}
+
+#avForm button {
+  border: 0;
+  background: var(--neon);
+  color: #fff;
+  padding: 0 16px;
+  cursor: pointer;
+  font-size: 16px;  /* Cỡ chữ lớn hay nhỏ */
+}
+
+#avTop {
+  position: fixed;
+  left: 16px;
+  bottom: 16px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--cyan);
+  background: var(--panel);
+  color: var(--cyan);
+  cursor: pointer;
+  z-index: 9980;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s, transform 0.2s;
+}
+
+#avTop.show {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+#avTop:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0 14px var(--cyan);
+}
+
+.to-top {
+    display: none !important;
+}   /* tránh trùng nút lên đầu trang cũ */
+
+
+/* QR Box trên trang giỏ hàng */
+.av-qr-box {
+  margin: 12px 0;
+  padding: 14px;
+  border-radius: 14px;
+  background: rgba(56, 232, 255, 0.07);
+  border: 1px solid var(--cyan);
+  text-align: center;
+}
+
+.av-pay-methods {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);  /* Chia số cột hiển thị ngang */
+  gap: 8px;
+  margin: 10px 0;
+}
+
+.av-pay-method {
+  padding: 8px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--text);
+  font-size: 12px;  /* Cỡ chữ lớn hay nhỏ */
+  font-weight: 600;
+  text-align: center;
+  cursor: pointer;
+}
+
+.av-pay-method.active {
+  border-color: var(--cyan);
+  background: rgba(56, 232, 255, 0.16);
+  color: var(--cyan);
+}
+
+.av-reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.av-reveal.in {
+  opacity: 1;
+}
+
+.av-reveal.in:not(:hover) {
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+      animation: none !important;
+      transition: none !important;
+  }
+
+  .av-reveal {
+      opacity: 1;
+      transform: none;
+  }
+}
+
+/* ============================================================================
+   MỤC 15: BÀI TRẮC NGHIỆM "QUIZ TÌM ĐỒ HỢP HỆ" (.av-quiz) & KHUNG ẢNH CHỐNG CẮT HÌNH
+   📍 Vị trí:
+      - .av-quiz : Giao diện 3 câu hỏi trắc nghiệm chọn Loại đồ, Bộ Anime, Ngân sách.
+      - Phần cuối file: Luật object-fit: contain giúp ảnh sản phẩm luôn hiện trọn vẹn
+        nhân vật, không bị cắt mất đầu hay chân.
+   QUIZ TÌM ĐỒ HỢP HỆ (3 câu hỏi + Top 3 gợi ý)
+   Dùng màu trung tính rgba(128,128,170,x) để đẹp ở cả giao diện sáng & tối.
+   ============================================================================ */
+.av-quiz-title {
+    margin: 0 0 4px;
+}
+
+.av-quiz-progress {
+    display: flex;
+    gap: 6px;
+    margin: 10px 0 14px;
+}
+
+.av-quiz-progress i {
+  flex: 1;
+  height: 5px;
+  border-radius: 5px;
+  background: rgba(128, 128, 170, 0.25);
+  transition: background 0.25s;
+}
+
+.av-quiz-progress i.on {
+    background: linear-gradient(90deg, var(--neon), var(--violet));
+}
+
+.av-quiz-q {
+    margin: 0 0 4px;
+    font-weight: 800;
+    font-size: 15px;
+    color: var(--cyan);
+}
+
+.av-quiz-hint {
+    margin: 0 0 12px;
+    color: var(--muted);
+    font-size: 13px;  /* Cỡ chữ lớn hay nhỏ */
+}
+
+.av-quiz-opts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 10px;
+  margin: 12px 0;
+}
+
+.av-quiz-opt {
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(128, 128, 170, 0.35);
+  background: rgba(128, 128, 170, 0.1);
+  color: var(--text);
+  font: inherit;
+  font-weight: 700;
+  font-size: 13px;
+  line-height: 1.4;
+  text-align: left;
+  cursor: pointer;
+  transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
+
+.av-quiz-opt:hover,
+.av-quiz-opt:focus-visible {
+  border-color: var(--cyan);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px var(--card-glow);
+  outline: none;
+}
+
+.av-quiz-opt small {
+    display: block;
+    margin-top: 2px;
+    font-weight: 500;
+    color: var(--muted);
+    font-size: 11.5px;  /* Cỡ chữ lớn hay nhỏ */
+}
+
+.av-quiz-opt.is-skip {
+    border-style: dashed;
+}
+
+.av-quiz-nav {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-top: 8px;
+}
+
+.av-quiz-link {
+  background: none;
+  border: 0;
+  padding: 6px 2px;
+  color: var(--muted);
+  font: inherit;
+  font-size: 13px;  /* Cỡ chữ lớn hay nhỏ */
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.av-quiz-link:hover {
+    color: var(--cyan);
+}
+
+.av-quiz-summary {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 4px 0 14px;
+}
+
+.av-quiz-summary span {
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  border: 1px solid var(--glass-border);
+  color: var(--cyan);
+}
+
+.av-quiz-results {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 12px;
+}
+
+.av-quiz-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border-radius: 14px;
+  overflow: hidden;
+  background: rgba(128, 128, 170, 0.1);
+  border: 1px solid rgba(128, 128, 170, 0.28);
+}
+
+.av-quiz-card.is-top {
+    border-color: var(--neon);
+    box-shadow: 0 0 0 1px var(--neon), 0 10px 26px var(--card-glow);
+}
+
+.av-quiz-ribbon {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 2;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--neon), var(--violet));
+  color: #fff;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+/* Ảnh hiển thị trọn vẹn sản phẩm (contain); phần thừa được lấp bằng nền mờ của chính ảnh */
+.av-quiz-img {
+    position: relative;
+    display: block;
+    aspect-ratio: 1 / 1;
+    background: #0d0d17;
+    overflow: hidden;
+}
+
+.av-quiz-img::before {
+  content: "";
+  position: absolute;
+  inset: -20px;
+  background: var(--qimg) center / cover no-repeat;
+  filter: blur(18px) brightness(0.55);
+}
+
+.av-quiz-img img {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    transition: transform 0.3s;
+}
+
+.av-quiz-card:hover .av-quiz-img img {
+    transform: scale(1.03);
+}
+
+.av-quiz-body {
+    padding: 10px 12px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+}
+
+.av-quiz-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    min-height: 20px;
+}
+
+.av-quiz-tags span {
+  font-size: 10.5px;  /* Cỡ chữ lớn hay nhỏ */
+  font-weight: 800;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(255, 79, 163, 0.22), rgba(139, 92, 246, 0.25));
+  color: var(--cyan);
+}
+
+.av-quiz-tags span.dim {
+    background: rgba(128, 128, 170, 0.18);
+    color: var(--muted);
+}
+
+.av-quiz-body b {
+    font-size: 13.5px;
+    line-height: 1.35;
+}
+
+.av-quiz-body b a {
+    color: var(--text);
+    text-decoration: none;
+}
+
+.av-quiz-body b a:hover {
+    color: var(--cyan);
+}
+
+.av-quiz-meta {
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.av-quiz-foot {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+    padding-top: 8px;
+    gap: 8px;
+}
+
+.av-quiz-foot strong {
+    color: var(--neon);
+}
+
+.av-quiz-foot del {
+    color: var(--muted);
+    font-size: 11.5px;
+    margin-left: 5px;
+    font-weight: 400;
+}
+
+
+/* ============================================================================
+   MỤC 14: HIỆU ỨNG CHUYỂN ĐỘNG & TƯƠNG TÁC MỚI (LÀM WEB SỐNG ĐỘNG HƠN)
+   Giải thích các phần trong mục này:
+   - 14.1: Nút "🎁 Điểm danh +50 XP" trên thanh thông báo đầu trang (.av-checkin-btn).
+   - 14.2: Hàng chấm tròn đổi góc ảnh trực tiếp trên thẻ sản phẩm (.av-angle-dots).
+   - 14.3: Hiệu ứng viên ngọc mang ảnh sản phẩm bay vào Giỏ hàng (.av-fly-item)
+           và chữ "+10 XP ✨" bay lên (.av-xp-float).
+   - 14.4: Hiệu ứng bắn pháo hoa Trái tim (.av-burst-particle) và Pháo hoa giấy (.av-confetti-piece).
+   - 14.5: Hiệu ứng sóng sáng lan tỏa khi bấm nút (.av-click-ripple).
+   - 14.6: Nút chấm đổi nhân vật và hiệu ứng lật thẻ 3D trên Sân khấu Hero (.av-hero-switcher).
+   - 14.7: Hộp thông báo hoạt động mua sắm trực tiếp ở góc trái dưới (#avLiveTicker).
+   ============================================================================ */
+
+/* 14.1. Cụm nút Điểm danh +50 XP và Huy hiệu VIP trên thanh Topbar */
+.av-topbar-actions {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.av-checkin-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 12px;
+    min-height: 32px;
+    border-radius: 999px;
+    border: 1px solid rgba(251, 191, 36, 0.55);
+    background: linear-gradient(135deg, rgba(251, 191, 36, 0.22), rgba(255, 61, 154, 0.25));
+    color: #fde68a;
+    font-size: 11.5px;
+    font-weight: 800;
+    cursor: pointer;
+    box-shadow: 0 0 14px rgba(251, 191, 36, 0.25);
+    animation: avPulseCheckin 2.4s ease-in-out infinite;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.av-checkin-btn:hover {
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: 0 0 20px rgba(251, 191, 36, 0.5);
+}
+
+.av-checkin-btn.done {
+    border-color: rgba(16, 185, 129, 0.5);
+    background: rgba(16, 185, 129, 0.16);
+    color: #6ee7b7;
+    box-shadow: none;
+    animation: none;
+}
+
+@keyframes avPulseCheckin {
+    0%, 100% {
+        box-shadow: 0 0 10px rgba(251, 191, 36, 0.22);
+    }
+
+    50% {
+        box-shadow: 0 0 20px rgba(255, 61, 154, 0.55);
+    }
+}
+
+/* 14.2. Hàng chấm tròn xem nhiều góc ảnh ngay trên thẻ sản phẩm */
+.av-angle-dots {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 4;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 8px;
+    border-radius: 999px;
+    background: rgba(7, 6, 15, 0.68);
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    opacity: 0;
+    transition: opacity 0.22s ease;
+}
+
+.product-card:hover .av-angle-dots,
+.deal-card:hover .av-angle-dots,
+.product-card:focus-within .av-angle-dots {
+    opacity: 1;
+}
+
+.av-angle-dot {
+    width: 8px !important;
+    height: 8px !important;
+    min-width: 8px !important;
+    min-height: 8px !important;
+    padding: 0 !important;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255, 255, 255, 0.42);
+    cursor: pointer;
+    transition: transform 0.2s ease, background-color 0.2s ease, width 0.2s ease;
+}
+
+.av-angle-dot.active,
+.av-angle-dot:hover {
+    background: var(--cyan);
+    transform: scale(1.3);
+    box-shadow: 0 0 8px var(--cyan);
+}
+
+/* Hiệu ứng mượt mà khi đổi góc ảnh trên thẻ hoặc trong trang chi tiết */
+.av-img-switch {
+    animation: avImgSwitchAnim 0.34s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes avImgSwitchAnim {
+    0% {
+        opacity: 0.45;
+        transform: scale(0.96);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Hiệu ứng nảy mượt mà khi khách bấm nút lọc danh mục sản phẩm */
+.av-card-pop {
+    animation: avCardPopIn 0.38s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes avCardPopIn {
+    0% {
+        opacity: 0;
+        transform: translateY(16px) scale(0.95);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* 14.3. Hiệu ứng ảnh thu nhỏ bay vào Giỏ hàng & Chữ +10 XP bay lên */
+.av-fly-item {
+    position: fixed;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background-color: var(--panel);
+    background-size: cover;
+    background-position: center;
+    border: 2px solid var(--cyan);
+    box-shadow: 0 0 22px var(--pink), 0 0 10px var(--cyan);
+    pointer-events: none;
+    z-index: 10050;
+    transition: transform 0.66s cubic-bezier(0.2, 0.85, 0.35, 1), opacity 0.66s ease;
+}
+
+.av-xp-float {
+    position: fixed;
+    pointer-events: none;
+    z-index: 10051;
+    padding: 4px 10px;
+    border-radius: 999px;  /* Độ bo tròn góc khung */
+    background: linear-gradient(135deg, var(--pink), var(--purple));
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 800;
+    box-shadow: 0 6px 18px rgba(255, 61, 154, 0.45);
+    animation: avXpFloatUp 0.92s ease-out forwards;
+}
+
+@keyframes avXpFloatUp {
+    0% {
+        opacity: 0;
+        transform: translateY(8px) scale(0.85);
+    }
+
+    25% {
+        opacity: 1;
+        transform: translateY(0) scale(1.05);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateY(-38px) scale(0.95);
+    }
+}
+
+.av-cart-shake {
+    animation: avCartBounceAnim 0.52s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+}
+
+@keyframes avCartBounceAnim {
+    0%, 100% {
+        transform: scale(1);
+    }
+
+    30% {
+        transform: scale(1.18) rotate(-6deg);
+    }
+
+    60% {
+        transform: scale(1.12) rotate(6deg);
+    }
+}
+
+/* 14.4. Hiệu ứng bắn pháo hoa Trái tim & Pháo hoa giấy Confetti */
+.av-heart-pop {
+    animation: avHeartPulse 0.42s cubic-bezier(0.17, 0.89, 0.32, 1.49);
+}
+
+@keyframes avHeartPulse {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.38);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.av-burst-particle {
+    position: fixed;
+    pointer-events: none;
+    z-index: 10040;  /* Thứ tự lớp nổi lên trên */
+    font-size: 14px;
+    color: var(--pink);
+    text-shadow: 0 0 8px var(--pink);
+    animation: avBurstOut 0.7s ease-out forwards;
+}
+
+@keyframes avBurstOut {
+    0% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(0.6);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate(calc(-50% + var(--tx, 0px)), calc(-50% + var(--ty, -30px))) scale(1.25);
+    }
+}
+
+.av-confetti-piece {
+    position: fixed;
+    width: 9px;
+    height: 14px;
+    border-radius: 3px;
+    pointer-events: none;
+    z-index: 10060;
+    animation: avConfettiFall linear forwards;
+}
+
+@keyframes avConfettiFall {
+    0% {
+        opacity: 1;
+        transform: translate(0, 0) rotate(0deg);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate(var(--fall-x, 40px), 92vh) rotate(540deg);
+    }
+}
+
+/* 14.5. Hiệu ứng sóng sáng (Ripple) lan tỏa khi bấm vào nút */
+.btn,
+.filter,
+.category-filter,
+.av-fandom-pill,
+.av-quick-cart-btn,
+.btn-add-cart,
+.btn-buy-now {
+    position: relative;
+    overflow: hidden;
+}
+
+.av-click-ripple {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    margin-left: -8px;
+    margin-top: -8px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.42);
+    pointer-events: none;
+    animation: avRippleExpand 0.55s ease-out forwards;
+}
+
+@keyframes avRippleExpand {
+    0% {
+        transform: scale(0.5);
+        opacity: 0.85;
+    }
+
+    100% {
+        transform: scale(14);
+        opacity: 0;
+    }
+}
+
+/* 14.6. Nút chuyển đổi nhân vật & Hiệu ứng lật thẻ 3D trên Sân khấu Hero Trang chủ */
+.av-hero-switcher {
+    position: absolute;
+    bottom: 6px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 5;  /* Thứ tự lớp nổi lên trên */
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 12px;
+    border-radius: 999px;  /* Độ bo tròn góc khung */
+    background: rgba(11, 9, 24, 0.78);
+    border: 1px solid rgba(155, 107, 255, 0.4);
+    backdrop-filter: blur(8px);
+}
+
+.av-hero-dot {
+    width: 10px !important;
+    height: 10px !important;
+    min-width: 10px !important;
+    min-height: 10px !important;
+    padding: 0 !important;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255, 255, 255, 0.32);
+    cursor: pointer;
+    transition: all 0.22s ease;
+}
+
+.av-hero-dot.active,
+.av-hero-dot:hover {
+    background: var(--pink);
+    transform: scale(1.3);
+    box-shadow: 0 0 10px var(--pink);
+}
+
+.av-hero-flip {
+    animation: avHeroCardFlip 0.48s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes avHeroCardFlip {
+    0% {
+        opacity: 0.5;
+        transform: perspective(800px) rotateY(75deg) scale(0.92);
+    }
+
+    100% {
+        opacity: 1;
+        transform: perspective(800px) rotateY(0deg) scale(1);
+    }
+}
+
+/* 14.7. Hộp thông báo hoạt động mua sắm trực tiếp (#avLiveTicker) ở góc trái dưới */
+#avLiveTicker {
+    position: fixed;
+    left: 20px;
+    bottom: 84px;
+    z-index: 980;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    max-width: 320px;
+    padding: 10px 12px;
+    border-radius: 16px;
+    background: rgba(17, 14, 36, 0.94);
+    border: 1px solid rgba(92, 225, 230, 0.38);
+    box-shadow: 0 14px 34px rgba(0, 0, 0, 0.55), 0 0 18px rgba(255, 61, 154, 0.18);
+    backdrop-filter: blur(12px);
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(18px) scale(0.96);
+    transition: opacity 0.32s ease, transform 0.32s ease;
+}
+
+#avLiveTicker.show {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0) scale(1);
+}
+
+#avLiveTicker img {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    object-fit: cover;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    flex-shrink: 0;
+}
+
+#avLiveTicker .av-ticker-text {
+    font-size: 12px;
+    line-height: 1.38;
+    color: var(--text);
+}
+
+#avLiveTicker .av-ticker-text small {
+    display: block;
+    color: var(--cyan);
+    font-size: 10.5px;
+    font-weight: 700;
+    margin-bottom: 2px;
+}
+
+#avLiveTicker .av-ticker-text a {
+    color: var(--pink);
+    font-weight: 700;
+    text-decoration: none;
+}
+
+#avLiveTicker .av-ticker-text a:hover {
+    text-decoration: underline;
+}
+
+#avLiveTicker .av-ticker-close {
+    width: 26px !important;
+    height: 26px !important;
+    min-width: 26px !important;
+    min-height: 26px !important;
+    padding: 0 !important;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--muted);
+    font-size: 14px;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+#avLiveTicker .av-ticker-close:hover {
+    background: var(--pink);
+    color: #ffffff;
+}
