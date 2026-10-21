@@ -11,33 +11,81 @@
       - Chủ đề Gear 5 / Gojo: chữ trên nền vàng/xanh sáng chuyển sang màu đen đậm.
    ============================================================================ */
 
-/* ---------- 1) Biến bổ sung cho từng chủ đề ---------- */
+/* ---------- 1) Biến bổ sung cho từng chủ đề (Quad-Theme & WCAG AA) ---------- */
 :root {
   --on-accent: #ffffff;
   --text-strong: #ffffff;
-  --accent-grad: linear-gradient(135deg, #ff3d9a 0%, #9b6bff 100%);
+  --accent-grad: linear-gradient(135deg, #d81469 0%, #7c3aed 100%);
+  --surface: #110e24;
+  --surface-2: #181432;
+  --surface-elevated: #1b1638;
+  --hero-bg: linear-gradient(135deg, rgba(22, 17, 48, 0.92) 0%, rgba(13, 10, 28, 0.96) 100%);
+  --sale-bg: linear-gradient(100deg, #3a1752, #20133a 50%, #44152d);
+  --star: #fbbf24;
+  --price: #ff3d9a;
+  color-scheme: dark;
 }
-html[data-theme="sakura"] {
+html[data-theme="cyber"],
+html[data-theme="default"] {
+  --on-accent: #ffffff;
+  --text-strong: #ffffff;
+  --accent-grad: linear-gradient(135deg, #d81469 0%, #7c3aed 100%);
+  --surface: #110e24;
+  --surface-2: #181432;
+  --surface-elevated: #1b1638;
+  --hero-bg: linear-gradient(135deg, rgba(22, 17, 48, 0.92) 0%, rgba(13, 10, 28, 0.96) 100%);
+  --sale-bg: linear-gradient(100deg, #3a1752, #20133a 50%, #44152d);
+  --star: #fbbf24;
+  --price: #ff3d9a;
+  color-scheme: dark;
+}
+html[data-theme="sakura"],
+html[data-theme="sakura-pastel"] {
   --on-accent: #ffffff;
   --text-strong: #24142c;
   --accent-grad: linear-gradient(135deg, #e11d74 0%, #9333ea 100%);
   --surface: #ffffff;
   --surface-2: #fdf2f8;
+  --surface-elevated: #fff0f7;
   --hero-bg: linear-gradient(135deg, #ffe4f1 0%, #f3e8ff 55%, #ffeef6 100%);
   --sale-bg: linear-gradient(100deg, #ffe0ef, #f1e4ff 50%, #ffe8f0);
   --star: #b45309;
   --price: #be185d;
+  --text: #24142c;
+  --muted: #6e5578;
   color-scheme: light;
 }
-html[data-theme="gear5"] {
+html[data-theme="gear5"],
+html[data-theme="dark-knight"] {
   --on-accent: #1a1204;
   --text-strong: #fff7e0;
   --accent-grad: linear-gradient(135deg, #fbbf24 0%, #f97316 100%);
+  --surface: #17130a;
+  --surface-2: #211b0e;
+  --surface-elevated: #231c0d;
+  --hero-bg: radial-gradient(circle at 82% 28%, rgba(251, 191, 36, 0.22), transparent 55%), radial-gradient(circle at 12% 80%, rgba(249, 115, 22, 0.16), transparent 50%), #17130a;
+  --sale-bg: linear-gradient(100deg, rgba(251, 191, 36, 0.18), #17130a 55%, rgba(249, 115, 22, 0.18));
+  --star: #fbbf24;
+  --price: #f59e0b;
+  --text: #fff8e7;
+  --muted: #c9b896;
+  color-scheme: dark;
 }
-html[data-theme="gojo"] {
+html[data-theme="gojo"],
+html[data-theme="cyber-neon"] {
   --on-accent: #02121f;
   --text-strong: #eaf6ff;
   --accent-grad: linear-gradient(135deg, #00f0ff 0%, #818cf8 100%);
+  --surface: #0b1829;
+  --surface-2: #11223a;
+  --surface-elevated: #0f2138;
+  --hero-bg: radial-gradient(circle at 82% 28%, rgba(0, 240, 255, 0.22), transparent 55%), radial-gradient(circle at 12% 80%, rgba(129, 140, 248, 0.16), transparent 50%), #0b1829;
+  --sale-bg: linear-gradient(100deg, rgba(0, 240, 255, 0.18), #0b1829 55%, rgba(129, 140, 248, 0.18));
+  --star: #38bdf8;
+  --price: #00f0ff;
+  --text: #eaf6ff;
+  --muted: #8da6c4;
+  color-scheme: dark;
 }
 
 /* ---------- 2) Nút / nhãn nền màu nổi: chữ phải tương phản ---------- */
@@ -45,14 +93,43 @@ html[data-theme="gear5"] .btn.primary,
 html[data-theme="gear5"] .btn-primary,
 html[data-theme="gear5"] .btn-buy-now,
 html[data-theme="gear5"] .lh-submit,
+html[data-theme="dark-knight"] .btn.primary,
+html[data-theme="dark-knight"] .btn-primary,
+html[data-theme="dark-knight"] .btn-buy-now,
+html[data-theme="dark-knight"] .lh-submit,
 html[data-theme="gojo"] .btn.primary,
 html[data-theme="gojo"] .btn-primary,
 html[data-theme="gojo"] .btn-buy-now,
-html[data-theme="gojo"] .lh-submit {
+html[data-theme="gojo"] .lh-submit,
+html[data-theme="cyber-neon"] .btn.primary,
+html[data-theme="cyber-neon"] .btn-primary,
+html[data-theme="cyber-neon"] .btn-buy-now,
+html[data-theme="cyber-neon"] .lh-submit {
   background: var(--accent-grad) !important;
   color: var(--on-accent) !important;
   border-color: rgba(255, 255, 255, 0.25) !important;
   box-shadow: 0 8px 24px var(--glass-border) !important;
+}
+
+/* Badges nền màu nổi theo chủ đề & tương phản chuẩn */
+html[data-theme="gear5"] .badge,
+html[data-theme="gear5"] .pro-price .badge,
+html[data-theme="gear5"] .cart-badge,
+html[data-theme="gear5"] .av-badge-count,
+html[data-theme="dark-knight"] .badge,
+html[data-theme="dark-knight"] .pro-price .badge,
+html[data-theme="dark-knight"] .cart-badge,
+html[data-theme="dark-knight"] .av-badge-count,
+html[data-theme="gojo"] .badge,
+html[data-theme="gojo"] .pro-price .badge,
+html[data-theme="gojo"] .cart-badge,
+html[data-theme="gojo"] .av-badge-count,
+html[data-theme="cyber-neon"] .badge,
+html[data-theme="cyber-neon"] .pro-price .badge,
+html[data-theme="cyber-neon"] .cart-badge,
+html[data-theme="cyber-neon"] .av-badge-count {
+  background: var(--accent-grad) !important;
+  color: var(--on-accent) !important;
 }
 html[data-theme="gear5"] .badge,
 html[data-theme="gear5"] .pro-price .badge,
@@ -684,7 +761,7 @@ html[data-theme="gear5"] #best .benefits > div, html[data-theme="gojo"] #best .b
 }
 
 /* ============================================================================
-   CHỦ ĐỀ CHO OTAKU QUICK DOCK FAB & MENU (SAKURA / GEAR 5 / GOJO)
+   CHỦ ĐỀ CHO OTAKU QUICK DOCK FAB & MENU (DEFAULT / SAKURA / GEAR 5 / GOJO)
    ============================================================================ */
 .av-quick-dock {
   background: transparent !important;
@@ -693,7 +770,49 @@ html[data-theme="gear5"] #best .benefits > div, html[data-theme="gojo"] #best .b
   padding: 0 !important;
 }
 
-/* SAKURA THEME (Mặc định) */
+/* DEFAULT CYBER THEME */
+:root .av-dock-fab,
+html[data-theme="cyber"] .av-dock-fab,
+html[data-theme="default"] .av-dock-fab {
+  background: rgba(17, 14, 36, 0.95) !important;
+  border-color: rgba(155, 107, 255, 0.35) !important;
+  color: #ff3d9a !important;
+  box-shadow: 0 8px 24px rgba(155, 107, 255, 0.2) !important;
+}
+:root .av-quick-dock.is-open .av-dock-fab,
+html[data-theme="cyber"] .av-quick-dock.is-open .av-dock-fab,
+html[data-theme="default"] .av-quick-dock.is-open .av-dock-fab {
+  background: linear-gradient(135deg, #d81469, #7c3aed) !important;
+  color: #ffffff !important;
+  border-color: rgba(255, 255, 255, 0.3) !important;
+}
+:root .av-dock-menu,
+html[data-theme="cyber"] .av-dock-menu,
+html[data-theme="default"] .av-dock-menu {
+  background: rgba(17, 14, 36, 0.96) !important;
+  border-color: rgba(155, 107, 255, 0.3) !important;
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.45) !important;
+}
+:root .av-dock-menu .icon-btn,
+html[data-theme="cyber"] .av-dock-menu .icon-btn,
+html[data-theme="default"] .av-dock-menu .icon-btn {
+  background: rgba(155, 107, 255, 0.12) !important;
+  border-color: rgba(155, 107, 255, 0.25) !important;
+  color: #f5f2ff !important;
+}
+:root .av-dock-menu .icon-btn small,
+html[data-theme="cyber"] .av-dock-menu .icon-btn small,
+html[data-theme="default"] .av-dock-menu .icon-btn small {
+  color: #a69ec8 !important;
+}
+:root .av-dock-menu .icon-btn:hover,
+html[data-theme="cyber"] .av-dock-menu .icon-btn:hover,
+html[data-theme="default"] .av-dock-menu .icon-btn:hover {
+  background: rgba(155, 107, 255, 0.25) !important;
+  color: #ffffff !important;
+}
+
+/* SAKURA THEME */
 html[data-theme="sakura"] .av-dock-fab {
   background: rgba(255, 255, 255, 0.95) !important;
   border-color: rgba(236, 72, 153, 0.35) !important;
@@ -1264,47 +1383,89 @@ html[data-theme="sakura"] a.add:hover {
   font-size: 12px !important;
 }
 
-/* 3. Placeholder trên thanh tìm kiếm đạt độ tương phản chuẩn */
-.search input::placeholder,
-.search-input::placeholder,
-#searchInput::placeholder {
-  color: #64748b !important;
+/* 3. Placeholder trên thanh tìm kiếm đạt độ tương phản chuẩn WCAG AA cho từng chủ đề */
+:root .search input::placeholder,
+:root .search-input::placeholder,
+:root #searchInput::placeholder,
+html[data-theme="cyber"] .search input::placeholder,
+html[data-theme="cyber"] .search-input::placeholder,
+html[data-theme="cyber"] #searchInput::placeholder,
+html[data-theme="default"] .search input::placeholder,
+html[data-theme="default"] .search-input::placeholder,
+html[data-theme="default"] #searchInput::placeholder {
+  color: #a69ec8 !important;
+  opacity: 1 !important;
+}
+html[data-theme="sakura"] .search input::placeholder,
+html[data-theme="sakura"] .search-input::placeholder,
+html[data-theme="sakura"] #searchInput::placeholder,
+html[data-theme="sakura-pastel"] .search input::placeholder,
+html[data-theme="sakura-pastel"] .search-input::placeholder,
+html[data-theme="sakura-pastel"] #searchInput::placeholder {
+  color: #6e5578 !important;
+  opacity: 1 !important;
+}
+html[data-theme="gear5"] .search input::placeholder,
+html[data-theme="gear5"] .search-input::placeholder,
+html[data-theme="gear5"] #searchInput::placeholder,
+html[data-theme="dark-knight"] .search input::placeholder,
+html[data-theme="dark-knight"] .search-input::placeholder,
+html[data-theme="dark-knight"] #searchInput::placeholder {
+  color: #c9b896 !important;
+  opacity: 1 !important;
+}
+html[data-theme="gojo"] .search input::placeholder,
+html[data-theme="gojo"] .search-input::placeholder,
+html[data-theme="gojo"] #searchInput::placeholder,
+html[data-theme="cyber-neon"] .search input::placeholder,
+html[data-theme="cyber-neon"] .search-input::placeholder,
+html[data-theme="cyber-neon"] #searchInput::placeholder {
+  color: #8da6c4 !important;
   opacity: 1 !important;
 }
 
-/* 4. Tương phản chữ nhỏ phụ đề (.product-info > small) và giá gạch (.price del) */
-.product-info > small,
-.product-card small,
-.deal-card small,
-.pro-card-meta small {
+/* 4. Tương phản chữ nhỏ phụ đề (.product-info > small) và giá gạch (.price del) trong Sakura */
+html[data-theme="sakura"] .product-info > small,
+html[data-theme="sakura"] .product-card small,
+html[data-theme="sakura"] .deal-card small,
+html[data-theme="sakura"] .pro-card-meta small,
+html[data-theme="sakura-pastel"] .product-info > small,
+html[data-theme="sakura-pastel"] .product-card small,
+html[data-theme="sakura-pastel"] .deal-card small,
+html[data-theme="sakura-pastel"] .pro-card-meta small {
   color: #5c556b !important;
   font-size: 12px !important;
   font-weight: 700 !important;
 }
 
-.price del,
-.pro-price del {
+html[data-theme="sakura"] .price del,
+html[data-theme="sakura"] .pro-price del,
+html[data-theme="sakura-pastel"] .price del,
+html[data-theme="sakura-pastel"] .pro-price del {
   color: #64748b !important;
 }
 
-/* 5. Khắc phục tương phản thanh menu chính (.nav a:hover, .nav a.active) */
-.nav a:hover,
-.nav a.active,
-.nav a[aria-current="page"],
+/* 5. Khắc phục tương phản thanh menu chính (.nav a:hover, .nav a.active) và ô danh mục trong Sakura */
 html[data-theme="sakura"] .nav a:hover,
 html[data-theme="sakura"] .nav a.active,
-html[data-theme="sakura"] .nav a[aria-current="page"] {
+html[data-theme="sakura"] .nav a[aria-current="page"],
+html[data-theme="sakura-pastel"] .nav a:hover,
+html[data-theme="sakura-pastel"] .nav a.active,
+html[data-theme="sakura-pastel"] .nav a[aria-current="page"] {
   color: #b81565 !important;
   text-shadow: none !important;
 }
 
-.category b {
+html[data-theme="sakura"] .category b,
+html[data-theme="sakura-pastel"] .category b {
   color: #2e1d38 !important;
 }
-.category small {
+html[data-theme="sakura"] .category small,
+html[data-theme="sakura-pastel"] .category small {
   color: #5c556b !important;
 }
-.category:hover b {
+html[data-theme="sakura"] .category:hover b,
+html[data-theme="sakura-pastel"] .category:hover b {
   color: #b81565 !important;
 }
 

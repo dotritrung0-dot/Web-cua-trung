@@ -2008,27 +2008,136 @@
   // Muốn đổi tên hiển thị của các chủ đề, bạn sửa chữ trong biến THEMES dưới đây:
 
   // ---------------------------------------------------------------------------
-  // MỤC 1: CHỦ ĐỀ GIAO DIỆN CỐ ĐỊNH: NỀN TRẮNG HOA ANH ĐÀO & HOA HỒNG (SAKURA)
+  // MỤC 1: BỘ CHUYỂN ĐỔI 4 CHẾ ĐỘ GIAO DIỆN MÀU SẮC (THEME SWITCHER)
   // ---------------------------------------------------------------------------
+  // Web xoay vòng qua 4 tông màu:
+  //   1. cyber  : ⚡ Mặc định (Cyber Neon)
+  //   2. gear5  : ☀️ Dark Knight (Gear 5 Gold)
+  //   3. sakura : 🌸 Sakura Pastel (Hồng Trắng)
+  //   4. gojo   : ❄️ Cyber Neon (Vô Hạ Hạn)
+
   var THEMES = [
     {
+      id: 'cyber',
+      label: '⚡ Mặc định (Cyber Neon)'
+    },
+    {
+      id: 'gear5',
+      label: '☀️ Dark Knight (Gear 5 Gold)'
+    },
+    {
       id: 'sakura',
-      label: '🌸 Sakura & Rose'
+      label: '🌸 Sakura Pastel (Hồng Trắng)'
+    },
+    {
+      id: 'gojo',
+      label: '❄️ Cyber Neon (Vô Hạ Hạn)'
     }
   ];
 
+  // Bảng ánh xạ bí danh (alias) người dùng sang mã chủ đề chuẩn (canonical id)
+  var THEME_ALIASES = {
+    'cyber': 'cyber',
+    'default': 'cyber',
+    'gear5': 'gear5',
+    'dark-knight': 'gear5',
+    'darkknight': 'gear5',
+    'sakura': 'sakura',
+    'sakura-pastel': 'sakura',
+    'sakurapastel': 'sakura',
+    'gojo': 'gojo',
+    'cyber-neon': 'gojo',
+    'cyberneon': 'gojo'
+  };
+
+  // Chuẩn hóa mã chủ đề: hỗ trợ cả canonical keys lẫn aliases, fallback an toàn về 'cyber'
+  function normalizeTheme(id) {
+    if (!id || typeof id !== 'string') return 'cyber';
+    var key = id.toLowerCase().trim();
+    if (Object.prototype.hasOwnProperty.call(THEME_ALIASES, key)) {
+      return THEME_ALIASES[key];
+    }
+    for (var i = 0; i < THEMES.length; i++) {
+      if (THEMES[i].id === key) return key;
+    }
+    return 'cyber';
+  }
+
+  // Bộ nhớ đệm trong trường hợp trình duyệt chặn localStorage (Private Mode, QuotaExceededError)
+  var _themeMem = null;
+
   function getTheme() {
-    return 'sakura';
+    try {
+      var saved = localStorage.getItem('av_theme');
+      if (saved) return normalizeTheme(saved);
+    } catch (e) {}
+
+    if (_themeMem) {
+      return normalizeTheme(_themeMem);
+    }
+
+    return 'cyber';
   }
 
   function applyTheme(id, notify) {
-    document.documentElement.setAttribute('data-theme', 'sakura');
+    var canonical = normalizeTheme(id);
+    _themeMem = canonical;
+
+    document.documentElement.setAttribute('data-theme', canonical);
+
     try {
-      localStorage.setItem('av_theme', 'sakura');
+      localStorage.setItem('av_theme', canonical);
     } catch (e) {}
+
+    var matched = null;
+    for (var i = 0; i < THEMES.length; i++) {
+      if (THEMES[i].id === canonical) {
+        matched = THEMES[i];
+        break;
+      }
+    }
+    var info = matched || THEMES[0];
+
+    // Cập nhật trạng thái nút chuyển chủ đề trên Quick Dock (#avThemeBtn) nếu có trong DOM
+    var btn = document.getElementById('avThemeBtn');
+    if (btn) {
+      var iconPart = info.label.split(' ')[0];
+      var isMob = window.innerWidth <= 768;
+      var textPart = isMob ? 'Chủ đề' : 'Giao diện';
+      btn.innerHTML = iconPart + '<small>' + textPart + '</small>';
+      btn.title = 'Đổi chủ đề màu sắc (Hiện tại: ' + info.label + ')';
+      btn.setAttribute('aria-label', 'Đổi chủ đề màu sắc: ' + info.label);
+    }
+
+    // Phát sự kiện DOM tùy biến 'av:theme-changed' cho các module khác phản hồi
+    try {
+      document.dispatchEvent(new CustomEvent('av:theme-changed', {
+        bubbles: true,
+        cancelable: true,
+        detail: {
+          theme: canonical
+        }
+      }));
+    } catch (e) {}
+
+    // Thông báo toast cho người dùng khi được kích hoạt qua tương tác (notify = true)
+    if (notify) {
+      var storeObj = window.AVStore || (typeof Store !== 'undefined' ? Store : null);
+      if (storeObj && typeof storeObj.toast === 'function') {
+        storeObj.toast('🎨 Đã chuyển giao diện: ' + info.label);
+      } else if (typeof window.AnimeVerseToast === 'function') {
+        window.AnimeVerseToast('🎨 Đã chuyển giao diện: ' + info.label);
+      }
+    }
   }
 
-  applyTheme('sakura', false);
+  // Khởi động chủ đề đã lưu ngay khi tải script (không thông báo toast, CLS = 0)
+  applyTheme(getTheme(), false);
+
+  // Xuất API toàn cục hỗ trợ tương thích và kiểm thử tự động
+  window.applyTheme = applyTheme;
+  window.getTheme = getTheme;
+  window.AV_THEMES = THEMES;
 
 
   // ---------------------------------------------------------------------------
@@ -2667,6 +2776,38 @@
       openDrawer('wish');
     };
 
+    // 4. Nút Đổi giao diện màu sắc (4 chế độ xoay vòng)
+    var themeBtn = document.createElement('button');
+    themeBtn.type = 'button';
+    themeBtn.id = 'avThemeBtn';
+    themeBtn.className = 'icon-btn';
+    themeBtn.setAttribute('role', 'menuitem');
+    var curInitTheme = getTheme();
+    var curInitMatched = null;
+    for (var ti = 0; ti < THEMES.length; ti++) {
+      if (THEMES[ti].id === curInitTheme) {
+        curInitMatched = THEMES[ti];
+        break;
+      }
+    }
+    var curInitInfo = curInitMatched || THEMES[0];
+    var isMobTheme = window.innerWidth <= 768;
+    themeBtn.innerHTML = curInitInfo.label.split(' ')[0] + '<small>' + (isMobTheme ? 'Chủ đề' : 'Giao diện') + '</small>';
+    themeBtn.title = 'Đổi chủ đề màu sắc (Hiện tại: ' + curInitInfo.label + ')';
+    themeBtn.setAttribute('aria-label', 'Đổi chủ đề màu sắc: ' + curInitInfo.label);
+    themeBtn.onclick = function () {
+      var cur = getTheme();
+      var idx = -1;
+      for (var i = 0; i < THEMES.length; i++) {
+        if (THEMES[i].id === cur) {
+          idx = i;
+          break;
+        }
+      }
+      var next = THEMES[(idx + 1) % THEMES.length];
+      applyTheme(next.id, true);
+    };
+
     // 4. Nút Bật / Tắt nhạc nền MP3
     var musicBtn = document.createElement('button');
     musicBtn.type = 'button';
@@ -2733,6 +2874,7 @@
     dockMenu.appendChild(gachaBtn);
     dockMenu.appendChild(wishBtn);
     dockMenu.appendChild(compBtn);
+    dockMenu.appendChild(themeBtn);
     dockMenu.appendChild(musicBtn);
     dockMenu.appendChild(nextMusicBtn);
 
@@ -2744,7 +2886,7 @@
     dockFab.setAttribute('aria-expanded', 'false');
     dockFab.setAttribute('aria-controls', 'avDockMenu');
     dockFab.setAttribute('aria-label', 'Mở tiện ích Otaku');
-    dockFab.title = 'Tiện ích Otaku (Gacha, Tủ đồ, So sánh, Nhạc)';
+    dockFab.title = 'Tiện ích Otaku (Gacha, Tủ đồ, So sánh, Theme, Nhạc)';
     dockFab.innerHTML =
       '<span class="av-dock-fab-icon" aria-hidden="true">⚡</span>' +
       '<span class="av-dock-fab-label">Tiện ích</span>' +
