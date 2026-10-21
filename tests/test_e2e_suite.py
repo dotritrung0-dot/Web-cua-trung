@@ -468,6 +468,34 @@ class TestTier1FeatureCoverage(unittest.TestCase):
         motion_js = (ROOT_DIR / 'js' / 'motion.js').read_text(encoding='utf-8')
         self.assertIn('AVFlyToCart', motion_js)
 
+    def test_f07_1_card_tilt_transform_defined(self):
+        """F7.1: Verify card tilt transform and glare CSS variables."""
+        css = (ROOT_DIR / 'css' / 'bundle.css').read_text(encoding='utf-8')
+        self.assertIn('.av-motion-tilt', css)
+        self.assertIn('--tilt-x', css)
+        self.assertIn('--glare-opacity', css)
+
+    def test_f07_3_celebratory_particle_burst_trigger(self):
+        """F7.3: Verify celebratory particle burst triggers in motion.js and site.js."""
+        motion_js = (ROOT_DIR / 'js' / 'motion.js').read_text(encoding='utf-8')
+        site_js = (ROOT_DIR / 'js' / 'site.js').read_text(encoding='utf-8')
+        self.assertIn('AVCartCelebration', motion_js)
+        self.assertIn('AVCartCelebration', site_js)
+        self.assertIn('#e11d74', motion_js)
+
+    def test_f07_4_badge_pulse_animation_defined(self):
+        """F7.4: Verify @keyframes avBadgePulse and .badge-pulse in CSS."""
+        css = (ROOT_DIR / 'css' / 'bundle.css').read_text(encoding='utf-8')
+        self.assertIn('avBadgePulse', css)
+        self.assertIn('badge-pulse', css)
+
+    def test_f07_5_reduced_motion_fallback(self):
+        """F7.5: Verify reduced motion fallback media queries in CSS and JS."""
+        motion_js = (ROOT_DIR / 'js' / 'motion.js').read_text(encoding='utf-8')
+        motion_css = (ROOT_DIR / 'css' / 'motion.css').read_text(encoding='utf-8')
+        self.assertIn('prefers-reduced-motion', motion_js)
+        self.assertIn('prefers-reduced-motion', motion_css)
+
     # ---------------- F8: Quad-Theme Architecture & Switcher ----------------
     def test_f08_1_theme_four_themes_tokenized_in_css(self):
         """F8.1: Verify all 4 themes have selectors and tokens in css/bundle.css."""

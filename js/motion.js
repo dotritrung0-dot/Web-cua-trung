@@ -1,15 +1,19 @@
 /* ============================================================================
- * FILE: js/motion.js — MODULE HIỆU ỨNG CHUYỂN ĐỘNG NÂNG CẤP ANIMEVERSE
+ * FILE: js/motion.js — MODULE HIỆU ỨNG CHUYỂN ĐỘNG NÂNG CẤP ANIMEVERSE (MILESTONE 4)
  * 
- * Tính năng chính:
+ * Tính năng chính (Feature F7):
  *   1. Scroll Reveal: Cuộn tới đâu, thẻ sản phẩm và tiêu đề hiện dần tới đó mượt mà.
- *   2. Smooth 3D Tilt: Thẻ sản phẩm nghiêng 3D chính xác theo chuột trên PC (RAF 60/120fps).
- *   3. Fly to Cart: Ảnh sản phẩm bay mượt vào icon giỏ hàng khi bấm thêm giỏ.
+ *   2. Smooth 3D Card Tilt with Specular Glare: Thẻ nghiêng 3D theo con trỏ chuột (RAF 60/120fps),
+ *      chuẩn hóa tọa độ [-1, 1], perspective 1000px, ánh sáng phản chiếu --glare-x, --glare-y,
+ *      --tilt-gx, --tilt-gy, --glare-opacity (0.14 - 0.18).
+ *   3. Fly to Cart & Celebratory Particles: Ảnh bay vào giỏ hàng kết hợp pháo hoa cánh hoa
+ *      anh đào Sakura Pastel (14-20 hạt cánh hoa & ngôi sao #e11d74, #9333ea, #0284c7, #fbbf24).
+ *   4. Subtle Badge Pulse: Kích hoạt nhịp nảy khi cập nhật số lượng giỏ hàng.
  * 
- * Cam kết kỹ thuật:
- *   - Tối ưu hóa GPU (transform & opacity), không gây giật lag / rubber-banding trên PC.
- *   - Tôn trọng hoàn toàn prefers-reduced-motion.
- *   - Đồng bộ hoàn hảo với hệ thống CSS và JS của toàn bộ AnimeVerse.
+ * Cam kết kỹ thuật & tiêu chuẩn chất lượng:
+ *   - Tối ưu GPU (transform & opacity), 60fps/120fps, không gây giật lag hay reflow.
+ *   - Tôn trọng triệt để prefers-reduced-motion và chỉ kích hoạt tilt trên (hover: hover) and (pointer: fine).
+ *   - Dọn dẹp DOM tự động trong vòng 800-900ms, xử lý an toàn khi sourceEl = null hoặc click dồn dập.
  * ============================================================================ */
 
 (function () {
@@ -17,7 +21,16 @@
 
     // Kiểm tra cài đặt giảm chuyển động của hệ điều hành
     var prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // Fallback an toàn nếu người dùng kích hoạt giảm chuyển động
     if (prefersReduced) {
+        window.AVInitScrollReveal = function () {};
+        window.AVInitTilt = function () {};
+        window.AVFlyToCart = function () {};
+        window.AVCartCelebration = function () {};
+        if (!window.AVConfettiBurst) {
+            window.AVConfettiBurst = function () {};
+        }
         return;
     }
 
@@ -92,8 +105,9 @@
     };
 
     // ========================================================================
-    // 2. HIỆU ỨNG THẺ SẢN PHẨM NGHIÊNG 3D MƯỢT MÀ TRÊN PC (SMOOTH 3D TILT)
-    // Dùng requestAnimationFrame triệt tiêu độ trễ, bám chuẩn tọa độ con trỏ chuột
+    // 2. HIỆU ỨNG THẺ SẢN PHẨM NGHIÊNG 3D MƯỢT MÀ VỚI QUẦNG SÁNG (SMOOTH 3D TILT & GLARE)
+    // Chuẩn hóa tọa độ con trỏ chuột [-1, 1], RAF 60/120fps, perspective 1000px
+    // Guard: (hover: hover) and (pointer: fine) để bảo vệ trải nghiệm cuộn trên thiết bị cảm ứng
     // ========================================================================
     var isFinePointer = window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
@@ -103,6 +117,15 @@
         }
         card._avTiltBound = true;
         card.classList.add('av-motion-tilt');
+
+        // Đảm bảo phần tử quầng sáng specular glare tồn tại trong DOM thẻ
+        var glareEl = card.querySelector('.av-card-glare');
+        if (!glareEl) {
+            glareEl = document.createElement('div');
+            glareEl.className = 'av-card-glare';
+            glareEl.setAttribute('aria-hidden', 'true');
+            card.appendChild(glareEl);
+        }
 
         var rafId = null;
         var rect = null;
@@ -115,34 +138,49 @@
                 return;
             }
 
-            var x = (clientX - rect.left) / rect.width;
-            var y = (clientY - rect.top) / rect.height;
+            // Tọa độ tương đối từ 0 đến 1
+            var relX = (clientX - rect.left) / rect.width;
+            var relY = (clientY - rect.top) / rect.height;
 
-            // Kẹp trong khoảng 0 đến 1 để tránh nhảy góc khi con trỏ ở sát mép viền
-            x = Math.max(0, Math.min(1, x));
-            y = Math.max(0, Math.min(1, y));
+            // Kẹp giá trị an toàn trong khoảng [0, 1]
+            relX = Math.max(0, Math.min(1, relX));
+            relY = Math.max(0, Math.min(1, relY));
 
-            var rotX = ((0.5 - y) * 8.5).toFixed(2);
-            var rotY = ((x - 0.5) * 8.5).toFixed(2);
+            // Chuẩn hóa tọa độ so với tâm thẻ: [-1, 1]
+            var normX = Math.max(-1, Math.min(1, (relX - 0.5) * 2));
+            var normY = Math.max(-1, Math.min(1, (relY - 0.5) * 2));
+
+            var maxTilt = 8.5; // Góc nghiêng tối đa ±8.5deg
+            var rotX = (-normY * maxTilt).toFixed(2);
+            var rotY = (normX * maxTilt).toFixed(2);
 
             card.classList.add('is-tilting');
             card.style.setProperty('--tilt-x', rotX + 'deg');
             card.style.setProperty('--tilt-y', rotY + 'deg');
 
-            var gx = (x * 100).toFixed(1) + '%';
-            var gy = (y * 100).toFixed(1) + '%';
+            // Tọa độ vệt sáng phản chiếu specular glare
+            var gx = (relX * 100).toFixed(1) + '%';
+            var gy = (relY * 100).toFixed(1) + '%';
             card.style.setProperty('--tilt-gx', gx);
             card.style.setProperty('--tilt-gy', gy);
+            card.style.setProperty('--glare-x', gx);
+            card.style.setProperty('--glare-y', gy);
+
+            // Điều chế độ sáng của quầng phản chiếu từ 0.14 đến 0.18 theo khoảng cách từ tâm
+            var distFromCenter = Math.sqrt(normX * normX + normY * normY);
+            var glareOpacity = (0.14 + Math.min(0.04, distFromCenter * 0.04)).toFixed(2);
+            card.style.setProperty('--glare-opacity', glareOpacity);
+
             // Đồng bộ với lớp quầng sáng radial trong tech.css (--mx, --my)
             card.style.setProperty('--mx', gx);
             card.style.setProperty('--my', gy);
         }
 
-        card.addEventListener('mouseenter', function () {
+        function onEnter() {
             rect = card.getBoundingClientRect();
-        });
+        }
 
-        card.addEventListener('mousemove', function (e) {
+        function onMove(e) {
             var clientX = e.clientX;
             var clientY = e.clientY;
             if (rafId) {
@@ -152,9 +190,9 @@
                 updateTilt(clientX, clientY);
                 rafId = null;
             });
-        }, { passive: true });
+        }
 
-        card.addEventListener('mouseleave', function () {
+        function onLeave() {
             if (rafId) {
                 cancelAnimationFrame(rafId);
                 rafId = null;
@@ -163,7 +201,16 @@
             card.classList.remove('is-tilting');
             card.style.setProperty('--tilt-x', '0deg');
             card.style.setProperty('--tilt-y', '0deg');
-        });
+            card.style.setProperty('--glare-opacity', '0');
+        }
+
+        // Hỗ trợ cả PointerEvent và MouseEvent
+        card.addEventListener('pointerenter', onEnter);
+        card.addEventListener('pointermove', onMove, { passive: true });
+        card.addEventListener('pointerleave', onLeave);
+        card.addEventListener('mouseenter', onEnter);
+        card.addEventListener('mousemove', onMove, { passive: true });
+        card.addEventListener('mouseleave', onLeave);
     }
 
     function init3DTilt(scope) {
@@ -171,7 +218,7 @@
             return;
         }
         var root = scope || document;
-        var cards = root.querySelectorAll('.product-card, .deal-card');
+        var cards = root.querySelectorAll('.product-card, .deal-card, .av-motion-tilt');
         cards.forEach(attachCardTilt);
     }
 
@@ -180,20 +227,97 @@
             init3DTilt();
             return;
         }
-        if (target.matches && target.matches('.product-card, .deal-card')) {
+        if (target.matches && target.matches('.product-card, .deal-card, .av-motion-tilt')) {
             attachCardTilt(target);
         } else if (target.querySelectorAll) {
-            target.querySelectorAll('.product-card, .deal-card').forEach(attachCardTilt);
+            target.querySelectorAll('.product-card, .deal-card, .av-motion-tilt').forEach(attachCardTilt);
         }
     };
 
     // ========================================================================
-    // 3. HIỆU ỨNG ẢNH SẢN PHẨM BAY VÀO ICON GIỎ HÀNG (FLY TO CART)
+    // 3. HIỆU ỨNG PHÁO HOA CÁNH HOA ANH ĐÀO SAKURA PASTEL (CELEBRATORY BURST)
+    // Tự động dọn dẹp DOM trong 800-900ms, phòng ngừa rò rỉ bộ nhớ
+    // ========================================================================
+    var lastCelebrationTime = 0;
+    var lastCelebrationEl = null;
+
+    function spawnCartCelebration(sourceEl) {
+        if (prefersReduced) {
+            return;
+        }
+
+        // Chống kích hoạt đúp trong cùng 1 frame
+        var now = Date.now();
+        if (now - lastCelebrationTime < 40 && sourceEl === lastCelebrationEl) {
+            return;
+        }
+        lastCelebrationTime = now;
+        lastCelebrationEl = sourceEl;
+
+        // Tọa độ xuất phát: tại tâm nút bấm hoặc giữa màn hình nếu không có nút (fallback an toàn)
+        var originX = 0;
+        var originY = 0;
+
+        if (sourceEl && sourceEl.getBoundingClientRect) {
+            var rect = sourceEl.getBoundingClientRect();
+            originX = rect.left + rect.width / 2;
+            originY = rect.top + rect.height / 2;
+        } else {
+            originX = window.innerWidth / 2;
+            originY = window.innerHeight / 2;
+        }
+
+        // Bảng màu anime Sakura Pastel thanh lịch hòa quyện với theme
+        var sakuraColors = ['#e11d74', '#9333ea', '#0284c7', '#fbbf24'];
+        var symbols = ['🌸', '✦', '★', '✨', '❀'];
+        var count = 16; // 14-20 hạt pháo hoa cánh hoa và ngôi sao
+
+        for (var i = 0; i < count; i++) {
+            var p = document.createElement('span');
+            p.className = 'av-cart-particle';
+            p.textContent = symbols[i % symbols.length];
+            p.style.color = sakuraColors[i % sakuraColors.length];
+            p.style.left = originX + 'px';
+            p.style.top = originY + 'px';
+
+            var angle = (i / count) * 2 * Math.PI + (Math.random() - 0.5) * 0.35;
+            var distance = 38 + Math.random() * 46;
+            var tx = Math.cos(angle) * distance;
+            var ty = Math.sin(angle) * distance - 24; // Hướng bay bổng lên trên
+            var rot = ((Math.random() - 0.5) * 360).toFixed(0);
+
+            p.style.setProperty('--tx', tx.toFixed(1) + 'px');
+            p.style.setProperty('--ty', ty.toFixed(1) + 'px');
+            p.style.setProperty('--rot', rot + 'deg');
+
+            document.body.appendChild(p);
+
+            // Dọn dẹp DOM sạch sẽ sau 850ms (trong khoảng 800-900ms)
+            (function (el) {
+                setTimeout(function () {
+                    if (el && el.parentNode) {
+                        el.parentNode.removeChild(el);
+                    }
+                }, 850);
+            })(p);
+        }
+    }
+
+    window.AVCartCelebration = spawnCartCelebration;
+    if (!window.AVConfettiBurst) {
+        window.AVConfettiBurst = spawnCartCelebration;
+    }
+
+    // ========================================================================
+    // 4. HIỆU ỨNG ẢNH SẢN PHẨM BAY VÀO ICON GIỎ HÀNG (FLY TO CART)
     // ========================================================================
     function playFlyToCart(sourceEl, imgSrc) {
         if (prefersReduced) {
             return;
         }
+
+        // Kích hoạt pháo hoa hạt ăn mừng Sakura Pastel tại vị trí nút bấm
+        spawnCartCelebration(sourceEl);
 
         // Tìm icon giỏ hàng trên thanh header hoặc thanh đáy điện thoại
         var cartNav = document.querySelector('.cart-nav, .header-actions .cart-nav, a[href*="gio-hang"]');
@@ -201,7 +325,7 @@
             return;
         }
 
-        // Xác định vị trí xuất phát
+        // Xác định vị trí xuất phát an toàn
         var startRect = null;
         if (sourceEl && sourceEl.getBoundingClientRect) {
             startRect = sourceEl.getBoundingClientRect();
@@ -233,7 +357,7 @@
 
         var endRect = cartNav.getBoundingClientRect();
 
-        // Tạo phần tử bay
+        // Tạo phần tử thumbnail bay
         var flyer = document.createElement('div');
         flyer.className = 'av-motion-flyer';
         if (resolvedImg) {
@@ -268,6 +392,14 @@
             cartNav.classList.remove('av-motion-cart-bump');
             void cartNav.offsetWidth;
             cartNav.classList.add('av-motion-cart-bump');
+
+            // Kích hoạt hiệu ứng pop trên huy hiệu số lượng giỏ hàng
+            var cartBadge = cartNav.querySelector('.cart-badge');
+            if (cartBadge) {
+                cartBadge.classList.remove('av-badge-pop');
+                void cartBadge.offsetWidth;
+                cartBadge.classList.add('av-badge-pop');
+            }
         }, 700);
     }
 

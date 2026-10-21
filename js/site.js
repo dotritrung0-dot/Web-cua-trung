@@ -186,9 +186,12 @@
             Store.cartSet(c);
             Store.addXP(10, 'Thêm sản phẩm vào giỏ');
 
-            // Gọi hiệu ứng ảnh thu nhỏ bay vào giỏ hàng nếu hàm hiệu ứng đã sẵn sàng
+            // Gọi hiệu ứng ảnh thu nhỏ bay vào giỏ hàng và pháo hoa ăn mừng Sakura Pastel
             if (window.AVFlyToCart) {
                 window.AVFlyToCart(sourceEl || null, it.img);
+            }
+            if (window.AVCartCelebration) {
+                window.AVCartCelebration(sourceEl || null);
             }
 
             return it;
@@ -461,6 +464,11 @@
             document.querySelectorAll('.cart-badge').forEach(function (b) {
                 b.textContent = (cartCount > 99) ? '99+' : cartCount;
                 b.hidden = !cartCount;
+                if (cartCount > 0) {
+                    b.classList.add('has-items', 'pulse');
+                } else {
+                    b.classList.remove('has-items', 'pulse');
+                }
             });
 
             var wishCount = Store.wishGet().length;
