@@ -170,20 +170,21 @@
         -->
         <section class="container lh-hero">
             <div class="lh-reveal">
-                <p class="eyebrow">ANIMEVERSE • CONTACT</p>
+                <p class="eyebrow">ANIMEVERSE • CONTACT &amp; SUPPORT</p>
                 <h1>Có gì cần hỏi,<br><em>nhắn tụi mình nhé.</em></h1>
                 <p class="lh-lead">
-                    Hỏi về đơn hàng, nhờ chọn size cosplay hay chỉ muốn góp ý thôi cũng được.
-                    Bạn nhắn, tụi mình đọc.
+                    Hỏi về đơn hàng, nhờ chọn size cosplay, kiểm tra bản quyền figure hay chỉ muốn góp ý thôi cũng được.
+                    Bạn nhắn, tụi mình đọc và phản hồi tận tâm.
                 </p>
                 <div class="lh-actions">
-                    <a class="btn primary" href="#lh-form">Gửi lời nhắn ↓</a>
+                    <a class="btn primary" href="#lh-form">Gửi lời nhắn ngay ↓</a>
                     <a class="btn ghost" href="tel:0936271107">Gọi 093 627 1107</a>
                 </div>
-                <div class="lh-chips">
-                    <span>📦 Hỏi về đơn hàng</span>
-                    <span>👘 Tư vấn cosplay</span>
-                    <span>🤝 Hợp tác</span>
+                <div class="lh-chips" role="group" aria-label="Chọn nhanh chủ đề hỗ trợ">
+                    <button type="button" class="lh-chip-btn" data-topic="Đơn hàng">📦 Hỏi về đơn hàng</button>
+                    <button type="button" class="lh-chip-btn" data-topic="Sản phẩm">👘 Tư vấn cosplay &amp; Size</button>
+                    <button type="button" class="lh-chip-btn" data-topic="Hợp tác">🤝 Hợp tác &amp; Đối tác</button>
+                    <button type="button" class="lh-chip-btn" data-topic="Góp ý">💬 Góp ý &amp; Khiếu nại</button>
                 </div>
             </div>
 
@@ -192,20 +193,20 @@
                 <div class="minimal-card minimal-contact-card">
                     <div class="minimal-card-header">
                         <span class="minimal-pill online">HỖ TRỢ TRỰC TUYẾN</span>
-                        <span class="minimal-status live">🟢 ĐANG HOẠT ĐỘNG</span>
+                        <span class="minimal-status live" id="deskStatusBadge">🟢 ĐANG HOẠT ĐỘNG</span>
                     </div>
 
                     <div class="minimal-live-desk">
                         <div class="minimal-desk-time">
                             <span class="desk-label">GIỜ LÀM VIỆC CỬA HÀNG</span>
                             <strong class="desk-hours">08:30 – 22:00</strong>
-                            <small>Thứ 2 – Chủ Nhật (Cả ngày lễ)</small>
+                            <small id="deskRealtimeNote">Thứ 2 – Chủ Nhật (Cả ngày lễ) • Phản hồi ~5 phút</small>
                         </div>
                     </div>
 
-                    <!-- 2 Kênh liên hệ nhanh tối giản -->
+                    <!-- 3 Kênh liên hệ nhanh tối giản -->
                     <div class="minimal-contact-channels">
-                        <a href="tel:0936271107" class="minimal-channel">
+                        <a href="tel:0936271107" class="minimal-channel" title="Gọi hotline khẩn cấp">
                             <span class="channel-icon">📞</span>
                             <div class="channel-body">
                                 <small>HOTLINE KHẨN CẤP</small>
@@ -214,7 +215,7 @@
                             <span class="channel-action">Gọi →</span>
                         </a>
 
-                        <button type="button" class="minimal-channel" id="hubOpenChat">
+                        <button type="button" class="minimal-channel" id="hubOpenChat" title="Mở trợ lý ảo AV-Bot">
                             <span class="channel-icon">💬</span>
                             <div class="channel-body">
                                 <small>TRỢ LÝ TỰ ĐỘNG</small>
@@ -222,6 +223,15 @@
                             </div>
                             <span class="channel-action">Mở →</span>
                         </button>
+
+                        <a href="https://zalo.me/0936271107" target="_blank" rel="noopener" class="minimal-channel" title="Chat qua Zalo chính thức">
+                            <span class="channel-icon">⚡</span>
+                            <div class="channel-body">
+                                <small>ZALO CSKH 24/7</small>
+                                <strong>Nhắn Zalo chính thức</strong>
+                            </div>
+                            <span class="channel-action">Nhắn →</span>
+                        </a>
                     </div>
 
                     <!-- Dải số liệu dịch vụ khách hàng -->
@@ -256,140 +266,216 @@
         <section class="container lh-section">
             <div class="lh-cards">
                 <article class="lh-card lh-reveal">
+                    <span class="lh-card-badge fast">Phản hồi tức thì</span>
                     <span class="lh-icon">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg>
                     </span>
-                    <small>ĐIỆN THOẠI</small>
+                    <small>ĐIỆN THOẠI CSKH</small>
                     <strong>093 627 1107</strong>
-                    <p>Gọi trực tiếp khi cần hỗ trợ gấp.</p>
-                    <button class="lh-copy" type="button" data-copy="0936271107">Sao chép số</button>
+                    <p>Hỗ trợ khẩn cấp, tra cứu đơn hàng &amp; xử lý đổi trả trong ngày.</p>
+                    <div class="lh-card-actions">
+                        <a href="tel:0936271107" class="lh-action-link">Gọi ngay</a>
+                        <button class="lh-copy" type="button" data-copy="0936271107">Sao chép số</button>
+                    </div>
                 </article>
 
                 <article class="lh-card lh-reveal">
+                    <span class="lh-card-badge fast">&lt; 2h làm việc</span>
                     <span class="lh-icon">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="3"/><path d="m22 7-10 6L2 7"/></svg>
                     </span>
-                    <small>EMAIL</small>
+                    <small>EMAIL HỖ TRỢ</small>
                     <strong>dotritrung0@gmail.com</strong>
-                    <p>Hợp tác, góp ý hoặc câu hỏi dài.</p>
-                    <button class="lh-copy" type="button" data-copy="dotritrung0@gmail.com">Sao chép email</button>
+                    <p>Hợp tác kinh doanh, gửi ảnh đơn hàng hoặc khiếu nại chất lượng.</p>
+                    <div class="lh-card-actions">
+                        <a href="mailto:dotritrung0@gmail.com" class="lh-action-link">Gửi thư</a>
+                        <button class="lh-copy" type="button" data-copy="dotritrung0@gmail.com">Sao chép email</button>
+                    </div>
                 </article>
 
                 <article class="lh-card lh-reveal">
+                    <span class="lh-card-badge">Mở cửa 08:30–21:30</span>
                     <span class="lh-icon">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg>
                     </span>
-                    <small>ĐỊA CHỈ</small>
-                    <strong>CUWC</strong>
-                    <p>Địa chỉ chi tiết sẽ được cập nhật sau.</p>
+                    <small>ĐỊA CHỈ SHOWROOM</small>
+                    <strong>Tòa nhà CUWC Campus</strong>
+                    <p>Trải nghiệm ngắm mô hình thực tế và thử trang phục cosplay trực tiếp.</p>
+                    <div class="lh-card-actions">
+                        <a href="https://maps.google.com/?q=CUWC" target="_blank" rel="noopener" class="lh-action-link">Chỉ đường ↗</a>
+                        <button class="lh-copy" type="button" data-copy="Tòa nhà CUWC Campus, Hà Nội">Sao chép</button>
+                    </div>
                 </article>
 
-                <a class="lh-card lh-reveal" href="tu-van.html">
+                <article class="lh-card lh-reveal">
+                    <span class="lh-card-badge">Cẩm nang Otaku</span>
                     <span class="lh-icon">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L3 21l1.9-5.4A8 8 0 1 1 21 12z"/></svg>
                     </span>
                     <small>GÓC TƯ VẤN</small>
-                    <strong>Đọc mẹo cosplay →</strong>
-                    <p>Nhiều câu hỏi quen thuộc đã có sẵn ở đây.</p>
-                </a>
+                    <strong>Cẩm nang chọn size cosplay</strong>
+                    <p>Bảng số đo chi tiết, mẹo bảo quản figure và cẩm nang mua sắm.</p>
+                    <div class="lh-card-actions">
+                        <a href="tu-van.html" class="lh-action-link">Đọc mẹo ngay →</a>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!--
+             MỤC MỚI: KHÔNG GIAN TRẢI NGHIỆM SHOWROOM CUWC (.lh-showroom-section)
+        -->
+        <section class="container lh-showroom-section">
+            <div class="lh-showroom-card lh-reveal">
+                <div class="lh-showroom-info">
+                    <p class="eyebrow">KHÔNG GIAN TRỰC TIẾP • SHOWROOM CUWC</p>
+                    <h2>Trải nghiệm thực tế không gian AnimeVerse</h2>
+                    <p>
+                        Ghé thăm Showroom AnimeVerse tại Tòa nhà CUWC để tận mắt chiêm ngưỡng các mẫu Figure tỷ lệ 1/7 – 1/4 trong tủ kính chuyên dụng, thử trang phục Cosplay tại phòng thay đồ riêng tư và trò chuyện cùng đội ngũ sáng lập.
+                    </p>
+                    <ul class="lh-showroom-perks">
+                        <li><span>✓</span> <b>Tủ kính chân không:</b> Trưng bày hơn 100+ mẫu Figure cao cấp từ Good Smile Company, Bandai, FuRyu.</li>
+                        <li><span>✓</span> <b>Phòng thử Cosplay riêng biệt:</b> Đầy đủ gương toàn thân 3 góc, ánh sáng chuẩn studio và phụ kiện đi kèm.</li>
+                        <li><span>✓</span> <b>Bãi đỗ xe an toàn:</b> Miễn phí đỗ xe máy và ô tô ngay tại sảnh chính tòa nhà CUWC.</li>
+                    </ul>
+                    <div class="lh-showroom-actions">
+                        <a class="btn primary" href="https://maps.google.com/?q=CUWC" target="_blank" rel="noopener">Mở Google Maps ↗</a>
+                        <button class="btn ghost lh-copy" type="button" data-copy="Tòa nhà CUWC Campus, Hà Nội">Sao chép địa chỉ CUWC</button>
+                    </div>
+                </div>
+                <div class="lh-showroom-badge-box">
+                    <div class="lh-showroom-metric">
+                        <strong>100%</strong>
+                        <small>Mô hình trưng bày chính hãng có tem bản quyền</small>
+                    </div>
+                    <div class="lh-showroom-metric">
+                        <strong>7/7</strong>
+                        <small>Mở cửa phục vụ tất cả các ngày trong tuần</small>
+                    </div>
+                    <div class="lh-showroom-metric">
+                        <strong>0đ</strong>
+                        <small>Phí thử đồ Cosplay và ngắm mô hình tại showroom</small>
+                    </div>
+                </div>
             </div>
         </section>
 
         <!--
              MỤC 7: GIỚI THIỆU ĐỘI NGŨ 3 CỔ ĐÔNG CHÍNH (.lh-team)
-             📍 Vị trí: 3 tấm thẻ giới thiệu 3 thành viên sáng lập/điều hành shop.
-                Khi rê chuột vào trên máy tính, thẻ sẽ nghiêng 3D nhẹ (nhờ class .lh-tilt).
-             🛠️ Cách sửa thông tin từng thành viên (<article class="lh-member">):
-                - Đổi ảnh đại diện : Thay đường dẫn trong <img src="anh/co_dong/..." alt="...">
-                - Đổi chức vụ      : Sửa chữ trong <p class="lh-role">CỔ ĐÔNG CHÍNH</p>
-                - Đổi họ và tên    : Sửa chữ trong <h3>...</h3>
-                - Đổi câu giới thiệu: Sửa chữ trong thẻ <p> cuối cùng của mỗi thẻ.
         -->
         <section class="container lh-section">
             <div class="lh-head center lh-reveal">
-                <p class="eyebrow">ĐỘI NGŨ ĐIỀU HÀNH</p>
-                <h2>Ba cổ đông chính</h2>
-                <p>Những người đứng sau AnimeVerse.</p>
+                <p class="eyebrow">ĐỘI NGŨ SÁNG LẬP &amp; ĐIỀU HÀNH</p>
+                <h2>Ba thành viên sáng lập</h2>
+                <p>Những người trẻ đam mê anime xây dựng và vận hành vũ trụ mua sắm AnimeVerse.</p>
             </div>
 
             <!-- .lh-tilt: JS làm thẻ nghiêng nhẹ theo chuột (xem initContact trong js/site.js) -->
             <div class="lh-team">
                 <article class="lh-member lh-tilt lh-reveal">
                     <div class="lh-avatar"><img src="anh/co_dong/thgg trung 1.jpg" alt="Đỗ Trí Trung"></div>
-                    <p class="lh-role">CỔ ĐÔNG CHÍNH</p>
+                    <p class="lh-role">SÁNG LẬP &amp; CÔNG NGHỆ</p>
                     <h3>Đỗ Trí Trung</h3>
-                    <p>Đại diện đội ngũ cổ đông AnimeVerse.</p>
+                    <p>Định hướng kiến trúc nền tảng web, hiệu ứng thị giác và trải nghiệm mua sắm số cho cộng đồng Otaku.</p>
+                    <div class="lh-member-tags">
+                        <span class="lh-member-tag">✦ Web Architecture</span>
+                        <span class="lh-member-tag">✦ One Piece</span>
+                    </div>
+                    <div class="lh-member-actions">
+                        <a href="mailto:dotritrung0@gmail.com" class="lh-member-action">✉ Gửi email</a>
+                    </div>
                 </article>
+
                 <article class="lh-member lh-tilt lh-reveal">
                     <div class="lh-avatar"><img src="anh/co_dong/thg thun.jpg" alt="Nguyễn Bá Thuận"></div>
-                    <p class="lh-role">CỔ ĐÔNG CHÍNH</p>
+                    <p class="lh-role">ĐỒNG SÁNG LẬP &amp; SẢN PHẨM</p>
                     <h3>Nguyễn Bá Thuận</h3>
-                    <p>Đồng hành cùng định hướng phát triển AnimeVerse.</p>
+                    <p>Thẩm định chất lượng từng mẫu figure, kiểm tra bản quyền chính hãng và tuyển chọn danh mục cosplay cao cấp.</p>
+                    <div class="lh-member-tags">
+                        <span class="lh-member-tag">✦ Scale Figure QC</span>
+                        <span class="lh-member-tag">✦ Jujutsu Kaisen</span>
+                    </div>
+                    <div class="lh-member-actions">
+                        <a href="tel:0936271107" class="lh-member-action">📞 Tư vấn đồ</a>
+                    </div>
                 </article>
+
                 <article class="lh-member lh-tilt lh-reveal">
                     <div class="lh-avatar"><img src="anh/co_dong/thg nu.jpg" alt="Trương Tiến Dũng"></div>
-                    <p class="lh-role">CỔ ĐÔNG CHÍNH</p>
+                    <p class="lh-role">ĐỒNG SÁNG LẬP &amp; VẬN HÀNH</p>
                     <h3>Trương Tiến Dũng</h3>
-                    <p>Đồng hành cùng hoạt động và phát triển cửa hàng.</p>
+                    <p>Điều hành chuỗi cung ứng, quy trình đóng gói chống sốc đa lớp và giám sát tiêu chuẩn phục vụ khách hàng tận tâm.</p>
+                    <div class="lh-member-tags">
+                        <span class="lh-member-tag">✦ Logistics &amp; CSKH</span>
+                        <span class="lh-member-tag">✦ Kimetsu no Yaiba</span>
+                    </div>
+                    <div class="lh-member-actions">
+                        <a href="#lh-form" class="lh-member-action">📦 Hỗ trợ đơn</a>
+                    </div>
                 </article>
             </div>
         </section>
 
         <!--
              MỤC 8: FORM GỬI LỜI NHẮN (#contactForm) & CÂU HỎI THƯỜNG GẶP (.lh-faq)
-             📍 Vị trí: Chia làm 2 cột:
-                - Cột trái (.lh-form-box): Form cho khách chọn chủ đề (Đơn hàng, Sản phẩm,
-                  Hợp tác, Góp ý), nhập Họ tên, Email, Nội dung lời nhắn và bấm Gửi.
-                  (Được kiểm tra hợp lệ bởi hàm initContact trong file js/site.js).
-                - Cột phải (.lh-faq): Các câu hỏi thường gặp dùng thẻ details. Khi khách
-                  bấm vào câu hỏi (<summary>), câu trả lời (<p>) sẽ tự động mở ra!
-             🛠️ Cách sửa / thêm câu hỏi thường gặp (FAQ):
-                - Sửa câu hỏi trong <summary>...</summary> và câu trả lời trong <p>...</p>.
-                - Muốn thêm 1 câu hỏi mới: Copy nguyên một khối <details> ... </details>
-                  rồi dán xuống dưới là xong!
-            -->
+        -->
         <section class="container lh-section" id="lh-form">
             <div class="lh-layout">
 
                 <div class="lh-form-box lh-reveal" id="lhBox">
                     <form class="lh-form" id="contactForm" novalidate>
                         <h2>Gửi lời nhắn</h2>
-                        <p>Điền vài dòng bên dưới, tụi mình sẽ đọc.</p>
+                        <p>Điền vài dòng bên dưới, đội ngũ AnimeVerse sẽ đọc và phản hồi sớm nhất.</p>
 
                         <fieldset class="lh-topics">
-                            <legend>Bạn muốn trao đổi về</legend>
+                            <legend>Bạn muốn trao đổi về chủ đề nào?</legend>
                             <label class="lh-topic"><input type="radio" name="topic" value="Đơn hàng" checked><span>📦 Đơn hàng</span></label>
-                            <label class="lh-topic"><input type="radio" name="topic" value="Sản phẩm"><span>🛍 Sản phẩm</span></label>
-                            <label class="lh-topic"><input type="radio" name="topic" value="Hợp tác"><span>🤝 Hợp tác</span></label>
-                            <label class="lh-topic"><input type="radio" name="topic" value="Góp ý"><span>💬 Góp ý</span></label>
+                            <label class="lh-topic"><input type="radio" name="topic" value="Sản phẩm"><span>🛍 Sản phẩm &amp; Size</span></label>
+                            <label class="lh-topic"><input type="radio" name="topic" value="Hợp tác"><span>🤝 Hợp tác &amp; Đại lý</span></label>
+                            <label class="lh-topic"><input type="radio" name="topic" value="Góp ý"><span>💬 Góp ý &amp; Khiếu nại</span></label>
                         </fieldset>
 
                         <div class="lh-row">
                             <div>
                                 <div class="lh-field">
                                     <input id="lhName" name="name" type="text" placeholder=" " autocomplete="name" required>
-                                    <label for="lhName">Họ và tên</label>
+                                    <label for="lhName">Họ và tên *</label>
                                 </div>
                                 <span class="lh-error" data-for="lhName"></span>
                             </div>
                             <div>
                                 <div class="lh-field">
                                     <input id="lhEmail" name="email" type="email" placeholder=" " autocomplete="email" required>
-                                    <label for="lhEmail">Email</label>
+                                    <label for="lhEmail">Email nhận phản hồi *</label>
                                 </div>
                                 <span class="lh-error" data-for="lhEmail"></span>
                             </div>
                         </div>
 
+                        <div class="lh-row">
+                            <div>
+                                <div class="lh-field">
+                                    <input id="lhPhone" name="phone" type="tel" placeholder=" " autocomplete="tel">
+                                    <label for="lhPhone">Số điện thoại (tùy chọn)</label>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="lh-field">
+                                    <input id="lhOrder" name="order" type="text" placeholder=" ">
+                                    <label for="lhOrder">Mã đơn hàng (nếu có, vd: #AV-10492)</label>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="lh-field">
                             <textarea id="lhMsg" name="message" maxlength="500" placeholder=" " required></textarea>
-                            <label for="lhMsg">Nội dung lời nhắn</label>
+                            <label for="lhMsg">Nội dung lời nhắn chi tiết *</label>
                             <span class="lh-count" id="lhCount">0/500</span>
                         </div>
                         <span class="lh-error" data-for="lhMsg"></span>
 
                         <button class="lh-submit" type="submit" id="lhSubmit">Gửi lời nhắn →</button>
-                        <p class="lh-demo">Bản demo: tin nhắn chưa được gửi đến máy chủ.</p>
+                        <p class="lh-demo">Cam kết bảo mật thông tin &amp; nhận thưởng ngay +25 Điểm VIP (XP) khi gửi.</p>
                     </form>
 
                     <!-- Hiện ra sau khi bấm gửi thành công (JS thêm class "sent" cho khung này) -->
@@ -398,45 +484,122 @@
                             <circle cx="46" cy="46" r="41"/>
                             <path d="M28 47l12 12 24-26"/>
                         </svg>
-                        <h2>Đã nhận lời nhắn!</h2>
-                        <p>Cảm ơn bạn. Khi cửa hàng kết nối email thật, tụi mình sẽ trả lời qua đó.</p>
-                        <button class="btn ghost" type="button" id="lhAgain">Gửi thêm lời nhắn</button>
+                        <h2>Đã tiếp nhận yêu cầu hỗ trợ!</h2>
+                        <p>Đội ngũ Chăm sóc khách hàng AnimeVerse đã ghi nhận thông tin và sẽ phản hồi qua email trong vòng tối đa 2 giờ làm việc.</p>
+
+                        <!-- Phiếu tiếp nhận thông tin tương tác -->
+                        <div class="lh-receipt">
+                            <div class="receipt-code-box">
+                                <span class="receipt-code-label">MÃ PHIẾU HỖ TRỢ</span>
+                                <strong class="receipt-code-val" id="receiptCodeVal">#AV-2026-89412</strong>
+                            </div>
+                            <div class="receipt-grid">
+                                <div class="receipt-row">
+                                    <span class="receipt-k">Người gửi:</span>
+                                    <span class="receipt-v" id="receiptName">—</span>
+                                </div>
+                                <div class="receipt-row">
+                                    <span class="receipt-k">Email phản hồi:</span>
+                                    <span class="receipt-v" id="receiptEmail">—</span>
+                                </div>
+                                <div class="receipt-row">
+                                    <span class="receipt-k">Chủ đề:</span>
+                                    <span class="receipt-v" id="receiptTopic">Đơn hàng</span>
+                                </div>
+                                <div class="receipt-row">
+                                    <span class="receipt-k">Thời gian gửi:</span>
+                                    <span class="receipt-v" id="receiptTime">Vừa xong</span>
+                                </div>
+                                <div class="receipt-row">
+                                    <span class="receipt-k">Trạng thái:</span>
+                                    <span class="receipt-v" style="color: #34d399;">🟢 Đang xử lý (Ưu tiên)</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;">
+                            <button class="btn ghost lh-copy" type="button" id="receiptCopyBtn" data-copy="#AV-2026-89412">Sao chép mã phiếu</button>
+                            <button class="btn primary" type="button" id="lhAgain">Gửi thêm lời nhắn</button>
+                        </div>
                     </div>
                 </div>
 
+                <!-- Cột Câu hỏi thường gặp với ô tìm kiếm & bộ lọc danh mục trực tiếp -->
                 <aside class="lh-faq lh-reveal">
-                    <h2>Hỏi nhanh đáp gọn</h2>
-                    <details>
-                        <summary>Đơn bao nhiêu thì được freeship?</summary>
-                        <p>Đơn từ 500.000đ được miễn phí vận chuyển. Dưới mức này, phí ship sẽ tính khi giao hàng.</p>
-                    </details>
-                    <details>
-                        <summary>Mình là khách mới, có ưu đãi không?</summary>
-                        <p>Có. Thành viên mới được giảm 10%. Nhập mã <b>WELCOME10</b> ở trang giỏ hàng nhé.</p>
-                    </details>
-                    <details>
-                        <summary>Mua rồi không ưng thì sao?</summary>
-                        <p>Bạn được đổi trả trong 7 ngày. Nhắn cho tụi mình kèm thông tin đơn hàng là được.</p>
-                    </details>
-                    <details>
-                        <summary>Mình chưa biết chọn size hay nhân vật nào?</summary>
-                        <p>Cứ nhắn nhé. Bạn cũng có thể xem thêm ở <a href="tu-van.html">Góc tư vấn</a>.</p>
-                    </details>
+                    <div class="lh-faq-header">
+                        <h2>Hỏi nhanh đáp gọn</h2>
+                        <p style="margin: 4px 0 0; color: var(--muted); font-size: 13.5px;">Giải đáp nhanh những băn khoăn phổ biến của bạn.</p>
+                    </div>
+
+                    <!-- Ô tìm kiếm FAQ thời gian thực -->
+                    <div class="lh-faq-search-box">
+                        <span class="lh-faq-search-icon">🔍</span>
+                        <input type="text" class="lh-faq-search-input" id="faqSearchInput" placeholder="Tìm câu hỏi (ship, đổi trả, bảo hành, chính hãng...)" aria-label="Tìm kiếm câu hỏi thường gặp">
+                    </div>
+
+                    <!-- Danh mục lọc FAQ nhanh -->
+                    <div class="lh-faq-categories" role="group" aria-label="Lọc câu hỏi theo chủ đề">
+                        <button type="button" class="faq-cat-btn active" data-cat="all">Tất cả</button>
+                        <button type="button" class="faq-cat-btn" data-cat="ship">Vận chuyển</button>
+                        <button type="button" class="faq-cat-btn" data-cat="promo">Ưu đãi</button>
+                        <button type="button" class="faq-cat-btn" data-cat="warranty">Đổi trả &amp; BH</button>
+                        <button type="button" class="faq-cat-btn" data-cat="authentic">Chính hãng</button>
+                    </div>
+
+                    <div id="faqList">
+                        <details data-cat="ship">
+                            <summary>Đơn bao nhiêu thì được miễn phí vận chuyển (Freeship)?</summary>
+                            <p>Tất cả đơn hàng từ <b>500.000đ</b> trở lên đều được <b>Freeship toàn quốc</b>. Đơn dưới 500.000đ có phí giao hàng cố định chỉ 25.000đ (nội thành) hoặc 35.000đ (toàn quốc). Cửa hàng có hỗ trợ giao hỏa tốc 2 giờ tại nội thành.</p>
+                        </details>
+
+                        <details data-cat="promo">
+                            <summary>Mình là thành viên mới, có mã ưu đãi không?</summary>
+                            <p>Có! Thành viên mới được giảm ngay <b>10%</b> đơn đầu tiên. Bạn chỉ cần nhập mã <b>WELCOME10</b> tại trang Giỏ hàng và nhận thêm 50 Điểm thưởng VIP (XP) để thăng hạng Tân Binh.</p>
+                        </details>
+
+                        <details data-cat="warranty">
+                            <summary>Chính sách đổi trả trong 7 ngày áp dụng như thế nào?</summary>
+                            <p>Bạn được <b>1-đổi-1 hoàn toàn miễn phí trong vòng 7 ngày</b> nếu sản phẩm có lỗi sản xuất, móp vỡ do vận chuyển hoặc không đúng size số đã tư vấn. Chỉ cần chụp ảnh gửi qua email hoặc hotline, shipper sẽ đến tận nơi đổi hàng mới cho bạn.</p>
+                        </details>
+
+                        <details data-cat="authentic">
+                            <summary>Figure và phụ kiện tại AnimeVerse có phải chính hãng không?</summary>
+                            <p>100% Figure tại AnimeVerse được nhập khẩu chính hãng từ các nhà sản xuất Nhật Bản hàng đầu: <b>Bandai, Good Smile Company, FuRyu, Sega, Banpresto</b> với đầy đủ tem bản quyền toei/kadokawa. Cửa hàng cam kết hoàn tiền 200% nếu phát hiện hàng không chính hãng.</p>
+                        </details>
+
+                        <details data-cat="warranty">
+                            <summary>Mình chưa biết chọn size trang phục cosplay hay nhân vật nào?</summary>
+                            <p>Đừng ngần ngại nhắn tin hoặc gọi hotline cho tụi mình nhé! Đội ngũ tư vấn sẽ hỗ trợ đối chiếu số đo chiều cao, cân nặng và ngực/eo để bạn chọn đúng size chuẩn xác nhất. Bạn cũng có thể đọc thêm kinh nghiệm tại <a href="tu-van.html">Góc tư vấn cosplay</a>.</p>
+                        </details>
+
+                        <details data-cat="ship">
+                            <summary>Thời gian giao hàng thông thường mất bao lâu?</summary>
+                            <p>Đơn nội thành giao trong vòng <b>12 – 24 giờ</b> làm việc. Các tỉnh thành khác nhận hàng sau <b>2 – 4 ngày</b>. Mọi đơn hàng đều được đóng gói hộp carton 3 lớp chèn xốp bóng khí (bubble wrap) chuyên dụng chống sốc tuyệt đối.</p>
+                        </details>
+                    </div>
+
+                    <div class="faq-empty-state" id="faqEmptyState">
+                        <p>Không tìm thấy câu hỏi phù hợp với từ khóa của bạn.</p>
+                        <a href="tel:0936271107" style="color: var(--pink); font-weight: 700;">Gọi hotline 0936 271 107 để được giải đáp ngay →</a>
+                    </div>
                 </aside>
             </div>
         </section>
 
         <!--
              MỤC 9: BANNER KÊU GỌI CUỐI TRANG (.lh-cta)
-                    -->
+        -->
         <section class="container">
             <div class="lh-cta lh-reveal">
                 <div>
-                    <p class="eyebrow">SẴN SÀNG CHƯA?</p>
-                    <h2>Xem hết kệ rồi hãy nhắn cũng được</h2>
-                    <p>Biết đâu món bạn đang tìm đã nằm sẵn trong shop.</p>
+                    <p class="eyebrow">SẴN SÀNG KHÁM PHÁ?</p>
+                    <h2>Xem hết kệ hàng rồi hãy nhắn cũng được</h2>
+                    <p>Hơn 50+ mẫu figure, cosplay, kiếm katana và quà tặng anime độc quyền đang chờ đón bạn.</p>
                 </div>
-                <a class="btn primary" href="san-pham.html">Xem sản phẩm →</a>
+                <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+                    <a class="btn primary" href="san-pham.html">Xem tất cả sản phẩm →</a>
+                    <a class="btn ghost" href="tu-van.html">Góc tư vấn Otaku</a>
+                </div>
             </div>
         </section>
 

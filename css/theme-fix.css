@@ -2042,6 +2042,516 @@ html[data-theme="sakura"] .minimal-status {
   }
 }
 
+/* ============================================================================
+   NÂNG CẤP TOÀN DIỆN CHO TRANG LIÊN HỆ (lien-he.html)
+   ============================================================================ */
+
+/* 1. Clickable Hero Topic Chips */
+.lh-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.lh-chip-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #e2dff0;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.lh-chip-btn:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 79, 163, 0.14);
+  border-color: rgba(255, 79, 163, 0.45);
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(255, 79, 163, 0.2);
+}
+
+.lh-chip-btn:active {
+  transform: scale(0.96);
+}
+
+/* 2. Fast Contact Cards with Badges & Multi-action */
+.lh-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.lh-card-badge {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.07);
+  color: #c4bfd6;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  letter-spacing: 0.03em;
+}
+
+.lh-card-badge.fast {
+  background: rgba(16, 185, 129, 0.14);
+  color: #34d399;
+  border-color: rgba(16, 185, 129, 0.3);
+}
+
+.lh-card-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: auto;
+  padding-top: 14px;
+}
+
+.lh-card-actions .lh-copy,
+.lh-card-actions .lh-action-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 7px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 0;
+}
+
+.lh-card-actions .lh-action-link {
+  background: rgba(255, 79, 163, 0.12);
+  border: 1px solid rgba(255, 79, 163, 0.35);
+  color: #ff6eb4;
+}
+
+.lh-card-actions .lh-action-link:hover {
+  background: var(--pink, #ff4fa3);
+  color: #ffffff;
+  border-color: var(--pink, #ff4fa3);
+}
+
+/* 3. Showroom Experience Center Card */
+.lh-showroom-section {
+  margin: 50px auto;
+}
+
+.lh-showroom-card {
+  display: grid;
+  grid-template-columns: 1.25fr 0.75fr;
+  gap: 36px;
+  align-items: center;
+  padding: 40px;
+  border-radius: 24px;
+  background: radial-gradient(circle at 10% 20%, rgba(139, 92, 246, 0.15), transparent 45%),
+              linear-gradient(145deg, #181329, #0e0b1c);
+  border: 1px solid rgba(139, 92, 246, 0.28);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+}
+
+.lh-showroom-info h2 {
+  font-size: clamp(24px, 3.2vw, 32px);
+  margin: 10px 0 12px;
+  color: #ffffff;
+  line-height: 1.25;
+}
+
+.lh-showroom-info p {
+  color: #b3aec5;
+  font-size: 15px;
+  line-height: 1.7;
+  margin: 0 0 20px;
+}
+
+.lh-showroom-perks {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 24px;
+  display: grid;
+  gap: 10px;
+}
+
+.lh-showroom-perks li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 13.5px;
+  color: #e5e2f0;
+}
+
+.lh-showroom-perks li span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: rgba(52, 211, 153, 0.18);
+  color: #34d399;
+  font-size: 11px;
+  font-weight: 800;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.lh-showroom-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.lh-showroom-badge-box {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  padding: 24px;
+}
+
+.lh-showroom-metric {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.lh-showroom-metric strong {
+  font-size: 26px;
+  font-weight: 900;
+  color: #ff6eb4;
+  line-height: 1;
+  min-width: 65px;
+}
+
+.lh-showroom-metric small {
+  display: block;
+  font-size: 12.5px;
+  color: #c5c1d6;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+/* 4. Founder Team Member Card Enhancements */
+.lh-member-tags {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+  margin: 12px 0 16px;
+}
+
+.lh-member-tag {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  color: #b7b3cb;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+}
+
+.lh-member-actions {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.lh-member-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.07);
+  color: #e5e2f0;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.lh-member-action:hover {
+  background: rgba(255, 79, 163, 0.16);
+  border-color: rgba(255, 79, 163, 0.4);
+  color: #ffffff;
+}
+
+/* 5. Contact Receipt Card (.lh-receipt) */
+.lh-receipt {
+  margin: 20px auto 24px;
+  max-width: 440px;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 16px;
+  padding: 18px 20px;
+  text-align: left;
+}
+
+.receipt-code-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding-bottom: 12px;
+  margin-bottom: 12px;
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.15);
+}
+
+.receipt-code-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #9d98b1;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.receipt-code-val {
+  font-size: 17px;
+  font-weight: 800;
+  color: #34d399;
+  font-family: monospace;
+}
+
+.receipt-grid {
+  display: grid;
+  gap: 8px;
+  font-size: 13px;
+}
+
+.receipt-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.receipt-k {
+  color: #9d98b1;
+}
+
+.receipt-v {
+  color: #f3f0fc;
+  font-weight: 600;
+  text-align: right;
+  overflow-wrap: anywhere;
+}
+
+/* 6. Live FAQ Search and Filter Chips */
+.lh-faq-header {
+  margin-bottom: 14px;
+}
+
+.lh-faq-search-box {
+  position: relative;
+  margin-bottom: 12px;
+}
+
+.lh-faq-search-input {
+  width: 100%;
+  padding: 10px 14px 10px 38px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 13.5px;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.lh-faq-search-input:focus {
+  border-color: var(--pink, #ff4fa3);
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 0 16px rgba(255, 79, 163, 0.25);
+}
+
+.lh-faq-search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #9d98b1;
+  font-size: 15px;
+  pointer-events: none;
+}
+
+.lh-faq-categories {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.faq-cat-btn {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.04);
+  color: #a7a2ba;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 5px 12px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.faq-cat-btn:hover {
+  color: #ffffff;
+  border-color: rgba(255, 79, 163, 0.35);
+}
+
+.faq-cat-btn.active {
+  background: linear-gradient(90deg, #8b5cf6, #ff4fa3);
+  color: #ffffff;
+  border-color: transparent;
+  box-shadow: 0 4px 12px rgba(255, 79, 163, 0.3);
+}
+
+.faq-empty-state {
+  display: none;
+  padding: 20px;
+  text-align: center;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.03);
+  color: #a7a2ba;
+  font-size: 13.5px;
+}
+
+/* Light Theme (Sakura) Overrides */
+html[data-theme="sakura"] .lh-chip-btn {
+  background: #fdf2f7;
+  border-color: #f0d5e3;
+  color: #4b3e4f;
+}
+html[data-theme="sakura"] .lh-chip-btn:hover {
+  background: #fce7f1;
+  color: #9d174d;
+  border-color: #f472b6;
+}
+html[data-theme="sakura"] .lh-card-badge {
+  background: #f5ebf2;
+  color: #4b3e4f;
+  border-color: #ebdbe5;
+}
+html[data-theme="sakura"] .lh-card-badge.fast {
+  background: #d1fae5 !important;
+  color: #047857 !important;
+  border-color: #6ee7b7 !important;
+}
+html[data-theme="sakura"] .lh-card-actions .lh-action-link {
+  background: #fdf2f7 !important;
+  border-color: #f472b6 !important;
+  color: #b81565 !important;
+}
+html[data-theme="sakura"] .lh-card-actions .lh-action-link:hover {
+  background: #b81565 !important;
+  color: #ffffff !important;
+  border-color: #b81565 !important;
+}
+html[data-theme="sakura"] .lh-showroom-card {
+  background: #ffffff;
+  border-color: #f3cfe2;
+  box-shadow: 0 16px 36px rgba(184, 21, 101, 0.08);
+}
+html[data-theme="sakura"] .lh-showroom-info h2 {
+  color: #2b1f2d;
+}
+html[data-theme="sakura"] .lh-showroom-info p {
+  color: #4b3e4f;
+}
+html[data-theme="sakura"] .lh-showroom-perks li {
+  color: #2b1f2d;
+}
+html[data-theme="sakura"] .lh-showroom-perks li span {
+  background: #d1fae5 !important;
+  color: #047857 !important;
+}
+html[data-theme="sakura"] .lh-showroom-badge-box {
+  background: #faf4f8;
+  border-color: #f0e6ed;
+}
+html[data-theme="sakura"] .lh-showroom-metric {
+  background: #ffffff;
+}
+html[data-theme="sakura"] .lh-showroom-metric strong {
+  color: #b81565;
+}
+html[data-theme="sakura"] .lh-showroom-metric small {
+  color: #4b3e4f;
+}
+html[data-theme="sakura"] .lh-member-tag {
+  background: #fdf2f7;
+  color: #4b3e4f;
+  border-color: #f0d5e3;
+}
+html[data-theme="sakura"] .lh-member-action {
+  background: #faf4f8;
+  color: #2b1f2d;
+  border-color: #ebdbe5;
+}
+html[data-theme="sakura"] .lh-member-action:hover {
+  background: #fce7f1;
+  color: #b81565;
+  border-color: #f472b6;
+}
+html[data-theme="sakura"] .lh-receipt {
+  background: #ffffff;
+  border-color: #f0e6ed;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+}
+html[data-theme="sakura"] .receipt-code-label,
+html[data-theme="sakura"] .receipt-k {
+  color: #4b3e4f;
+}
+html[data-theme="sakura"] .receipt-code-val {
+  color: #047857 !important;
+}
+html[data-theme="sakura"] .receipt-v {
+  color: #2b1f2d;
+}
+html[data-theme="sakura"] .lh-faq-search-input {
+  background: #ffffff;
+  border-color: #f0e6ed;
+  color: #2b1f2d;
+}
+html[data-theme="sakura"] .faq-cat-btn {
+  background: #faf4f8;
+  color: #4b3e4f;
+  border-color: #ebdbe5;
+}
+html[data-theme="sakura"] .faq-cat-btn.active {
+  background: linear-gradient(90deg, #7c3aed, #db2777);
+  color: #ffffff;
+}
+html[data-theme="sakura"] .minimal-status.live {
+  color: #047857 !important;
+}
+
+@media (max-width: 900px) {
+  .lh-showroom-card {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    padding: 24px;
+  }
+}
+
 
 
 
