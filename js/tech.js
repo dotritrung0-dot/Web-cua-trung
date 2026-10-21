@@ -1969,7 +1969,7 @@
     return String(s || '')
       .normalize('NFD')
       .replace(/[\u0300-\u036f]/g, '')
-      .replace(/đ/g, 'd')
+      .replace(/[đĐ]/g, 'd')
       .toLowerCase();
   }
 
@@ -2081,15 +2081,13 @@
     }
     var info = matched || THEMES[0];
 
-    // Cập nhật trạng thái nút chuyển chủ đề trên Quick Dock (#avThemeBtn) nếu có trong DOM
+    // Loại bỏ hoàn toàn nút chuyển chủ đề (#avThemeBtn) theo chỉ thị khóa vĩnh viễn giao diện Sakura Pastel
     var btn = document.getElementById('avThemeBtn');
     if (btn) {
-      var iconPart = info.label.split(' ')[0];
-      var isMob = window.innerWidth <= 768;
-      var textPart = isMob ? 'Chủ đề' : 'Giao diện';
-      btn.innerHTML = iconPart + '<small>' + textPart + '</small>';
-      btn.title = 'Đổi chủ đề màu sắc (Hiện tại: ' + info.label + ')';
-      btn.setAttribute('aria-label', 'Đổi chủ đề màu sắc: ' + info.label);
+      btn.style.display = 'none';
+      if (btn.parentNode) {
+        btn.parentNode.removeChild(btn);
+      }
     }
 
     // Phát sự kiện DOM tùy biến 'av:theme-changed' cho các module khác phản hồi
@@ -2759,39 +2757,7 @@
       openDrawer('wish');
     };
 
-    // 4. Nút Đổi giao diện màu sắc (4 chế độ xoay vòng)
-    var themeBtn = document.createElement('button');
-    themeBtn.type = 'button';
-    themeBtn.id = 'avThemeBtn';
-    themeBtn.className = 'icon-btn';
-    themeBtn.setAttribute('role', 'menuitem');
-    var curInitTheme = getTheme();
-    var curInitMatched = null;
-    for (var ti = 0; ti < THEMES.length; ti++) {
-      if (THEMES[ti].id === curInitTheme) {
-        curInitMatched = THEMES[ti];
-        break;
-      }
-    }
-    var curInitInfo = curInitMatched || THEMES[0];
-    var isMobTheme = window.innerWidth <= 768;
-    themeBtn.innerHTML = curInitInfo.label.split(' ')[0] + '<small>' + (isMobTheme ? 'Chủ đề' : 'Giao diện') + '</small>';
-    themeBtn.title = 'Đổi chủ đề màu sắc (Hiện tại: ' + curInitInfo.label + ')';
-    themeBtn.setAttribute('aria-label', 'Đổi chủ đề màu sắc: ' + curInitInfo.label);
-    themeBtn.onclick = function () {
-      var cur = getTheme();
-      var idx = -1;
-      for (var i = 0; i < THEMES.length; i++) {
-        if (THEMES[i].id === cur) {
-          idx = i;
-          break;
-        }
-      }
-      var next = THEMES[(idx + 1) % THEMES.length];
-      applyTheme(next.id, true);
-    };
-
-    // 4. Nút Bật / Tắt nhạc nền MP3
+    // 4. Nút Bật / Tắt nhạc nền MP3 (Lưu ý: Nút đổi chủ đề #avThemeBtn đã bị loại bỏ vĩnh viễn theo chỉ thị khóa Sakura Pastel)
     var musicBtn = document.createElement('button');
     musicBtn.type = 'button';
     musicBtn.id = 'avMusicBtn';
@@ -3326,6 +3292,8 @@
   document.body.appendChild(drawerWrap);
 
   var currentDrawerTab = 'cart';
+  var quickPayMethod = 'COD';
+  var showQuickCheckout = false;
 
   function openDrawer(tab) {
     currentDrawerTab = tab || 'cart';
@@ -3410,14 +3378,18 @@
         ].join('\n');
       }).join('\n');
 
+      var baseShip = (sub >= FREE) ? 0 : 30000;
+      var finalShip = Math.max(0, baseShip - (res.shipDiscount || 0));
+      var grandTotal = Math.max(0, sub - (res.discount || 0) + finalShip);
+
       var shipMsg = left
         ? 'Mua thêm <b>' + money(left) + '</b> để được <b>Freeship</b>!'
         : '🎉 Đã mở khóa <b>Freeship toàn quốc</b>!';
 
       body.innerHTML = [
-        '<div style="margin-bottom:14px;padding:10px 12px;border-radius:12px;background:rgba(56,232,255,.08);border:1px solid rgba(56,232,255,.25);font-size:12.5px">',
-        '    <div style="height:6px;background:rgba(255,255,255,.1);border-radius:99px;overflow:hidden;margin-bottom:6px">',
-        '        <div style="height:100%;width:' + Math.min(100, Math.round(sub / FREE * 100)) + '%;background:linear-gradient(90deg,var(--cyan),var(--neon))"></div>',
+        '<div class="av-freeship-box">',
+        '    <div class="av-freeship-track">',
+        '        <div class="av-freeship-fill" style="width:' + Math.min(100, Math.round(sub / FREE * 100)) + '%"></div>',
         '    </div>',
         '    ' + shipMsg,
         '</div>',
@@ -3434,17 +3406,54 @@
         ? '<div style="display:flex;justify-content:space-between;font-size:13px;color:var(--neon);margin-bottom:6px"><span>Voucher (' + esc(res.code) + '):</span><b>−' + money(res.discount) + '</b></div>'
         : '';
 
+      var qrSection = '';
+      if (quickPayMethod === 'VIETQR') {
+        var qrFn = window.AVMakeVietQRSvg || (Store && Store.makeVietQRSvg);
+        var qrImg = qrFn ? qrFn(grandTotal, 'AV2026') : '';
+        qrSection = '<div style="text-align:center;margin:8px 0;padding:8px;background:#ffffff;border-radius:10px;border:1px solid var(--line)"><img src="' + qrImg + '" alt="VietQR" style="width:130px;height:130px;display:block;margin:0 auto 4px"><small style="font-size:11px;color:var(--muted)">Quét mã VietQR chuyển khoản nhanh</small></div>';
+      } else if (quickPayMethod === 'MOMO') {
+        qrSection = '<div style="text-align:center;margin:8px 0;padding:8px;background:#fff0f7;border-radius:10px;border:1px solid #fbcfe8"><b style="color:#d82d8b;font-size:13px">Ví điện tử MoMo</b><p style="font-size:11.5px;color:var(--muted);margin:4px 0 0">Chuyển tiền MoMo: 0901234567 (AnimeVerse)</p></div>';
+      }
+
       foot.innerHTML = [
         '<div style="display:flex;justify-content:space-between;font-size:13.5px;margin-bottom:6px">',
         '    <span>Tạm tính:</span>',
         '    <b>' + money(sub) + '</b>',
         '</div>',
         voucherRow,
+        '<div style="display:flex;justify-content:space-between;font-size:13px;color:var(--muted);margin-bottom:6px">',
+        '    <span>Phí vận chuyển:</span>',
+        '    <b>' + (finalShip === 0 ? 'Miễn phí' : money(finalShip)) + '</b>',
+        '</div>',
         '<div style="display:flex;justify-content:space-between;font-size:16px;font-weight:800;margin-bottom:12px">',
         '    <span>Tổng cộng:</span>',
-        '    <span style="color:var(--cyan)">' + money(Math.max(0, sub - (res.discount || 0))) + '</span>',
+        '    <span style="color:var(--price, #be185d)">' + money(grandTotal) + '</span>',
         '</div>',
-        '<a href="gio-hang.html" class="btn primary" style="width:100%;text-align:center;display:block">Thanh toán & Nhập địa chỉ →</a>'
+        '<div class="av-quick-checkout-wrap">',
+        '    <button type="button" class="btn primary" id="btnToggleQuickCheckout" style="width:100%;margin-bottom:8px">',
+        '        ⚡ ' + (showQuickCheckout ? 'Ẩn thanh toán nhanh ▲' : 'Thanh toán nhanh (Quick Checkout) ▼'),
+        '    </button>',
+        '    <div id="avQuickForm" class="av-quick-form" style="display:' + (showQuickCheckout ? 'block' : 'none') + '">',
+        '        <div style="font-weight:700;font-size:12px;margin-bottom:6px;color:var(--text)">Phương thức thanh toán:</div>',
+        '        <div class="av-pay-methods">',
+        '            <button type="button" class="av-pay-method' + (quickPayMethod === 'COD' ? ' active' : '') + '" data-qpay="COD">💵 COD</button>',
+        '            <button type="button" class="av-pay-method' + (quickPayMethod === 'VIETQR' ? ' active' : '') + '" data-qpay="VIETQR">🏦 VietQR</button>',
+        '            <button type="button" class="av-pay-method' + (quickPayMethod === 'MOMO' ? ' active' : '') + '" data-qpay="MOMO">📱 MoMo</button>',
+        '        </div>',
+        qrSection,
+        '        <input type="text" id="avQName" class="av-input" placeholder="Họ và tên người nhận *" style="margin-bottom:6px" autocomplete="name">',
+        '        <input type="tel" id="avQPhone" class="av-input" placeholder="Số điện thoại (10 số, bắt đầu 0/84) *" style="margin-bottom:6px" autocomplete="tel">',
+        '        <textarea id="avQAddr" class="av-input" rows="2" placeholder="Địa chỉ nhận hàng chi tiết *" style="margin-bottom:6px" autocomplete="street-address"></textarea>',
+        '        <input type="text" id="avQNote" class="av-input" placeholder="Ghi chú đóng gói chống sốc (tùy chọn)" style="margin-bottom:8px">',
+        '        <div id="avQError" class="av-quick-error" style="display:none"></div>',
+        '        <button type="button" class="btn primary" id="btnSubmitQuickCheckout" style="width:100%">',
+        '            ✦ Xác nhận đặt hàng (' + money(grandTotal) + ')',
+        '        </button>',
+        '    </div>',
+        '    <a href="gio-hang.html" style="display:block;text-align:center;font-size:12px;color:var(--muted);margin-top:8px">',
+        '        Hoặc xem giỏ hàng đầy đủ & ưu đãi lớn →',
+        '    </a>',
+        '</div>'
       ].join('\n');
 
       return;
@@ -3579,6 +3588,77 @@
       Store.toast('🎉 Đã chuyển toàn bộ ' + wProds.length + ' món sang Giỏ hàng!');
       currentDrawerTab = 'cart';
       renderDrawer();
+      return;
+    }
+
+    var toggleQuick = e.target.closest('#btnToggleQuickCheckout');
+    if (toggleQuick) {
+      showQuickCheckout = !showQuickCheckout;
+      renderDrawer();
+      return;
+    }
+
+    var qpayBtn = e.target.closest('[data-qpay]');
+    if (qpayBtn) {
+      quickPayMethod = qpayBtn.getAttribute('data-qpay');
+      renderDrawer();
+      return;
+    }
+
+    var submitQuick = e.target.closest('#btnSubmitQuickCheckout');
+    if (submitQuick && Store) {
+      var qName = ($('#avQName', drawerWrap) || {}).value;
+      var qPhone = ($('#avQPhone', drawerWrap) || {}).value;
+      var qAddr = ($('#avQAddr', drawerWrap) || {}).value;
+      var qNote = ($('#avQNote', drawerWrap) || {}).value;
+      var qErr = $('#avQError', drawerWrap);
+
+      try {
+        var ord = Store.checkout(qName, qPhone, qAddr, quickPayMethod, qNote);
+        showQuickCheckout = false;
+        var bEl = $('#avDrawerBody', drawerWrap);
+        var fEl = $('#avDrawerFoot', drawerWrap);
+        if (bEl) {
+          bEl.innerHTML = [
+            '<div class="av-quick-success">',
+            '    <div style="font-size:42px;margin-bottom:8px">🎉</div>',
+            '    <h3 style="margin:0 0 6px;color:var(--text-strong)">Đặt hàng thành công!</h3>',
+            '    <p style="font-size:13.5px;margin:0 0 8px">Mã đơn hàng: <b style="color:var(--neon)">' + esc(ord.id) + '</b></p>',
+            '    <p style="font-size:12.5px;color:var(--muted);margin:0 0 12px">Đã cộng <b>+150 XP</b> Otaku Pass. Đơn hàng đang được đóng gói chống sốc 2 lớp.</p>',
+            '    <div style="text-align:left;background:#ffffff;padding:12px;border-radius:10px;font-size:12.5px;margin-bottom:12px;border:1px solid var(--line)">',
+            '        <div>Người nhận: <b>' + esc(ord.customer) + '</b> (' + esc(ord.phone) + ')</div>',
+            '        <div>Địa chỉ: ' + esc(ord.addr) + '</div>',
+            '        <div>Thanh toán: <b>' + esc(ord.payMethod) + '</b> (' + money(ord.total) + ')</div>',
+            '    </div>',
+            '    <button type="button" class="btn primary" id="btnDrawerSeeOrders" style="width:100%">📦 Xem lịch sử đơn hàng</button>',
+            '</div>'
+          ].join('\n');
+        }
+        if (fEl) {
+          fEl.innerHTML = '<a href="san-pham.html" class="btn ghost" style="width:100%;text-align:center;display:block">Tiếp tục mua sắm →</a>';
+        }
+      } catch (err) {
+        if (qErr) {
+          qErr.textContent = '⚠ ' + (err.message || 'Lỗi khi đặt hàng');
+          qErr.style.display = 'block';
+        }
+      }
+      return;
+    }
+
+    if (e.target.closest('#btnDrawerSeeOrders')) {
+      currentDrawerTab = 'orders';
+      renderDrawer();
+      return;
+    }
+  });
+
+  // Lắng nghe click toàn trang trên biểu tượng giỏ hàng để mở ngăn kéo Mini-Cart
+  document.addEventListener('click', function (e) {
+    var cNav = e.target.closest && e.target.closest('.cart-nav, [data-action="open-cart"]');
+    if (cNav && !/gio-hang\.html/i.test(location.pathname)) {
+      e.preventDefault();
+      openDrawer('cart');
     }
   });
 
@@ -4610,8 +4690,96 @@
       selPrice = e.target.value;
       applyAdvFilter();
     });
+
+    // Đồng bộ hóa với các bộ lọc có sẵn trên san-pham.html
+    document.addEventListener('click', function (e) {
+      var catBtn = e.target.closest && e.target.closest('.category-filter');
+      var clrBtn = e.target.closest && e.target.closest('#clear-filters, #reset-empty');
+      if (catBtn) {
+        setTimeout(applyAdvFilter, 10);
+      }
+      if (clrBtn) {
+        selFandom = 'all';
+        selPrice = 'all';
+        $$('[data-ffandom]', advBar).forEach(function (b) {
+          b.classList.toggle('active', b.getAttribute('data-ffandom') === 'all');
+        });
+        var ps = $('#avPriceRange', advBar);
+        if (ps) ps.value = 'all';
+        setTimeout(applyAdvFilter, 10);
+      }
+    });
+
+    var prodSearch = $('#product-search');
+    if (prodSearch) {
+      prodSearch.addEventListener('input', function () {
+        setTimeout(applyAdvFilter, 10);
+      });
+    }
+    var sortSelect = $('#sort-products');
+    if (sortSelect) {
+      sortSelect.addEventListener('change', function () {
+        setTimeout(applyAdvFilter, 10);
+      });
+    }
+
+    // Tự động phân tích tham số URL (q, cat, fandom, price, view) khi tải trang
+    (function initUrlParams() {
+      try {
+        var params = new URLSearchParams(window.location.search);
+        var q = params.get('q');
+        var cat = params.get('cat');
+        var fandom = params.get('fandom');
+        var price = params.get('price');
+        var view = params.get('view');
+
+        if (q) {
+          if (inp) inp.value = q;
+          var pSearch = $('#product-search');
+          if (pSearch) {
+            pSearch.value = q;
+            pSearch.dispatchEvent(new Event('input', { bubbles: true }));
+          }
+        }
+        if (cat) {
+          var catBtn = $('.category-filter[data-filter="' + cat + '"]');
+          if (catBtn) catBtn.click();
+        }
+        if (fandom) {
+          var fBtn = $('[data-ffandom="' + fandom + '"]', advBar);
+          if (fBtn) fBtn.click();
+        }
+        if (price) {
+          var prSelect = $('#avPriceRange', advBar);
+          if (prSelect) {
+            prSelect.value = price;
+            prSelect.dispatchEvent(new Event('change', { bubbles: true }));
+          }
+        }
+        if (view === 'list') {
+          var listBtn = $('[data-vmode="list"]', advBar);
+          if (listBtn) listBtn.click();
+        }
+      } catch (e) {}
+    })();
   }
 
+
+  // Helper highlight từ khóa tìm kiếm an toàn với <mark class="av-sug-hl">
+  function highlightMatch(text, rawQuery) {
+    if (!rawQuery || !text) return esc(text);
+    var tokens = String(rawQuery).trim().split(/\s+/).filter(Boolean);
+    if (!tokens.length) return esc(text);
+    var escapedTokens = tokens.map(function (t) {
+      return t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    });
+    try {
+      var re = new RegExp('(' + escapedTokens.join('|') + ')', 'gi');
+      return esc(text).replace(re, '<mark class="av-sug-hl">$1</mark>');
+    } catch (e) {
+      return esc(text);
+    }
+  }
 
   // ---------------------------------------------------------------------------
   // MỤC 12: Ô TÌM KIẾM GỢI Ý TỨC THÌ CÓ ẢNH NHỎ & GIÁ TIỀN (LIVE SEARCH DROPDOWN)
@@ -4622,7 +4790,13 @@
   if (inp && form) {
     var box = document.createElement('div');
     box.id = 'avSug';
+    box.setAttribute('role', 'listbox');
+    box.setAttribute('aria-label', 'Gợi ý tìm kiếm sản phẩm');
     form.appendChild(box);
+
+    inp.setAttribute('aria-autocomplete', 'list');
+    inp.setAttribute('aria-controls', 'avSug');
+    inp.setAttribute('aria-expanded', 'false');
 
     var kb = document.createElement('span');
     kb.className = 'av-kbd';
@@ -4661,6 +4835,25 @@
 
     var sel = -1;
 
+    // Chuyển hướng khi người dùng nhấn Enter hoặc bấm nút tìm kiếm
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var q = inp.value.trim();
+      var l = $$('a', box);
+      if (sel > -1 && l[sel] && box.style.display !== 'none') {
+        var href = l[sel].getAttribute('href');
+        if (href) {
+          location.href = href;
+          return;
+        }
+      }
+      if (q) {
+        location.href = 'san-pham.html?q=' + encodeURIComponent(q);
+      } else {
+        location.href = 'san-pham.html';
+      }
+    });
+
     inp.addEventListener('input', function () {
       syncClearBtn();
       var q = strip(inp.value.trim());
@@ -4682,12 +4875,12 @@
       if (r.length) {
         box.innerHTML = r.map(function (i) {
           return [
-            '<a href="' + esc(i.href) + '">',
+            '<a href="' + esc(i.href) + '" role="option" aria-selected="false">',
             '    <div class="av-sug-left">',
-            '        <img src="' + esc(i.img) + '" alt="">',
+            '        <img src="' + esc(i.img) + '" alt="' + esc(i.name) + '" loading="lazy">',
             '        <div>',
-            '            <b>' + esc(i.name) + '</b>',
-            '            <span>' + esc(i.catLabel) + ' · ' + esc(i.fandom) + '</span>',
+            '            <b>' + highlightMatch(i.name, inp.value) + '</b>',
+            '            <span>' + highlightMatch(i.catLabel + ' · ' + i.fandom, inp.value) + '</span>',
             '        </div>',
             '    </div>',
             '    <small>' + money(i.price) + '</small>',
@@ -4718,8 +4911,10 @@
         e.preventDefault();
         location.href = l[sel].getAttribute('href');
       } else if (e.key === 'Escape') {
-        box.style.display = 'none';
-        syncClearBtn();
+        if (e.key === 'Escape') {
+          box.style.display = 'none';
+          syncClearBtn();
+        }
       }
     });
 
@@ -4734,6 +4929,167 @@
         e.preventDefault();
         inp.focus();
         inp.select();
+      }
+    });
+  }
+
+  // Khởi tạo Mobile Search Modal (id="avSearchModal") cho màn hình cảm ứng điện thoại
+  var mobileSearchModal = document.getElementById('avSearchModal');
+  if (!mobileSearchModal) {
+    mobileSearchModal = document.createElement('div');
+    mobileSearchModal.id = 'avSearchModal';
+    mobileSearchModal.setAttribute('id', 'avSearchModal');
+    mobileSearchModal.className = 'av-search-modal';
+    mobileSearchModal.setAttribute('role', 'dialog');
+    mobileSearchModal.setAttribute('aria-modal', 'true');
+    mobileSearchModal.setAttribute('aria-label', 'Tìm kiếm sản phẩm');
+    mobileSearchModal.hidden = true;
+
+    mobileSearchModal.innerHTML = [
+      '<div class="av-search-modal-backdrop" id="avModalBackdrop"></div>',
+      '<div class="av-search-modal-panel">',
+      '    <div class="av-search-modal-head">',
+      '        <form class="av-search-modal-form" id="avModalSearchForm" role="search">',
+      '            <span class="av-search-modal-icon" aria-hidden="true">⌕</span>',
+      '            <input id="avModalSearchInput" type="search" placeholder="Tìm anime, figure, cosplay..." aria-label="Tìm kiếm sản phẩm" autocomplete="off">',
+      '            <button type="button" class="av-search-modal-clear" id="avModalClearBtn" aria-label="Xóa từ khóa" hidden>✕</button>',
+      '        </form>',
+      '        <button type="button" class="av-search-modal-close" id="avModalCloseBtn" aria-label="Đóng tìm kiếm">Đóng</button>',
+      '    </div>',
+      '    <div class="av-search-modal-tags">',
+      '        <span>Gợi ý:</span>',
+      '        <button type="button" class="av-modal-tag" data-tag="Luffy">Luffy</button>',
+      '        <button type="button" class="av-modal-tag" data-tag="Zoro">Zoro</button>',
+      '        <button type="button" class="av-modal-tag" data-tag="Gojo">Gojo</button>',
+      '        <button type="button" class="av-modal-tag" data-tag="Figure">Figure</button>',
+      '        <button type="button" class="av-modal-tag" data-tag="Cosplay">Cosplay</button>',
+      '    </div>',
+      '    <div id="avModalResults" class="av-search-modal-results" role="region" aria-live="polite"></div>',
+      '</div>'
+    ].join('\n');
+    document.body.appendChild(mobileSearchModal);
+  }
+
+  var mInp = $('#avModalSearchInput', mobileSearchModal);
+  var mClear = $('#avModalClearBtn', mobileSearchModal);
+  var mResults = $('#avModalResults', mobileSearchModal);
+  var mForm = $('#avModalSearchForm', mobileSearchModal);
+
+  function openMobileSearch(initialQuery) {
+    if (!mobileSearchModal) return;
+    mobileSearchModal.hidden = false;
+    document.body.style.overflow = 'hidden';
+    if (mInp) {
+      if (typeof initialQuery === 'string') {
+        mInp.value = initialQuery;
+      }
+      mInp.focus();
+      renderMobileResults(mInp.value);
+    }
+  }
+
+  function closeMobileSearch() {
+    if (!mobileSearchModal) return;
+    mobileSearchModal.hidden = true;
+    document.body.style.overflow = '';
+  }
+
+  function renderMobileResults(query) {
+    if (!mResults) return;
+    if (mClear) mClear.hidden = !query;
+    var q = strip(query.trim());
+    if (!q) {
+      mResults.innerHTML = '<div class="av-modal-empty-hint">Nhập tên nhân vật, bộ anime hoặc bấm thẻ gợi ý ở trên để tìm nhanh ✦</div>';
+      return;
+    }
+    var words = q.split(/\s+/);
+    var r = CATALOG.filter(function (item) {
+      var hay = strip(item.name + ' ' + item.fandom + ' ' + item.catLabel);
+      return words.every(function (w) {
+        return hay.indexOf(w) > -1;
+      });
+    }).slice(0, 7);
+
+    if (r.length) {
+      mResults.innerHTML = r.map(function (i) {
+        return [
+          '<a href="' + esc(i.href) + '" class="av-modal-result-card">',
+          '    <img src="' + esc(i.img) + '" alt="' + esc(i.name) + '" loading="lazy">',
+          '    <div class="av-modal-result-info">',
+          '        <b>' + highlightMatch(i.name, query) + '</b>',
+          '        <span>' + highlightMatch(i.catLabel + ' · ' + i.fandom, query) + '</span>',
+          '        <small>' + money(i.price) + '</small>',
+          '    </div>',
+          '    <span class="av-modal-result-arrow">→</span>',
+          '</a>'
+        ].join('\n');
+      }).join('\n');
+    } else {
+      mResults.innerHTML = [
+        '<div class="av-modal-no-results">',
+        '    <p>Không thấy sản phẩm phù hợp với "<b>' + esc(query) + '</b>"</p>',
+        '    <a href="san-pham.html" class="btn primary" style="display:inline-block;padding:8px 16px;font-size:13px">Xem tất cả 50 sản phẩm →</a>',
+        '</div>'
+      ].join('\n');
+    }
+  }
+
+  window.AVOpenSearchModal = openMobileSearch;
+  window.AVCloseSearchModal = closeMobileSearch;
+
+  if (mInp) {
+    mInp.addEventListener('input', function () {
+      renderMobileResults(mInp.value);
+    });
+  }
+  if (mClear) {
+    mClear.addEventListener('click', function () {
+      if (mInp) {
+        mInp.value = '';
+        mClear.hidden = true;
+        renderMobileResults('');
+        mInp.focus();
+      }
+    });
+  }
+  if (mForm) {
+    mForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var q = mInp ? mInp.value.trim() : '';
+      if (q) {
+        location.href = 'san-pham.html?q=' + encodeURIComponent(q);
+      } else {
+        location.href = 'san-pham.html';
+      }
+    });
+  }
+  mobileSearchModal.addEventListener('click', function (e) {
+    if (e.target.id === 'avModalBackdrop' || e.target.closest('#avModalCloseBtn')) {
+      closeMobileSearch();
+      return;
+    }
+    var tagBtn = e.target.closest('.av-modal-tag');
+    if (tagBtn) {
+      var tag = tagBtn.getAttribute('data-tag');
+      if (mInp) {
+        mInp.value = tag;
+        renderMobileResults(tag);
+        mInp.focus();
+      }
+    }
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && !mobileSearchModal.hidden) {
+      closeMobileSearch();
+    }
+  });
+
+  // Tự động mở Mobile Search Modal khi người dùng trên điện thoại bấm vào ô tìm kiếm
+  if (inp) {
+    inp.addEventListener('focus', function () {
+      if (window.innerWidth <= 768) {
+        inp.blur();
+        openMobileSearch(inp.value);
       }
     });
   }

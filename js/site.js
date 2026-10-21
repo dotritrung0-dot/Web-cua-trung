@@ -479,10 +479,84 @@
             document.querySelectorAll('.av-vip-pill').forEach(function (el) {
                 el.innerHTML = rk.name + ' · <b>' + Store.xpGet() + ' XP</b>';
             });
+        },
+
+        // Thanh toán đơn hàng chính thức: kiểm tra dữ liệu, tính giảm giá, freeship, tạo mã AV-2026-XXXX, cộng 150 XP
+        checkout: function (customer, phone, addr, payMethod, note) {
+            var items = Store.cartGet();
+            if (!items || !items.length) {
+                throw new Error('Cannot checkout empty cart');
+            }
+            var custName = String(customer || '').trim();
+            if (!custName) {
+                throw new Error('Customer name required');
+            }
+            var phoneStr = String(phone || '').trim();
+            var VN_PHONE_REGEX = /^(0|\+84)[3|5|7|8|9][0-9]{8}$/;
+            if (!VN_PHONE_REGEX.test(phoneStr)) {
+                throw new Error('Invalid VN phone number');
+            }
+            var addrStr = String(addr || '').trim();
+            if (!addrStr) {
+                throw new Error('Shipping address required');
+            }
+            var pMethod = payMethod || 'COD';
+            var sub = items.reduce(function (s, i) {
+                return s + (Number(i.price) || 0) * (Number(i.qty) || 1);
+            }, 0);
+            var FREE = 500000;
+            var activeCode = Store.activeVoucherGet();
+            var res = Store.calcDiscount(sub, activeCode);
+            var baseShip = (sub >= FREE) ? 0 : 30000;
+            var finalShip = Math.max(0, baseShip - (res.shipDiscount || 0));
+            var grandTotal = Math.max(0, sub - (res.discount || 0) + finalShip);
+            var ordId = 'AV-2026-' + Math.floor(1000 + Math.random() * 9000);
+
+            var now = new Date();
+            var dateStr = now.toLocaleDateString('vi-VN') + ' ' + now.toLocaleTimeString('vi-VN', {
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+
+            var order = {
+                id: ordId,
+                date: dateStr,
+                customer: custName,
+                phone: phoneStr,
+                addr: addrStr,
+                note: String(note || '').trim(),
+                payMethod: pMethod,
+                items: JSON.parse(JSON.stringify(items)),
+                total: grandTotal,
+                status: 'Đang đóng gói chống sốc'
+            };
+
+            Store.addOrder(order);
+            Store.addXP(150, 'Đặt đơn hàng ' + ordId);
+            Store.cartSet([]);
+            Store.activeVoucherSet('');
+
+            if (window.AVConfettiBurst) {
+                window.AVConfettiBurst();
+            }
+
+            toast('🎉 Đặt hàng thành công! Mã đơn: ' + ordId + ' (+150 XP)');
+            return order;
         }
     };
 
     window.AVStore = Store;
+
+    // Lắng nghe sự kiện storage để đồng bộ Giỏ hàng và Huy hiệu trên mọi Tab trình duyệt
+    window.addEventListener('storage', function (e) {
+        if (e.key === 'av_cart' || e.key === 'av_wish' || e.key === 'av_compare' || e.key === 'av_xp' || e.key === 'av_coupon' || e.key === 'av_vouchers') {
+            Store.syncBadges();
+            document.dispatchEvent(new CustomEvent('av:cart-updated'));
+            if (e.key === 'av_wish') {
+                document.dispatchEvent(new CustomEvent('av:wish-updated'));
+            }
+        }
+    });
 
 
     // -------------------------------------------------------------------------
@@ -751,6 +825,9 @@
 
         return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svgLines.join(''));
     }
+
+    Store.makeVietQRSvg = makeVietQRSvg;
+    window.AVMakeVietQRSvg = makeVietQRSvg;
 
     // Hàm điều khiển toàn bộ trang gio-hang.html
     // Cách sửa mức Freeship và phí vận chuyển:
@@ -1039,45 +1116,18 @@
         root.addEventListener('submit', function (e) {
             e.preventDefault();
             var f = e.target;
-            var items = Store.cartGet();
-            var sub = items.reduce(function (s, i) {
-                return s + i.price * i.qty;
-            }, 0);
-
-            var res = Store.calcDiscount(sub, Store.activeVoucherGet());
-            var baseShip = (sub >= FREE) ? 0 : 30000;
-            var ship = Math.max(0, baseShip - (res.shipDiscount || 0));
-            var total = Math.max(0, sub - (res.discount || 0) + ship);
-            var ordId = 'AV-2026-' + Math.floor(1000 + Math.random() * 9000);
-
-            var now = new Date();
-            var dateStr = now.toLocaleDateString('vi-VN') + ' ' + now.toLocaleTimeString('vi-VN', {
-                hour: '2-digit',
-                minute: '2-digit'
-            });
-
-            lastOrder = {
-                id: ordId,
-                date: dateStr,
-                customer: f.elements.name.value.trim(),
-                phone: f.elements.phone.value.trim(),
-                addr: f.elements.addr.value.trim(),
-                payMethod: payMethod,
-                items: items,
-                total: total,
-                status: 'Đang đóng gói chống sốc'
-            };
-
-            Store.addOrder(lastOrder);
-            Store.addXP(150, 'Đặt đơn hàng ' + ordId);
-            Store.cartSet([]);
-
-            if (window.AVConfettiBurst) {
-                window.AVConfettiBurst();
+            try {
+                lastOrder = Store.checkout(
+                    f.elements.name ? f.elements.name.value : '',
+                    f.elements.phone ? f.elements.phone.value : '',
+                    f.elements.addr ? f.elements.addr.value : '',
+                    payMethod,
+                    f.elements.note ? f.elements.note.value : ''
+                );
+                render();
+            } catch (err) {
+                toast('⚠ ' + (err.message || 'Lỗi khi đặt hàng'));
             }
-
-            toast('🎉 Đặt hàng thành công! Mã đơn: ' + ordId + ' (+150 XP)');
-            render();
         });
 
         document.addEventListener('av:cart-updated', render);

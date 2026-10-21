@@ -9182,6 +9182,361 @@ body {
 }
 
 /* ============================================================================
+   MỤC 14: TÌM KIẾM ĐIỆN THOẠI & ĐIỀU HƯỚNG TƯƠNG TÁC MILESTONE 3
+   ============================================================================ */
+
+/* Highlight từ khóa tìm kiếm */
+#avSug mark.av-sug-hl,
+.av-search-modal mark.av-sug-hl {
+  background: rgba(225, 29, 116, 0.16);
+  color: #be185d;
+  font-weight: 700;
+  border-radius: 3px;
+  padding: 0 2px;
+}
+
+/* Mobile Search Modal Overlay (#avSearchModal) */
+.av-search-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 9995;
+  display: flex;
+  flex-direction: column;
+}
+
+.av-search-modal[hidden] {
+  display: none !important;
+}
+
+.av-search-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(36, 20, 44, 0.45);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.av-search-modal-panel {
+  position: relative;
+  z-index: 1;
+  background: #ffffff;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  box-shadow: 0 16px 40px rgba(190, 24, 93, 0.15);
+  padding: 16px 16px 20px;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  animation: avSlideDown 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes avSlideDown {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.av-search-modal-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.av-search-modal-form {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex: 1;
+  background: #fdf2f8;
+  border: 1.5px solid #fbcfe8;
+  border-radius: 999px;
+  padding: 0 12px;
+  height: 44px;
+}
+
+.av-search-modal-icon {
+  font-size: 17px;
+  color: #be185d;
+  margin-right: 6px;
+}
+
+.av-search-modal-form input {
+  flex: 1;
+  height: 100%;
+  border: 0;
+  background: transparent;
+  color: #24142c;
+  font-size: 15px;
+  font-family: inherit;
+  outline: none;
+}
+
+.av-search-modal-form input::placeholder {
+  color: #a38ca8;
+}
+
+.av-search-modal-clear {
+  background: none;
+  border: 0;
+  color: #9333ea;
+  font-size: 15px;
+  cursor: pointer;
+  padding: 4px 6px;
+}
+
+.av-search-modal-close {
+  background: none;
+  border: 0;
+  color: #be185d;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 8px;
+  white-space: nowrap;
+}
+
+.av-search-modal-tags {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #fceef5;
+}
+
+.av-search-modal-tags span {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #6e5578;
+}
+
+.av-modal-tag {
+  background: #ffffff;
+  border: 1px solid #f3cfe2;
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #5b4366;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.av-modal-tag:hover,
+.av-modal-tag:active {
+  background: #fff0f7;
+  border-color: #e11d74;
+  color: #be185d;
+}
+
+.av-search-modal-results {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  max-height: calc(85vh - 140px);
+  margin-top: 10px;
+}
+
+.av-modal-result-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px;
+  border-radius: 12px;
+  text-decoration: none;
+  border-bottom: 1px solid #fceef5;
+  transition: background 0.15s;
+}
+
+.av-modal-result-card:last-child {
+  border-bottom: 0;
+}
+
+.av-modal-result-card:active {
+  background: #fff0f7;
+}
+
+.av-modal-result-card img {
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 1px solid #f3cfe2;
+}
+
+.av-modal-result-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.av-modal-result-info b {
+  display: block;
+  font-size: 14px;
+  color: #24142c;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.av-modal-result-info span {
+  display: block;
+  font-size: 11.5px;
+  color: #6e5578;
+  margin: 2px 0;
+}
+
+.av-modal-result-info small {
+  font-size: 13px;
+  font-weight: 700;
+  color: #be185d;
+}
+
+.av-modal-result-arrow {
+  color: #e11d74;
+  font-weight: 700;
+  font-size: 16px;
+  padding-right: 4px;
+}
+
+.av-modal-empty-hint {
+  text-align: center;
+  padding: 30px 16px;
+  color: #6e5578;
+  font-size: 13.5px;
+}
+
+.av-modal-no-results {
+  text-align: center;
+  padding: 24px 16px;
+}
+
+.av-modal-no-results p {
+  color: #6e5578;
+  margin-bottom: 12px;
+  font-size: 14px;
+}
+
+/* ============================================================================
+   MỤC 15: THANH TIẾN TRÌNH FREESHIP & THANH TOÁN NHANH TRONG MINI-CART DRAWER
+   ============================================================================ */
+
+/* Khung tiến trình Freeship tương phản cao chuẩn Sakura Pastel */
+.av-freeship-box {
+  margin-bottom: 14px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: #fdf2f8;
+  border: 1px solid rgba(225, 29, 116, 0.2);
+  font-size: 12.5px;
+  color: var(--text, #24142c);
+}
+
+.av-freeship-track {
+  height: 6px;
+  background: #f3d7e8;
+  border-radius: 99px;
+  overflow: hidden;
+  margin-bottom: 6px;
+}
+
+.av-freeship-fill {
+  height: 100%;
+  background: var(--accent-grad, linear-gradient(90deg, #e11d74, #9333ea));
+  border-radius: 99px;
+  transition: width 0.3s ease;
+}
+
+/* Khối thanh toán nhanh trong ngăn kéo #avDrawer */
+.av-quick-checkout-wrap {
+  margin-top: 12px;
+  border-top: 1px solid rgba(225, 29, 116, 0.15);
+  padding-top: 12px;
+}
+
+.av-quick-form {
+  background: #fdf2f8;
+  border: 1px solid rgba(225, 29, 116, 0.2);
+  border-radius: 14px;
+  padding: 12px;
+  margin-top: 8px;
+}
+
+.av-quick-form .av-input {
+  width: 100%;
+  border: 1px solid rgba(225, 29, 116, 0.25);
+  border-radius: 8px;
+  padding: 8px 10px;
+  font-size: 13px;
+  background: #ffffff;
+  color: #24142c;
+  outline: none;
+  font-family: inherit;
+  box-sizing: border-box;
+}
+
+.av-quick-form .av-input:focus {
+  border-color: #e11d74;
+  box-shadow: 0 0 0 2px rgba(225, 29, 116, 0.15);
+}
+
+.av-quick-form .av-pay-methods {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.av-quick-form .av-pay-method {
+  flex: 1;
+  padding: 7px 4px;
+  font-size: 11.5px;
+  font-weight: 700;
+  border-radius: 8px;
+  border: 1px solid rgba(225, 29, 116, 0.25);
+  background: #ffffff;
+  color: #24142c;
+  cursor: pointer;
+  transition: all 0.15s;
+  text-align: center;
+}
+
+.av-quick-form .av-pay-method.active {
+  background: linear-gradient(135deg, #e11d74 0%, #9333ea 100%);
+  color: #ffffff;
+  border-color: transparent;
+}
+
+.av-quick-error {
+  padding: 6px 10px;
+  border-radius: 8px;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #dc2626;
+  font-size: 12px;
+  margin-bottom: 8px;
+}
+
+.av-quick-success {
+  text-align: center;
+  padding: 24px 16px;
+  background: #fdf2f8;
+  border-radius: 14px;
+  border: 1px solid rgba(225, 29, 116, 0.2);
+}
+
+@media (max-width: 600px) {
+  .product-grid.av-list-view .product-card {
+    grid-template-columns: 110px 1fr !important;
+    gap: 12px !important;
+  }
+}
+
+/* ============================================================================
    PHẦN 3: UPGRADE.CSS — TIỆN ÍCH QUICK DOCK, ĐIỀU HƯỚNG DI ĐỘNG & BẢNG MÀU
    ============================================================================ */
 /*
