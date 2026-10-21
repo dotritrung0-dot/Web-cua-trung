@@ -4505,9 +4505,40 @@
     kb.textContent = '/';
     form.appendChild(kb);
 
+    // Nút xóa nhanh từ khóa (✕) (P3 Polish)
+    var clearBtn = form.querySelector('.search-clear-btn');
+    if (!clearBtn) {
+      clearBtn = document.createElement('button');
+      clearBtn.type = 'button';
+      clearBtn.id = 'searchClearBtn';
+      clearBtn.className = 'search-clear-btn';
+      clearBtn.setAttribute('aria-label', 'Xóa từ khóa tìm kiếm');
+      clearBtn.innerHTML = '✕';
+      clearBtn.hidden = true;
+      form.appendChild(clearBtn);
+    }
+
+    function syncClearBtn() {
+      if (clearBtn) {
+        clearBtn.hidden = !inp.value;
+      }
+    }
+    syncClearBtn();
+
+    clearBtn.addEventListener('click', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      inp.value = '';
+      clearBtn.hidden = true;
+      box.style.display = 'none';
+      inp.focus();
+      inp.dispatchEvent(new Event('input', { bubbles: true }));
+    });
+
     var sel = -1;
 
     inp.addEventListener('input', function () {
+      syncClearBtn();
       var q = strip(inp.value.trim());
       sel = -1;
 
@@ -4564,6 +4595,7 @@
         location.href = l[sel].getAttribute('href');
       } else if (e.key === 'Escape') {
         box.style.display = 'none';
+        syncClearBtn();
       }
     });
 

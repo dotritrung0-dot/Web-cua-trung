@@ -150,6 +150,7 @@
             </a>
             <form class="search" id="searchForm" role="search">
                 <input id="searchInput" type="search" placeholder="Tìm kiếm figure, cosplay, phụ kiện..." aria-label="Tìm kiếm sản phẩm">
+                <button type="button" class="search-clear-btn" id="searchClearBtn" aria-label="Xóa từ khóa tìm kiếm" hidden>✕</button>
                 <button type="submit" aria-label="Tìm kiếm">⌕</button>
             </form>
             <div class="header-actions">
@@ -777,6 +778,9 @@
                 </div>
             </article>
 
+            <!-- Thẻ dẫn hướng danh mục khi bộ lọc có ít sản phẩm mẫu (P2 Clarify) -->
+            <div class="filter-more-card" id="filterMoreCard" style="display:none;" role="region" aria-label="Xem thêm sản phẩm cùng danh mục"></div>
+
             </div>
         </section>
         <!--
@@ -885,6 +889,17 @@
               thành số ngày/giờ/phút bạn muốn là đồng hồ sẽ tự đếm ngược theo!
     -->
     <script>
+        // Danh mục tương ứng để dẫn hướng khi khách lọc trên Trang chủ (P2 Clarify)
+        const categoryMeta = {
+            fashion: { name: "Thời trang Anime", href: "thoi-trang.html", count: "15+", icon: "👘", desc: "Áo Haori, Kimono cách tân, Hoodie & T-shirt anime độc quyền" },
+            accessory: { name: "Phụ kiện & Đạo cụ", href: "dao-cu.html", count: "18+", icon: "⚔️", desc: "Kiếm Nichirin, quạt xếp, phụ kiện cosplay & mô hình vũ khí" },
+            cosplay: { name: "Trang phục Cosplay", href: "cosplay.html", count: "12+", icon: "🎭", desc: "Trọn bộ trang phục cosplay Demon Slayer, Jujutsu Kaisen, Genshin" },
+            plush: { name: "Gấu bông & Plushies", href: "plush.html", count: "10+", icon: "🧸", desc: "Pochita cưa máy, Pikachu, Chopper & linh vật anime siêu mềm" },
+            figure: { name: "Mô hình Figure", href: "figure.html", count: "25+", icon: "✨", desc: "Scale figure chính hãng, Nendoroid & phiên bản giới hạn" }
+        };
+
+        const filterMoreCard = document.getElementById("filterMoreCard");
+
         // Tính năng click vào các bộ lọc (Tất cả, Mô hình, Cosplay...) để ẩn/hiện sản phẩm
         document.querySelectorAll(".filter").forEach(button => {
             button.addEventListener("click", () => {
@@ -919,6 +934,32 @@
                         card.style.display = "none";
                     }
                 });
+
+                // Xử lý thẻ dẫn hướng khi danh mục có ít sản phẩm mẫu trên trang chủ (P2)
+                if (filterMoreCard) {
+                    if (filterValue !== "all" && categoryMeta[filterValue]) {
+                        const meta = categoryMeta[filterValue];
+                        filterMoreCard.innerHTML = `
+                            <div class="filter-more-content">
+                                <span class="filter-more-icon" aria-hidden="true">${meta.icon}</span>
+                                <div class="filter-more-body">
+                                    <div class="filter-more-badge">BỘ SƯU TẬP ${meta.name.toUpperCase()}</div>
+                                    <h4>Khám phá trọn bộ ${meta.name}</h4>
+                                    <p>${meta.desc}. Còn hơn <strong>${meta.count}</strong> mẫu đang có sẵn tại kho AnimeVerse!</p>
+                                </div>
+                                <a href="${meta.href}" class="filter-more-cta" aria-label="Xem tất cả ${meta.name}">
+                                    Xem tất cả ${meta.name} (${meta.count}) →
+                                </a>
+                            </div>
+                        `;
+                        filterMoreCard.style.display = "block";
+                        filterMoreCard.classList.remove("av-card-pop");
+                        void filterMoreCard.offsetWidth;
+                        filterMoreCard.classList.add("av-card-pop");
+                    } else {
+                        filterMoreCard.style.display = "none";
+                    }
+                }
             });
         });
 

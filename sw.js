@@ -20,7 +20,7 @@
 // Mẹo nhỏ khi bạn sửa code:
 // Nếu bạn sửa HTML/CSS/JS xong mà mở trình duyệt vẫn thấy giao diện cũ,
 // hãy đổi chữ 'av-v8-motion' bên dưới thành 'av-v9-...' (hoặc bấm Ctrl + F5).
-const V = 'av-v25-impeccable-polish';
+const V = 'av-v26-p2-p3-polish';
 
 // Danh sách các file cốt lõi được lưu sẵn ngay từ lần đầu mở trang
 const CORE = [
