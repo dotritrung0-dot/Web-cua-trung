@@ -959,5 +959,206 @@ html[data-theme="sakura"] .av-kbd {
   }
 }
 
+/* ============================================================================
+   MỤC 14: TỐI ƯU KHOẢNG CÁCH CHIỀU DỌC & MẬT ĐỘ BỐ CỤC (COMPACT VERTICAL RHYTHM)
+   Thu gọn khoảng cách thừa giữa các phần (giảm padding/margin chiều dọc)
+   giúp người dùng ít phải cuộn trang, hiển thị được nhiều nội dung hơn.
+   ============================================================================ */
+
+/* 1. Các khối section trên toàn bộ website */
+.section,
+main.section,
+.promo-page .section {
+  padding: 26px 0 !important;
+}
+
+@media (min-width: 1440px) {
+  .section,
+  main.section,
+  .promo-page .section {
+    padding: 32px 0 !important;
+  }
+}
+
+@media (max-width: 992px) {
+  .section,
+  main.section,
+  .promo-page .section {
+    padding: 20px 0 !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .section,
+  main.section,
+  .promo-page .section {
+    padding: 16px 0 !important;
+  }
+}
+
+/* 2. Tiêu đề mục (Section Headings) */
+.section-head,
+.promo-page .section-heading,
+.section-heading {
+  margin-bottom: 16px !important;
+}
+
+@media (max-width: 768px) {
+  .section-head,
+  .promo-page .section-heading,
+  .section-heading {
+    margin-bottom: 12px !important;
+  }
+}
+
+/* 3. Banner ngang lớn (.home-banner) */
+.home-banner,
+#home .home-banner {
+  margin: 10px auto 14px !important;
+}
+
+@media (max-width: 768px) {
+  .home-banner,
+  #home .home-banner {
+    margin: 8px auto 12px !important;
+  }
+}
+
+/* 4. Sân khấu chính (#home .hero) */
+#home .hero {
+  margin-top: 4px !important;
+  margin-bottom: 16px !important;
+  padding: 28px 32px !important;
+}
+
+#home .hero-copy {
+  padding: 4px 0 !important;
+}
+
+#home .hero-stats {
+  margin-top: 16px !important;
+  gap: 10px !important;
+}
+
+#home .hero-stats span {
+  padding: 8px 12px !important;
+}
+
+@media (max-width: 992px) {
+  #home .hero {
+    padding: 22px 20px !important;
+    margin-bottom: 14px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  #home .hero {
+    padding: 18px 14px !important;
+    margin-top: 6px !important;
+    margin-bottom: 12px !important;
+    gap: 14px !important;
+  }
+  #home .hero-stats {
+    margin-top: 12px !important;
+    gap: 8px !important;
+  }
+  #home .hero-stats span {
+    padding: 6px 10px !important;
+  }
+}
+
+/* 5. Dải ảnh Anime Stream Marquee (.av-stream-section) */
+.av-stream-section {
+  margin: 14px 0 12px !important;
+}
+
+.av-stream-header {
+  margin-bottom: 8px !important;
+}
+
+.av-stream-wrapper {
+  padding: 6px 0 10px !important;
+}
+
+@media (max-width: 768px) {
+  .av-stream-section {
+    margin: 10px 0 8px !important;
+  }
+  .av-stream-header {
+    margin-bottom: 6px !important;
+  }
+  .av-stream-wrapper {
+    padding: 4px 0 8px !important;
+  }
+}
+
+/* 6. Khối Flash Sale (.sale) */
+.sale,
+#sale {
+  margin: 14px auto 20px !important;
+  padding: 24px 30px !important;
+  gap: 24px !important;
+}
+
+@media (max-width: 768px) {
+  .sale,
+  #sale {
+    margin: 10px auto 14px !important;
+    padding: 16px 14px !important;
+    gap: 14px !important;
+  }
+}
+
+/* 7. Bộ lọc danh mục & lưới sản phẩm (.filters, .categories, .product-grid) */
+.filters {
+  margin-bottom: 14px !important;
+}
+
+.categories {
+  gap: 14px !important;
+}
+
+.product-grid {
+  row-gap: 16px !important;
+}
+
+/* 8. Chân trang (Footer) */
+footer,
+.promo-page footer,
+.promo-page .footer {
+  padding-top: 32px !important;
+}
+
+.footer-grid,
+.promo-page .footer-grid {
+  padding-bottom: 24px !important;
+  gap: 32px !important;
+}
+
+@media (max-width: 768px) {
+  footer,
+  .promo-page footer,
+  .promo-page .footer {
+    padding-top: 22px !important;
+  }
+  .footer-grid,
+  .promo-page .footer-grid {
+    padding-bottom: 16px !important;
+    gap: 20px !important;
+  }
+}
+
+/* 9. Đầu trang các trang con (.page-header) */
+.page-header {
+  padding: 28px 0 18px !important;
+}
+
+@media (max-width: 768px) {
+  .page-header {
+    padding: 20px 0 14px !important;
+  }
+}
+
+
 
 
