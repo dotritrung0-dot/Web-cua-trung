@@ -20,10 +20,11 @@
 // Mẹo nhỏ khi bạn sửa code:
 // Nếu bạn sửa HTML/CSS/JS xong mà mở trình duyệt vẫn thấy giao diện cũ,
 // hãy đổi chữ 'av-v8-motion' bên dưới thành 'av-v9-...' (hoặc bấm Ctrl + F5).
-const V = 'av-v32-css-bundled';
+const V = 'av-v33-upgrade';
 
 // Danh sách các file cốt lõi được lưu sẵn ngay từ lần đầu mở trang
 const CORE = [
+    'index.html',
     'trang-chu.html',
     'san-pham.html',
     'css/bundle.css',
@@ -101,7 +102,9 @@ self.addEventListener('fetch', (e) => {
             .catch(() => {
                 // Nếu mất mạng thì lấy bản đã lưu trong máy ra hiển thị
                 return caches.match(e.request).then((cached) => {
-                    return cached || caches.match('trang-chu.html');
+                    return cached || caches.match('index.html').then((fallback) => {
+                        return fallback || caches.match('trang-chu.html');
+                    });
                 });
             })
     );
