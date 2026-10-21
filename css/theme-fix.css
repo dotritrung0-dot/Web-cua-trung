@@ -1265,13 +1265,50 @@ html[data-theme="sakura"] a.add:hover {
 }
 
 /* 3. Placeholder trên thanh tìm kiếm đạt độ tương phản chuẩn */
+.search input::placeholder,
 .search-input::placeholder,
 #searchInput::placeholder {
   color: #64748b !important;
   opacity: 1 !important;
 }
 
-/* 4. Tinh chỉnh khu vực Tiện ích Otaku Hub (.hub-card): Xóa bỏ style nội dòng */
+/* 4. Tương phản chữ nhỏ phụ đề (.product-info > small) và giá gạch (.price del) */
+.product-info > small,
+.product-card small,
+.deal-card small,
+.pro-card-meta small {
+  color: #5c556b !important;
+  font-size: 11.5px !important;
+  font-weight: 700 !important;
+}
+
+.price del,
+.pro-price del {
+  color: #64748b !important;
+}
+
+/* 5. Khắc phục tương phản thanh menu chính (.nav a:hover, .nav a.active) */
+.nav a:hover,
+.nav a.active,
+.nav a[aria-current="page"],
+html[data-theme="sakura"] .nav a:hover,
+html[data-theme="sakura"] .nav a.active,
+html[data-theme="sakura"] .nav a[aria-current="page"] {
+  color: #b81565 !important;
+  text-shadow: none !important;
+}
+
+.category b {
+  color: #2e1d38 !important;
+}
+.category small {
+  color: #5c556b !important;
+}
+.category:hover b {
+  color: #b81565 !important;
+}
+
+/* 6. Tinh chỉnh khu vực Tiện ích Otaku Hub (.hub-card): Xóa bỏ style nội dòng */
 .otaku-hub-grid {
   grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)) !important;
 }
