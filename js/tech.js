@@ -4775,11 +4775,23 @@
     });
     try {
       var re = new RegExp('(' + escapedTokens.join('|') + ')', 'gi');
-      return esc(text).replace(re, '<mark class="av-sug-hl">$1</mark>');
+      var parts = String(text).split(re);
+      var out = '';
+      for (var i = 0; i < parts.length; i++) {
+        var part = parts[i];
+        if (!part) continue;
+        if (i % 2 === 1) {
+          out += '<mark class="av-sug-hl">' + esc(part) + '</mark>';
+        } else {
+          out += esc(part);
+        }
+      }
+      return out;
     } catch (e) {
       return esc(text);
     }
   }
+  window.AVHighlightMatch = highlightMatch;
 
   // ---------------------------------------------------------------------------
   // MỤC 12: Ô TÌM KIẾM GỢI Ý TỨC THÌ CÓ ẢNH NHỎ & GIÁ TIỀN (LIVE SEARCH DROPDOWN)

@@ -89,7 +89,7 @@ def normalize_html_for_parity(content):
     return content.replace('href="index.html"', 'href="HOMEPAGE"').replace('href="trang-chu.html"', 'href="HOMEPAGE"')
 
 # Standard Vietnamese Phone Regex as specified in PROJECT.md and js/site.js
-VN_PHONE_REGEX = re.compile(r'^(0|\+84)[3|5|7|8|9][0-9]{8}$')
+VN_PHONE_REGEX = re.compile(r'^(0|\+84)[35789][0-9]{8}$')
 
 # ---------------------------------------------------------------------------
 # In-Memory Store Simulation matching js/site.js Contract
@@ -847,8 +847,8 @@ class TestTier2BoundaryRobustness(unittest.TestCase):
 
     # ---------------- F4_B: Quick Checkout Boundary Cases ----------------
     def test_f04_b1_checkout_invalid_phone_prefix_rejected(self):
-        """F4_B1: Verify invalid phone prefixes (01, 02, 04, 06) are rejected by regex."""
-        invalid_prefixes = ['0123456789', '0234567890', '0456789012', '0678901234']
+        """F4_B1: Verify invalid phone prefixes (01, 02, 04, 06, and literal pipe 0|) are rejected by regex."""
+        invalid_prefixes = ['0123456789', '0234567890', '0456789012', '0678901234', '0|12345678']
         for p in invalid_prefixes:
             self.assertFalse(bool(VN_PHONE_REGEX.match(p)), f"Prefix should be rejected: {p}")
 

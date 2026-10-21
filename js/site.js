@@ -126,12 +126,14 @@
         try {
             var raw = localStorage.getItem(key);
             if (raw) {
-                return JSON.parse(raw);
+                var parsed = JSON.parse(raw);
+                return (parsed !== null && parsed !== undefined) ? parsed : fallback;
             }
         } catch (e) {}
 
         if (Object.prototype.hasOwnProperty.call(_mem, key)) {
-            return JSON.parse(JSON.stringify(_mem[key]));
+            var memVal = _mem[key];
+            return (memVal !== null && memVal !== undefined) ? JSON.parse(JSON.stringify(memVal)) : fallback;
         }
         return fallback;
     }
@@ -149,9 +151,12 @@
         money: money,
         toast: toast,
 
-        // Lấy danh sách sản phẩm đang có trong giỏ hàng
+        // Lấy danh sách sản phẩm đang có trong giỏ hàng (lọc an toàn mảng và đối tượng hợp lệ)
         cartGet: function () {
-            return safeGet('av_cart', []);
+            var c = safeGet('av_cart', []);
+            return Array.isArray(c) ? c.filter(function (i) {
+                return i && typeof i === 'object';
+            }) : [];
         },
 
         // Lưu lại danh sách giỏ hàng và cập nhật con số trên biểu tượng 🛒
@@ -458,7 +463,7 @@
         // Đồng bộ con số hiển thị trên các nút Giỏ hàng, Yêu thích, So sánh và Huy hiệu VIP
         syncBadges: function () {
             var cartCount = Store.cartGet().reduce(function (s, i) {
-                return s + (Number(i.qty) || 0);
+                return s + (i && Number(i.qty) || 0);
             }, 0);
 
             document.querySelectorAll('.cart-badge').forEach(function (b) {
@@ -500,7 +505,7 @@
                 throw new Error('Customer name required');
             }
             var phoneStr = String(phone || '').trim();
-            var VN_PHONE_REGEX = /^(0|\+84)[3|5|7|8|9][0-9]{8}$/;
+            var VN_PHONE_REGEX = /^(0|\+84)[35789][0-9]{8}$/;
             if (!VN_PHONE_REGEX.test(phoneStr)) {
                 throw new Error('Invalid VN phone number');
             }
@@ -510,7 +515,8 @@
             }
             var pMethod = payMethod || 'COD';
             var sub = items.reduce(function (s, i) {
-                return s + (Number(i.price) || 0) * (Number(i.qty) || 1);
+                var qty = Math.max(1, parseInt(i && i.qty, 10) || 1);
+                return s + (Number(i && i.price) || 0) * qty;
             }, 0);
             var FREE = 500000;
             var activeCode = Store.activeVoucherGet();
@@ -526,6 +532,12 @@
                 minute: '2-digit'
             });
 
+            var sanitizedItems = items.map(function (i) {
+                var it = JSON.parse(JSON.stringify(i));
+                it.qty = Math.max(1, parseInt(it.qty, 10) || 1);
+                return it;
+            });
+
             var order = {
                 id: ordId,
                 date: dateStr,
@@ -534,7 +546,7 @@
                 addr: addrStr,
                 note: String(note || '').trim(),
                 payMethod: pMethod,
-                items: JSON.parse(JSON.stringify(items)),
+                items: sanitizedItems,
                 total: grandTotal,
                 status: 'Đang đóng gói chống sốc'
             };
@@ -557,10 +569,10 @@
 
     // Lắng nghe sự kiện storage để đồng bộ Giỏ hàng và Huy hiệu trên mọi Tab trình duyệt
     window.addEventListener('storage', function (e) {
-        if (e.key === 'av_cart' || e.key === 'av_wish' || e.key === 'av_compare' || e.key === 'av_xp' || e.key === 'av_coupon' || e.key === 'av_vouchers') {
+        if (!e.key || e.key === 'av_cart' || e.key === 'av_wish' || e.key === 'av_compare' || e.key === 'av_xp' || e.key === 'av_coupon' || e.key === 'av_vouchers') {
             Store.syncBadges();
             document.dispatchEvent(new CustomEvent('av:cart-updated'));
-            if (e.key === 'av_wish') {
+            if (!e.key || e.key === 'av_wish') {
                 document.dispatchEvent(new CustomEvent('av:wish-updated'));
             }
         }

@@ -19,19 +19,19 @@
 (function () {
     'use strict';
 
-    // Kiểm tra cài đặt giảm chuyển động của hệ điều hành
-    var prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    // Kiểm tra cài đặt giảm chuyển động của hệ điều hành và gắn bộ lắng nghe thay đổi runtime (AV-SEC-07)
+    var mql = (window.matchMedia) ? window.matchMedia('(prefers-reduced-motion: reduce)') : null;
+    var prefersReduced = mql ? !!mql.matches : false;
 
-    // Fallback an toàn nếu người dùng kích hoạt giảm chuyển động
-    if (prefersReduced) {
-        window.AVInitScrollReveal = function () {};
-        window.AVInitTilt = function () {};
-        window.AVFlyToCart = function () {};
-        window.AVCartCelebration = function () {};
-        if (!window.AVConfettiBurst) {
-            window.AVConfettiBurst = function () {};
+    if (mql) {
+        var onMotionChange = function (e) {
+            prefersReduced = !!(e && e.matches);
+        };
+        if (typeof mql.addEventListener === 'function') {
+            mql.addEventListener('change', onMotionChange);
+        } else if (typeof mql.addListener === 'function') {
+            mql.addListener(onMotionChange);
         }
-        return;
     }
 
     // ========================================================================
@@ -77,6 +77,13 @@
             return;
         }
 
+        if (prefersReduced) {
+            targets.forEach(function (el) {
+                el.classList.add('av-motion-in', 'in');
+            });
+            return;
+        }
+
         if ('IntersectionObserver' in window && !revealObserver) {
             revealObserver = new IntersectionObserver(function (entries) {
                 entries.forEach(function (entry) {
@@ -112,7 +119,7 @@
     var isFinePointer = window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
     function attachCardTilt(card) {
-        if (!card || card._avTiltBound || !isFinePointer) {
+        if (!card || card._avTiltBound || !isFinePointer || prefersReduced) {
             return;
         }
         card._avTiltBound = true;
@@ -131,6 +138,9 @@
         var rect = null;
 
         function updateTilt(clientX, clientY) {
+            if (prefersReduced) {
+                return;
+            }
             if (!rect) {
                 rect = card.getBoundingClientRect();
             }
@@ -177,10 +187,16 @@
         }
 
         function onEnter() {
+            if (prefersReduced) {
+                return;
+            }
             rect = card.getBoundingClientRect();
         }
 
         function onMove(e) {
+            if (prefersReduced) {
+                return;
+            }
             var clientX = e.clientX;
             var clientY = e.clientY;
             if (rafId) {
@@ -214,7 +230,7 @@
     }
 
     function init3DTilt(scope) {
-        if (!isFinePointer) {
+        if (!isFinePointer || prefersReduced) {
             return;
         }
         var root = scope || document;
@@ -223,6 +239,9 @@
     }
 
     window.AVInitTilt = function (target) {
+        if (prefersReduced) {
+            return;
+        }
         if (!target) {
             init3DTilt();
             return;
