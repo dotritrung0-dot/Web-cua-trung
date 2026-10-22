@@ -78,6 +78,12 @@
 
     window.AnimeVerseToast = toast;
 
+    window.AVUtils = {
+        esc: esc,
+        money: money,
+        toast: toast
+    };
+
 
     // -------------------------------------------------------------------------
     // MỤC 2: KHO DỮ LIỆU TRUNG TÂM (window.AVStore) — GIỎ HÀNG, VOUCHER & VIP
@@ -863,98 +869,103 @@
         var payMethod = 'COD';
         var lastOrder = null;
 
-        function render() {
-            // Giữ lại thông tin khách đang gõ dở trong form (nếu có)
+        // --- Các hàm con hỗ trợ trang giỏ hàng (Single Responsibility Helpers) ---
+        function saveFormInputs() {
             var keep = {};
             var f = document.getElementById('checkout');
             if (f) {
                 ['name', 'phone', 'addr', 'note'].forEach(function (k) {
-                    if (f.elements[k]) {
-                        keep[k] = f.elements[k].value;
+                    if (f.elements[k]) keep[k] = f.elements[k].value;
+                });
+            }
+            return keep;
+        }
+
+        function restoreFormInputs(keep) {
+            var nf = document.getElementById('checkout');
+            if (nf && keep) {
+                Object.keys(keep).forEach(function (k) {
+                    if (nf.elements[k] && keep[k] != null) {
+                        nf.elements[k].value = keep[k];
                     }
                 });
             }
+        }
 
-            var items = Store.cartGet();
-
-            // Trường hợp 1: Giỏ hàng đang trống (hoặc vừa đặt hàng xong)
-            if (!items.length) {
-                if (lastOrder) {
-                    var successHtml = [
-                        '<div class="cart-empty" style="max-width:620px;margin:0 auto;padding:32px;border:1px solid var(--cyan);border-radius:20px;background:var(--panel)">',
-                        '    <span style="font-size:48px">🎉</span>',
-                        '    <h2>Đặt hàng thành công! Mã đơn: <strong style="color:var(--cyan)">' + esc(lastOrder.id) + '</strong></h2>',
-                        '    <p>Cảm ơn <b>' + esc(lastOrder.customer) + '</b>! Bạn vừa nhận được <b>+150 Otaku XP</b>. Đơn hàng đang được chuẩn bị đóng gói chống sốc.</p>',
-                        '    <div style="text-align:left;background:rgba(255,255,255,.04);padding:14px 18px;border-radius:12px;margin:16px 0;font-size:13.5px">',
-                        '        <div><b>Phương thức:</b> ' + esc(lastOrder.payMethod) + '</div>',
-                        '        <div><b>Tổng thanh toán:</b> <span style="color:var(--neon);font-weight:800">' + money(lastOrder.total) + '</span></div>',
-                        '        <div><b>Địa chỉ:</b> ' + esc(lastOrder.addr) + '</div>',
-                        '    </div>',
-                        '    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">',
-                        '        <button type="button" class="btn primary" id="btnViewOrderTrack">📦 Theo dõi đơn hàng</button>',
-                        '        <a class="btn ghost" href="san-pham.html">Tiếp tục mua sắm →</a>',
-                        '    </div>',
-                        '</div>'
-                    ].join('\n');
-
-                    root.innerHTML = successHtml;
-
-                    var btnTrack = document.getElementById('btnViewOrderTrack');
-                    if (btnTrack && window.AVOpenDrawer) {
-                        btnTrack.addEventListener('click', function () {
-                            window.AVOpenDrawer('orders');
-                        });
-                    }
-                    return;
-                }
-
-                var emptyHtml = [
-                    '<div class="cart-empty">',
-                    '    <span>🛒</span>',
-                    '    <h2>Giỏ hàng đang trống</h2>',
-                    '    <p>Chọn vài món đồ Anime yêu thích hoặc quay Gacha săn mã giảm giá rồi quay lại đây nhé.</p>',
-                    '    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:14px">',
-                    '        <a class="btn primary" href="san-pham.html">Xem sản phẩm →</a>',
-                    '        <button type="button" class="btn ghost" id="emptyOpenGacha">🎰 Quay Gacha Săn Voucher</button>',
+        function renderEmptyOrSuccessState() {
+            if (lastOrder) {
+                root.innerHTML = [
+                    '<div class="cart-empty" style="max-width:620px;margin:0 auto;padding:32px;border:1px solid var(--cyan);border-radius:20px;background:var(--panel)">',
+                    '    <span style="font-size:48px">🎉</span>',
+                    '    <h2>Đặt hàng thành công! Mã đơn: <strong style="color:var(--cyan)">' + esc(lastOrder.id) + '</strong></h2>',
+                    '    <p>Cảm ơn <b>' + esc(lastOrder.customer) + '</b>! Bạn vừa nhận được <b>+150 Otaku XP</b>. Đơn hàng đang được chuẩn bị đóng gói chống sốc.</p>',
+                    '    <div style="text-align:left;background:rgba(255,255,255,.04);padding:14px 18px;border-radius:12px;margin:16px 0;font-size:13.5px">',
+                    '        <div><b>Phương thức:</b> ' + esc(lastOrder.payMethod) + '</div>',
+                    '        <div><b>Tổng thanh toán:</b> <span style="color:var(--neon);font-weight:800">' + money(lastOrder.total) + '</span></div>',
+                    '        <div><b>Địa chỉ:</b> ' + esc(lastOrder.addr) + '</div>',
+                    '    </div>',
+                    '    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">',
+                    '        <button type="button" class="btn primary" id="btnViewOrderTrack">📦 Theo dõi đơn hàng</button>',
+                    '        <a class="btn ghost" href="san-pham.html">Tiếp tục mua sắm →</a>',
                     '    </div>',
                     '</div>'
                 ].join('\n');
 
-                root.innerHTML = emptyHtml;
-
-                var gBtn = document.getElementById('emptyOpenGacha');
-                if (gBtn && window.AVOpenHub) {
-                    gBtn.addEventListener('click', function () {
-                        window.AVOpenHub('gacha');
+                var btnTrack = document.getElementById('btnViewOrderTrack');
+                if (btnTrack && window.AVOpenDrawer) {
+                    btnTrack.addEventListener('click', function () {
+                        window.AVOpenDrawer('orders');
                     });
                 }
                 return;
             }
 
-            // Trường hợp 2: Có sản phẩm trong giỏ -> Tính toán tổng tiền, phí ship và giảm giá
-            var sub = items.reduce(function (s, i) {
-                return s + i.price * i.qty;
-            }, 0);
+            root.innerHTML = [
+                '<div class="cart-empty">',
+                '    <span>🛒</span>',
+                '    <h2>Giỏ hàng đang trống</h2>',
+                '    <p>Chọn vài món đồ Anime yêu thích hoặc quay Gacha săn mã giảm giá rồi quay lại đây nhé.</p>',
+                '    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:14px">',
+                '        <a class="btn primary" href="san-pham.html">Xem sản phẩm →</a>',
+                '        <button type="button" class="btn ghost" id="emptyOpenGacha">🎰 Quay Gacha Săn Voucher</button>',
+                '    </div>',
+                '</div>'
+            ].join('\n');
 
-            var activeCode = Store.activeVoucherGet();
+            var gBtn = document.getElementById('emptyOpenGacha');
+            if (gBtn && window.AVOpenHub) {
+                gBtn.addEventListener('click', function () {
+                    window.AVOpenHub('gacha');
+                });
+            }
+        }
+
+        function calculateCartTotals(items, activeCode) {
+            var sub = items.reduce(function (s, i) { return s + i.price * i.qty; }, 0);
             var res = Store.calcDiscount(sub, activeCode);
             var left = Math.max(0, FREE - sub);
             var baseShip = (left === 0) ? 0 : 30000;
             var finalShip = Math.max(0, baseShip - (res.shipDiscount || 0));
             var grandTotal = Math.max(0, sub - (res.discount || 0) + finalShip);
-            var vouchers = Store.vouchersGet();
+            var totalCount = items.reduce(function (s, x) { return s + x.qty; }, 0);
+            return {
+                sub: sub,
+                res: res,
+                left: left,
+                finalShip: finalShip,
+                grandTotal: grandTotal,
+                totalCount: totalCount
+            };
+        }
 
-            var itemsHtml = items.map(function (i, k) {
+        function buildItemsListHtml(items) {
+            return items.map(function (i, k) {
                 var sizeText = i.size ? '<small>Size: ' + esc(i.size) + '</small>' : '<small>Bản tiêu chuẩn</small>';
                 return [
                     '<article class="cart-item">',
-                    '    <a href="' + esc(i.id) + '.html">',
-                    '        <img src="' + esc(i.img) + '" alt="' + esc(i.name) + '">',
-                    '    </a>',
+                    '    <a href="' + esc(i.id) + '.html"><img src="' + esc(i.img) + '" alt="' + esc(i.name) + '"></a>',
                     '    <div class="cart-info">',
-                    '        <a href="' + esc(i.id) + '.html">',
-                    '            <h3>' + esc(i.name) + '</h3>',
-                    '        </a>',
+                    '        <a href="' + esc(i.id) + '.html"><h3>' + esc(i.name) + '</h3></a>',
                     '        ' + sizeText,
                     '        <b>' + money(i.price) + '</b>',
                     '    </div>',
@@ -968,8 +979,10 @@
                     '</article>'
                 ].join('\n');
             }).join('\n');
+        }
 
-            var vouchersHtml = vouchers.map(function (v) {
+        function buildVouchersHtml(vouchers, res) {
+            return vouchers.map(function (v) {
                 var isAct = res.valid && res.code === v.code;
                 var activeClass = isAct ? ' active' : '';
                 return [
@@ -979,46 +992,56 @@
                     '</button>'
                 ].join('\n');
             }).join('\n');
+        }
 
-            var qrSectionHtml = '';
-            if (payMethod !== 'COD') {
-                qrSectionHtml = [
-                    '<div class="av-qr-box">',
-                    '    <img src="' + makeVietQRSvg(grandTotal, 'AV2026') + '" alt="Mã QR thanh toán" style="border-radius:10px">',
-                    '    <div style="font-size:12px;margin-top:6px">',
-                    '        Quét mã <b>' + payMethod + '</b> · Số tiền: <b style="color:var(--cyan)">' + money(grandTotal) + '</b><br>',
-                    '        <small>Nội dung: ANIMEVERSE VIP</small>',
-                    '    </div>',
-                    '</div>'
-                ].join('\n');
+        function buildQrSectionHtml(method, grandTotal) {
+            if (method === 'COD') return '';
+            return [
+                '<div class="av-qr-box">',
+                '    <img src="' + makeVietQRSvg(grandTotal, 'AV2026') + '" alt="Mã QR thanh toán" style="border-radius:10px">',
+                '    <div style="font-size:12px;margin-top:6px">',
+                '        Quét mã <b>' + method + '</b> · Số tiền: <b style="color:var(--cyan)">' + money(grandTotal) + '</b><br>',
+                '        <small>Nội dung: ANIMEVERSE VIP</small>',
+                '    </div>',
+                '</div>'
+            ].join('\n');
+        }
+
+        function render() {
+            var keep = saveFormInputs();
+            var items = Store.cartGet();
+
+            if (!items.length) {
+                renderEmptyOrSuccessState();
+                return;
             }
 
-            var totalCount = items.reduce(function (s, x) {
-                return s + x.qty;
-            }, 0);
+            var activeCode = Store.activeVoucherGet();
+            var totals = calculateCartTotals(items, activeCode);
+            var vouchers = Store.vouchersGet();
 
-            var freeShipNote = left
-                ? 'Mua thêm <b>' + money(left) + '</b> để được Freeship 500k'
+            var freeShipNote = totals.left
+                ? 'Mua thêm <b>' + money(totals.left) + '</b> để được Freeship 500k'
                 : '🎉 Đơn của bạn đủ điều kiện Freeship!';
 
-            var discountRowHtml = res.discount
-                ? '<dt>Giảm giá (' + esc(res.code) + ')</dt><dd style="color:var(--neon)">−' + money(res.discount) + '</dd>'
+            var discountRowHtml = totals.res.discount
+                ? '<dt>Giảm giá (' + esc(totals.res.code) + ')</dt><dd style="color:var(--neon)">−' + money(totals.res.discount) + '</dd>'
                 : '';
 
-            var shipDisplay = (finalShip === 0)
+            var shipDisplay = (totals.finalShip === 0)
                 ? '<span style="color:#10b981">Miễn phí (0đ)</span>'
-                : money(finalShip);
+                : money(totals.finalShip);
 
             var fullCartHtml = [
                 '<div class="cart-layout">',
                 '    <div class="cart-list">',
-                itemsHtml,
+                buildItemsListHtml(items),
                 '    </div>',
                 '    <aside class="cart-summary">',
                 '        <h2>Tóm tắt đơn hàng</h2>',
                 '        <div class="free-ship">',
                 '            <div class="bar">',
-                '                <i style="width:' + Math.min(100, Math.round(sub / FREE * 100)) + '%"></i>',
+                '                <i style="width:' + Math.min(100, Math.round(totals.sub / FREE * 100)) + '%"></i>',
                 '            </div>',
                 '            <p>' + freeShipNote + '</p>',
                 '        </div>',
@@ -1027,23 +1050,23 @@
                 '            <button type="button" id="cartOpenGacha" style="background:none;border:0;color:var(--cyan);font-size:11.5px;cursor:pointer;padding:0">🎰 Săn thêm mã</button>',
                 '        </div>',
                 '        <div class="av-voucher-wallet">',
-                vouchersHtml,
+                buildVouchersHtml(vouchers, totals.res),
                 '        </div>',
                 '        <div class="cart-coupon">',
                 '            <input id="coupon" value="' + esc(activeCode) + '" placeholder="Nhập mã giảm giá (WELCOME10, OTAKU50K...)" aria-label="Mã giảm giá">',
                 '            <button type="button" id="apply">Áp dụng</button>',
                 '        </div>',
-                '        <p class="coupon-msg" id="couponMsg">' + esc(res.msg) + '</p>',
+                '        <p class="coupon-msg" id="couponMsg">' + esc(totals.res.msg) + '</p>',
                 '        <dl>',
-                '            <dt>Tạm tính (' + totalCount + ' món)</dt>',
-                '            <dd>' + money(sub) + '</dd>',
+                '            <dt>Tạm tính (' + totals.totalCount + ' món)</dt>',
+                '            <dd>' + money(totals.sub) + '</dd>',
                 '            ' + discountRowHtml,
                 '            <dt>Phí vận chuyển</dt>',
                 '            <dd>' + shipDisplay + '</dd>',
                 '        </dl>',
                 '        <div class="cart-total">',
                 '            <span>Tổng thanh toán</span>',
-                '            <strong>' + money(grandTotal) + '</strong>',
+                '            <strong>' + money(totals.grandTotal) + '</strong>',
                 '        </div>',
                 '        <form id="checkout" class="cart-form">',
                 '            <h3>Phương thức thanh toán</h3>',
@@ -1052,13 +1075,13 @@
                 '                <button type="button" class="av-pay-method' + (payMethod === 'VIETQR' ? ' active' : '') + '" data-pay="VIETQR">🏦 VietQR</button>',
                 '                <button type="button" class="av-pay-method' + (payMethod === 'MOMO' ? ' active' : '') + '" data-pay="MOMO">📱 Ví MoMo</button>',
                 '            </div>',
-                qrSectionHtml,
+                buildQrSectionHtml(payMethod, totals.grandTotal),
                 '            <h3>Thông tin nhận hàng</h3>',
                 '            <input name="name" required placeholder="Họ và tên người nhận" autocomplete="name">',
                 '            <input name="phone" required pattern="^(0|\\+84)[3|5|7|8|9][0-9]{8}$" title="Vui lòng nhập số điện thoại Việt Nam hợp lệ (10 số, bắt đầu bằng 0 hoặc +84)" placeholder="Số điện thoại liên hệ (10 số)" autocomplete="tel" inputmode="tel">',
                 '            <textarea name="addr" required rows="2" placeholder="Địa chỉ nhận hàng chi tiết (Số nhà, Phường/Xã, Quận/Huyện, Tỉnh/TP)" autocomplete="street-address"></textarea>',
                 '            <input name="note" placeholder="Ghi chú thêm (vd: Bọc chống sốc hộp figure, giao giờ hành chính...)">',
-                '            <button class="btn primary" type="submit">✦ Hoàn tất đặt hàng (' + money(grandTotal) + ')</button>',
+                '            <button class="btn primary" type="submit">✦ Hoàn tất đặt hàng (' + money(totals.grandTotal) + ')</button>',
                 '            <p style="font-size:12px;color:var(--muted);text-align:center;margin:8px 0 0">🔒 Bảo mật thanh toán • Đổi trả 7 ngày • Chống sốc 100%</p>',
                 '        </form>',
                 '    </aside>',
@@ -1066,15 +1089,7 @@
             ].join('\n');
 
             root.innerHTML = fullCartHtml;
-
-            var nf = document.getElementById('checkout');
-            if (nf) {
-                Object.keys(keep).forEach(function (k) {
-                    if (nf.elements[k] && keep[k] != null) {
-                        nf.elements[k].value = keep[k];
-                    }
-                });
-            }
+            restoreFormInputs(keep);
 
             var gBtn2 = document.getElementById('cartOpenGacha');
             if (gBtn2 && window.AVOpenHub) {

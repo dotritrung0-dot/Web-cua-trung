@@ -75,28 +75,23 @@ def parse_args():
     return parser.parse_args()
 
 
-def transform_for_target(source_content: str, source_path: str, target_path: str) -> str:
-    """
-    Transforms self-referencing hrefs to match target file requirements:
-    If source is index.html and target is trang-chu.html:
-      Replaces href="index.html" with href="trang-chu.html"
-    If source is trang-chu.html and target is index.html:
-      Replaces href="trang-chu.html" with href="index.html"
-    Handles both single and double quotes.
-    """
-    src_base = os.path.basename(source_path)
-    tgt_base = os.path.basename(target_path)
+def resolve_path(p: str) -> str:
+    """Resolves relative file paths against DEFAULT_PROJECT_ROOT if needed."""
+    if not os.path.isabs(p) and not os.path.exists(p):
+        candidate = os.path.join(DEFAULT_PROJECT_ROOT, p)
+        if os.path.exists(candidate):
+            return candidate
+    return p
 
+
+def transform_for_target(source_content: str, source_path: str, target_path: str) -> str:
+    """Transforms self-referencing hrefs to match target file requirements."""
+    src_base, tgt_base = os.path.basename(source_path), os.path.basename(target_path)
     if "index.html" in src_base and "trang-chu.html" in tgt_base:
-        # In case source index.html had any faulty foreign links like href="trang-chu.html",
-        # they are also target-compatible, but replace all index.html self-refs:
-        transformed = re.sub(r'href=([\"\'])index\.html\1', r'href=\1trang-chu.html\1', source_content)
-        return transformed
-    elif "trang-chu.html" in src_base and "index.html" in tgt_base:
-        transformed = re.sub(r'href=([\"\'])trang-chu\.html\1', r'href=\1index.html\1', source_content)
-        return transformed
-    else:
-        raise ValueError(f"Unsupported source/target pair: {source_path} -> {target_path}")
+        return re.sub(r'href=([\"\'])index\.html\1', r'href=\1trang-chu.html\1', source_content)
+    if "trang-chu.html" in src_base and "index.html" in tgt_base:
+        return re.sub(r'href=([\"\'])trang-chu\.html\1', r'href=\1index.html\1', source_content)
+    raise ValueError(f"Unsupported source/target pair: {source_path} -> {target_path}")
 
 
 def sync_homepage(source_type: str = "index",
@@ -108,15 +103,8 @@ def sync_homepage(source_type: str = "index",
                   index_path: str = "index.html",
                   trang_chu_path: str = "trang-chu.html") -> int:
     # Resolve relative paths
-    if not os.path.isabs(index_path) and not os.path.exists(index_path):
-        candidate = os.path.join(DEFAULT_PROJECT_ROOT, index_path)
-        if os.path.exists(candidate):
-            index_path = candidate
-
-    if not os.path.isabs(trang_chu_path) and not os.path.exists(trang_chu_path):
-        candidate = os.path.join(DEFAULT_PROJECT_ROOT, trang_chu_path)
-        if os.path.exists(candidate):
-            trang_chu_path = candidate
+    index_path = resolve_path(index_path)
+    trang_chu_path = resolve_path(trang_chu_path)
 
     if not os.path.exists(index_path):
         print(f"[FAIL] Error: {index_path} not found.", file=sys.stderr)

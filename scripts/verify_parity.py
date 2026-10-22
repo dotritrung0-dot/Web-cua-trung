@@ -63,34 +63,26 @@ def parse_args():
     return parser.parse_args()
 
 
+def resolve_path(p: str) -> str:
+    """Resolves relative file paths against DEFAULT_PROJECT_ROOT if needed."""
+    if not os.path.isabs(p) and not os.path.exists(p):
+        candidate = os.path.join(DEFAULT_PROJECT_ROOT, p)
+        if os.path.exists(candidate):
+            return candidate
+    return p
+
+
 def normalize_homepage(content: str, filename: str) -> str:
-    """
-    Normalizes only self-referencing homepage links for the given file.
-    In index.html: self-referencing links are href="index.html" -> normalized to href="HOMEPAGE"
-    In trang-chu.html: self-referencing links are href="trang-chu.html" -> normalized to href="HOMEPAGE"
-    Handles both single and double quotes.
-    """
+    """Normalizes only self-referencing homepage links for the given file."""
     target = "index.html" if "index.html" in os.path.basename(filename) else "trang-chu.html"
-    pattern = rf'href=([\"\']){re.escape(target)}\1'
-    return re.sub(pattern, r'href=\1HOMEPAGE\1', content)
+    return re.sub(rf'href=([\"\']){re.escape(target)}\1', r'href=\1HOMEPAGE\1', content)
 
 
 def check_foreign_homepage_links(content: str, filename: str) -> list:
-    """
-    Checks if a page erroneously contains hrefs to the opposite homepage file.
-    - index.html should NEVER have href="trang-chu.html" (e.g. footer logo bug at line 843)
-    - trang-chu.html should NEVER have href="index.html"
-    Returns list of (line_number, line_content)
-    """
-    basename = os.path.basename(filename)
-    opposite = "trang-chu.html" if "index.html" in basename else "index.html"
-
-    errors = []
-    lines = content.splitlines()
-    for idx, line in enumerate(lines, 1):
-        if re.search(rf'href=([\"\']){re.escape(opposite)}\1', line):
-            errors.append((idx, line.strip()))
-    return errors
+    """Checks if a page erroneously contains hrefs to the opposite homepage file."""
+    opposite = "trang-chu.html" if "index.html" in os.path.basename(filename) else "index.html"
+    pattern = re.compile(rf'href=([\"\']){re.escape(opposite)}\1')
+    return [(idx, line.strip()) for idx, line in enumerate(content.splitlines(), 1) if pattern.search(line)]
 
 
 def verify_parity(index_path: str = "index.html",
@@ -100,15 +92,8 @@ def verify_parity(index_path: str = "index.html",
                   show_diff: bool = True,
                   diff_lines: int = 5) -> int:
     # Resolve relative paths
-    if not os.path.isabs(index_path) and not os.path.exists(index_path):
-        candidate = os.path.join(DEFAULT_PROJECT_ROOT, index_path)
-        if os.path.exists(candidate):
-            index_path = candidate
-
-    if not os.path.isabs(trang_chu_path) and not os.path.exists(trang_chu_path):
-        candidate = os.path.join(DEFAULT_PROJECT_ROOT, trang_chu_path)
-        if os.path.exists(candidate):
-            trang_chu_path = candidate
+    index_path = resolve_path(index_path)
+    trang_chu_path = resolve_path(trang_chu_path)
 
     if not os.path.exists(index_path):
         print(f"[FAIL] Error: {index_path} not found.", file=sys.stderr)

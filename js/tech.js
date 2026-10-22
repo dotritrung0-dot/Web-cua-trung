@@ -1958,11 +1958,10 @@
   var calm = window.matchMedia && window.matchMedia('(prefers-reduced-motion:reduce)').matches;
   var Store = window.AVStore;
 
-  // Hàm đổi con số thành chuỗi tiền Việt (ví dụ: 590000 -> "590.000đ")
-  function money(n) {
-    var val = Number(n || 0);
-    return val.toLocaleString('vi-VN') + 'đ';
-  }
+  // Tiện ích dùng chung kế thừa từ window.AVUtils hoặc dự phòng nội bộ
+  var money = (window.AVUtils && window.AVUtils.money) || function (n) {
+    return Number(n || 0).toLocaleString('vi-VN') + 'đ';
+  };
 
   // Hàm bỏ dấu tiếng Việt (ví dụ: "Gấu Bông" -> "gau bong") để tìm kiếm dễ dàng hơn
   function strip(s) {
@@ -1974,7 +1973,7 @@
   }
 
   // Hàm làm sạch ký tự đặc biệt trước khi chèn vào HTML
-  function esc(t) {
+  var esc = (window.AVUtils && window.AVUtils.esc) || function (t) {
     var map = {
       '&': '&amp;',
       '<': '&lt;',
@@ -1985,7 +1984,7 @@
     return String(t || '').replace(/[&<>"']/g, function (c) {
       return map[c];
     });
-  }
+  };
 
   // Hàm tìm thông tin sản phẩm trong CATALOG khi biết mã id hoặc tên file (ví dụ: 'chi-tiet-1.html')
   function findProduct(idOrHref) {
