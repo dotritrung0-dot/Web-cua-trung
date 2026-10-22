@@ -119,6 +119,8 @@
     var isFinePointer = window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
     function attachCardTilt(card) {
+        // Tối giản hóa: Bỏ hiệu ứng nghiêng 3D để thẻ sản phẩm hoàn toàn phẳng, thanh lịch
+        return;
         if (!card || card._avTiltBound || !isFinePointer || prefersReduced) {
             return;
         }
@@ -261,7 +263,14 @@
     var lastCelebrationEl = null;
 
     function spawnCartCelebration(sourceEl) {
-        if (prefersReduced) {
+        // Tối giản hóa: Bỏ pháo hoa hạt che màn hình, chỉ giữ rung nhẹ biểu tượng giỏ hàng
+        var cartNav = document.querySelector('.cart-nav, a[href*="gio-hang"]');
+        if (cartNav) {
+            cartNav.classList.remove('av-motion-cart-bump');
+            void cartNav.offsetWidth;
+            cartNav.classList.add('av-motion-cart-bump');
+        }
+        if (prefersReduced || true) {
             return;
         }
 
@@ -331,7 +340,20 @@
     // 4. HIỆU ỨNG ẢNH SẢN PHẨM BAY VÀO ICON GIỎ HÀNG (FLY TO CART)
     // ========================================================================
     function playFlyToCart(sourceEl, imgSrc) {
-        if (prefersReduced) {
+        // Tối giản hóa: Bỏ hiệu ứng bay lượn che màn hình, chỉ cập nhật nhịp nảy giỏ hàng
+        var cartNav = document.querySelector('.cart-nav, .header-actions .cart-nav, a[href*="gio-hang"]');
+        if (cartNav) {
+            cartNav.classList.remove('av-motion-cart-bump');
+            void cartNav.offsetWidth;
+            cartNav.classList.add('av-motion-cart-bump');
+            var cartBadge = cartNav.querySelector('.cart-badge');
+            if (cartBadge) {
+                cartBadge.classList.remove('av-badge-pop');
+                void cartBadge.offsetWidth;
+                cartBadge.classList.add('av-badge-pop');
+            }
+        }
+        if (prefersReduced || true) {
             return;
         }
 

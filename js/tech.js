@@ -2121,25 +2121,35 @@
 
 
   // ---------------------------------------------------------------------------
-  // MỤC 2: THANH TIẾN ĐỘ CUỘN (#avProgress) & HIỆU ỨNG CÁNH HOA RƠI TỰ NHIÊN (#avParticles)
+  // MỤC 2: NÚT LÊN ĐẦU TRANG TỐI GIẢN (#avTop) & HIỆU ỨNG CÁNH HOA RƠI NHẸ (#avParticles)
   // ---------------------------------------------------------------------------
-  var bar = document.createElement('div');
-  bar.id = 'avProgress';
-  document.body.appendChild(bar);
+  // Nút lên đầu trang tối giản, phẳng, chỉ hiện khi cuộn trang
+  var topBtn = document.createElement('button');
+  topBtn.id = 'avTop';
+  topBtn.type = 'button';
+  topBtn.className = 'av-top-btn';
+  topBtn.setAttribute('aria-label', 'Cuộn lên đầu trang');
+  topBtn.innerHTML = '↑';
+  document.body.appendChild(topBtn);
 
-  // Nút lên đầu trang (#avTop) đã được gỡ bỏ theo yêu cầu
+  function checkTopBtn() {
+    var sc = window.pageYOffset || document.documentElement.scrollTop || 0;
+    if (sc > 300) {
+      topBtn.classList.add('visible');
+    } else {
+      topBtn.classList.remove('visible');
+    }
+  }
+  window.addEventListener('scroll', checkTopBtn, { passive: true });
+  topBtn.addEventListener('click', function () {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
 
-  window.addEventListener('scroll', function () {
-    var h = document.documentElement;
-    var maxScroll = h.scrollHeight - h.clientHeight;
-    var pct = (maxScroll > 0) ? (h.scrollTop / maxScroll * 100) : 0;
-    bar.style.width = pct + '%';
-  }, { passive: true });
-
-  // Khởi tạo hiệu ứng cánh hoa hồng rơi bồng bềnh trên nền trắng
+  // Khởi tạo hiệu ứng cánh hoa hồng rơi bồng bềnh trên nền trắng (tối giản, nhẹ nhàng)
   if (!calm) {
     var cv = document.createElement('canvas');
     cv.id = 'avParticles';
+    cv.style.pointerEvents = 'none';
     document.body.appendChild(cv);
 
     var ctx = cv.getContext('2d');
@@ -2154,74 +2164,47 @@
     resizeCv();
     window.addEventListener('resize', resizeCv, { passive: true });
 
-    // Quầng sáng chuột trên PC
-    var mouseX = -9999;
-    var mouseY = -9999;
-    if (fine) {
-      var g = document.createElement('div');
-      g.id = 'avGlow';
-      document.body.appendChild(g);
-
-      var glowRaf = null;
-      document.addEventListener('mousemove', function (e) {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
-        if (!glowRaf) {
-          glowRaf = requestAnimationFrame(function () {
-            g.style.transform = 'translate(' + mouseX + 'px, ' + mouseY + 'px)';
-            glowRaf = null;
-          });
-        }
-      }, { passive: true });
-    }
-
-    // Tạo các cánh hoa hồng rơi mềm mại (đã giảm mật độ để giao diện thanh thoát, không che khuất chữ)
-    var petalCount = (window.innerWidth <= 768) ? 8 : 15;
+    // Cánh hoa rơi nhẹ nhàng: 8 cánh desktop, 5 cánh mobile (không che khuất nội dung)
+    var petalCount = (window.innerWidth <= 768) ? 5 : 8;
     var petals = [];
     var petalColors = [
-      'rgba(244, 63, 94, 0.45)',   // Hồng đào đậm nhẹ
-      'rgba(251, 113, 133, 0.48)', // Hồng cam phấn
-      'rgba(244, 114, 182, 0.42)', // Cánh anh đào
-      'rgba(253, 164, 175, 0.50)'  // Hồng phấn nhẹ
+      'rgba(244, 63, 94, 0.28)',   // Hồng pastel nhẹ
+      'rgba(251, 113, 133, 0.25)'  // Hồng phấn dịu
     ];
 
     for (var i = 0; i < petalCount; i++) {
       petals.push({
         x: Math.random() * W,
         y: Math.random() * H,
-        r: 3.5 + Math.random() * 5.5,
-        vx: (Math.random() - 0.5) * 0.7,
-        vy: 0.9 + Math.random() * 1.3,
+        r: 3.5 + Math.random() * 4.5,
+        vx: (Math.random() - 0.5) * 0.4,
+        vy: 0.6 + Math.random() * 0.8,
         sway: Math.random() * Math.PI * 2,
-        swaySpeed: 0.02 + Math.random() * 0.02,
+        swaySpeed: 0.015 + Math.random() * 0.015,
         angle: Math.random() * Math.PI * 2,
-        spin: (Math.random() - 0.5) * 0.025,
+        spin: (Math.random() - 0.5) * 0.018,
         color: petalColors[i % petalColors.length]
       });
     }
 
-    (function drawPetals() {
+    var petalRaf = null;
+    var isTabVisible = true;
+
+    function drawPetals() {
+      if (!isTabVisible) {
+        petalRaf = null;
+        return;
+      }
+
       ctx.clearRect(0, 0, W, H);
 
       for (var j = 0; j < petals.length; j++) {
         var p = petals[j];
 
         p.sway += p.swaySpeed;
-        p.x += p.vx + Math.sin(p.sway) * 0.75;
+        p.x += p.vx + Math.sin(p.sway) * 0.5;
         p.y += p.vy;
         p.angle += p.spin;
-
-        // Tương tác nhẹ khi con trỏ chuột ở gần trên máy tính
-        if (fine) {
-          var dx = p.x - mouseX;
-          var dy = p.y - mouseY;
-          var dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist > 0 && dist < 120) {
-            var force = (120 - dist) / 120;
-            p.x += (dx / dist) * force * 2.2;
-            p.y += (dy / dist) * force * 1.5;
-          }
-        }
 
         // Tái tạo lại cánh hoa khi rơi khỏi đáy màn hình
         if (p.y > H + 20) {
@@ -2251,8 +2234,18 @@
         ctx.restore();
       }
 
-      requestAnimationFrame(drawPetals);
-    })();
+      petalRaf = requestAnimationFrame(drawPetals);
+    }
+
+    // Tự động dừng animation khi ẩn tab và chạy lại khi hiện tab
+    document.addEventListener('visibilitychange', function () {
+      isTabVisible = !document.hidden;
+      if (isTabVisible && !petalRaf) {
+        petalRaf = requestAnimationFrame(drawPetals);
+      }
+    });
+
+    petalRaf = requestAnimationFrame(drawPetals);
   }
 
 
@@ -2656,228 +2649,62 @@
     var rightTopWrap = document.createElement('div');
     rightTopWrap.className = 'av-topbar-actions';
 
-    // Nút Điểm danh hàng ngày nhận +50 XP và Voucher OTAKU-VIP15
-    var checkinBtn = document.createElement('button');
-    checkinBtn.type = 'button';
-    checkinBtn.className = 'av-checkin-btn';
-    var todayStr = new Date().toLocaleDateString('vi-VN');
-    var checkedToday = false;
-    try {
-      checkedToday = (localStorage.getItem('av_checkin_date') === todayStr);
-    } catch (e) {}
-
-    if (checkedToday) {
-      checkinBtn.innerHTML = '✓ Đã điểm danh';
-      checkinBtn.classList.add('done');
-    } else {
-      checkinBtn.innerHTML = '🎁 Điểm danh +50 XP';
-    }
-
-    checkinBtn.title = 'Điểm danh mỗi ngày nhận ngay +50 XP và mã giảm 15%';
-    checkinBtn.onclick = function () {
-      var nowDate = new Date().toLocaleDateString('vi-VN');
-      var already = false;
-      try {
-        already = (localStorage.getItem('av_checkin_date') === nowDate);
-      } catch (e) {}
-
-      if (already) {
-        Store.toast('✨ Hôm nay bạn đã điểm danh rồi! Mở Ví Voucher để dùng mã OTAKU-VIP15 nhé.');
-        openDrawer('orders');
-        return;
-      }
-
-      try {
-        localStorage.setItem('av_checkin_date', nowDate);
-      } catch (e) {}
-
-      checkinBtn.innerHTML = '✓ Đã điểm danh';
-      checkinBtn.classList.add('done');
-
-      Store.addXP(50, 'Điểm danh hàng ngày');
-      Store.addVoucher({
-        code: 'OTAKU-VIP15',
-        title: 'Giảm 15% quà điểm danh tối đa 80k',
-        type: 'percent',
-        val: 15,
-        max: 80000,
-        minOrder: 150000
-      });
-
-      if (window.AVConfettiBurst) {
-        window.AVConfettiBurst();
-      }
-      Store.toast('🎉 Điểm danh thành công! Nhận +50 XP & mã OTAKU-VIP15 (-15%) vào Ví Voucher!');
-    };
-
-    // Huy hiệu hiển thị cấp bậc VIP & điểm XP
-    var vipPill = document.createElement('button');
-    vipPill.type = 'button';
-    vipPill.className = 'av-vip-pill';
-    vipPill.title = 'Xem hạng thành viên & Lịch sử đơn hàng';
-    vipPill.onclick = function () {
-      openDrawer('orders');
-    };
-
-    rightTopWrap.appendChild(checkinBtn);
-    rightTopWrap.appendChild(vipPill);
-    topbarInner.appendChild(rightTopWrap);
+    // Điểm danh và thẻ VIP đã được tinh giản theo phong cách tối giản
   }
 
   var headerActions = $('.header-actions');
   if (headerActions) {
-    // 1. Nút mở Vòng quay Gacha & AI Tính Size
-    var gachaBtn = document.createElement('button');
-    gachaBtn.type = 'button';
-    gachaBtn.className = 'icon-btn';
-    gachaBtn.innerHTML = '🎰<small>Gacha</small>';
-    gachaBtn.title = 'Vòng quay Gacha Săn Voucher & AI Tư vấn chọn Size';
-    gachaBtn.onclick = function () {
-      openHub('gacha');
+    // 1. Nút mở Ngăn kéo Tủ đồ Yêu thích (Tối giản, phẳng, nằm trên Header)
+    var wishBtn = document.createElement('button');
+    wishBtn.type = 'button';
+    wishBtn.className = 'icon-btn av-header-utility';
+    wishBtn.innerHTML = '♥<small>Thích</small><span class="av-badge-count av-wish-badge" hidden>0</span>';
+    wishBtn.title = 'Tủ đồ yêu thích';
+    wishBtn.onclick = function () {
+      openDrawer('wish');
     };
 
     // 2. Nút mở Bàn cân So sánh sản phẩm
     var compBtn = document.createElement('button');
     compBtn.type = 'button';
-    compBtn.className = 'icon-btn';
+    compBtn.className = 'icon-btn av-header-utility';
     compBtn.innerHTML = '⚖️<small>So sánh</small><span class="av-badge-count av-compare-badge" hidden>0</span>';
     compBtn.title = 'So sánh sản phẩm';
     compBtn.onclick = function () {
       openCompareModal();
     };
 
-    // 3. Nút mở Ngăn kéo Tủ đồ Yêu thích
-    var wishBtn = document.createElement('button');
-    wishBtn.type = 'button';
-    wishBtn.className = 'icon-btn';
-    wishBtn.innerHTML = '♥<small>Đã thích</small><span class="av-badge-count av-wish-badge" hidden>0</span>';
-    wishBtn.title = 'Tủ đồ yêu thích';
-    wishBtn.onclick = function () {
-      openDrawer('wish');
-    };
-
-    // 4. Nút Bật / Tắt nhạc nền MP3 (Lưu ý: Nút đổi chủ đề #avThemeBtn đã bị loại bỏ vĩnh viễn theo chỉ thị khóa Sakura Pastel)
+    // 3. Nút Bật / Tắt nhạc nền MP3
     var musicBtn = document.createElement('button');
     musicBtn.type = 'button';
     musicBtn.id = 'avMusicBtn';
-    musicBtn.className = 'icon-btn';
-    musicBtn.innerHTML = '🔇<small>Nhạc nền</small>';
+    musicBtn.className = 'icon-btn av-header-utility';
+    musicBtn.innerHTML = '🔇<small>Nhạc</small>';
     musicBtn.title = 'Bật/Tắt nhạc nền';
     musicBtn.onclick = toggleMusic;
 
-    // 5. Nút Chuyển bài nhạc kế tiếp
+    // 4. Nút Chuyển bài nhạc kế tiếp
     var nextMusicBtn = document.createElement('button');
     nextMusicBtn.type = 'button';
     nextMusicBtn.id = 'avMusicNextBtn';
-    nextMusicBtn.className = 'icon-btn';
-    nextMusicBtn.innerHTML = '⏭️<small>Bài tiếp</small>';
+    nextMusicBtn.className = 'icon-btn av-header-utility';
+    nextMusicBtn.innerHTML = '⏭️';
     nextMusicBtn.title = 'Chuyển bài tiếp theo';
     nextMusicBtn.onclick = nextMusicTrack;
 
-    // Tinh gọn Header & Mobile: Chuyển tiện ích sang Quick Dock nổi dạng FAB (Floating Action Button) thu gọn
-    var quickDock = document.getElementById('avQuickDock');
-    if (!quickDock) {
-      quickDock = document.createElement('nav');
-      quickDock.id = 'avQuickDock';
-      quickDock.className = 'av-quick-dock';
-      quickDock.setAttribute('aria-label', 'Tiện ích Otaku');
-      document.body.appendChild(quickDock);
+    // Gắn trực tiếp các nút tiện ích cần thiết lên Header cạnh giỏ hàng (bỏ nút FAB nổi che màn hình)
+    var cartNavEl = $('.cart-nav', headerActions);
+    if (cartNavEl) {
+      headerActions.insertBefore(wishBtn, cartNavEl);
+      headerActions.insertBefore(compBtn, cartNavEl);
+      headerActions.insertBefore(musicBtn, cartNavEl);
+      headerActions.insertBefore(nextMusicBtn, cartNavEl);
+    } else {
+      headerActions.appendChild(wishBtn);
+      headerActions.appendChild(compBtn);
+      headerActions.appendChild(musicBtn);
+      headerActions.appendChild(nextMusicBtn);
     }
-
-    // Khay chứa các nút tiện ích (ẩn/hiện khi bấm FAB)
-    var dockMenu = document.createElement('div');
-    dockMenu.id = 'avDockMenu';
-    dockMenu.className = 'av-dock-menu';
-    dockMenu.setAttribute('role', 'menu');
-    dockMenu.setAttribute('aria-label', 'Menu Tiện ích Otaku');
-
-    // Hàm đóng Quick Dock an toàn
-    var closeDock = function () {
-      quickDock.classList.remove('is-open');
-      if (dockFab) {
-        dockFab.setAttribute('aria-expanded', 'false');
-        dockFab.setAttribute('aria-label', 'Mở tiện ích Otaku');
-      }
-    };
-
-    // Tự động đóng menu sau khi click vào các tiện ích mở modal/drawer
-    var origGachaClick = gachaBtn.onclick;
-    gachaBtn.onclick = function (e) {
-      closeDock();
-      if (origGachaClick) origGachaClick.call(this, e);
-    };
-
-    var origWishClick = wishBtn.onclick;
-    wishBtn.onclick = function (e) {
-      closeDock();
-      if (origWishClick) origWishClick.call(this, e);
-    };
-
-    var origCompClick = compBtn.onclick;
-    compBtn.onclick = function (e) {
-      closeDock();
-      if (origCompClick) origCompClick.call(this, e);
-    };
-
-    dockMenu.appendChild(gachaBtn);
-    dockMenu.appendChild(wishBtn);
-    dockMenu.appendChild(compBtn);
-    dockMenu.appendChild(musicBtn);
-    dockMenu.appendChild(nextMusicBtn);
-
-    // Nút FAB kích hoạt Quick Dock (Tròn trên mobile, pill gọn trên desktop)
-    var dockFab = document.createElement('button');
-    dockFab.type = 'button';
-    dockFab.id = 'avDockFab';
-    dockFab.className = 'av-dock-fab';
-    dockFab.setAttribute('aria-expanded', 'false');
-    dockFab.setAttribute('aria-controls', 'avDockMenu');
-    dockFab.setAttribute('aria-label', 'Mở tiện ích Otaku');
-    dockFab.title = 'Tiện ích Otaku (Gacha, Tủ đồ, So sánh, Nhạc)';
-    dockFab.innerHTML =
-      '<span class="av-dock-fab-icon" aria-hidden="true">⚡</span>' +
-      '<span class="av-dock-fab-label">Tiện ích</span>' +
-      '<span class="av-dock-fab-close" aria-hidden="true">✕</span>' +
-      '<span class="av-badge-count av-dock-fab-badge" id="avDockFabBadge" hidden>0</span>';
-
-    dockFab.onclick = function (e) {
-      e.stopPropagation();
-      var willOpen = !quickDock.classList.contains('is-open');
-      quickDock.classList.toggle('is-open', willOpen);
-      dockFab.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
-      dockFab.setAttribute('aria-label', willOpen ? 'Đóng tiện ích Otaku' : 'Mở tiện ích Otaku');
-    };
-
-    // Đóng Quick Dock khi bấm ra ngoài hoặc nhấn Esc
-    document.addEventListener('click', function (e) {
-      if (quickDock.classList.contains('is-open') && !quickDock.contains(e.target)) {
-        closeDock();
-      }
-    });
-
-    document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape' && quickDock.classList.contains('is-open')) {
-        closeDock();
-        dockFab.focus();
-      }
-    });
-
-    quickDock.innerHTML = '';
-    quickDock.appendChild(dockMenu);
-    quickDock.appendChild(dockFab);
-
-    function syncDockFabBadge() {
-      var b = document.getElementById('avDockFabBadge');
-      if (!b) return;
-      var w = (window.AVStore && AVStore.wishGet) ? AVStore.wishGet().length : 0;
-      var c = (window.AVStore && AVStore.compareGet) ? AVStore.compareGet().length : 0;
-      var total = w + c;
-      b.textContent = total > 99 ? '99+' : total;
-      b.hidden = !total;
-    }
-    document.addEventListener('av:wish-updated', syncDockFabBadge);
-    document.addEventListener('av:compare-updated', syncDockFabBadge);
-    setTimeout(syncDockFabBadge, 250);
 
     restoreMusicOnPageLoad();
 
@@ -2934,62 +2761,8 @@
       }
       card.dataset.fandom = prod.fandom;
 
-      // Hiệu ứng nghiêng 3D mượt mà trên PC — kết nối qua module motion.js (RAF 60/120fps)
-      if (typeof window.AVInitTilt === 'function') {
-        window.AVInitTilt(card);
-      }
-
       var imgWrap = $('.product-image, .deal-visual', card);
       if (imgWrap) {
-        var mainCardImg = $('img', imgWrap);
-
-        // Gắn hàng nút chấm tròn đổi góc ảnh trực tiếp trên thẻ (nếu có từ 2 ảnh trở lên)
-        if (mainCardImg && prod.thumbs && prod.thumbs.length > 1) {
-          var dotsWrap = document.createElement('div');
-          dotsWrap.className = 'av-angle-dots';
-          var maxThumbs = prod.thumbs.slice(0, 4);
-
-          dotsWrap.innerHTML = maxThumbs.map(function (thumbSrc, idx) {
-            var activeCls = (idx === 0) ? ' active' : '';
-            return '<button type="button" class="av-angle-dot' + activeCls + '" data-tsrc="' + esc(thumbSrc) + '" title="Góc ảnh ' + (idx + 1) + '" aria-label="Xem góc ảnh ' + (idx + 1) + '"></button>';
-          }).join('');
-
-          imgWrap.appendChild(dotsWrap);
-
-          // Khi khách bấm hoặc rê chuột vào chấm tròn -> Đổi ảnh sản phẩm ngay trên thẻ
-          var switchCardImage = function (dotBtn) {
-            var newSrc = dotBtn.getAttribute('data-tsrc');
-            if (!newSrc || mainCardImg.getAttribute('src') === newSrc) {
-              return;
-            }
-            $$('.av-angle-dot', dotsWrap).forEach(function (d) {
-              d.classList.toggle('active', d === dotBtn);
-            });
-            mainCardImg.classList.remove('av-img-switch');
-            void mainCardImg.offsetWidth;
-            mainCardImg.classList.add('av-img-switch');
-            mainCardImg.src = newSrc;
-          };
-
-          dotsWrap.addEventListener('click', function (e) {
-            var dot = e.target.closest('.av-angle-dot');
-            if (dot) {
-              e.preventDefault();
-              e.stopPropagation();
-              switchCardImage(dot);
-            }
-          });
-
-          if (fine) {
-            dotsWrap.addEventListener('mouseover', function (e) {
-              var dot = e.target.closest('.av-angle-dot');
-              if (dot) {
-                switchCardImage(dot);
-              }
-            });
-          }
-        }
-
         // Gắn cụm nút nổi "👁 Xem nhanh" và "⚖ So sánh" trên khung ảnh
         var ov = document.createElement('div');
         ov.className = 'av-card-overlay';
@@ -3779,28 +3552,13 @@
   // Bạn tìm biến "var PRIZES" ở bên dưới để sửa tên mã (code), mức giảm (val)
   // hoặc câu mô tả (title) tùy ý nhé!
 
-  var hubBackdrop = document.createElement('div');
-  hubBackdrop.className = 'av-backdrop';
-  hubBackdrop.id = 'avHubModal';
-  hubBackdrop.innerHTML = [
-    '<div class="av-modal-card" role="dialog" aria-label="Tiện ích Otaku Hub">',
-    '    <button type="button" class="av-modal-close" aria-label="Đóng">×</button>',
-    '    <div class="av-hub-tabs">',
-    '        <button type="button" class="av-hub-tab active" data-htab="gacha">🎰 Vòng Quay Gacha Săn Deal</button>',
-    '        <button type="button" class="av-hub-tab" data-htab="size">📏 AI Tư Vấn Chọn Size</button>',
-    '        <button type="button" class="av-hub-tab" data-htab="quiz">🧭 Quiz Tìm Đồ Hợp Hệ</button>',
-    '    </div>',
-    '    <div id="avHubBody"></div>',
-    '</div>'
-  ].join('\n');
-  document.body.appendChild(hubBackdrop);
-
+  // Trung tâm Otaku Hub đã được gỡ bỏ theo yêu cầu tối giản
   var currentHubTab = 'gacha';
 
   function openHub(tab) {
-    currentHubTab = tab || 'gacha';
-    renderHub();
-    hubBackdrop.classList.add('open');
+    if (Store) {
+      Store.toast('✨ Bạn có thể sử dụng Ví Voucher trong menu Giỏ hàng!');
+    }
   }
 
   window.AVOpenHub = openHub;
@@ -5114,29 +4872,14 @@
   //   [ /tu-khoa-1|tu-khoa-2/, 'Câu trả lời của Bot' ],
   // Bạn có thể sửa câu trả lời hoặc thêm dòng mới tùy ý!
 
-  var bot = document.createElement('div');
-  bot.id = 'avBot';
-  bot.innerHTML = [
-    '<div id="avBotBox" role="dialog" aria-label="Trợ lý AnimeVerse">',
-    '    <div id="avBotHead">',
-    '        <div>🤖 AV-Bot 3.0<small>Trợ lý AI Otaku · Biết cả 50 sản phẩm</small></div>',
-    '        <button type="button" id="avBotClose" style="background:none;border:0;color:#fff;font-size:18px;cursor:pointer">×</button>',
-    '    </div>',
-    '    <div id="avMsgs"></div>',
-    '    <div id="avChips"></div>',
-    '    <form id="avForm">',
-    '        <input id="avIn" placeholder="Hỏi sản phẩm, tư vấn size, gacha, dưới 300k..." autocomplete="off">',
-    '        <button aria-label="Gửi">➤</button>',
-    '    </form>',
-    '</div>',
-    '<button id="avBotBtn" aria-label="Mở trợ lý AI">💬</button>'
-  ].join('\n');
-  document.body.appendChild(bot);
+  // Chatbot AV-Bot đã được gỡ bỏ để tối giản giao diện (không chèn widget nổi)
+  var bot = null;
 
   var msgs = $('#avMsgs');
   var boxB = $('#avBotBox');
 
   function say(t, u) {
+    if (!msgs) return;
     var d = document.createElement('div');
     d.className = 'avm' + (u ? ' u' : '');
     d.innerHTML = t;
@@ -5234,35 +4977,43 @@
     'Gojo Satoru'
   ];
 
-  $('#avChips').innerHTML = quickChips.map(function (t) {
-    return '<button type="button">' + t + '</button>';
-  }).join('');
+  if ($('#avChips')) {
+    $('#avChips').innerHTML = quickChips.map(function (t) {
+      return '<button type="button">' + t + '</button>';
+    }).join('');
 
-  $('#avChips').addEventListener('click', function (e) {
-    if (e.target.tagName === 'BUTTON') {
-      ask(e.target.textContent);
-    }
-  });
+    $('#avChips').addEventListener('click', function (e) {
+      if (e.target.tagName === 'BUTTON') {
+        ask(e.target.textContent);
+      }
+    });
+  }
 
-  $('#avBotBtn').onclick = function () {
-    boxB.classList.toggle('open');
-    if (boxB.classList.contains('open')) {
-      $('#avIn').focus();
-    }
-  };
+  if ($('#avBotBtn') && boxB) {
+    $('#avBotBtn').onclick = function () {
+      boxB.classList.toggle('open');
+      if (boxB.classList.contains('open')) {
+        $('#avIn').focus();
+      }
+    };
+  }
 
-  $('#avBotClose').onclick = function () {
-    boxB.classList.remove('open');
-  };
+  if ($('#avBotClose') && boxB) {
+    $('#avBotClose').onclick = function () {
+      boxB.classList.remove('open');
+    };
+  }
 
-  $('#avForm').addEventListener('submit', function (e) {
-    e.preventDefault();
-    var v = $('#avIn').value.trim();
-    if (v) {
-      ask(v);
-      $('#avIn').value = '';
-    }
-  });
+  if ($('#avForm')) {
+    $('#avForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+      var v = $('#avIn').value.trim();
+      if (v) {
+        ask(v);
+        $('#avIn').value = '';
+      }
+    });
+  }
 
 
   // ---------------------------------------------------------------------------
@@ -5270,164 +5021,33 @@
   //         PHÁO HOA GIẤY CONFETTI & SÓNG SÁNG KHI CLICK)
   // ---------------------------------------------------------------------------
 
-  // 14a. Hiệu ứng tấm ảnh thu nhỏ bay cong từ nút bấm vào biểu tượng Giỏ hàng trên Header
+  // 14a. Hiệu ứng thêm vào giỏ hàng tinh gọn (cập nhật biểu tượng Giỏ hàng, không bay lượn che màn hình)
   function flyToCart(sourceEl, imgSrc) {
-    if (calm) {
-      return;
-    }
-
     var cartBtn = $('.header-actions .cart-nav');
-    if (!cartBtn) {
-      return;
-    }
-
-    var startRect = sourceEl && sourceEl.getBoundingClientRect
-      ? sourceEl.getBoundingClientRect()
-      : { left: window.innerWidth / 2, top: window.innerHeight / 2, width: 40, height: 40 };
-
-    var endRect = cartBtn.getBoundingClientRect();
-
-    // Tạo hiệu ứng chữ "+10 XP ✨" bay nhẹ lên từ vị trí vừa bấm
-    var xpFloat = document.createElement('div');
-    xpFloat.className = 'av-xp-float';
-    xpFloat.textContent = '+10 XP ✨';
-    xpFloat.style.left = (startRect.left + startRect.width / 2 - 28) + 'px';
-    xpFloat.style.top = (startRect.top - 10) + 'px';
-    document.body.appendChild(xpFloat);
-    setTimeout(function () {
-      if (xpFloat.parentNode) {
-        xpFloat.parentNode.removeChild(xpFloat);
-      }
-    }, 950);
-
-    // Tạo viên ngọc mang ảnh sản phẩm bay về phía nút Giỏ hàng
-    var flyer = document.createElement('div');
-    flyer.className = 'av-fly-item';
-    if (imgSrc) {
-      flyer.style.backgroundImage = 'url("' + encodeURI(imgSrc) + '")';
-    }
-    flyer.style.left = (startRect.left + startRect.width / 2 - 22) + 'px';
-    flyer.style.top = (startRect.top + startRect.height / 2 - 22) + 'px';
-    document.body.appendChild(flyer);
-
-    requestAnimationFrame(function () {
-      var targetX = endRect.left + endRect.width / 2 - 22;
-      var targetY = endRect.top + endRect.height / 2 - 22;
-      flyer.style.transform = 'translate(' + (targetX - parseFloat(flyer.style.left)) + 'px, ' + (targetY - parseFloat(flyer.style.top)) + 'px) scale(0.25) rotate(360deg)';
-      flyer.style.opacity = '0.2';
-    });
-
-    setTimeout(function () {
-      if (flyer.parentNode) {
-        flyer.parentNode.removeChild(flyer);
-      }
+    if (cartBtn) {
       cartBtn.classList.remove('av-cart-shake');
       void cartBtn.offsetWidth;
       cartBtn.classList.add('av-cart-shake');
-    }, 680);
+    }
   }
 
   window.AVFlyToCart = flyToCart;
 
-  // 14b. Hiệu ứng bắn pháo hoa Trái tim & Sao lấp lánh khi bấm nút Yêu thích ♡
+  // 14b. Hiệu ứng đổi trạng thái nút Yêu thích
   function spawnHeartBurst(btnEl, isLiked) {
-    if (calm || !btnEl) {
-      return;
-    }
-
-    btnEl.classList.remove('av-heart-pop');
-    void btnEl.offsetWidth;
-    btnEl.classList.add('av-heart-pop');
-
-    if (!isLiked) {
-      return;
-    }
-
-    var rect = btnEl.getBoundingClientRect();
-    var centerX = rect.left + rect.width / 2;
-    var centerY = rect.top + rect.height / 2;
-    var symbols = ['♥', '✦', '★', '♡', '✨'];
-
-    for (var i = 0; i < 9; i++) {
-      var sp = document.createElement('span');
-      sp.className = 'av-burst-particle';
-      sp.textContent = symbols[i % symbols.length];
-      sp.style.left = centerX + 'px';
-      sp.style.top = centerY + 'px';
-
-      var angle = (Math.PI * 2 * i) / 9;
-      var distance = 26 + Math.random() * 24;
-      var tx = Math.cos(angle) * distance;
-      var ty = Math.sin(angle) * distance - 10;
-
-      sp.style.setProperty('--tx', tx.toFixed(1) + 'px');
-      sp.style.setProperty('--ty', ty.toFixed(1) + 'px');
-      document.body.appendChild(sp);
-
-      (function (el) {
-        setTimeout(function () {
-          if (el.parentNode) {
-            el.parentNode.removeChild(el);
-          }
-        }, 720);
-      })(sp);
+    if (btnEl) {
+      btnEl.classList.remove('av-heart-pop');
+      void btnEl.offsetWidth;
+      btnEl.classList.add('av-heart-pop');
     }
   }
 
   window.AVHeartBurst = spawnHeartBurst;
 
-  // 14c. Hiệu ứng pháo hoa giấy chúc mừng khi Quay trúng Gacha, Điểm danh hoặc Đặt hàng
-  function spawnConfettiBurst() {
-    if (calm) {
-      return;
-    }
-
-    var colors = ['#ff3d9a', '#5ce1e6', '#fbbf24', '#9b6bff', '#10b981'];
-    for (var i = 0; i < 28; i++) {
-      var piece = document.createElement('span');
-      piece.className = 'av-confetti-piece';
-      piece.style.left = (20 + Math.random() * 60) + 'vw';
-      piece.style.top = '-12px';
-      piece.style.backgroundColor = colors[i % colors.length];
-      piece.style.setProperty('--fall-x', ((Math.random() - 0.5) * 180).toFixed(0) + 'px');
-      piece.style.animationDuration = (1.2 + Math.random() * 0.9).toFixed(2) + 's';
-      document.body.appendChild(piece);
-
-      (function (el) {
-        setTimeout(function () {
-          if (el.parentNode) {
-            el.parentNode.removeChild(el);
-          }
-        }, 2200);
-      })(piece);
-    }
-  }
+  // 14c. Pháo hoa confetti được tinh giản (no-op an toàn)
+  function spawnConfettiBurst() {}
 
   window.AVConfettiBurst = spawnConfettiBurst;
-
-  // 14d. Hiệu ứng sóng sáng (Ripple) lan tỏa khi khách bấm vào các nút chính
-  document.addEventListener('pointerdown', function (e) {
-    if (calm) {
-      return;
-    }
-    var targetBtn = e.target.closest('.btn, .filter, .category-filter, .av-fandom-pill, .av-quick-cart-btn, .btn-add-cart, .btn-buy-now');
-    if (!targetBtn) {
-      return;
-    }
-
-    var rect = targetBtn.getBoundingClientRect();
-    var ripple = document.createElement('span');
-    ripple.className = 'av-click-ripple';
-    ripple.style.left = (e.clientX - rect.left) + 'px';
-    ripple.style.top = (e.clientY - rect.top) + 'px';
-    targetBtn.appendChild(ripple);
-
-    setTimeout(function () {
-      if (ripple.parentNode) {
-        ripple.parentNode.removeChild(ripple);
-      }
-    }, 550);
-  }, { passive: true });
 
 
   // ---------------------------------------------------------------------------
@@ -5583,97 +5203,8 @@
 
   initInteractiveHero();
 
-  // 15b. Thanh thông báo hoạt động mua sắm sôi động (#avLiveTicker) ở góc trái dưới
-  function initLiveActivityTicker() {
-    if (calm || window.innerWidth <= 768) {
-      return;
-    }
-
-    var activities = [
-      {
-        user: 'Minh Quân (TP.HCM)',
-        action: 'vừa săn thành công',
-        item: 'Figure Luffy Gear 5 Nika',
-        href: 'chi-tiet-1.html',
-        img: 'anh/luffy/luffy_1.webp'
-      },
-      {
-        user: 'Bảo Ngọc (Hà Nội)',
-        action: 'vừa quay Gacha trúng mã',
-        item: 'UR-NIKA25 (Giảm 25%)',
-        href: '#gacha',
-        img: 'anh/anya/anya_1.webp'
-      },
-      {
-        user: 'Hoàng Nam (Đà Nẵng)',
-        action: 'vừa thêm vào giỏ hàng',
-        item: 'Set Cosplay Gojo Satoru',
-        href: 'chi-tiet-9.html',
-        img: 'anh/11_jujutsu_kaisen/01_mat_truoc.png'
-      },
-      {
-        user: 'Thảo My (Cần Thơ)',
-        action: 'vừa chốt đơn Freeship',
-        item: 'Figure Nezuko Hóa Quỷ',
-        href: 'chi-tiet-3.html',
-        img: 'anh/nezuko_demon/nezuko_demon_1.webp'
-      }
-    ];
-
-    var ticker = document.createElement('div');
-    ticker.id = 'avLiveTicker';
-    ticker.setAttribute('aria-live', 'polite');
-    document.body.appendChild(ticker);
-
-    var actIdx = 0;
-    var dismissed = false;
-
-    function showNextActivity() {
-      if (dismissed || document.hidden) {
-        return;
-      }
-
-      var act = activities[actIdx % activities.length];
-      actIdx++;
-
-      ticker.innerHTML = [
-        '<img src="' + esc(act.img) + '" alt="">',
-        '<div class="av-ticker-text">',
-        '    <small>⚡ Hoạt động vừa xong</small>',
-        '    <div><b>' + esc(act.user) + '</b> ' + esc(act.action) + ' <a href="' + esc(act.href) + '">' + esc(act.item) + '</a></div>',
-        '</div>',
-        '<button type="button" class="av-ticker-close" aria-label="Đóng thông báo">×</button>'
-      ].join('\n');
-
-      ticker.classList.add('show');
-
-      var closeBtn = $('.av-ticker-close', ticker);
-      if (closeBtn) {
-        closeBtn.onclick = function (e) {
-          e.stopPropagation();
-          dismissed = true;
-          ticker.classList.remove('show');
-        };
-      }
-
-      var linkEl = $('a', ticker);
-      if (linkEl && act.href === '#gacha') {
-        linkEl.onclick = function (e) {
-          e.preventDefault();
-          openHub('gacha');
-        };
-      }
-
-      setTimeout(function () {
-        ticker.classList.remove('show');
-      }, 5200);
-    }
-
-    setTimeout(showNextActivity, 4500);
-    setInterval(showNextActivity, 18000);
-  }
-
-  initLiveActivityTicker();
+  // 15b. Thông báo mua sắm giả (Ticker) — Đã được gỡ bỏ theo yêu cầu tối giản
+  function initLiveActivityTicker() {}
 
   // 15c. Hiệu ứng các thẻ sản phẩm & tiêu đề trượt lên mượt mà khi khách cuộn trang xuống
   if (typeof window.AVInitScrollReveal === 'function') {
