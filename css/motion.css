@@ -209,7 +209,7 @@ html[data-theme="gojo"] .av-motion-flyer {
 /* Nảy nhanh huy hiệu khi cập nhật số lượng */
 .av-badge-pop,
 .cart-badge.bump {
-    animation: avBadgePop 0.42s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    animation: avBadgePop 0.42s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @keyframes avBadgePop {

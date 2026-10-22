@@ -2795,7 +2795,7 @@
 
       // Gắn thêm nút "+ Giỏ" nằm ngang hàng với nút "Xem chi tiết →"
       var cta = $('.add, .deal-cta', card);
-      if (cta && cta.parentElement) {
+      if (cta && cta.parentElement && !$('.av-card-cta-row', card)) {
         var row = document.createElement('div');
         row.className = 'av-card-cta-row';
         cta.parentElement.insertBefore(row, cta);

@@ -1152,14 +1152,15 @@ html[data-theme="sakura"] .av-kbd {
 /* 0. Thanh thông báo (Topbar), Đầu trang (Header) & Menu điều hướng (Nav) — Tiết kiệm không gian hiển thị */
 .topbar,
 .promo-page .topbar {
-  padding: 3px 14px !important;
-  font-size: 12px !important;
+  padding: 8px 16px !important;
+  font-size: 13px !important;
+  line-height: 1.4 !important;
 }
 
 .topbar-inner,
 .promo-page .topbar-inner {
-  min-height: 28px !important;
-  padding: 2px 6px !important;
+  min-height: 36px !important;
+  padding: 4px 8px !important;
 }
 
 .header,
@@ -1224,12 +1225,13 @@ html[data-theme="sakura"] .av-kbd {
 @media (max-width: 768px) {
   .topbar,
   .promo-page .topbar {
-    padding: 2px 8px !important;
-    font-size: 11px !important;
+    padding: 6px 12px !important;
+    font-size: 12.5px !important;
+    line-height: 1.4 !important;
   }
   .topbar-inner,
   .promo-page .topbar-inner {
-    min-height: 24px !important;
+    min-height: 32px !important;
   }
   .header-inner,
   .promo-page .header-inner {
@@ -3144,6 +3146,70 @@ button.btn-add:hover,
   background: #fdf2f8 !important;
   border-color: #be185d !important;
   color: #9d174d !important;
+  transform: none !important;
+}
+
+/* 8. Nút Mua Nhanh (+ Giỏ) & CTA trên thẻ sản phẩm chuẩn Sakura */
+.av-card-cta-row {
+  display: flex !important;
+  gap: 8px !important;
+  align-items: center !important;
+  width: 100% !important;
+  margin-top: 12px !important;
+}
+
+.av-card-cta-row a.add,
+.av-card-cta-row a.deal-cta {
+  flex: 1 !important;
+  height: 40px !important;
+  min-height: 40px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0 12px !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  background: #ffffff !important;
+  color: #be185d !important;
+  border: 1px solid rgba(225, 29, 116, 0.28) !important;
+  border-radius: 8px !important;
+  text-decoration: none !important;
+  transition: all 0.15s ease !important;
+  margin: 0 !important;
+}
+
+.av-card-cta-row a.add:hover,
+.av-card-cta-row a.deal-cta:hover {
+  background: #fdf2f8 !important;
+  border-color: #be185d !important;
+  color: #9d174d !important;
+}
+
+.av-quick-cart-btn {
+  flex: 0 0 auto !important;
+  height: 40px !important;
+  min-height: 40px !important;
+  padding: 0 14px !important;
+  border-radius: 8px !important;
+  background: #be185d !important;
+  color: #ffffff !important;
+  border: 1px solid #be185d !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 4px !important;
+  cursor: pointer !important;
+  transition: all 0.15s ease !important;
+  box-shadow: none !important;
+  margin: 0 !important;
+}
+
+.av-quick-cart-btn:hover {
+  background: #9d174d !important;
+  border-color: #9d174d !important;
+  color: #ffffff !important;
   transform: none !important;
 }
 
