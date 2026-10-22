@@ -2176,14 +2176,14 @@
       }, { passive: true });
     }
 
-    // Tạo các cánh hoa hồng rơi mềm mại
-    var petalCount = (window.innerWidth <= 768) ? 26 : 46;
+    // Tạo các cánh hoa hồng rơi mềm mại (đã giảm mật độ để giao diện thanh thoát, không che khuất chữ)
+    var petalCount = (window.innerWidth <= 768) ? 8 : 15;
     var petals = [];
     var petalColors = [
-      'rgba(244, 63, 94, 0.72)',   // Hồng đào đậm (Rose pink)
-      'rgba(251, 113, 133, 0.75)', // Hồng cam phấn (Coral rose)
-      'rgba(244, 114, 182, 0.70)', // Cánh anh đào (Sakura petal)
-      'rgba(253, 164, 175, 0.82)'  // Hồng phấn nhẹ (Blush)
+      'rgba(244, 63, 94, 0.45)',   // Hồng đào đậm nhẹ
+      'rgba(251, 113, 133, 0.48)', // Hồng cam phấn
+      'rgba(244, 114, 182, 0.42)', // Cánh anh đào
+      'rgba(253, 164, 175, 0.50)'  // Hồng phấn nhẹ
     ];
 
     for (var i = 0; i < petalCount; i++) {

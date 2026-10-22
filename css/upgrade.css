@@ -298,7 +298,7 @@ a.deal-cta,
    MỤC 7: BANNER NGANG LỚN (.home-banner) & SÂN KHẤU CHÍNH (.hero) TRANG CHỦ
    ============================================================================ */
 .home-banner {
-  width: min(100% - 32px, 1400px);
+  width: min(100% - 32px, 1500px);
   margin: 10px auto 14px;
   border-radius: 22px;
   overflow: hidden;
@@ -2542,11 +2542,12 @@ body {
 /* 7. MÀN HÌNH DESKTOP LỚN & SIÊU RỘNG (1440PX ĐẾN 4K) */
 @media (min-width: 1440px) {
   :root {
-    --max-width: 1520px;
+    --max-width: 1500px;
   }
 
   .container {
     width: min(var(--max-width), calc(100% - 64px)) !important;
+    max-width: 1500px !important;
     margin-inline: auto !important;
   }
 

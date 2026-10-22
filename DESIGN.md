@@ -206,7 +206,7 @@ Hệ thống thích ứng đa ngữ cảnh và đa thiết bị đảm bảo tí
   - Lưới sản phẩm phân bổ 3 cột cân đối; danh mục trang chủ chia 3 cột × 2 hàng.
   - Bố cục trang chi tiết sản phẩm và trang giỏ hàng phân 2 cột đối xứng với các khung tổng kết có tính năng dính (`position: sticky`).
 - **Màn hình Desktop Lớn & Siêu rộng (1440px - 4K)**:
-  - Giữ khung chứa trung tâm `--max-width: 1520px` căn giữa chuẩn mực, giữ nhịp điệu dòng đọc tối ưu (65 - 75 ký tự/dòng).
+  - Giữ khung chứa trung tâm `--max-width: 1500px` căn giữa chuẩn mực, giữ nhịp điệu dòng đọc tối ưu (65 - 75 ký tự/dòng).
   - Lưới sản phẩm trải rộng 4 - 5 cột thông thoáng.
 - **Chế độ In ấn Chuyên nghiệp (`@media print`)**:
   - Chuyển toàn bộ nền sang trắng tinh `#ffffff` và chữ đen tương phản cao `#111111`.
