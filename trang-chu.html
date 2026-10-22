@@ -63,13 +63,17 @@
             - Muốn đổi TÊN TAB TRÌNH DUYỆT: Sửa chữ nằm giữa <title> ... </title>.
             - Muốn đổi MÔ TẢ TRANG (khi chia sẻ link lên Facebook/Zalo): Sửa chữ trong
               content="..." của thẻ <meta name="description"> và <meta property="og:description">.
-            - ⚠️ KHÔNG XÓA dòng <link rel="stylesheet" href="css/bundle.css"> vì đó là file
+            - ⚠️ KHÔNG XÓA dòng <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="css/bundle.css"> vì đó là file
               CSS tổng hợp tô màu và dàn trang cho toàn bộ website.
     -->
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="description" content="AnimeVerse - cửa hàng figure, cosplay, plush và phụ kiện Anime.">
     <title>AnimeVerse | Shop Anime & Cosplay</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="css/bundle.css">
     <link rel="preload" as="image" href="anh/banner-animeverse.webp">
     <meta name="theme-color" content="#fff7fb">
@@ -237,7 +241,7 @@
                 <div class="circle c1"></div>
                 <div class="circle c2"></div>
                 <div class="anime-card">
-                    <span><img src="anh/anh-manh.jpg" alt="Otaku Collection"></span>
+                    <span><img src="anh/anh-manh.jpg" alt="Otaku Collection" decoding="async" loading="lazy"></span>
                     <small>LIMITED</small>
                     <b>OTAKU<br>COLLECTION</b>
                 </div>

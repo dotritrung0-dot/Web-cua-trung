@@ -20,6 +20,8 @@
  *   - MỤC 11: Chống tràn khung lưới trên Trang Chi tiết, Sản phẩm & Giỏ hàng
  *   - MỤC 12: Giao diện dành riêng cho Điện thoại & Máy tính bảng (@media max-width: 768px)
  *   - MỤC 13: Tắt bớt hiệu ứng khi bật chế độ tiết kiệm chuyển động & Nút Nhạc đang phát
+ *   - MỤC 14: Thích ứng đa thiết bị toàn diện (Safe Area, Touch Targets, Tablet, 4K & Print)
+ *   - MỤC 15: Tối ưu hóa hiệu năng render & Core Web Vitals (Containment, CLS, GPU Compositing)
  */
 
 :root,
@@ -2292,5 +2294,437 @@ html[data-theme="gojo"] .av-stream-item:hover {
   visibility: hidden !important;
   opacity: 0 !important;
 }
+
+/* ============================================================================
+   MỤC 14: BỘ THÍCH ỨNG TOÀN DIỆN ĐA THIẾT BỊ (RESPONSIVE ADAPTATION SUITE)
+   📍 Tác dụng: Cung cấp chuẩn thích ứng hoàn chỉnh theo tài liệu Impeccable Adapt:
+      - Tai thỏ, cằm vuốt (Safe Area Inset) trên iOS & Android
+      - Thao tác ngón cái & cảm ứng (Touch ergonomics @media pointer: coarse)
+      - Chống dính hover trên màn hình cảm ứng (@media hover: none)
+      - Bố cục lai trên Máy tính bảng (Tablet 769px - 1024px)
+      - Khống chế chiều rộng tối đa trên Desktop 4K & Siêu rộng (>= 1440px)
+      - Chế độ in ấn sạch đẹp (@media print) cho Hóa đơn & Đơn hàng
+   ============================================================================ */
+
+/* 1. KHAI BÁO BIẾN SAFE AREA INSET TOÀN CỤC */
+:root {
+  --av-sat: env(safe-area-inset-top, 0px);
+  --av-sar: env(safe-area-inset-right, 0px);
+  --av-sab: env(safe-area-inset-bottom, 0px);
+  --av-sal: env(safe-area-inset-left, 0px);
+}
+
+body {
+  padding-left: var(--av-sal);
+  padding-right: var(--av-sar);
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+/* 2. ĐẢM BẢO CÁC PHẦN TỬ CỐ ĐỊNH TỰ ĐỘNG NÉ CẰM VUỐT VÀ TAI THỎ */
+@supports (padding: max(0px)) {
+  #avQuickDock,
+  .av-quick-dock {
+    bottom: max(16px, calc(16px + var(--av-sab))) !important;
+    right: max(16px, calc(16px + var(--av-sar))) !important;
+  }
+
+  #avBot {
+    bottom: max(16px, calc(16px + var(--av-sab))) !important;
+    right: max(16px, calc(16px + var(--av-sar))) !important;
+  }
+
+  .product-pro-layout .action-group {
+    padding-bottom: max(12px, calc(10px + var(--av-sab))) !important;
+    padding-left: max(12px, calc(12px + var(--av-sal))) !important;
+    padding-right: max(12px, calc(12px + var(--av-sar))) !important;
+  }
+}
+
+/* 3. TÁCH BIỆT CHUỘT (FINE POINTER) & CẢM ỨNG (COARSE POINTER) */
+@media (pointer: coarse) {
+  /* Vùng chạm ngón cái tối thiểu 44x44px */
+  .btn,
+  .button,
+  .nav a,
+  .av-dock-btn,
+  .av-quick-btn,
+  .cart-nav,
+  .icon-btn,
+  .filter-btn,
+  .tag,
+  .size-btn,
+  .color-btn,
+  .pagination a,
+  .header-actions a,
+  .header-actions button {
+    min-height: 44px;
+    min-width: 44px;
+    touch-action: manipulation;
+  }
+
+  /* Tăng khoảng cách giữa các phần tử tương tác nhỏ để tránh bấm nhầm */
+  .av-card-cta-row {
+    gap: 8px;
+  }
+
+  .nav-inner a {
+    padding-inline: 12px !important;
+  }
+}
+
+/* 4. CHỐNG "DÍNH HOVER" TRÊN MÀN HÌNH CẢM ỨNG (TOUCH FEEDBACK THAY THẾ) */
+@media (hover: none) {
+  .product-card:hover,
+  .deal-card:hover,
+  .category:hover,
+  .av-stream-item:hover {
+    transform: none !important;
+    box-shadow: none !important;
+  }
+
+  .product-card:active,
+  .deal-card:active,
+  .category:active,
+  .btn:active,
+  .button:active,
+  .av-dock-btn:active {
+    transform: scale(0.97) !important;
+    transition: transform 0.1s ease-out !important;
+  }
+}
+
+/* 5. MÀN HÌNH DI ĐỘNG SIÊU NHỎ & TIÊU CHUẨN (<= 480PX) */
+@media (max-width: 480px) {
+  /* Ngăn chặn tuyệt đối việc iOS Safari tự phóng to khung nhìn khi gõ chữ */
+  input[type="text"],
+  input[type="search"],
+  input[type="tel"],
+  input[type="email"],
+  input[type="number"],
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+
+  /* Khóa triệt để hiện tượng trượt ngang viền trang */
+  html, body {
+    overflow-x: clip !important;
+    max-width: 100vw;
+  }
+
+  /* Lưới sản phẩm co giãn mượt mà trên màn hình nhỏ */
+  .products-grid,
+  .grid-products,
+  .catalog-grid {
+    grid-template-columns: repeat(auto-fill, minmax(145px, 1fr)) !important;
+    gap: 10px !important;
+  }
+
+  /* Card sản phẩm tối ưu lề và chữ */
+  .product-card,
+  .deal-card {
+    padding: 8px !important;
+    border-radius: 12px !important;
+  }
+
+  .product-card h3,
+  .deal-card h3,
+  .product-title {
+    font-size: 13.5px !important;
+    line-height: 1.35 !important;
+    height: 38px !important;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+
+  /* Nút bấm mua nhanh trong card vừa vặn ngón cái */
+  .av-card-cta-row {
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .av-card-cta-row a,
+  .av-card-cta-row button {
+    width: 100% !important;
+    height: 40px !important;
+    min-height: 40px !important;
+  }
+
+  /* Bảng giỏ hàng chuyển sang dạng thẻ dọc tiện cuộn */
+  .cart-table thead {
+    display: none !important;
+  }
+
+  .cart-table,
+  .cart-table tbody,
+  .cart-table tr,
+  .cart-table td {
+    display: block !important;
+    width: 100% !important;
+  }
+
+  .cart-table tr {
+    margin-bottom: 14px;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 14px;
+  }
+
+  .cart-table td {
+    padding: 6px 0 !important;
+    border: none !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+  }
+
+  .cart-table td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    font-size: 12px;
+    color: var(--text-muted, #a69ec8);
+  }
+}
+
+/* 6. MÁY TÍNH BẢNG (TABLET: 769PX ĐẾN 1024PX) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .container {
+    width: calc(100% - 48px) !important;
+    max-width: 100% !important;
+  }
+
+  /* Lưới 3 cột lý tưởng cho máy tính bảng */
+  .products-grid,
+  .grid-products,
+  .catalog-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 16px !important;
+  }
+
+  /* Bố cục trang chi tiết chia 2 cột cân đối */
+  .product-pro-layout,
+  .pro-layout {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 28px !important;
+    align-items: start !important;
+  }
+
+  .pro-gallery {
+    position: sticky !important;
+    top: 90px !important;
+  }
+
+  /* Trang giỏ hàng chia cột: 60% giỏ, 40% tóm tắt */
+  .cart-layout {
+    display: grid !important;
+    grid-template-columns: 1.4fr 1fr !important;
+    gap: 24px !important;
+    align-items: start !important;
+  }
+
+  .cart-summary {
+    position: sticky !important;
+    top: 90px !important;
+  }
+
+  /* Danh mục 6 ô trang chủ chia 3 cột x 2 hàng */
+  .categories {
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 16px !important;
+  }
+}
+
+/* 7. MÀN HÌNH DESKTOP LỚN & SIÊU RỘNG (1440PX ĐẾN 4K) */
+@media (min-width: 1440px) {
+  :root {
+    --max-width: 1520px;
+  }
+
+  .container {
+    width: min(var(--max-width), calc(100% - 64px)) !important;
+    margin-inline: auto !important;
+  }
+
+  /* Giới hạn độ dài dòng đọc tiêu chuẩn (65-75ch) */
+  .product-desc,
+  .hero-p,
+  .about-content,
+  .article-body {
+    max-width: 75ch !important;
+  }
+
+  /* Lưới sản phẩm 4 - 5 cột thông thoáng */
+  .products-grid,
+  .grid-products,
+  .catalog-grid {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)) !important;
+    gap: 24px !important;
+  }
+}
+
+/* 8. CHẾ ĐỘ IN ẤN CHUYÊN NGHIỆP (@MEDIA PRINT) */
+@media print {
+  *,
+  *::before,
+  *::after {
+    background: transparent !important;
+    color: #111111 !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  html, body {
+    background: #ffffff !important;
+    color: #111111 !important;
+    font-size: 12pt !important;
+    line-height: 1.5 !important;
+  }
+
+  /* Ẩn các thành phần tương tác & trang trí không thuộc nội dung in */
+  .header,
+  .nav,
+  .topbar,
+  #avQuickDock,
+  .av-quick-dock,
+  #avBot,
+  #avAudioPlayer,
+  .audio-player,
+  .av-theme-bar,
+  .toast-container,
+  .modal-overlay,
+  .gacha-section,
+  .home-banner,
+  .footer,
+  .av-card-cta-row,
+  .btn-add-cart,
+  .btn-buy-now,
+  .action-group,
+  #canvas-bg,
+  canvas {
+    display: none !important;
+  }
+
+  /* Định dạng hóa đơn, giỏ hàng và danh sách sản phẩm rõ nét */
+  .container,
+  main,
+  .cart-table,
+  .order-summary {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .cart-table {
+    border-collapse: collapse !important;
+    width: 100% !important;
+    margin-top: 15px !important;
+  }
+
+  .cart-table th,
+  .cart-table td {
+    border: 1px solid #333333 !important;
+    padding: 8px 12px !important;
+  }
+
+  .cart-table th {
+    background: #eeeeee !important;
+    font-weight: bold !important;
+  }
+
+  /* Ngăn ngắt trang giữa chừng bên trong thẻ hoặc bảng */
+  .product-card,
+  .cart-table tr,
+  .order-box {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  /* Hiển thị tiêu đề thương hiệu trang trọng trên bản in */
+  body::before {
+    content: "AnimeVerse — Đơn hàng & Thông tin sản phẩm";
+    display: block;
+    font-size: 18pt;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #111111;
+  }
+}
+
+/* ============================================================================
+   MỤC 15: TỐI ƯU HIỆU NĂNG RENDER & TẢI TRANG (CORE WEB VITALS & PERF)
+   📍 Tác dụng: Cung cấp giải pháp tối ưu hóa hiệu năng theo chuẩn Impeccable Optimize:
+      - Tăng tốc độ hiển thị đầu tiên (FCP/LCP) qua content-visibility: auto
+      - Triệt tiêu độ lệch bố cục tích lũy (CLS < 0.1) qua aspect-ratio cố định
+      - Tối ưu hóa GPU Compositing & Hardware Acceleration cho chuyển động
+      - Cô lập phạm vi vẽ lại (CSS Containment) chống Layout Thrashing
+   ============================================================================ */
+
+/* 1. CSS CONTAINMENT & CONTENT-VISIBILITY (BỎ QUA VẼ THẺ NGOÀI KHUNG NHÌN) */
+.product-card,
+.deal-card {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 380px;
+}
+
+.category {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 240px;
+}
+
+/* 2. KHÓA TỶ LỆ HÌNH ẢNH TRIỆT TIÊU HIỆN TƯỢNG GIẬT KHUNG HÌNH (ZERO CLS) */
+.product-card img,
+.deal-card img,
+.category img,
+.gallery-main img,
+#main-img {
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  width: 100%;
+  height: auto;
+}
+
+.home-banner img {
+  aspect-ratio: 1600 / 480;
+  object-fit: cover;
+  width: 100%;
+  height: auto;
+}
+
+/* 3. TĂNG TỐC PHẦN CỨNG GPU CHO CÁC THÀNH PHẦN NỔI & ANIMATION */
+#avQuickDock,
+.av-quick-dock,
+#avBot,
+.av-motion-flyer,
+.modal-content,
+.drawer-content {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* 4. CÔ LẬP KHỐI ĐỂ TRÁNH REFLOW TOÀN BỘ TRANG (LAYOUT CONTAINMENT) */
+.products-grid,
+.grid-products,
+.catalog-grid,
+.cart-layout {
+  contain: layout paint;
+}
+
+/* 5. TỐI ƯU HÓA ĐỘ MỊN CỦA FONT CHỮ VÀ CHỐNG RUNG CHỮ KHI CUỘN */
+html {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+
 
 

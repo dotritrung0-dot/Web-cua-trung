@@ -57,13 +57,17 @@
             - Muốn đổi TÊN TAB TRÌNH DUYỆT: Sửa chữ nằm giữa <title> ... </title>.
             - Muốn đổi MÔ TẢ TRANG (khi chia sẻ link lên Facebook/Zalo): Sửa chữ trong
               content="..." của thẻ <meta name="description"> và <meta property="og:description">.
-            - ⚠️ KHÔNG XÓA dòng <link rel="stylesheet" href="css/bundle.css"> vì đó là file
+            - ⚠️ KHÔNG XÓA dòng <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="css/bundle.css"> vì đó là file
               CSS tổng hợp tô màu và dàn trang cho toàn bộ website.
     -->
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="description" content="Góc tư vấn AnimeVerse: ý tưởng cosplay, phối đồ anime và mẹo chuẩn bị cho Halloween.">
     <title>Góc Tư Vấn | AnimeVerse</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="css/bundle.css">
     <meta name="theme-color" content="#fff7fb">
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23090912'/%3E%3Ctext x='32' y='46' font-size='40' text-anchor='middle' fill='%23ff4fa3'%3E%E2%9C%A6%3C/text%3E%3C/svg%3E">
@@ -195,7 +199,7 @@
                     mặc cho thoải mái là đủ nổi rồi.
                 </p>
 
-                <img class="article-cover" src="anh/nezuko_kamado/nezuko_kamado_1.webp" alt="Ý tưởng cosplay anime cho đêm Halloween" loading="lazy">
+                <img class="article-cover" src="anh/nezuko_kamado/nezuko_kamado_1.webp" alt="Ý tưởng cosplay anime cho đêm Halloween" loading="lazy" decoding="async">
 
                 <p class="image-note">Ảnh minh họa: Nezuko Kamado.</p>
 
