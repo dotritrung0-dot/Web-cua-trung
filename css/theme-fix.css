@@ -349,7 +349,8 @@ html[data-theme="sakura"] .filter:hover,
 html[data-theme="sakura"] .filter.active,
 html[data-theme="sakura"] .promo-page .filter:hover,
 html[data-theme="sakura"] .promo-page .filter.active {
-  background: var(--accent-grad) !important;
+  background-color: #be185d !important;
+  background-image: var(--accent-grad) !important;
   color: #ffffff !important;
   border-color: transparent !important;
   box-shadow: 0 6px 16px rgba(225, 29, 116, 0.25) !important;
@@ -975,8 +976,8 @@ html[data-theme="sakura"] .header {
 html[data-theme="sakura"] .btn.ghost,
 html[data-theme="sakura"] .product-pro-layout .action-group .btn.ghost {
   background: #ffffff !important;
-  border: 1.5px solid rgba(225, 29, 116, 0.35) !important;
-  color: #e11d74 !important;
+  border: 1.5px solid rgba(190, 24, 93, 0.45) !important;
+  color: #be185d !important;
 }
 
 html[data-theme="sakura"] .btn.ghost:hover,
@@ -1004,7 +1005,7 @@ html[data-theme="sakura"] #avSug a.sel {
 }
 
 html[data-theme="sakura"] #avSug small {
-  color: #e11d74 !important;
+  color: #be185d !important;
 }
 
 /* 7. Thanh mua hàng cố định trên mobile (.action-group) */
@@ -1071,14 +1072,14 @@ html[data-theme="sakura"] #avIn {
 html[data-theme="sakura"] #avChips button {
   background: #fff0f7 !important;
   border: 1px solid #f3cfe2 !important;
-  color: #e11d74 !important;
+  color: #be185d !important;
 }
 
 /* 11. Các nhãn phụ & Toast thông báo */
 html[data-theme="sakura"] .products-page .floating-two {
   background: #ffffff !important;
   border: 1px solid #f3cfe2 !important;
-  color: #e11d74 !important;
+  color: #be185d !important;
   box-shadow: 0 8px 20px rgba(225, 29, 116, 0.1) !important;
 }
 
@@ -1611,7 +1612,8 @@ a.add:hover,
 .deal-card .add:hover,
 html[data-theme="sakura"] .add:hover,
 html[data-theme="sakura"] a.add:hover {
-  background: linear-gradient(135deg, #ec4899, #db2777) !important;
+  background-color: #db2777 !important;
+  background-image: linear-gradient(135deg, #ec4899, #db2777) !important;
   color: #ffffff !important;
   border-color: transparent !important;
   box-shadow: 0 4px 14px rgba(236, 72, 153, 0.35) !important;
@@ -2378,7 +2380,7 @@ html[data-theme="sakura"] .minimal-title a {
 }
 
 html[data-theme="sakura"] .minimal-title a:hover {
-  color: #e11d74;
+  color: #be185d;
 }
 
 html[data-theme="sakura"] .minimal-coupon {

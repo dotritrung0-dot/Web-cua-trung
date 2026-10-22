@@ -77,13 +77,14 @@ components:
 
 AnimeVerse mang lại cảm giác không gian giải trí công nghệ cao kết hợp thẩm mỹ Anime/Manga sắc sảo. Giao diện được thiết kế để đưa người dùng đắm chìm vào thế giới Otaku đa vũ trụ với khả năng biến đổi màu sắc linh hoạt (Cyberpunk mặc định, Sakura hoa anh đào thanh nhã, Gear 5 Thần Mặt Trời rực rỡ và Gojo Vô Hạ Hạn huyền ảo), đồng thời duy trì sự tập trung tối đa vào hình ảnh mô hình, cosplay và sản phẩm độc quyền.
 
-Thay vì dựa vào các quầng sáng mờ nhạt lỗi thời (AI slop glow) hay những khối màu phẳng nhạt nhòa, hệ thống thiết kế AnimeVerse sử dụng chiều sâu phân lớp (Layered Depth), mặt kính mờ (glassmorphism) tinh tế, đường viền 1px sắc nét và các nút bấm tactile giàu độ nảy thị giác.
+Thay vì dựa vào các quầng sáng mờ nhạt lỗi thời (0-offset halo slop) hay những khối màu phẳng nhạt nhòa, hệ thống thiết kế AnimeVerse sử dụng chiều sâu phân lớp (Layered Depth), mặt kính mờ (glassmorphism) tinh tế, đường viền 1px sắc nét và các nút bấm tactile giàu độ nảy thị giác.
 
 **Key Characteristics:**
 - **Đa vũ trụ biến hóa (Quad-Theme Adaptability)**: Chuyển đổi mượt mà giữa 4 thế giới thẩm mỹ qua thuộc tính `html[data-theme]` mà không phá vỡ độ tương phản.
 - **Kính mờ & Viền ánh sáng (Glass & Neon Micro-borders)**: Bề mặt panel mờ bán trong suốt kết hợp viền ánh sáng tinh tế mang lại cảm giác công nghệ cao.
 - **Tập trung vào vật phẩm (Product-First Visuals)**: Nền tối sâu và các khối thẻ card có chiều sâu giúp hình ảnh figure và phụ kiện anime nổi bật rực rỡ.
 - **Thân thiện ngón cái trên Mobile (Thumb-Friendly Ergonomics)**: Floating Quick Dock (`#avQuickDock`) đặt các tiện ích tương tác vào tầm với ngón tay cái mà không làm nghẽn thanh điều hướng mua sắm.
+- **Hiệu ứng thanh thoát, vị hiệu năng (Poetic Light Motion)**: Các cánh hoa anh đào rơi tự nhiên, nhẹ nhàng với số lượng được kiểm soát chặt chẽ, tôn vinh vẻ đẹp tĩnh lặng mà không gây xao nhãng hay hao tốn tài nguyên thiết bị.
 
 ## Colors
 
@@ -104,8 +105,8 @@ Bảng màu mang tính tương lai, kết hợp chiều sâu bóng tối của v
 - **Cosmic Mist** (`#a69ec8`): Màu chữ phụ cho mô tả, giá cũ gạch ngang, nhãn thứ cấp và placeholder.
 
 ### Accents (Chủ đề bổ trợ)
-- **Hyper Cyan** (`#5ce1e6` / `#00f0ff`): Màu xanh lục lam tràn đầy năng lượng của chủ đề Gojo.
-- **Gear Sun Gold** (`#fbbf24`): Sắc vàng năng lượng Thần Mặt Trời của chủ đề Gear 5.
+- **Hyper Cyan** (`#5ce1e6` / `#00f0ff`): Sắc xanh lục lam tràn đầy năng lượng không gian vô hạn của chủ đề Gojo.
+- **Gear Sun Gold** (`#fbbf24`): Sắc vàng năng lượng Thần Mặt Trời Nika của chủ đề Gear 5.
 
 ### Named Rules
 **The Quad-Verse Contrast Rule.** Mọi thành phần tương tác (chữ, nút bấm, icon, badge) bắt buộc phải đảm bảo độ tương phản tối thiểu 4.5:1 (chuẩn WCAG AA) trên cả 4 chủ đề. Khi đổi sang theme Sakura (nền sáng), toàn bộ chữ phải tự động chuyển sang gam màu tối `#24142c`; khi đổi sang Gear 5 (nút vàng), chữ trên nút phải chuyển sang đen đậm `#1a1204`.
@@ -134,28 +135,51 @@ Bảng màu mang tính tương lai, kết hợp chiều sâu bóng tối của v
 
 ## Layout
 
-Hệ thống lưới linh hoạt dựa trên Container tối đa 1500px, đảm bảo giao diện lấp đầy màn hình lớn nhưng không bị kéo dãn quá mức, đồng thời co giãn mượt mà xuống màn hình điện thoại 360px - 414px.
+Hệ thống lưới linh hoạt dựa trên Khung chứa tối đa 1500px (`--max-width: 1500px`), đảm bảo giao diện hiển thị khoáng đạt trên màn hình lớn mà không kéo dãn vỡ tầm nhìn, đồng thời co giãn mượt mà xuống màn hình điện thoại 360px - 414px.
 
-- **Khung chính (`.container`)**: `max-width: 1500px`, `padding: 0 16px` (hoặc `24px` trên desktop).
+### Spatial Model & Breakpoints
+- **Khung chứa chuẩn (`.container`, `.home-banner`)**: `max-width: 1500px !important`, căn giữa tự động với `margin-inline: auto`, đệm ngang `padding: 0 16px` (di động) đến `padding: 0 24px` (desktop). Giữ dòng đọc đạt ngưỡng lý tưởng 65–75 ký tự/dòng.
 - **Lưới sản phẩm (`.product-grid`)**:
   - Desktop (> 1200px): Lưới 4 cột đều đặn (`repeat(4, 1fr)`), khoảng cách `gap: 20px`.
-  - Tablet (768px - 1199px): Lưới 3 cột hoặc 2 cột linh hoạt.
-  - Mobile (<= 768px): Lưới 2 cột vừa vặn ngón tay cái, ảnh vuông 1:1 rõ nét.
+  - Máy tính bảng (Tablet 769px - 1199px): Lưới 3 cột cân xứng; danh mục trang chủ chia 3 cột × 2 hàng; trang chi tiết chia 2 cột đối xứng với thanh tóm tắt dính (`position: sticky`).
+  - Điện thoại (Mobile <= 768px): Lưới 2 cột vừa vặn ngón tay cái, ảnh sản phẩm vuông tỉ lệ 1:1 rõ nét.
 - **Header hai tầng thông minh trên Mobile**:
-  - Hàng 1: Logo AnimeVerse + Pill Giỏ hàng trực quan.
+  - Hàng 1: Logo AnimeVerse thương hiệu + Pill Giỏ hàng trực quan.
   - Hàng 2: Thanh tìm kiếm full-width với icon kính lúp tiện bấm.
+
+### Multi-Device Adaptation
+- **Safe Area Insets (iOS / Android Notch & Home Bar)**:
+  - Khai báo bộ biến `--av-sat`, `--av-sar`, `--av-sab`, `--av-sal` theo `env(safe-area-inset-*)`.
+  - 100% trang HTML sử dụng `<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">`.
+  - Các phần tử nổi (`#avQuickDock`, `#avBot`, `.action-group`) tự động thụt lề an toàn cách cằm vuốt (`calc(16px + var(--av-sab))`).
+- **Touch Ergonomics & Không dính Hover**:
+  - Khi phát hiện thiết bị cảm ứng (`@media (pointer: coarse)`), toàn bộ nút bấm, icon và liên kết nâng diện tích chạm tối thiểu lên `44×44px`.
+  - Trên màn hình không có chuột (`@media (hover: none)`), loại bỏ hoàn toàn hiện tượng dính hiệu ứng `:hover`, chuyển sang hiệu ứng phản hồi nhấn tức thì `:active` (`transform: scale(0.97)`).
+- **Màn hình di động nhỏ (<= 480px)**:
+  - Ô nhập liệu luôn duy trì `font-size: 16px` để ngăn triệt để lỗi tự động phóng to giao diện trên iOS Safari.
+  - Ngăn ngừa hoàn toàn trượt ngang viền trang với `overflow-x: clip`.
+- **Chế độ In ấn Chuyên nghiệp (`@media print`)**:
+  - Chuyển nền trang sang trắng `#ffffff` và chữ đen tương phản `#111111`.
+  - Ẩn toàn bộ thành phần phụ trợ: dock, bot, trình phát nhạc, banner, nút bấm đặt hàng.
+  - Chống ngắt trang dở dang cho bảng sản phẩm và hóa đơn với `page-break-inside: avoid`.
+
+### Named Rules
+**The 1500px Boundary Rule.** Toàn bộ nội dung chính, danh mục sản phẩm và hero banner không được vượt quá chiều ngang `1500px`. Các màn hình siêu rộng (2K, 4K, Ultrawide) giữ dải nền vũ trụ chuyển sắc tự nhiên ở hai bên cánh, bảo vệ tầm mắt người dùng khỏi việc đảo mắt quá rộng.
 
 ## Elevation & Depth
 
-AnimeVerse sử dụng mô hình Chiều sâu phân tầng (Layered Depth) kết hợp đổ bóng có hướng (directional elevation) và kính mờ phản quang.
+AnimeVerse sử dụng mô hình Chiều sâu phân tầng (Layered Depth) kết hợp đổ bóng có hướng (directional elevation) và kính mờ phản quang, triệt tiêu hoàn toàn sự phẳng đơn điệu.
 
 ### Shadow Vocabulary
 - **Surface Elevation** (`0 4px 20px rgba(0, 0, 0, 0.45)`): Chiều sâu cơ bản nâng các thẻ card và bảng điều khiển lên khỏi nền vũ trụ.
 - **Interactive Card Lift** (`0 12px 32px rgba(0, 0, 0, 0.6), 0 0 0 1px var(--line)`): Hiệu ứng nổi bật khi rê chuột (hover) trên thẻ sản phẩm kèm dịch chuyển nhẹ `transform: translateY(-4px)`.
 - **Button Glow Tactile** (`0 8px 24px var(--pink-glow)`): Độ nảy ánh sáng dưới nút bấm chính, tạo cảm giác bấm tự tin.
 
+### Hardware Acceleration & Compositing
+- Kích hoạt GPU Compositing cho các thành phần động nổi (`#avQuickDock`, `#avBot`, `.modal-content`) với `transform: translateZ(0)` và `backface-visibility: hidden`, đảm bảo mở popup và di chuột luôn đạt 60fps mượt mà.
+
 ### Named Rules
-**The Directional Elevation Rule.** Bãi bỏ hoàn toàn các bóng mờ phát sáng không hướng (0-offset halo slop) chỉ để "làm màu". Mọi bóng đổ phải có phương hướng trục Y cụ thể, phản ánh nguồn sáng phía trên chiếu xuống mặt phẳng thẻ.
+**The Directional Elevation Rule.** Bãi bỏ hoàn toàn các bóng mờ phát sáng không hướng (0-offset halo slop). Mọi bóng đổ phải có phương hướng trục Y cụ thể, phản ánh nguồn sáng phía trên chiếu xuống mặt phẳng thẻ.
 
 ## Shapes
 
@@ -174,7 +198,8 @@ AnimeVerse sử dụng mô hình Chiều sâu phân tầng (Layered Depth) kết
 - **Secondary / Cart Button (`.btn-add-cart`)**: Nền kính mờ với icon giỏ hàng nổi bật.
 
 ### Cards / Containers
-- **Product Card (`.product-card`)**: Nền `var(--panel)` (`#110e24`), viền mỏng `1px solid var(--line)`, ảnh tỷ lệ chuẩn với lớp chuyển tiếp mượt mà khi rê chuột.
+- **Product Card (`.product-card`)**: Nền `var(--panel)` (`#110e24`), viền mỏng `1px solid var(--line)`, ảnh tỷ lệ vuông chuẩn `aspect-ratio: 1 / 1` kết hợp `object-fit: cover` chống giật nảy layout (CLS < 0.1).
+- **CSS Containment**: Áp dụng `content-visibility: auto; contain-intrinsic-size: auto 380px;` giúp trình duyệt bỏ qua việc render hàng chục sản phẩm nằm ngoài màn hình, giảm 60–70% chi phí tính toán ban đầu.
 - **Category Card (`.category`)**: Khung bo góc lớn, phủ ảnh nền anime nghệ thuật và lớp chuyển sắc bóng mờ phía dưới chân thẻ.
 
 ### Inputs / Fields
@@ -186,61 +211,24 @@ AnimeVerse sử dụng mô hình Chiều sâu phân tầng (Layered Depth) kết
 ### Signature Components
 - **Floating Quick Dock (`#avQuickDock`)**: Thanh điều khiển nổi cố định ở góc dưới bên phải màn hình. Bao gồm các nút icon nhanh: Mở vòng quay Gacha, Bật/Tắt nhạc nền Anime, Đổi theme tức thì, Xem so sánh sản phẩm. Sử dụng hiệu ứng kính mờ `backdrop-filter: blur(16px)` và viền neon tinh tế.
 - **Linh vật Trợ lý Otaku (`#avBot`)**: Cửa sổ trò chuyện tư vấn nhỏ gọn gắn góc màn hình, tạo cảm giác đồng hành thân thiện với fan Anime.
+- **Hiệu ứng Cánh Hoa Rơi (#avParticles - Poetic Atmosphere)**: Cánh hoa rơi liên tục nhẹ nhàng trong suốt; duy trì mật độ tinh giản vừa đủ (15 cánh trên màn hình Desktop, 8 cánh trên Mobile; độ mờ `opacity: 0.42 - 0.50`), vừa tạo chất thơ Anime lãng mạn vừa giữ trọn vẹn tài nguyên CPU/GPU cho thao tác mua hàng.
 
-## Multi-Device Adaptation System (Impeccable Adapt)
-
-Hệ thống thích ứng đa ngữ cảnh và đa thiết bị đảm bảo tính toàn vẹn thị giác và công năng từ màn hình nhỏ đến màn hình 4K:
-
-- **Safe Area Insets (iOS & Android Notch / Home Bar)**:
-  - Khai báo và sử dụng bộ biến `--av-sat`, `--av-sar`, `--av-sab`, `--av-sal` dựa trên `env(safe-area-inset-*)`.
-  - Toàn bộ các trang HTML tích hợp `viewport-fit=cover`.
-  - Các thành phần nổi (`#avQuickDock`, `#avBot`, thanh mua hàng cố định `.action-group`) tự động thụt vào an toàn khỏi cằm vuốt và tai thỏ.
-- **Tách biệt Cảm ứng và Chuột (`@media pointer: coarse` & `@media hover: none`)**:
-  - Khi phát hiện thiết bị cảm ứng, toàn bộ nút bấm, icon và liên kết được nâng vùng bấm tối thiểu đạt `44×44px` theo chuẩn WCAG/Ergonomics.
-  - Vô hiệu hóa hiệu ứng "dính hover" trên màn hình cảm ứng, thay thế bằng phản hồi nhấn tức thì `:active` (`scale(0.97)`).
-- **Màn hình Điện thoại Nhỏ (Mobile Small <= 480px)**:
-  - Ô nhập liệu luôn duy trì `font-size: 16px` để ngăn triệt để lỗi tự động phóng to giao diện trên iOS Safari.
-  - Ngăn ngừa hoàn toàn trượt ngang viền trang với `overflow-x: clip`.
-  - Bảng giỏ hàng tự động chuyển sang bố cục dạng thẻ dọc phân dòng tiện lướt ngón cái.
-- **Máy tính bảng (Tablet 769px - 1024px)**:
-  - Lưới sản phẩm phân bổ 3 cột cân đối; danh mục trang chủ chia 3 cột × 2 hàng.
-  - Bố cục trang chi tiết sản phẩm và trang giỏ hàng phân 2 cột đối xứng với các khung tổng kết có tính năng dính (`position: sticky`).
-- **Màn hình Desktop Lớn & Siêu rộng (1440px - 4K)**:
-  - Giữ khung chứa trung tâm `--max-width: 1500px` căn giữa chuẩn mực, giữ nhịp điệu dòng đọc tối ưu (65 - 75 ký tự/dòng).
-  - Lưới sản phẩm trải rộng 4 - 5 cột thông thoáng.
-- **Chế độ In ấn Chuyên nghiệp (`@media print`)**:
-  - Chuyển toàn bộ nền sang trắng tinh `#ffffff` và chữ đen tương phản cao `#111111`.
-  - Tự động ẩn thanh điều hướng, bot, trình phát nhạc, quick dock, banner và các nút bấm mua hàng.
-  - Hóa đơn và bảng chi tiết sản phẩm được định dạng viền sắc nét, chống ngắt trang dở dang (`page-break-inside: avoid`).
-
-## Performance & Core Web Vitals System (Impeccable Optimize)
-
-Hệ thống tối ưu hóa hiệu năng render, mạng và tài nguyên đạt chuẩn Core Web Vitals:
-
-- **Tăng tốc mạng & Font Rendering (LCP & FCP)**:
-  - Khai báo Resource Hints `<link rel="preconnect">` tới `https://fonts.googleapis.com` và `https://fonts.gstatic.com` trên toàn bộ 65 trang HTML, loại bỏ độ trễ handshake DNS/TLS khi tải font chữ.
-  - Phông chữ tải theo cơ chế `font-display: swap` hiển thị nội dung tức thì không bị chặn chữ (zero FOIT).
-- **Trì hoãn tải ảnh & Giải mã bất đồng bộ (Bandwidth & Thread Offloading)**:
-  - Toàn bộ ảnh sản phẩm, danh mục và thư viện ngoài khung nhìn đầu tiên áp dụng thuộc tính chuẩn `loading="lazy"` và `decoding="async"`.
-  - Giải mã luồng ảnh off-main-thread triệt tiêu hoàn toàn hiện tượng drop frame/giật lag khi cuộn trang nhanh.
-- **Triệt tiêu độ lệch bố cục tích lũy (Cumulative Layout Shift - CLS < 0.1)**:
-  - Tất cả các thẻ sản phẩm, deal, banner và chi tiết áp dụng `aspect-ratio` cứng cáp kết hợp `object-fit: cover`.
-  - Trình duyệt chủ động bảo lưu chính xác không gian hiển thị trước khi ảnh tải xong, ngăn giật nảy giao diện.
-- **CSS Containment & Tối ưu Render (content-visibility: auto)**:
-  - Áp dụng `content-visibility: auto` và `contain-intrinsic-size: auto 380px` cho thẻ sản phẩm `.product-card` và `.deal-card`.
-  - Trình duyệt bỏ qua việc layout và vẽ (paint) hàng chục thẻ sản phẩm đang nằm ngoài màn hình, giảm 60–70% thời gian render ban đầu và tiết kiệm RAM trên di động.
-- **Tăng tốc GPU Compositing**:
-  - Các thành phần nổi (`#avQuickDock`, `#avBot`, `.modal-content`) được kích hoạt GPU Compositing với `transform: translateZ(0)` và `backface-visibility: hidden`, đảm bảo hiệu ứng di chuột và mở pop-up đạt 60fps mượt mà.
+### Named Rules
+**The Controlled Particle Rule.** Số lượng phần tử hoa rơi (#avParticles) không bao giờ vượt quá 15 cánh trên máy tính và 8 cánh trên di động; opacity dao động trong khoảng 0.4 - 0.5 để không làm che khuất nội dung sản phẩm hay gây mỏi mắt cho người dùng.
 
 ## Do's and Don'ts
 
 ### Do:
+- **Do** luôn đảm bảo chiều ngang tối đa của toàn trang dừng lại ở chuẩn mực `1500px` (`--max-width: 1500px`).
 - **Do** luôn đảm bảo tỷ lệ tương phản chữ trên nền tối thiểu 4.5:1 (WCAG AA) trên tất cả 4 bộ chủ đề.
 - **Do** duy trì chiều cao nút bấm và vùng chạm touch target tối thiểu 44×44px cho trải nghiệm di động mượt mà.
 - **Do** sử dụng hiệu ứng kính mờ (`backdrop-filter`) và viền 1px mỏng cho các thanh menu nổi và popup.
+- **Do** áp dụng `aspect-ratio` và thuộc tính `loading="lazy"`, `decoding="async"` cho hình ảnh dưới nếp gấp màn hình để giữ CLS < 0.1 và mượt mà 60fps.
 - **Do** giữ cho trang chủ mở đầu với danh mục và sản phẩm nổi bật ngay trong màn hình đầu tiên (above the fold).
 
 ### Don'ts:
+- **Don't** không để chiều rộng trang web dãn tràn lan không giới hạn trên màn hình siêu rộng 2K - 4K.
+- **Don't** không lạm dụng mật độ cánh hoa rơi hoặc hiệu ứng tuyết rơi dày đặc làm che khuất chữ và gây giật khung hình.
 - **Don't** không bao giờ sử dụng cỡ chữ body text dưới 14px hoặc chữ phụ dưới 11px.
 - **Don't** không lạm dụng các vệt sáng glow mờ không hướng (0-offset halo slop) gây nhòe nhoẹt và lỗi thời.
 - **Don't** không dùng font chữ cách điệu khó đọc cho nội dung dài hoặc bảng giá sản phẩm.

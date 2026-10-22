@@ -1508,7 +1508,15 @@ a.deal-cta,
     padding-bottom: 84px !important;
   }
 
-  body.has-sticky-action #avBot,
+  body.has-sticky-action #avQuickDock,
+  body.has-sticky-action .av-quick-dock {
+    bottom: 78px !important;
+  }
+
+  body.has-sticky-action #avBot {
+    bottom: 142px !important;
+  }
+
   body.has-sticky-action #avTop {
     bottom: 78px !important;
   }
@@ -2327,11 +2335,20 @@ body {
   .av-quick-dock {
     bottom: max(16px, calc(16px + var(--av-sab))) !important;
     right: max(16px, calc(16px + var(--av-sar))) !important;
+    z-index: 9990 !important;
   }
 
+  /* Nâng Chatbot lên trên Quick Dock để chống va chạm và đè nút trên màn hình di động */
   #avBot {
-    bottom: max(16px, calc(16px + var(--av-sab))) !important;
+    bottom: max(80px, calc(80px + var(--av-sab))) !important;
     right: max(16px, calc(16px + var(--av-sar))) !important;
+    z-index: 9985 !important;
+  }
+
+  #avTop {
+    left: max(16px, calc(16px + var(--av-sal))) !important;
+    bottom: max(16px, calc(16px + var(--av-sab))) !important;
+    z-index: 9980 !important;
   }
 
   .product-pro-layout .action-group {

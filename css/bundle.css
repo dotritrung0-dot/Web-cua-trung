@@ -394,8 +394,8 @@ a {
 }
 
 .nav a:hover, .nav a.active {
-    color: #fff;
-    text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+    color: var(--pink);
+    text-shadow: 0 0 8px var(--pink-glow);
 }
 
 .nav a:hover::after, .nav a.active::after {
@@ -725,7 +725,7 @@ a {
 
 .filter:hover, .filter.active {
     border-color: var(--purple);
-    background: #8b5cf622;
+    background: var(--purple);
     color: #fff;
     box-shadow: 0 0 10px var(--purple-glow);
 }
@@ -887,7 +887,9 @@ a {
 
 .add:hover {
     border-color: transparent;
-    background: linear-gradient(90deg, var(--purple), var(--pink));
+    background-color: var(--pink);
+    background-image: linear-gradient(90deg, var(--purple), var(--pink));
+    color: #ffffff;
     box-shadow: 0 4px 15px var(--pink-glow);
 }
 
@@ -7032,9 +7034,9 @@ html[data-theme="sakura"] {
   --panel-light: #fdf2f8;
   --text: #24142c;
   --muted: #6e5578;
-  --pink: #e11d74;
+  --pink: #be185d;
   --purple: #9333ea;
-  --neon: #e11d74;
+  --neon: #be185d;
   --cyan: #0284c7;
   --violet: #9333ea;
   --line: #f2d0e2;
@@ -8252,7 +8254,7 @@ body {
 #avBot {
   position: fixed;
   right: 16px;
-  bottom: 16px;
+  bottom: 80px;
   z-index: 9985;
   font-family: inherit;
 }
@@ -9398,7 +9400,7 @@ body {
 }
 
 .av-modal-result-arrow {
-  color: #e11d74;
+  color: #be185d;
   font-weight: 700;
   font-size: 16px;
   padding-right: 4px;
@@ -11049,7 +11051,15 @@ a.deal-cta,
     padding-bottom: 84px !important;
   }
 
-  body.has-sticky-action #avBot,
+  body.has-sticky-action #avQuickDock,
+  body.has-sticky-action .av-quick-dock {
+    bottom: 78px !important;
+  }
+
+  body.has-sticky-action #avBot {
+    bottom: 142px !important;
+  }
+
   body.has-sticky-action #avTop {
     bottom: 78px !important;
   }
@@ -11868,11 +11878,20 @@ body {
   .av-quick-dock {
     bottom: max(16px, calc(16px + var(--av-sab))) !important;
     right: max(16px, calc(16px + var(--av-sar))) !important;
+    z-index: 9990 !important;
   }
 
+  /* Nâng Chatbot lên trên Quick Dock để chống va chạm và đè nút trên màn hình di động */
   #avBot {
-    bottom: max(16px, calc(16px + var(--av-sab))) !important;
+    bottom: max(80px, calc(80px + var(--av-sab))) !important;
     right: max(16px, calc(16px + var(--av-sar))) !important;
+    z-index: 9985 !important;
+  }
+
+  #avTop {
+    left: max(16px, calc(16px + var(--av-sal))) !important;
+    bottom: max(16px, calc(16px + var(--av-sab))) !important;
+    z-index: 9980 !important;
   }
 
   .product-pro-layout .action-group {
@@ -12626,7 +12645,8 @@ html[data-theme="sakura"] .filter:hover,
 html[data-theme="sakura"] .filter.active,
 html[data-theme="sakura"] .promo-page .filter:hover,
 html[data-theme="sakura"] .promo-page .filter.active {
-  background: var(--accent-grad) !important;
+  background-color: #be185d !important;
+  background-image: var(--accent-grad) !important;
   color: #ffffff !important;
   border-color: transparent !important;
   box-shadow: 0 6px 16px rgba(225, 29, 116, 0.25) !important;
@@ -13252,8 +13272,8 @@ html[data-theme="sakura"] .header {
 html[data-theme="sakura"] .btn.ghost,
 html[data-theme="sakura"] .product-pro-layout .action-group .btn.ghost {
   background: #ffffff !important;
-  border: 1.5px solid rgba(225, 29, 116, 0.35) !important;
-  color: #e11d74 !important;
+  border: 1.5px solid rgba(190, 24, 93, 0.45) !important;
+  color: #be185d !important;
 }
 
 html[data-theme="sakura"] .btn.ghost:hover,
@@ -13281,7 +13301,7 @@ html[data-theme="sakura"] #avSug a.sel {
 }
 
 html[data-theme="sakura"] #avSug small {
-  color: #e11d74 !important;
+  color: #be185d !important;
 }
 
 /* 7. Thanh mua hàng cố định trên mobile (.action-group) */
@@ -13348,14 +13368,14 @@ html[data-theme="sakura"] #avIn {
 html[data-theme="sakura"] #avChips button {
   background: #fff0f7 !important;
   border: 1px solid #f3cfe2 !important;
-  color: #e11d74 !important;
+  color: #be185d !important;
 }
 
 /* 11. Các nhãn phụ & Toast thông báo */
 html[data-theme="sakura"] .products-page .floating-two {
   background: #ffffff !important;
   border: 1px solid #f3cfe2 !important;
-  color: #e11d74 !important;
+  color: #be185d !important;
   box-shadow: 0 8px 20px rgba(225, 29, 116, 0.1) !important;
 }
 
@@ -13888,7 +13908,8 @@ a.add:hover,
 .deal-card .add:hover,
 html[data-theme="sakura"] .add:hover,
 html[data-theme="sakura"] a.add:hover {
-  background: linear-gradient(135deg, #ec4899, #db2777) !important;
+  background-color: #db2777 !important;
+  background-image: linear-gradient(135deg, #ec4899, #db2777) !important;
   color: #ffffff !important;
   border-color: transparent !important;
   box-shadow: 0 4px 14px rgba(236, 72, 153, 0.35) !important;
@@ -14655,7 +14676,7 @@ html[data-theme="sakura"] .minimal-title a {
 }
 
 html[data-theme="sakura"] .minimal-title a:hover {
-  color: #e11d74;
+  color: #be185d;
 }
 
 html[data-theme="sakura"] .minimal-coupon {

@@ -59,9 +59,9 @@ html[data-theme="sakura"] {
   --panel-light: #fdf2f8;
   --text: #24142c;
   --muted: #6e5578;
-  --pink: #e11d74;
+  --pink: #be185d;
   --purple: #9333ea;
-  --neon: #e11d74;
+  --neon: #be185d;
   --cyan: #0284c7;
   --violet: #9333ea;
   --line: #f2d0e2;
@@ -1279,7 +1279,7 @@ body {
 #avBot {
   position: fixed;
   right: 16px;
-  bottom: 16px;
+  bottom: 80px;
   z-index: 9985;
   font-family: inherit;
 }
@@ -2425,7 +2425,7 @@ body {
 }
 
 .av-modal-result-arrow {
-  color: #e11d74;
+  color: #be185d;
   font-weight: 700;
   font-size: 16px;
   padding-right: 4px;

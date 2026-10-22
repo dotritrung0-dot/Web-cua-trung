@@ -377,8 +377,8 @@ a {
 }
 
 .nav a:hover, .nav a.active {
-    color: #fff;
-    text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+    color: var(--pink);
+    text-shadow: 0 0 8px var(--pink-glow);
 }
 
 .nav a:hover::after, .nav a.active::after {
@@ -708,7 +708,7 @@ a {
 
 .filter:hover, .filter.active {
     border-color: var(--purple);
-    background: #8b5cf622;
+    background: var(--purple);
     color: #fff;
     box-shadow: 0 0 10px var(--purple-glow);
 }
@@ -870,7 +870,9 @@ a {
 
 .add:hover {
     border-color: transparent;
-    background: linear-gradient(90deg, var(--purple), var(--pink));
+    background-color: var(--pink);
+    background-image: linear-gradient(90deg, var(--purple), var(--pink));
+    color: #ffffff;
     box-shadow: 0 4px 15px var(--pink-glow);
 }
 
