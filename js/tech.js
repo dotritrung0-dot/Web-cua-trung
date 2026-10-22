@@ -2834,7 +2834,7 @@
     dockFab.setAttribute('aria-expanded', 'false');
     dockFab.setAttribute('aria-controls', 'avDockMenu');
     dockFab.setAttribute('aria-label', 'Mở tiện ích Otaku');
-    dockFab.title = 'Tiện ích Otaku (Gacha, Tủ đồ, So sánh, Theme, Nhạc)';
+    dockFab.title = 'Tiện ích Otaku (Gacha, Tủ đồ, So sánh, Nhạc)';
     dockFab.innerHTML =
       '<span class="av-dock-fab-icon" aria-hidden="true">⚡</span>' +
       '<span class="av-dock-fab-label">Tiện ích</span>' +

@@ -5,3 +5,4 @@ Thumbs.db
 .impeccable/
 __pycache__/
 *.pyc
+.agents/

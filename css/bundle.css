@@ -12984,35 +12984,127 @@ html[data-theme="sakura"] .av-kbd {
 }
 
 /* ============================================================================
-   MỤC 14: TỐI ƯU KHOẢNG CÁCH CHIỀU DỌC & MẬT ĐỘ BỐ CỤC (COMPACT VERTICAL RHYTHM)
-   Thu gọn khoảng cách thừa giữa các phần (giảm padding/margin chiều dọc)
-   giúp người dùng ít phải cuộn trang, hiển thị được nhiều nội dung hơn.
+   MỤC 14: TỐI ƯU KHOẢNG CÁCH CHIỀU DỌC & MẬT ĐỘ BỐ CỤC (COMPACT VERTICAL RHYTHM & SAVE PIXELS)
+   Thu gọn khoảng cách thừa giữa các phần (giảm padding/margin thừa chiều dọc),
+   tinh gọn thanh điều hướng, khung tìm kiếm và thẻ sản phẩm giúp người dùng
+   xem được nhiều thông tin nhất trên mỗi màn hình hiển thị mà không phải cuộn nhiều.
    ============================================================================ */
+
+/* 0. Thanh thông báo (Topbar), Đầu trang (Header) & Menu điều hướng (Nav) — Tiết kiệm không gian hiển thị */
+.topbar,
+.promo-page .topbar {
+  padding: 3px 14px !important;
+  font-size: 12px !important;
+}
+
+.topbar-inner,
+.promo-page .topbar-inner {
+  min-height: 28px !important;
+  padding: 2px 6px !important;
+}
+
+.header,
+.promo-page .header {
+  padding: 0 !important;
+}
+
+.header-inner,
+.promo-page .header-inner {
+  min-height: 56px !important;
+  gap: 20px !important;
+}
+
+.logo {
+  font-size: 22px !important;
+}
+
+.search {
+  height: 40px !important;
+  max-width: 660px !important;
+}
+
+.search input {
+  font-size: 14.5px !important;
+  padding: 8px 14px !important;
+}
+
+.search button {
+  width: 48px !important;
+  min-height: 40px !important;
+}
+
+.header-actions {
+  gap: 12px !important;
+}
+
+.header-actions .icon-btn {
+  font-size: 20px !important;
+  min-height: 40px !important;
+}
+
+.header-actions .icon-btn small {
+  font-size: 11px !important;
+  margin-top: 1px !important;
+}
+
+.nav-inner,
+.promo-page .nav-inner {
+  height: 40px !important;
+  min-height: 40px !important;
+  gap: 24px !important;
+  font-size: 14px !important;
+}
+
+.nav a,
+.promo-page .nav a {
+  height: 40px !important;
+  min-height: 40px !important;
+  padding: 0 4px !important;
+}
+
+@media (max-width: 768px) {
+  .topbar,
+  .promo-page .topbar {
+    padding: 2px 8px !important;
+    font-size: 11px !important;
+  }
+  .topbar-inner,
+  .promo-page .topbar-inner {
+    min-height: 24px !important;
+  }
+  .header-inner,
+  .promo-page .header-inner {
+    min-height: 48px !important;
+    gap: 12px !important;
+  }
+  .logo {
+    font-size: 19px !important;
+  }
+  .search {
+    height: 36px !important;
+  }
+  .search button {
+    width: 40px !important;
+    min-height: 36px !important;
+  }
+}
 
 /* 1. Các khối section trên toàn bộ website */
 .section,
 main.section,
 .promo-page .section {
-  padding: 26px 0 !important;
+  padding: 20px 0 !important;
 }
 
 @media (min-width: 1440px) {
   .section,
   main.section,
   .promo-page .section {
-    padding: 32px 0 !important;
+    padding: 24px 0 !important;
   }
 }
 
 @media (max-width: 992px) {
-  .section,
-  main.section,
-  .promo-page .section {
-    padding: 20px 0 !important;
-  }
-}
-
-@media (max-width: 768px) {
   .section,
   main.section,
   .promo-page .section {
@@ -13020,167 +13112,315 @@ main.section,
   }
 }
 
+@media (max-width: 768px) {
+  .section,
+  main.section,
+  .promo-page .section {
+    padding: 14px 0 !important;
+  }
+}
+
 /* 2. Tiêu đề mục (Section Headings) */
 .section-head,
 .promo-page .section-heading,
 .section-heading {
-  margin-bottom: 16px !important;
+  margin-bottom: 14px !important;
+}
+
+.section-head h2 {
+  font-size: 26px !important;
+  letter-spacing: -0.3px !important;
 }
 
 @media (max-width: 768px) {
   .section-head,
   .promo-page .section-heading,
   .section-heading {
-    margin-bottom: 12px !important;
+    margin-bottom: 10px !important;
+  }
+  .section-head h2 {
+    font-size: 22px !important;
   }
 }
 
 /* 3. Banner ngang lớn (.home-banner) */
 .home-banner,
 #home .home-banner {
-  margin: 10px auto 14px !important;
+  margin: 8px auto 12px !important;
 }
 
 @media (max-width: 768px) {
   .home-banner,
   #home .home-banner {
-    margin: 8px auto 12px !important;
+    margin: 6px auto 10px !important;
   }
 }
 
 /* 4. Sân khấu chính (#home .hero) */
 #home .hero {
   margin-top: 4px !important;
-  margin-bottom: 16px !important;
-  padding: 28px 32px !important;
+  margin-bottom: 12px !important;
+  padding: 20px 24px !important;
+  gap: 24px !important;
+  min-height: auto !important;
 }
 
 #home .hero-copy {
-  padding: 4px 0 !important;
+  padding: 2px 0 !important;
+}
+
+#home .hero h1 {
+  font-size: clamp(28px, 3.6vw, 44px) !important;
+  line-height: 1.15 !important;
+}
+
+#home .hero-copy > p:not(.eyebrow) {
+  font-size: 15px !important;
+  line-height: 1.55 !important;
+  max-width: 580px !important;
+}
+
+#home .hero-buttons {
+  margin: 16px 0 12px !important;
+  gap: 12px !important;
 }
 
 #home .hero-stats {
-  margin-top: 16px !important;
-  gap: 10px !important;
+  margin-top: 12px !important;
+  gap: 12px !important;
+}
+
+#home .hero-stats b {
+  font-size: 22px !important;
 }
 
 #home .hero-stats span {
-  padding: 8px 12px !important;
+  padding: 6px 10px !important;
+  font-size: 12px !important;
+}
+
+#home .hero-art {
+  height: 380px !important;
+  max-height: 380px !important;
+}
+
+#home .c1 {
+  width: 320px !important;
+  height: 320px !important;
+}
+
+#home .c2 {
+  width: 240px !important;
+  height: 240px !important;
+}
+
+#home .anime-card {
+  width: 250px !important;
+  height: 330px !important;
+  border-radius: 20px !important;
+  padding: 16px !important;
+}
+
+#home .anime-card span img {
+  width: 130px !important;
+  height: 170px !important;
+  border-radius: 12px !important;
+}
+
+#home .anime-card b {
+  font-size: 26px !important;
+}
+
+#home .floating-tag {
+  top: 80px !important;
+  right: 20px !important;
+  padding: 6px 12px !important;
+  font-size: 11px !important;
 }
 
 @media (max-width: 992px) {
   #home .hero {
-    padding: 22px 20px !important;
-    margin-bottom: 14px !important;
+    padding: 18px 16px !important;
+    margin-bottom: 12px !important;
+  }
+  #home .hero-art {
+    height: 320px !important;
   }
 }
 
 @media (max-width: 768px) {
   #home .hero {
-    padding: 18px 14px !important;
-    margin-top: 6px !important;
-    margin-bottom: 12px !important;
-    gap: 14px !important;
+    padding: 14px 12px !important;
+    margin-top: 4px !important;
+    margin-bottom: 10px !important;
+    gap: 12px !important;
   }
   #home .hero-stats {
-    margin-top: 12px !important;
-    gap: 8px !important;
+    margin-top: 10px !important;
+    gap: 6px !important;
   }
   #home .hero-stats span {
-    padding: 6px 10px !important;
+    padding: 4px 8px !important;
+    font-size: 11px !important;
   }
 }
 
 /* 5. Dải ảnh Anime Stream Marquee (.av-stream-section) */
 .av-stream-section {
-  margin: 14px 0 12px !important;
+  margin: 10px 0 8px !important;
 }
 
 .av-stream-header {
-  margin-bottom: 8px !important;
+  margin-bottom: 6px !important;
 }
 
 .av-stream-wrapper {
-  padding: 6px 0 10px !important;
+  padding: 4px 0 8px !important;
 }
 
 @media (max-width: 768px) {
   .av-stream-section {
-    margin: 10px 0 8px !important;
+    margin: 8px 0 6px !important;
   }
   .av-stream-header {
-    margin-bottom: 6px !important;
+    margin-bottom: 4px !important;
   }
   .av-stream-wrapper {
-    padding: 4px 0 8px !important;
+    padding: 2px 0 6px !important;
   }
 }
 
 /* 6. Khối Flash Sale (.sale) */
 .sale,
 #sale {
-  margin: 14px auto 20px !important;
-  padding: 24px 30px !important;
-  gap: 24px !important;
+  margin: 12px auto 16px !important;
+  padding: 18px 24px !important;
+  gap: 18px !important;
 }
 
 @media (max-width: 768px) {
   .sale,
   #sale {
-    margin: 10px auto 14px !important;
-    padding: 16px 14px !important;
-    gap: 14px !important;
+    margin: 8px auto 12px !important;
+    padding: 12px 10px !important;
+    gap: 10px !important;
   }
 }
 
-/* 7. Bộ lọc danh mục & lưới sản phẩm (.filters, .categories, .product-grid) */
+/* 7. Bộ lọc danh mục & lưới sản phẩm (.filters, .categories, .product-grid) — Tối ưu mật độ hiển thị */
 .filters {
-  margin-bottom: 14px !important;
+  margin-bottom: 12px !important;
+  gap: 8px !important;
+}
+
+.filter {
+  padding: 6px 14px !important;
+  font-size: 13px !important;
 }
 
 .categories {
-  gap: 14px !important;
+  gap: 12px !important;
+}
+
+.category {
+  padding: 16px 10px !important;
+  border-radius: 14px !important;
+}
+
+.category span img {
+  width: 68px !important;
+  height: 68px !important;
+}
+
+.category b {
+  font-size: 15px !important;
 }
 
 .product-grid {
+  gap: 16px !important;
   row-gap: 16px !important;
+}
+
+.product-card {
+  padding: 8px !important;
+  border-radius: 14px !important;
+}
+
+.product-card .product-info {
+  padding: 8px 4px 2px !important;
+}
+
+.product-card h3 {
+  font-size: 14px !important;
+  line-height: 1.35 !important;
+  margin-bottom: 4px !important;
+}
+
+.product-card .price-row {
+  margin-top: 4px !important;
 }
 
 /* 8. Chân trang (Footer) */
 footer,
 .promo-page footer,
 .promo-page .footer {
-  padding-top: 32px !important;
+  padding-top: 24px !important;
 }
 
 .footer-grid,
 .promo-page .footer-grid {
-  padding-bottom: 24px !important;
-  gap: 32px !important;
+  padding-bottom: 18px !important;
+  gap: 24px !important;
 }
 
 @media (max-width: 768px) {
   footer,
   .promo-page footer,
   .promo-page .footer {
-    padding-top: 22px !important;
+    padding-top: 18px !important;
   }
   .footer-grid,
   .promo-page .footer-grid {
-    padding-bottom: 16px !important;
-    gap: 20px !important;
+    padding-bottom: 12px !important;
+    gap: 16px !important;
   }
 }
 
 /* 9. Đầu trang các trang con (.page-header) */
 .page-header {
-  padding: 28px 0 18px !important;
+  padding: 16px 0 10px !important;
+}
+
+.page-header h1 {
+  font-size: clamp(24px, 2.8vw, 32px) !important;
+  margin-bottom: 6px !important;
+}
+
+.page-header p {
+  font-size: 14px !important;
+  line-height: 1.45 !important;
+  max-width: 720px !important;
+}
+
+.page-header .eyebrow {
+  margin-bottom: 6px !important;
+  font-size: 11.5px !important;
 }
 
 @media (max-width: 768px) {
   .page-header {
-    padding: 20px 0 14px !important;
+    padding: 12px 0 8px !important;
   }
+  .page-header h1 {
+    font-size: 22px !important;
+  }
+}
+
+/* 10. Tiện ích Otaku FAB gọn gàng */
+.av-dock-fab {
+  min-height: 42px !important;
+  padding: 6px 14px !important;
+  font-size: 13px !important;
 }
 
 /* ============================================================================
