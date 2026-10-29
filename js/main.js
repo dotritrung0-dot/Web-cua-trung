@@ -3403,20 +3403,25 @@
     'cyberneon': 'gojo'
   };
 
-  // Chuẩn hóa mã chủ đề: Cố định vĩnh viễn trên Sakura Pastel (nền trắng tinh tế, phong cách anime pastel)
+  // Chuẩn hóa mã chủ đề Anime: Mặc định Cyberpunk (Đêm Neon) hoặc lưu theo sở thích người dùng
   function normalizeTheme(id) {
-    return 'sakura';
+    if (!id) return 'cyber';
+    var clean = String(id).toLowerCase().trim();
+    return THEME_ALIASES[clean] || 'cyber';
   }
 
-  // Bộ nhớ đệm trong trường hợp trình duyệt chặn localStorage (Private Mode, QuotaExceededError)
-  var _themeMem = 'sakura';
+  var _themeMem = 'cyber';
 
   function getTheme() {
-    return 'sakura';
+    try {
+      var saved = localStorage.getItem('av_theme');
+      if (saved) return normalizeTheme(saved);
+    } catch (e) {}
+    return 'cyber';
   }
 
   function applyTheme(id, notify) {
-    var canonical = 'sakura';
+    var canonical = normalizeTheme(id);
     _themeMem = canonical;
 
     document.documentElement.setAttribute('data-theme', canonical);
@@ -3437,7 +3442,6 @@
     // Loại bỏ hoàn toàn nút chuyển chủ đề (#avThemeBtn) theo chỉ thị khóa vĩnh viễn giao diện Sakura Pastel
     var btn = document.getElementById('avThemeBtn');
     if (btn) {
-      btn.style.display = 'none';
       if (btn.parentNode) {
         btn.parentNode.removeChild(btn);
       }
@@ -7657,3 +7661,217 @@ document.addEventListener('DOMContentLoaded', function () {
         } catch (e) {}
     }
 });
+
+
+/* ============================================================================
+   BẢN SIÊU UPDATE (SUPER UPDATE 2026) — MODULE TÍNH NĂNG CAO CẤP
+   1. Tìm kiếm gợi ý trực tiếp (Instant Live Search)
+   2. Bộ chuyển 4 giao diện Anime (Quad-Theme Switcher)
+   3. Nút cuộn lên đầu trang (Back to Top FAB)
+   4. Thanh điều hướng cố định dưới đáy Mobile (Mobile Bottom Nav)
+   ============================================================================ */
+
+(function initSuperUpdate() {
+  'use strict';
+
+  function esc(t) {
+    var str = String(t || '');
+    var map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
+    return str.replace(/[&<>"']/g, function (c) { return map[c]; });
+  }
+
+  function money(n) {
+    var num = Number(n || 0);
+    return num.toLocaleString('vi-VN') + 'đ';
+  }
+
+  // 1. TÌM KIẾM TRỰC TIẾP TỨC THÌ (INSTANT LIVE SEARCH)
+  function initLiveSearch() {
+    var form = document.getElementById('searchForm');
+    var input = document.getElementById('searchInput');
+    if (!form || !input) return;
+
+    var dd = document.getElementById('avLiveSearchDropdown');
+    if (!dd) {
+      dd = document.createElement('div');
+      dd.id = 'avLiveSearchDropdown';
+      form.appendChild(dd);
+    }
+
+    var debounceTimer;
+    input.addEventListener('input', function () {
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(function () {
+        var val = (input.value || '').trim().toLowerCase();
+        if (val.length < 2) {
+          dd.classList.remove('is-visible');
+          dd.innerHTML = '';
+          return;
+        }
+
+        var catalog = window.AV_CATALOG || [];
+        var matches = [];
+        for (var i = 0; i < catalog.length; i++) {
+          var p = catalog[i];
+          if (p.name.toLowerCase().indexOf(val) > -1 ||
+              (p.fandom && p.fandom.toLowerCase().indexOf(val) > -1) ||
+              (p.catLabel && p.catLabel.toLowerCase().indexOf(val) > -1)) {
+            matches.push(p);
+            if (matches.length >= 5) break;
+          }
+        }
+
+        if (matches.length === 0) {
+          dd.innerHTML = '<div class="av-search-empty">🔍 Không tìm thấy sản phẩm cho <b>"' + esc(val) + '"</b></div>';
+          dd.classList.add('is-visible');
+          return;
+        }
+
+        var html = matches.map(function (p) {
+          return '<a class="av-search-item" href="' + esc(p.href) + '">' +
+                 '  <img class="av-search-thumb" src="' + esc(p.img) + '" alt="' + esc(p.name) + '">' +
+                 '  <div class="av-search-info">' +
+                 '    <div class="av-search-name">' + esc(p.name) + '</div>' +
+                 '    <div class="av-search-meta">' +
+                 '      <span>' + esc(p.fandom || p.catLabel) + '</span>' +
+                 '      <span class="av-search-price">' + money(p.price) + '</span>' +
+                 '    </div>' +
+                 '  </div>' +
+                 '</a>';
+        }).join('');
+
+        html += '<a class="av-search-view-all" href="san-pham.html?search=' + encodeURIComponent(val) + '">Xem tất cả kết quả (' + matches.length + '+) →</a>';
+        dd.innerHTML = html;
+        dd.classList.add('is-visible');
+      }, 150);
+    });
+
+    document.addEventListener('click', function (e) {
+      if (!form.contains(e.target)) {
+        dd.classList.remove('is-visible');
+      }
+    });
+
+    input.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') {
+        dd.classList.remove('is-visible');
+      }
+    });
+  }
+
+  // 2. BỘ CHUYỂN ĐỔI 4 GIAO DIỆN (THEME SWITCHER)
+  function initThemeSwitcher() {
+    if (document.getElementById('avThemeBar')) return;
+    var bar = document.createElement('div');
+    bar.id = 'avThemeBar';
+    bar.className = 'av-theme-bar';
+    bar.setAttribute('role', 'toolbar');
+    bar.setAttribute('aria-label', 'Đổi giao diện Anime');
+
+    var themes = [
+      { id: 'cyber', label: '🌙 Cyber' },
+      { id: 'sakura', label: '🌸 Sakura' },
+      { id: 'gear5', label: '⚡ Gear 5' },
+      { id: 'gojo', label: '❄️ Gojo' }
+    ];
+
+    var curr = (typeof getTheme === 'function') ? getTheme() : (localStorage.getItem('av_theme') || 'cyber');
+    bar.innerHTML = themes.map(function (t) {
+      var active = (t.id === curr) ? ' is-active' : '';
+      return '<button type="button" class="av-theme-pill' + active + '" data-theme="' + t.id + '">' + t.label + '</button>';
+    }).join('');
+
+    document.body.appendChild(bar);
+
+    bar.addEventListener('click', function (e) {
+      var btn = e.target.closest('[data-theme]');
+      if (!btn) return;
+      var tId = btn.getAttribute('data-theme');
+      if (typeof applyTheme === 'function') {
+        applyTheme(tId, true);
+      } else {
+        document.documentElement.setAttribute('data-theme', tId);
+        try { localStorage.setItem('av_theme', tId); } catch (err) {}
+      }
+      var pills = bar.querySelectorAll('.av-theme-pill');
+      for (var i = 0; i < pills.length; i++) {
+        pills[i].classList.toggle('is-active', pills[i].getAttribute('data-theme') === tId);
+      }
+    });
+  }
+
+  // 3. NÚT CUỘN LÊN ĐẦU TRANG (BACK TO TOP)
+  function initBackToTop() {
+    if (document.getElementById('avScrollTopBtn')) return;
+    var btn = document.createElement('button');
+    btn.id = 'avScrollTopBtn';
+    btn.type = 'button';
+    btn.title = 'Cuộn lên đầu trang';
+    btn.innerHTML = '↑';
+    document.body.appendChild(btn);
+
+    window.addEventListener('scroll', function () {
+      if (window.scrollY > 280) {
+        btn.classList.add('is-visible');
+      } else {
+        btn.classList.remove('is-visible');
+      }
+    }, { passive: true });
+
+    btn.addEventListener('click', function () {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+
+  // 4. THANH ĐIỀU HƯỚNG DƯỚI ĐÁY CHO MOBILE (MOBILE BOTTOM DOCK)
+  function initMobileDock() {
+    if (document.getElementById('avMobileDock')) return;
+    var dock = document.createElement('nav');
+    dock.id = 'avMobileDock';
+    dock.className = 'av-mobile-dock';
+    dock.setAttribute('aria-label', 'Điều hướng nhanh di động');
+
+    var path = window.location.pathname;
+    var isHome = path.endsWith('index.html') || path.endsWith('/') || path.endsWith('trang-chu.html');
+    var isProd = path.indexOf('san-pham') > -1 || path.indexOf('figure') > -1;
+    var isCart = path.indexOf('gio-hang') > -1;
+    var isSale = path.indexOf('khuyen-mai') > -1;
+
+    var count = (window.AVStore && typeof window.AVStore.getCartCount === 'function') ? window.AVStore.getCartCount() : 0;
+    var badgeHtml = count > 0 ? '<span class="av-dock-badge" id="avDockCartBadge">' + count + '</span>' : '<span class="av-dock-badge" id="avDockCartBadge" hidden>0</span>';
+
+    dock.innerHTML = [
+      '<a href="index.html" class="av-dock-item' + (isHome ? ' is-active' : '') + '"><span class="av-dock-icon">🏠</span><span>Trang chủ</span></a>',
+      '<a href="san-pham.html" class="av-dock-item' + (isProd ? ' is-active' : '') + '"><span class="av-dock-icon">🛍️</span><span>Sản phẩm</span></a>',
+      '<a href="gio-hang.html" class="av-dock-item' + (isCart ? ' is-active' : '') + '"><span class="av-dock-icon">🛒</span>' + badgeHtml + '<span>Giỏ hàng</span></a>',
+      '<a href="khuyen-mai.html" class="av-dock-item' + (isSale ? ' is-active' : '') + '"><span class="av-dock-icon">🎁</span><span>Ưu đãi</span></a>',
+      '<a href="lien-he.html" class="av-dock-item"><span class="av-dock-icon">🎧</span><span>Hỗ trợ</span></a>'
+    ].join('');
+
+    document.body.appendChild(dock);
+
+    document.addEventListener('av:cart-updated', function () {
+      var b = document.getElementById('avDockCartBadge');
+      if (b) {
+        var c = (window.AVStore && typeof window.AVStore.getCartCount === 'function') ? window.AVStore.getCartCount() : 0;
+        b.textContent = c;
+        b.hidden = (c <= 0);
+      }
+    });
+  }
+
+  // Khởi chạy khi DOM sẵn sàng
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function () {
+      initLiveSearch();
+      initThemeSwitcher();
+      initBackToTop();
+      initMobileDock();
+    });
+  } else {
+    initLiveSearch();
+    initThemeSwitcher();
+    initBackToTop();
+    initMobileDock();
+  }
+})();

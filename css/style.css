@@ -10954,3 +10954,498 @@ html, body {
     }
 }
 
+
+
+/* ============================================================================
+   BẢN SIÊU UPDATE (SUPER UPDATE 2026) — ANIMEVERSE ULTIMATE POLISH
+   📍 Các tính năng bổ sung cao cấp:
+      1. Khung tìm kiếm trực tiếp có gợi ý sản phẩm (Instant Live Search)
+      2. Bộ điều khiển chuyển đổi 4 chủ đề Anime (Quad-Theme Switcher)
+      3. Thanh điều hướng cố định dưới đáy cho điện thoại (Mobile Bottom Nav)
+      4. Nút bấm cuộn lên đầu trang mượt mà (Back To Top FAB)
+      5. Cửa sổ xem nhanh sản phẩm đa năng (Interactive Quick-View Modal)
+   ============================================================================ */
+
+/* 1. KHUNG TÌM KIẾM TRỰC TIẾP (INSTANT LIVE SEARCH DROPDOWN) */
+.search {
+    position: relative;
+}
+
+#avLiveSearchDropdown {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    right: 0;
+    min-width: 320px;
+    background: #121220;
+    border: 1px solid #29283b;
+    border-radius: 14px;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    z-index: 1000;
+    overflow: hidden;
+    display: none;
+    animation: avFadeIn 0.2s ease-out;
+}
+
+#avLiveSearchDropdown.is-visible {
+    display: block;
+}
+
+.av-search-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    border-bottom: 1px solid #1c1b2c;
+    color: #f7f5ff;
+    text-decoration: none;
+    transition: background 0.2s ease;
+}
+
+.av-search-item:last-child {
+    border-bottom: none;
+}
+
+.av-search-item:hover {
+    background: rgba(255, 79, 163, 0.12);
+}
+
+.av-search-thumb {
+    width: 44px;
+    height: 44px;
+    border-radius: 8px;
+    object-fit: cover;
+    background: #181829;
+    flex-shrink: 0;
+}
+
+.av-search-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.av-search-name {
+    font-size: 13.5px;
+    font-weight: 600;
+    color: #f7f5ff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 2px;
+}
+
+.av-search-meta {
+    font-size: 11.5px;
+    color: #a7a4b8;
+    display: flex;
+    justify-content: space-between;
+}
+
+.av-search-price {
+    color: #ff4fa3;
+    font-weight: 700;
+}
+
+.av-search-empty {
+    padding: 18px 14px;
+    text-align: center;
+    font-size: 13px;
+    color: #a7a4b8;
+}
+
+.av-search-view-all {
+    display: block;
+    padding: 10px;
+    text-align: center;
+    font-size: 12.5px;
+    font-weight: 700;
+    color: #ff4fa3;
+    background: #181829;
+    border-top: 1px solid #29283b;
+    transition: background 0.2s;
+}
+
+.av-search-view-all:hover {
+    background: #ff4fa322;
+}
+
+/* 2. BỘ CHUYỂN ĐỔI 4 GIAO DIỆN (QUAD-THEME SWITCHER PILL) */
+.av-theme-bar {
+    position: fixed;
+    top: 14px;
+    right: 14px;
+    z-index: 990;
+    display: flex;
+    align-items: center;
+    background: rgba(18, 18, 32, 0.92);
+    border: 1px solid #29283b;
+    border-radius: 30px;
+    padding: 3px 6px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    gap: 4px;
+}
+
+.av-theme-pill {
+    background: transparent;
+    border: none;
+    color: #a7a4b8;
+    font-size: 13px;
+    padding: 5px 9px;
+    border-radius: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-weight: 600;
+    transition: all 0.25s ease;
+}
+
+.av-theme-pill:hover {
+    color: #f7f5ff;
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.av-theme-pill.is-active {
+    background: linear-gradient(135deg, #8b5cf6, #ff4fa3);
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(255, 79, 163, 0.35);
+}
+
+/* 3. NÚT CUỘN LÊN ĐẦU TRANG (BACK TO TOP FAB) */
+#avScrollTopBtn {
+    position: fixed;
+    bottom: 24px;
+    right: 20px;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: #121220;
+    border: 1px solid #29283b;
+    color: #f7f5ff;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 950;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(12px);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+#avScrollTopBtn.is-visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+#avScrollTopBtn:hover {
+    border-color: #ff4fa3;
+    color: #ff4fa3;
+    box-shadow: 0 0 15px rgba(255, 79, 163, 0.4);
+    transform: translateY(-2px);
+}
+
+/* 4. THANH ĐIỀU HƯỚNG DƯỚI ĐÁY CHO MOBILE (MOBILE BOTTOM DOCK) */
+.av-mobile-dock {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    body {
+        padding-bottom: 64px !important;
+    }
+
+    .av-theme-bar {
+        top: auto;
+        bottom: 74px;
+        right: 12px;
+        transform: scale(0.9);
+        transform-origin: bottom right;
+    }
+
+    #avScrollTopBtn {
+        bottom: 74px;
+        right: 12px;
+    }
+
+    .av-mobile-dock {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 60px;
+        background: rgba(13, 13, 23, 0.95);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-top: 1px solid #29283b;
+        z-index: 999;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+    }
+
+    .av-dock-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        color: #a7a4b8;
+        font-size: 10px;
+        gap: 3px;
+        position: relative;
+        flex: 1;
+        height: 100%;
+        transition: color 0.2s;
+    }
+
+    .av-dock-item.is-active,
+    .av-dock-item:hover {
+        color: #ff4fa3;
+    }
+
+    .av-dock-icon {
+        font-size: 18px;
+        line-height: 1;
+    }
+
+    .av-dock-badge {
+        position: absolute;
+        top: 6px;
+        right: calc(50% - 16px);
+        background: #ff4fa3;
+        color: #ffffff;
+        font-size: 10px;
+        font-weight: 800;
+        padding: 1px 5px;
+        border-radius: 10px;
+        line-height: 1.2;
+    }
+}
+
+/* 5. CỬA SỔ XEM NHANH SẢN PHẨM (QUICK-VIEW MODAL POLISH) */
+.av-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 1050;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.av-backdrop.open {
+    opacity: 1;
+    visibility: visible;
+}
+
+.av-modal-card {
+    background: #121220;
+    border: 1px solid #29283b;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 820px;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    padding: 28px;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
+    transform: scale(0.95);
+    transition: transform 0.3s ease;
+}
+
+.av-backdrop.open .av-modal-card {
+    transform: scale(1);
+}
+
+.av-modal-close {
+    position: absolute;
+    top: 16px;
+    right: 18px;
+    background: #181829;
+    border: 1px solid #29283b;
+    color: #f7f5ff;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    z-index: 10;
+}
+
+.av-modal-close:hover {
+    background: #ff4fa3;
+    border-color: #ff4fa3;
+    color: #ffffff;
+}
+
+.av-qv-layout {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 28px;
+    align-items: start;
+}
+
+@media (max-width: 700px) {
+    .av-qv-layout {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+}
+
+.av-qv-main-img {
+    width: 100%;
+    border-radius: 14px;
+    background: #090912;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border: 1px solid #29283b;
+}
+
+.av-qv-thumbs {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+    overflow-x: auto;
+}
+
+.av-qv-thumbs img {
+    width: 60px;
+    height: 60px;
+    border-radius: 8px;
+    object-fit: cover;
+    border: 2px solid transparent;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: all 0.2s;
+}
+
+.av-qv-thumbs img.active,
+.av-qv-thumbs img:hover {
+    border-color: #ff4fa3;
+    opacity: 1;
+}
+
+.av-qv-title {
+    margin: 0 0 8px;
+    font-size: 22px;
+    line-height: 1.3;
+}
+
+.av-qv-price {
+    font-size: 22px;
+    color: #ff4fa3;
+    font-weight: 800;
+    margin: 12px 0 16px;
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+}
+
+.av-qv-old-price {
+    font-size: 15px;
+    color: #a7a4b8;
+    text-decoration: line-through;
+    font-weight: 400;
+}
+
+.av-qv-sizes {
+    display: flex;
+    gap: 8px;
+    margin: 12px 0 18px;
+    flex-wrap: wrap;
+}
+
+.av-qv-sz-btn {
+    padding: 6px 14px;
+    border-radius: 8px;
+    background: #181829;
+    border: 1px solid #29283b;
+    color: #f7f5ff;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.av-qv-sz-btn.selected,
+.av-qv-sz-btn:hover {
+    border-color: #ff4fa3;
+    background: #ff4fa322;
+    color: #ff4fa3;
+}
+
+.av-qv-qty-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.av-qv-qty-box {
+    display: flex;
+    align-items: center;
+    border: 1px solid #29283b;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.av-qv-qty-btn {
+    background: #181829;
+    border: none;
+    color: #f7f5ff;
+    width: 34px;
+    height: 34px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.av-qv-qty-val {
+    width: 44px;
+    text-align: center;
+    background: transparent;
+    border: none;
+    color: #f7f5ff;
+    font-weight: 700;
+}
+
+.av-qv-add-btn {
+    width: 100%;
+    padding: 14px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #8b5cf6, #ff4fa3);
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 10px 25px rgba(255, 79, 163, 0.35);
+    transition: all 0.25s ease;
+}
+
+.av-qv-add-btn:hover {
+    box-shadow: 0 14px 30px rgba(255, 79, 163, 0.5);
+    transform: translateY(-2px);
+}
+
+@keyframes avFadeIn {
+    from { opacity: 0; transform: translateY(-6px); }
+    to { opacity: 1; transform: translateY(0); }
+}
