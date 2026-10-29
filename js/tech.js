@@ -2758,6 +2758,16 @@
     };
 
     // 4. Nút Bật / Tắt nhạc nền MP3 (Lưu ý: Nút đổi chủ đề #avThemeBtn đã bị loại bỏ vĩnh viễn theo chỉ thị khóa Sakura Pastel)
+        // 4. Nút đổi giao diện (Theme Switcher)
+    var themeBtn = document.createElement("button");
+    themeBtn.type = "button";
+    themeBtn.id = "avThemeBtn";
+    themeBtn.className = "icon-btn";
+    themeBtn.innerHTML = "🎨<small>Chủ đề</small>";
+    themeBtn.title = "Đổi màu giao diện";
+    themeBtn.onclick = function () {
+      if (typeof cycleTheme === "function") cycleTheme();
+    };
     var musicBtn = document.createElement('button');
     musicBtn.type = 'button';
     musicBtn.id = 'avMusicBtn';
@@ -2775,97 +2785,25 @@
     nextMusicBtn.title = 'Chuyển bài tiếp theo';
     nextMusicBtn.onclick = nextMusicTrack;
 
-    // Tinh gọn Header & Mobile: Chuyển tiện ích sang Quick Dock nổi dạng FAB (Floating Action Button) thu gọn
-    var quickDock = document.getElementById('avQuickDock');
+    // Tinh gọn Header: Chuyển toàn bộ tiện ích phụ (Gacha, Đã thích, So sánh, Theme, Nhạc) sang Quick Dock nổi
+    var quickDock = document.getElementById("avQuickDock");
     if (!quickDock) {
-      quickDock = document.createElement('nav');
-      quickDock.id = 'avQuickDock';
-      quickDock.className = 'av-quick-dock';
-      quickDock.setAttribute('aria-label', 'Tiện ích Otaku');
+      quickDock = document.createElement("nav");
+      quickDock.id = "avQuickDock";
+      quickDock.className = "av-quick-dock";
+      quickDock.setAttribute("aria-label", "Tiện ích Otaku");
       document.body.appendChild(quickDock);
     }
-
-    // Khay chứa các nút tiện ích (ẩn/hiện khi bấm FAB)
-    var dockMenu = document.createElement('div');
-    dockMenu.id = 'avDockMenu';
-    dockMenu.className = 'av-dock-menu';
-    dockMenu.setAttribute('role', 'menu');
-    dockMenu.setAttribute('aria-label', 'Menu Tiện ích Otaku');
-
-    // Hàm đóng Quick Dock an toàn
-    var closeDock = function () {
-      quickDock.classList.remove('is-open');
-      if (dockFab) {
-        dockFab.setAttribute('aria-expanded', 'false');
-        dockFab.setAttribute('aria-label', 'Mở tiện ích Otaku');
-      }
-    };
-
-    // Tự động đóng menu sau khi click vào các tiện ích mở modal/drawer
-    var origGachaClick = gachaBtn.onclick;
-    gachaBtn.onclick = function (e) {
-      closeDock();
-      if (origGachaClick) origGachaClick.call(this, e);
-    };
-
-    var origWishClick = wishBtn.onclick;
-    wishBtn.onclick = function (e) {
-      closeDock();
-      if (origWishClick) origWishClick.call(this, e);
-    };
-
-    var origCompClick = compBtn.onclick;
-    compBtn.onclick = function (e) {
-      closeDock();
-      if (origCompClick) origCompClick.call(this, e);
-    };
-
-    dockMenu.appendChild(gachaBtn);
-    dockMenu.appendChild(wishBtn);
-    dockMenu.appendChild(compBtn);
-    dockMenu.appendChild(musicBtn);
-    dockMenu.appendChild(nextMusicBtn);
-
-    // Nút FAB kích hoạt Quick Dock (Tròn trên mobile, pill gọn trên desktop)
-    var dockFab = document.createElement('button');
-    dockFab.type = 'button';
-    dockFab.id = 'avDockFab';
-    dockFab.className = 'av-dock-fab';
-    dockFab.setAttribute('aria-expanded', 'false');
-    dockFab.setAttribute('aria-controls', 'avDockMenu');
-    dockFab.setAttribute('aria-label', 'Mở tiện ích Otaku');
-    dockFab.title = 'Tiện ích Otaku (Gacha, Tủ đồ, So sánh, Nhạc)';
-    dockFab.innerHTML =
-      '<span class="av-dock-fab-icon" aria-hidden="true">⚡</span>' +
-      '<span class="av-dock-fab-label">Tiện ích</span>' +
-      '<span class="av-dock-fab-close" aria-hidden="true">✕</span>' +
-      '<span class="av-badge-count av-dock-fab-badge" id="avDockFabBadge" hidden>0</span>';
-
-    dockFab.onclick = function (e) {
-      e.stopPropagation();
-      var willOpen = !quickDock.classList.contains('is-open');
-      quickDock.classList.toggle('is-open', willOpen);
-      dockFab.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
-      dockFab.setAttribute('aria-label', willOpen ? 'Đóng tiện ích Otaku' : 'Mở tiện ích Otaku');
-    };
-
-    // Đóng Quick Dock khi bấm ra ngoài hoặc nhấn Esc
-    document.addEventListener('click', function (e) {
-      if (quickDock.classList.contains('is-open') && !quickDock.contains(e.target)) {
-        closeDock();
-      }
-    });
-
-    document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape' && quickDock.classList.contains('is-open')) {
-        closeDock();
-        dockFab.focus();
-      }
-    });
-
-    quickDock.innerHTML = '';
-    quickDock.appendChild(dockMenu);
-    quickDock.appendChild(dockFab);
+    quickDock.innerHTML = "";
+    quickDock.appendChild(gachaBtn);
+    quickDock.appendChild(wishBtn);
+    quickDock.appendChild(compBtn);
+    if (typeof themeBtn !== "undefined" && themeBtn) {
+      quickDock.appendChild(themeBtn);
+    }
+    quickDock.appendChild(musicBtn);
+    quickDock.appendChild(nextMusicBtn);
+    restoreMusicOnPageLoad();
 
     function syncDockFabBadge() {
       var b = document.getElementById('avDockFabBadge');

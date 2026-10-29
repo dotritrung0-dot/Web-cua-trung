@@ -12290,6 +12290,89 @@ html {
 
 
 
+/* ĐẢM BẢO CHATBOT & QUICK DOCK LUÔN HIỂN THỊ HOÀN HẢO */
+#avBot {
+  position: fixed !important;
+  right: 20px !important;
+  bottom: 24px !important;
+  z-index: 9999 !important;
+  display: block !important;
+}
+
+#avBotBtn {
+  width: 56px !important;
+  height: 56px !important;
+  border-radius: 50% !important;
+  border: none !important;
+  cursor: pointer !important;
+  font-size: 26px !important;
+  color: #ffffff !important;
+  background: linear-gradient(135deg, #be185d, #9333ea) !important;
+  box-shadow: 0 8px 24px rgba(190, 24, 93, 0.35) !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.av-quick-dock {
+  position: fixed !important;
+  bottom: 24px !important;
+  left: 20px !important;
+  z-index: 9980 !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  padding: 6px 12px !important;
+  background: rgba(255, 255, 255, 0.95) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border: 1px solid rgba(236, 72, 153, 0.35) !important;
+  border-radius: 999px !important;
+  box-shadow: 0 10px 30px rgba(236, 72, 153, 0.15) !important;
+}
+
+.av-quick-dock .icon-btn {
+  background: #fdf2f8 !important;
+  border: 1px solid #fce7f3 !important;
+  color: #24142c !important;
+  height: 38px !important;
+  padding: 0 12px !important;
+  border-radius: 999px !important;
+  font-size: 14px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+}
+
+.av-quick-dock .icon-btn small {
+  color: #6e5578 !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+}
+
+@media (max-width: 768px) {
+  #avBot {
+    right: 12px !important;
+    bottom: 74px !important;
+  }
+  .av-quick-dock {
+    bottom: 14px !important;
+    left: 10px !important;
+    padding: 4px 8px !important;
+    gap: 4px !important;
+  }
+  .av-quick-dock .icon-btn {
+    width: 36px !important;
+    height: 36px !important;
+    padding: 0 !important;
+    border-radius: 50% !important;
+    justify-content: center !important;
+  }
+  .av-quick-dock .icon-btn small {
+    display: none !important;
+  }
+}
+
 
 /* ============================================================================
    PHẦN 4: THEME-FIX.CSS — BỘ SỬA MÀU CHỦ ĐỀ, TƯƠNG PHẢN WCAG AA & SHOWCASE TỐI GIẢN
