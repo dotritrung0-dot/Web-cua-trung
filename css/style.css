@@ -15643,3 +15643,380 @@ html[data-theme="gojo"] .av-motion-flyer {
     }
 }
 
+
+
+/* ============================================================================
+   MASTER OVERRIDE: KHÔI PHỤC NGUYÊN BẢN 100% TIỆN ÍCH DƯỚI (QUICK DOCK) & CHATBOT AI (AV-BOT)
+   Định vị chuẩn mực:
+     - Góc dưới bên TRÁI: Thanh tiện ích nổi Otaku Quick Dock (#avQuickDock) gồm đủ 6 nút:
+       🎰 Gacha | ♥ Đã thích | ⚖️ So sánh | 🎨 Chủ đề | 🔇 Nhạc nền | ⏭️ Bài tiếp
+     - Góc dưới bên PHẢI: Nút tròn Trợ lý AI Otaku AV-Bot 3.0 (#avBot) & Cửa sổ Chatbot (#avBotBox)
+   Tông màu: Chuẩn Sakura Pastel (Nền trắng kính mờ, viền hoa anh đào, chữ đậm sắc nét, hiệu ứng neon hồng)
+   ============================================================================ */
+
+/* 1. THANH TIỆN ÍCH NỔI OTAKU QUICK DOCK (GÓC DƯỚI TRÁI) */
+#avQuickDock,
+.av-quick-dock {
+  position: fixed !important;
+  left: 20px !important;
+  right: auto !important;
+  bottom: 24px !important;
+  top: auto !important;
+  z-index: 9980 !important;
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 8px !important;
+  padding: 6px 12px !important;
+  background: rgba(255, 255, 255, 0.96) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border: 1.5px solid rgba(225, 29, 116, 0.35) !important;
+  border-radius: 999px !important;
+  box-shadow: 0 10px 30px rgba(190, 24, 93, 0.18), 0 2px 8px rgba(0, 0, 0, 0.06) !important;
+  pointer-events: auto !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+#avQuickDock:hover,
+.av-quick-dock:hover {
+  border-color: rgba(225, 29, 116, 0.6) !important;
+  box-shadow: 0 12px 36px rgba(190, 24, 93, 0.28), 0 0 15px rgba(225, 29, 116, 0.2) !important;
+  transform: translateY(-2px) !important;
+}
+
+/* Các nút bên trong Quick Dock */
+#avQuickDock .icon-btn,
+.av-quick-dock .icon-btn {
+  position: relative !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 6px !important;
+  height: 38px !important;
+  padding: 0 12px !important;
+  border-radius: 999px !important;
+  border: 1px solid rgba(225, 29, 116, 0.25) !important;
+  background: rgba(255, 240, 246, 0.95) !important;
+  color: #24142c !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  cursor: pointer !important;
+  pointer-events: auto !important;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  white-space: nowrap !important;
+  user-select: none !important;
+  -webkit-tap-highlight-color: transparent !important;
+}
+
+#avQuickDock .icon-btn small,
+.av-quick-dock .icon-btn small {
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  color: #5b4366 !important;
+  line-height: 1 !important;
+  transition: color 0.2s ease !important;
+}
+
+#avQuickDock .icon-btn:hover,
+.av-quick-dock .icon-btn:hover {
+  background: rgba(225, 29, 116, 0.15) !important;
+  border-color: #be185d !important;
+  color: #be185d !important;
+  transform: translateY(-2px) !important;
+}
+
+#avQuickDock .icon-btn:hover small,
+.av-quick-dock .icon-btn:hover small {
+  color: #be185d !important;
+}
+
+#avQuickDock .icon-btn:focus-visible,
+.av-quick-dock .icon-btn:focus-visible {
+  outline: 2px solid #be185d !important;
+  outline-offset: 2px !important;
+}
+
+/* Huy hiệu số đếm trên nút Yêu thích & So sánh */
+#avQuickDock .av-badge-count,
+.av-quick-dock .av-badge-count {
+  position: absolute !important;
+  top: -5px !important;
+  right: -5px !important;
+  min-width: 18px !important;
+  height: 18px !important;
+  padding: 0 4px !important;
+  border-radius: 999px !important;
+  background: linear-gradient(135deg, #be185d, #ec4899) !important;
+  color: #ffffff !important;
+  font-size: 10px !important;
+  font-weight: 800 !important;
+  line-height: 18px !important;
+  text-align: center !important;
+  box-shadow: 0 2px 6px rgba(190, 24, 93, 0.4) !important;
+}
+
+/* 2. TRỢ LÝ ẢO AI CHATBOT AV-BOT 3.0 (GÓC DƯỚI PHẢI) */
+#avBot {
+  position: fixed !important;
+  right: 20px !important;
+  left: auto !important;
+  bottom: 24px !important;
+  top: auto !important;
+  z-index: 9985 !important;
+  display: block !important;
+  pointer-events: auto !important;
+  font-family: inherit !important;
+}
+
+#avBotBtn {
+  width: 58px !important;
+  height: 58px !important;
+  border-radius: 50% !important;
+  border: 2.5px solid #ffffff !important;
+  cursor: pointer !important;
+  font-size: 26px !important;
+  color: #ffffff !important;
+  background: linear-gradient(135deg, #be185d, #9333ea) !important;
+  box-shadow: 0 8px 26px rgba(190, 24, 93, 0.4) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease !important;
+  animation: avBotPulse 2.4s infinite !important;
+  pointer-events: auto !important;
+}
+
+#avBotBtn:hover {
+  transform: scale(1.1) !important;
+  box-shadow: 0 12px 30px rgba(190, 24, 93, 0.55) !important;
+}
+
+@keyframes avBotPulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(225, 29, 116, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 16px rgba(225, 29, 116, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(225, 29, 116, 0);
+  }
+}
+
+/* Khung trò chuyện Chatbot khi bật */
+#avBotBox {
+  display: none;
+  position: absolute !important;
+  right: 0 !important;
+  bottom: 70px !important;
+  width: min(360px, calc(100vw - 32px)) !important;
+  height: 480px !important;
+  max-height: 75vh !important;
+  flex-direction: column !important;
+  background: #ffffff !important;
+  border: 1.5px solid rgba(225, 29, 116, 0.35) !important;
+  border-radius: 20px !important;
+  overflow: hidden !important;
+  box-shadow: 0 16px 48px rgba(190, 24, 93, 0.22), 0 4px 16px rgba(0, 0, 0, 0.08) !important;
+  z-index: 9995 !important;
+}
+
+#avBotBox.open {
+  display: flex !important;
+}
+
+#avBotHead {
+  padding: 12px 16px !important;
+  font-weight: 700 !important;
+  color: #ffffff !important;
+  background: linear-gradient(135deg, #be185d, #9333ea) !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  font-size: 14.5px !important;
+}
+
+#avBotHead small {
+  display: block !important;
+  font-weight: 400 !important;
+  opacity: 0.92 !important;
+  font-size: 11px !important;
+  color: rgba(255, 255, 255, 0.9) !important;
+  margin-top: 2px !important;
+}
+
+#avBotClose {
+  background: none !important;
+  border: 0 !important;
+  color: #ffffff !important;
+  font-size: 22px !important;
+  cursor: pointer !important;
+  padding: 4px 8px !important;
+  line-height: 1 !important;
+  transition: opacity 0.2s ease !important;
+}
+
+#avBotClose:hover {
+  opacity: 0.75 !important;
+}
+
+#avMsgs {
+  flex: 1 !important;
+  overflow-y: auto !important;
+  padding: 14px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 10px !important;
+  background: #fffbfd !important;
+}
+
+.avm {
+  max-width: 86% !important;
+  padding: 10px 14px !important;
+  border-radius: 14px !important;
+  font-size: 13.5px !important;
+  line-height: 1.5 !important;
+  color: #24142c !important;
+  background: #fdf2f8 !important;
+  border: 1px solid rgba(225, 29, 116, 0.18) !important;
+  align-self: flex-start !important;
+}
+
+.avm.u {
+  align-self: flex-end !important;
+  background: linear-gradient(135deg, #be185d, #9333ea) !important;
+  color: #ffffff !important;
+  border-color: transparent !important;
+}
+
+.avm a {
+  color: #be185d !important;
+  font-weight: 700 !important;
+  text-decoration: underline !important;
+}
+
+#avChips {
+  display: flex !important;
+  gap: 6px !important;
+  flex-wrap: wrap !important;
+  padding: 6px 14px 10px !important;
+  background: #fffbfd !important;
+}
+
+#avChips button {
+  background: #ffffff !important;
+  border: 1px solid rgba(225, 29, 116, 0.3) !important;
+  color: #be185d !important;
+  padding: 4px 10px !important;
+  border-radius: 999px !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+}
+
+#avChips button:hover {
+  background: #be185d !important;
+  color: #ffffff !important;
+}
+
+#avForm {
+  display: flex !important;
+  padding: 10px 14px !important;
+  border-top: 1px solid rgba(225, 29, 116, 0.15) !important;
+  gap: 8px !important;
+  background: #ffffff !important;
+}
+
+#avIn {
+  flex: 1 !important;
+  padding: 9px 14px !important;
+  border-radius: 999px !important;
+  border: 1.5px solid rgba(225, 29, 116, 0.3) !important;
+  font-size: 13px !important;
+  color: #24142c !important;
+  background: #fdf2f8 !important;
+  outline: none !important;
+}
+
+#avIn:focus {
+  border-color: #be185d !important;
+  background: #ffffff !important;
+  box-shadow: 0 0 0 3px rgba(190, 24, 93, 0.15) !important;
+}
+
+#avForm button {
+  padding: 0 16px !important;
+  border-radius: 999px !important;
+  border: none !important;
+  background: linear-gradient(135deg, #be185d, #9333ea) !important;
+  color: #ffffff !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  cursor: pointer !important;
+  transition: transform 0.2s ease !important;
+}
+
+#avForm button:hover {
+  transform: scale(1.05) !important;
+}
+
+/* 3. TỐI ƯU GIAO DIỆN TRÊN ĐIỆN THOẠI DI ĐỘNG (MOBILE RESPONSIVE) */
+@media (max-width: 768px) {
+  #avQuickDock,
+  .av-quick-dock {
+    bottom: 14px !important;
+    left: 10px !important;
+    padding: 4px 6px !important;
+    gap: 4px !important;
+    max-width: calc(100vw - 72px) !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+  #avQuickDock::-webkit-scrollbar,
+  .av-quick-dock::-webkit-scrollbar {
+    display: none !important;
+  }
+  #avQuickDock .icon-btn,
+  .av-quick-dock .icon-btn {
+    width: 36px !important;
+    height: 36px !important;
+    min-width: 36px !important;
+    padding: 0 !important;
+    border-radius: 50% !important;
+    font-size: 15px !important;
+    justify-content: center !important;
+  }
+  #avQuickDock .icon-btn small,
+  .av-quick-dock .icon-btn small {
+    display: none !important;
+  }
+  
+  #avBot {
+    bottom: 14px !important;
+    right: 10px !important;
+  }
+  #avBotBtn {
+    width: 46px !important;
+    height: 46px !important;
+    font-size: 20px !important;
+  }
+  #avBotBox {
+    bottom: 60px !important;
+    right: 0 !important;
+    width: calc(100vw - 20px) !important;
+    max-height: 70vh !important;
+  }
+
+  /* Khi trang có thanh mua hàng cố định dưới đáy mobile (như chi tiết sản phẩm) */
+  body.has-sticky-action #avQuickDock,
+  body.has-sticky-action .av-quick-dock {
+    bottom: 78px !important;
+  }
+  body.has-sticky-action #avBot {
+    bottom: 78px !important;
+  }
+}
