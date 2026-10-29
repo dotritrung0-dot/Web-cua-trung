@@ -7517,8 +7517,8 @@ html[data-theme="sakura"] .promo-page .nav,
 html[data-theme="sakura"] body.nav-open .nav,
 html[data-theme="sakura"] .site-footer {
   background: rgba(255, 245, 250, 0.96) !important;
-  border-color: #29283b !important;
-  color: #f7f5ff !important;
+  border-color: #f2d0e2 !important;
+  color: #24142c !important;
 }
 html[data-theme="sakura"] .nav a,
 html[data-theme="sakura"] .promo-page .nav a {
@@ -7542,15 +7542,15 @@ html[data-theme="sakura"] .footer-grid h4,
 html[data-theme="sakura"] .promo-page .footer-grid h4 { color: #ffffff !important; }
 html[data-theme="sakura"] .site-footer a:hover { color: #ff4fa3 !important; }
 html[data-theme="sakura"] .logo,
-html[data-theme="sakura"] .brand { color: #ffffff; }
+html[data-theme="sakura"] .brand { color: #24142c; }
 
 /* Ô tìm kiếm + các nút icon trên header */
 html[data-theme="sakura"] .search input,
 html[data-theme="sakura"] .products-page .product-search,
 html[data-theme="sakura"] .products-page .sort-control select {
   background: #ffffff !important;
-  color: #f7f5ff !important;
-  border-color: #29283b !important;
+  color: #24142c !important;
+  border-color: #f2d0e2 !important;
 }
 html[data-theme="sakura"] .search input::placeholder { color: #8a7194; }
 html[data-theme="sakura"] .search button { color: #fff !important; }
@@ -7687,7 +7687,7 @@ html[data-theme="sakura"] .quantity button,
 html[data-theme="sakura"] .cart-qty button,
 html[data-theme="sakura"] .cart-remove,
 html[data-theme="sakura"] .cart-head button {
-  color: #f7f5ff !important;
+  color: #be185d !important;
   background: #fdf2f8 !important;
   border-color: #29283b !important;
 }
@@ -7706,7 +7706,7 @@ html[data-theme="sakura"] .av-rev-form textarea {
   color: #f7f5ff !important;
   border-color: #29283b !important;
 }
-html[data-theme="sakura"] .size-btn { background: #fff !important; color: #f7f5ff !important; border-color: #29283b !important; }
+html[data-theme="sakura"] .size-btn { background: #fff !important; color: #24142c !important; border-color: #f2d0e2 !important; }
 html[data-theme="sakura"] .size-btn:hover,
 html[data-theme="sakura"] .size-btn.selected,
 html[data-theme="sakura"] .av-qv-size.selected {
@@ -7729,7 +7729,7 @@ html[data-theme="sakura"] .countdown span {
   background: #ffffff !important;
   border-color: #29283b !important;
 }
-html[data-theme="sakura"] .countdown b { color: #ffffff !important; }
+html[data-theme="sakura"] .countdown b { color: #be185d !important; }
 html[data-theme="sakura"] .countdown small { color: #6e5578 !important; }
 html[data-theme="sakura"] .countdown i { color: #ff4fa3 !important; }
 
@@ -10569,7 +10569,7 @@ button.btn-add:hover,
     pointer-events: none;
     opacity: 0;
     transition: opacity 0.25s ease;
-    background: radial-gradient(320px circle at (--glare-x, 50%) (--glare-y, 50%), rgba(255, 255, 255, 0.16), transparent 70%);
+    background: radial-gradient(320px circle at var(--glare-x, 50%) var(--glare-y, 50%), rgba(255, 255, 255, 0.16), transparent 70%);
     mix-blend-mode: overlay;
     z-index: 2;
 }
@@ -10581,17 +10581,17 @@ button.btn-add:hover,
 /* Tinh chỉnh quầng sáng phản chiếu hòa quyện theo bảng màu Sakura Pastel */
 html[data-theme="sakura"] .av-motion-tilt::after,
 html[data-theme="sakura"] .av-card-glare {
-    background: radial-gradient(320px circle at (--glare-x, 50%) (--glare-y, 50%), rgba(225, 29, 116, 0.14), transparent 70%);
+    background: radial-gradient(320px circle at var(--glare-x, 50%) var(--glare-y, 50%), rgba(225, 29, 116, 0.14), transparent 70%);
 }
 
 html[data-theme="gear5"] .av-motion-tilt::after,
 html[data-theme="gear5"] .av-card-glare {
-    background: radial-gradient(320px circle at (--glare-x, 50%) (--glare-y, 50%), rgba(251, 191, 36, 0.16), transparent 70%);
+    background: radial-gradient(320px circle at var(--glare-x, 50%) var(--glare-y, 50%), rgba(251, 191, 36, 0.16), transparent 70%);
 }
 
 html[data-theme="gojo"] .av-motion-tilt::after,
 html[data-theme="gojo"] .av-card-glare {
-    background: radial-gradient(320px circle at (--glare-x, 50%) (--glare-y, 50%), rgba(0, 240, 255, 0.16), transparent 70%);
+    background: radial-gradient(320px circle at var(--glare-x, 50%) var(--glare-y, 50%), rgba(0, 240, 255, 0.16), transparent 70%);
 }
 
 /* ----------------------------------------------------------------------------

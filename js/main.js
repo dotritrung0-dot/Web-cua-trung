@@ -3403,20 +3403,26 @@
     'cyberneon': 'gojo'
   };
 
-  // Chuẩn hóa mã chủ đề: Cố định vĩnh viễn trên Sakura Pastel (nền trắng tinh tế, phong cách anime pastel)
+  // Chuẩn hóa mã chủ đề: Mặc định Cyberpunk Dark Anime
   function normalizeTheme(id) {
-    return 'sakura';
+    if (!id) return 'cyber';
+    var clean = String(id).toLowerCase().trim();
+    return THEME_ALIASES[clean] || 'cyber';
   }
 
   // Bộ nhớ đệm trong trường hợp trình duyệt chặn localStorage (Private Mode, QuotaExceededError)
-  var _themeMem = 'sakura';
+  var _themeMem = 'cyber';
 
   function getTheme() {
-    return 'sakura';
+    try {
+      var saved = localStorage.getItem('av_theme');
+      if (saved && THEME_ALIASES[saved]) return THEME_ALIASES[saved];
+    } catch (e) {}
+    return 'cyber';
   }
 
   function applyTheme(id, notify) {
-    var canonical = 'sakura';
+    var canonical = (id && THEME_ALIASES[id]) ? THEME_ALIASES[id] : 'cyber';
     _themeMem = canonical;
 
     document.documentElement.setAttribute('data-theme', canonical);
