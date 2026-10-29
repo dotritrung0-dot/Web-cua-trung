@@ -1,15 +1,75 @@
 <!DOCTYPE html>
 <html lang="vi" data-theme="sakura">
+<!--
+🎁 FILE: khuyen-mai.html — TRANG TỔNG HỢP ƯU ĐÃI, DEAL GIẢM GIÁ & MÃ VOUCHER
+📌 CẤU TRÚC CÁC MỤC TRONG TRANG NÀY:
+   - MỤC 1 : Phần HEAD (Tiêu đề tab, nạp file CSS gộp (bundle.css)).
+   - MỤC 2 : Dải thông báo trên cùng (.topbar).
+   - MỤC 3 : Thanh đầu trang (.header).
+   - MỤC 4 : Thanh Menu điều hướng (.nav).
+   - MỤC 5 : Khu vực Mở đầu trang Khuyến mãi (.hero - Tiêu đề & Huy hiệu 30% OFF).
+   - MỤC 6 : Thanh Đồng hồ đếm ngược sự kiện Otaku Sale (.countdown-section).
+   - MỤC 7 : Danh sách các Deal giảm giá nổi bật & Bộ lọc theo loại (#offers, .deal-grid).
+   - MỤC 8 : Khung tặng Mã Ưu Đãi Thành Viên Mới (.welcome-banner - Mã WELCOME10).
+   - MỤC 9 : Khu vực 4 Lý do mua sắm tại AnimeVerse (.benefits-section).
+   - MỤC CUỐI 1 & 2: Chân trang (.site-footer), đoạn JS lọc deal/sao chép mã/đếm ngược & 3 file JS chính.
+-->
+<!--
+📘 CẨM NANG ĐỌC & SỬA FILE HTML NÀY (DÀNH CHO NGƯỜI CHƯA BIẾT CODE)
+1. HTML LÀ GÌ?
+   - HTML giống như "bộ khung và nội dung chữ/ảnh" của trang web.
+   - Mọi thứ bạn nhìn thấy trên trang (chữ, hình ảnh, nút bấm, đường link) đều được viết ở đây.
 
+2. CÁCH ĐỌC CÁC THẺ (TAG) CƠ BẢN TRONG FILE NÀY:
+   - Cặp thẻ mở và đóng: <ten-the> Nội dung ở giữa </ten-the>
+   - <h1>, <h2>, <h3>, <h4> : Các dòng TIÊU ĐỀ (h1 là to nhất, h4 là nhỏ nhất).
+   - <p> ... </p>           : Một ĐOẠN VĂN BẢN bình thường.
+   - <span>, <small>        : Một cụm chữ nhỏ hoặc nhãn ngắn.
+   - <strong>, <b>          : Chữ IN ĐẬM (thường dùng để viết GIÁ TIỀN hoặc từ quan trọng).
+   - <del> ... </del>       : Chữ GẠCH NGANG ở giữa (thường dùng để viết GIÁ CŨ trước khi giảm).
+   - <a href="địa-chỉ.html">Chữ hiện ra</a> : ĐƯỜNG LINK bấm vào để chuyển sang trang khác.
+     + href="..." là tên file trang web sẽ mở ra khi bấm vào.
+   - <img src="đường-dẫn-ảnh" alt="mô tả">  : HÌNH ẢNH hiển thị trên trang.
+     + src="..." là đường dẫn chỉ tới tấm ảnh trong thư mục "anh/..."
+     + alt="..." là dòng mô tả ảnh (hiện ra nếu ảnh bị lỗi).
+   - <button> ... </button> : NÚT BẤM để thực hiện hành động (lọc đồ, thêm giỏ hàng, thả tim...).
+   - <div>, <section>, <article>, <header>, <nav>, <main>, <footer>:
+     + Là các "CHIẾC HỘP" gom nhóm các phần lại với nhau để chia bố cục trang web.
+
+3. ⚠️ QUY TẮC VÀNG KHI TỰ SỬA CODE (ĐỌC KỸ ĐỂ KHÔNG BỊ LỖI GIAO DIỆN):
+   - ✅ ĐƯỢC SỬA:
+     + Sửa chữ tiếng Việt nằm GIỮA cặp dấu > và < (Ví dụ: <h3>Tên mới</h3>, <strong>500.000đ</strong>).
+     + Sửa đường dẫn ảnh trong src="anh/..." (nhưng phải giữ nguyên cặp dấu ngoặc kép "").
+     + Sửa đường dẫn trang trong href="..." (giữ nguyên cặp dấu ngoặc kép "").
+   - ❌ TUYỆT ĐỐI KHÔNG XÓA / KHÔNG SỬA:
+     + Không xóa các dấu đóng mở ngoặc nhọn < , > , </...>.
+     + Không tự ý đổi tên tiếng Anh trong class="..." hoặc id="..." (Vì file CSS và JS dựa vào
+       đúng tên class/id đó để tô màu và chạy tính năng. Đổi tên là mất màu hoặc hỏng nút!).
+   - 💡 MẸO: Lỡ tay sửa nhầm làm hỏng giao diện? Bấm tổ hợp phím Ctrl + Z (hoặc Cmd + Z trên Mac)
+     để quay lại bước trước đó ngay lập tức!
+-->
 <head>
-
+    <!--
+         MỤC 1: PHẦN ĐẦU TÀI LIỆU (Thẻ head) — CÀI ĐẶT TRANG & NẠP FILE CSS
+         📍 Tác dụng: Phần head chứa thông tin cài đặt ngầm cho trình duyệt.
+            Khách vào web không nhìn thấy trực tiếp phần này trên màn hình chính,
+            ngoại trừ dòng <title> hiện ở thanh Tab phía trên cùng của trình duyệt.
+         🛠️ Cách sửa:
+            - Muốn đổi TÊN TAB TRÌNH DUYỆT: Sửa chữ nằm giữa <title> ... </title>.
+            - Muốn đổi MÔ TẢ TRANG (khi chia sẻ link lên Facebook/Zalo): Sửa chữ trong
+              content="..." của thẻ <meta name="description"> và <meta property="og:description">.
+            - ⚠️ KHÔNG XÓA dòng <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="css/bundle.css"> vì đó là file
+              CSS tổng hợp tô màu và dàn trang cho toàn bộ website.
+    -->
       <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="description" content="Ưu đãi AnimeVerse dành cho cộng đồng yêu Anime, Manga và Cosplay.">
   <title>Khuyến mãi | AnimeVerse</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/bundle.css">
     <meta name="theme-color" content="#fff7fb">
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23090912'/%3E%3Ctext x='32' y='46' font-size='40' text-anchor='middle' fill='%23ff4fa3'%3E%E2%9C%A6%3C/text%3E%3C/svg%3E">
     <meta property="og:type" content="website">
@@ -21,7 +81,16 @@
 </head>
 <body>
       <div class="promo-page">
-
+    <!--
+         MỤC 2: DẢI THÔNG BÁO TRÊN CÙNG (.topbar)
+         📍 Vị trí: Thanh ngang nhỏ nằm ở sát mép trên cùng của màn hình.
+         🛠️ Cách sửa:
+            - Mỗi dòng <span>...</span> là một câu thông báo ngắn.
+            - Muốn đổi nội dung thông báo (ví dụ đổi "500.000đ" thành "300.000đ"),
+              bạn chỉ cần sửa chữ tiếng Việt nằm giữa <span> và </span>.
+            - Lưu ý: Khi web chạy, file js/tech.js sẽ tự động gắn thêm dòng chữ chạy
+              và huy hiệu Cấp độ VIP (Tân Binh / Thợ Săn / Trụ Cột / Tứ Hoàng) vào thanh này.
+    -->
     <div class="topbar">
         <div class="container topbar-inner">
             <span>🚚 Freeship đơn từ 500.000đ</span>
@@ -29,7 +98,19 @@
             <span>↩ Đổi trả trong 7 ngày</span>
         </div>
     </div>
-
+    <!--
+         MỤC 3: THANH ĐẦU TRANG (.header) — LOGO, Ô TÌM KIẾM & NÚT CÔNG CỤ
+         📍 Vị trí: Nằm ngay dưới dải thông báo trên cùng, gồm 3 phần xếp ngang:
+            1) Logo thương hiệu "✦ ANIMEVERSE" bên trái (bấm vào sẽ về Trang chủ).
+            2) Ô tìm kiếm sản phẩm ở giữa (gõ tên sản phẩm sẽ tự xổ ra gợi ý có ảnh).
+            3) Cụm nút công cụ bên phải (.header-actions): Giỏ hàng, Hỗ trợ.
+         💡 Điều thú vị: Khi mở trang, file js/tech.js sẽ tự động gắn thêm 5 nút tiện ích
+            nữa vào trong <div class="header-actions"> (gồm: Gacha, So sánh, Đã thích,
+            Chủ đề giao diện, và Nhạc nền).
+         🛠️ Cách sửa:
+            - Đổi tên shop trên Logo: sửa chữ ANIME và VERSE trong thẻ <a class="logo">.
+            - Đổi chữ gợi ý mờ trong ô tìm kiếm: sửa chữ trong placeholder="...".
+    -->
     <header class="header">
         <div class="container header-inner">
             <a class="logo" href="trang-chu.html" aria-label="AnimeVerse - Trang chủ">
@@ -41,13 +122,14 @@
                 <button type="submit" aria-label="Tìm kiếm">⌕</button>
             </form>
             <div class="header-actions">
-
+                <!-- Nút mở Giỏ hàng -->
                 <a class="icon-btn cart-nav" href="gio-hang.html" title="Giỏ hàng" aria-label="Giỏ hàng">
                     🛒
                     <small>Giỏ hàng</small>
                     <span class="cart-badge" hidden>0</span>
                 </a>
-
+                
+                <!-- Nút chuyển sang trang Liên hệ hỗ trợ -->
                 <a class="icon-btn" href="lien-he.html" title="Liên hệ hỗ trợ">
                     🎧
                     <small>Hỗ trợ</small>
@@ -55,7 +137,18 @@
             </div>
         </div>
     </header>
-
+    <!--
+         MỤC 4: THANH MENU ĐIỀU HƯỚNG CHÍNH (Thẻ nav.nav)
+         📍 Vị trí: Thanh menu nằm ngay dưới Header, giúp khách bấm chuyển qua lại
+            giữa 6 trang chính: Trang chủ, Sản phẩm, Tư vấn, Khuyến mãi, Bán chạy, Liên hệ.
+         🔍 Giải thích:
+            - Mỗi thẻ <a href="ten-file.html">Tên Mục</a> là 1 nút trên thanh menu.
+            - Nút nào có thêm chữ class="active" thì nút đó sẽ sáng màu hồng/tím để báo
+              cho khách biết họ đang đứng ở trang đó.
+         🛠️ Cách sửa:
+            - Muốn đổi tên mục trên menu: Sửa chữ tiếng Việt giữa > và </a>.
+            - Muốn đổi trang đích khi bấm vào: Sửa tên file trong href="...".
+                -->
     <nav class="nav" aria-label="Điều hướng chính">
         <div class="container nav-inner">
             <a href="trang-chu.html">Trang chủ</a>
@@ -68,7 +161,18 @@
     </nav>
 
   <main>
-
+    <!--
+         MỤC 5: KHU VỰC MỞ ĐẦU TRANG KHUYẾN MÃI (.hero)
+         📍 Vị trí: Phần sân khấu mở đầu có tiêu đề "Săn deal cực chất" bên trái và
+            nhãn tròn "UP TO 30% OFF" phát sáng bên phải.
+         🛠️ Cách sửa:
+            - Sửa tiêu đề trong <h1>, mô tả trong <p>, hoặc con số phần trăm giảm giá
+              trong <div class="sale-sticker">
+              <small>UP TO</small>
+              <strong>30<em>%</em></strong>
+              <span>OFF</span>
+          </div>.
+    -->
     <section class="hero wrap">
       <div class="hero-copy"><span class="eyebrow"><i></i> ANIMEVERSE SPECIAL DEALS</span>
         <h1>Săn deal cực chất.<br><span>Rước waifu về nhà!</span></h1>
@@ -80,7 +184,7 @@
             <span>✦ Plush & phụ kiện</span>
         </div>
       </div>
-
+      <!-- Khối Ưu Đãi Tối giản Hiện đại (Minimalist Deal Showcase) -->
       <div class="hero-deal-showcase" aria-label="Ưu đãi tiêu biểu">
         <div class="minimal-card minimal-deal-card">
           <div class="minimal-card-header">
@@ -106,6 +210,7 @@
             </div>
           </div>
 
+          <!-- Thẻ sao chép mã voucher tối giản -->
           <div class="minimal-coupon" id="promoCopyCoupon" data-code="WELCOME10" title="Bấm để sao chép mã">
             <div class="minimal-coupon-info">
               <small>MÃ GIẢM GIÁ THÀNH VIÊN</small>
@@ -116,6 +221,7 @@
             </button>
           </div>
 
+          <!-- Dải số liệu khuyến mãi -->
           <div class="minimal-metrics">
             <div class="minimal-metric">
               <strong class="minimal-count" data-count="30" data-suffix="%">30%</strong>
@@ -134,6 +240,11 @@
       </div>
     </section>
 
+    <!--
+         MỤC 6: ĐỒNG HỒ ĐẾM NGƯỢC SỰ KIỆN SALE (.countdown-section)
+         📍 Vị trí: Thanh ngang đếm ngược Ngày - Giờ - Phút - Giây.
+         🛠️ Cách sửa: Đổi thời gian đếm ngược tại biến "remaining" trong đoạn script cuối trang.
+    -->
     <section class="countdown-section">
         <div class="wrap countdown-inner">
             <div>
@@ -154,6 +265,18 @@
         </div>
     </section>
 
+    <!--
+         MỤC 7: DANH SÁCH CÁC DEAL GIẢM GIÁ & NÚT LỌC (#offers)
+         📍 Vị trí: Hiển thị các thẻ ưu đãi (.deal-card) kèm hàng nút lọc danh mục.
+         🛠️ Cách sửa 1 thẻ ưu đãi (thẻ article.deal-card):
+            - <span class="deal-label">HOT DEAL</span> : Nhãn góc trái trên ảnh.
+            - <span class="discount">-18%</span>       : Nhãn phần trăm giảm góc phải.
+            - <img class="deal-photo" src="...">       : Ảnh sản phẩm giảm giá.
+            - <h3>...</h3>                             : Tên sản phẩm.
+            - <p class="deal-desc">...</p>             : Tên bộ Anime / mô tả ngắn.
+            - <strong>Giá mới</strong> <del>Giá cũ</del>: Giá sau giảm và giá gốc.
+            - <a class="deal-cta" href="chi-tiet-X.html">: Link sang trang chi tiết món đồ.
+    -->
     <section class="wrap section" id="offers"><div class="section-heading">
             <div>
                 <span class="eyebrow">DEALS FOR YOU</span>
@@ -171,8 +294,9 @@
         </div>
       <div class="deal-grid">
 
+            <!-- ----- Thẻ Deal giảm giá #1 ----- -->
 <article class="deal-card" data-category="figure">
-
+    <!-- Khung ảnh & nhãn giảm giá -->
     <div class="deal-visual visual-purple has-photo">
         <span class="deal-label">HOT DEAL</span>
         <span class="discount">-18%</span>
@@ -191,8 +315,9 @@
     </div>
 </article>
 
+            <!-- ----- Thẻ Deal giảm giá #2 ----- -->
 <article class="deal-card" data-category="cosplay">
-
+    <!-- Khung ảnh & nhãn giảm giá -->
     <div class="deal-visual visual-pink has-photo">
         <span class="deal-label">HOT DEAL</span>
         <span class="discount">-31%</span>
@@ -211,8 +336,9 @@
     </div>
 </article>
 
+            <!-- ----- Thẻ Deal giảm giá #3 ----- -->
 <article class="deal-card" data-category="cosplay">
-
+    <!-- Khung ảnh & nhãn giảm giá -->
     <div class="deal-visual visual-blue has-photo">
         <span class="deal-label">HOT DEAL</span>
         <span class="discount">-17%</span>
@@ -231,8 +357,9 @@
     </div>
 </article>
 
+            <!-- ----- Thẻ Deal giảm giá #4 ----- -->
 <article class="deal-card" data-category="accessory">
-
+    <!-- Khung ảnh & nhãn giảm giá -->
     <div class="deal-visual visual-orange has-photo">
         <span class="deal-label">HOT DEAL</span>
         <span class="discount">-33%</span>
@@ -251,8 +378,9 @@
     </div>
 </article>
 
+            <!-- ----- Thẻ Deal giảm giá #5 ----- -->
 <article class="deal-card" data-category="plush">
-
+    <!-- Khung ảnh & nhãn giảm giá -->
     <div class="deal-visual visual-green has-photo">
         <span class="deal-label">HOT DEAL</span>
         <span class="discount">-20%</span>
@@ -271,8 +399,9 @@
     </div>
 </article>
 
+            <!-- ----- Thẻ Deal giảm giá #6 ----- -->
 <article class="deal-card" data-category="fashion">
-
+    <!-- Khung ảnh & nhãn giảm giá -->
     <div class="deal-visual visual-lilac has-photo">
         <span class="deal-label">HOT DEAL</span>
         <span class="discount">-17%</span>
@@ -291,8 +420,9 @@
     </div>
 </article>
 
+            <!-- ----- Thẻ Deal giảm giá #7 ----- -->
 <article class="deal-card" data-category="accessory">
-
+    <!-- Khung ảnh & nhãn giảm giá -->
     <div class="deal-visual visual-purple has-photo">
         <span class="deal-label">HOT DEAL</span>
         <span class="discount">-20%</span>
@@ -327,6 +457,9 @@
         </div>
     </section>
 
+    <!--
+         MỤC 9: KHU VỰC 4 LÝ DO YÊU THÍCH ANIMEVERSE (.benefits-section)
+            -->
     <section class="wrap section benefits-section">
         <div class="section-heading centered">
             <div>
@@ -358,7 +491,19 @@
         </div>
     </section>
   </main>
-
+    <!--
+         MỤC CUỐI 1: CHÂN TRANG (Thẻ footer.site-footer)
+         📍 Vị trí: Phần dưới cùng của trang web, chia làm 4 cột thông tin:
+            - Cột 1: Logo và câu giới thiệu ngắn về cửa hàng AnimeVerse.
+            - Cột 2 (Danh mục): Các đường link dẫn tới 6 trang danh mục sản phẩm.
+            - Cột 3 (Khám phá): Các đường link dẫn tới các trang chính.
+            - Cột 4 (Liên hệ): Địa chỉ, Số điện thoại và Email của shop.
+         🛠️ Cách sửa:
+            - Đổi địa chỉ: Sửa chữ sau biểu tượng 📍 (hiện tại là "CUWC").
+            - Đổi số điện thoại: Sửa số trong href="tel:0936271107" VÀ số hiển thị bên ngoài.
+            - Đổi email: Sửa địa chỉ email trong href="mailto:..." VÀ chữ hiển thị bên ngoài.
+            - Đổi dòng bản quyền dưới cùng: Sửa chữ trong <div class="copyright">.
+    -->
   <footer class="site-footer">
         <div class="container footer-grid">
             <div>
@@ -396,10 +541,68 @@
         <div class="copyright">© 2026 AnimeVerse. Made with ♡ for Otaku.</div>
     </footer>
   <div class="toast" id="toast" role="status" aria-live="polite">Đã sao chép mã ưu đãi!</div>
-
-  
+  <!--
+       MỤC PHỤ: ĐOẠN JAVASCRIPT XỬ LÝ LỌC DEAL, COPY MÃ & ĐẾM NGƯỢC
+  -->
+  <script>
+    // Lọc các ưu đãi theo danh mục
+    document.querySelectorAll('.filter').forEach(button => {
+      button.addEventListener('click', () => {
+        document.querySelectorAll('.filter').forEach(item => item.classList.remove('active'));
+        button.classList.add('active');
+        const selected = button.dataset.filter;
+        document.querySelectorAll('.deal-card').forEach(card => {
+          card.hidden = selected !== 'all' && card.dataset.category !== selected;
+        });
+      });
+    });
+    // Sao chép mã ưu đãi
+    const toast = document.getElementById('toast');
+    document.querySelectorAll('.copy-code').forEach(button => {
+      button.addEventListener('click', async () => {
+        const code = button.dataset.code;
+        try {
+          await navigator.clipboard.writeText(code);
+          toast.textContent = `Đã sao chép mã ${code}!`;
+        } catch (error) {
+          toast.textContent = `Mã ưu đãi: ${code}`;
+        }
+        toast.classList.add('show');
+        window.setTimeout(() => toast.classList.remove('show'), 2200);
+      });
+    });
+    // Đồng hồ đếm ngược minh họa: 2 ngày 18 giờ 42 phút
+    let remaining = 2 * 86400 + 18 * 3600 + 42 * 60;
+    function updateTimer() {
+      const days = Math.floor(remaining / 86400);
+      const hours = Math.floor((remaining % 86400) / 3600);
+      const minutes = Math.floor((remaining % 3600) / 60);
+      const seconds = remaining % 60;
+      document.getElementById('days').textContent = String(days).padStart(2, '0');
+      document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+      document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+      document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+      if (remaining > 0) remaining--;
+    }
+    updateTimer();
+    window.setInterval(updateTimer, 1000);
+  </script>
   </div>
-
-    <script src="js/main.js" defer></script>
+        <!--
+         MỤC CUỐI 2: NẠP 3 FILE JAVASCRIPT ("BỘ NÃO" CỦA WEBSITE)
+         📍 Tác dụng: 3 dòng script dưới đây nối trang HTML này với 3 file xử lý
+            thông minh nằm trong thư mục "js/":
+            1) js/site.js    : Quản lý Giỏ hàng, Yêu thích, So sánh, Mã giảm giá, Điểm VIP.
+            2) js/tech.js    : Chứa dữ liệu 50 sản phẩm, Đổi 4 giao diện, Vòng quay Gacha,
+                               AI chọn Size, Quiz, Tìm kiếm gợi ý, Đánh giá 5 sao, Chatbot AV-Bot.
+            3) js/upgrade.js : Giữ cho nhạc nền phát liên tục không bị ngắt khi chuyển trang
+                               và tối ưu nút bấm trên điện thoại.
+         ⚠️ LƯU Ý QUAN TRỌNG: TUYỆT ĐỐI KHÔNG XÓA 3 dòng script này, nếu xóa web sẽ
+            mất giỏ hàng, mất nhạc và các nút bấm không hoạt động!
+        -->
+    <script src="js/site.js" defer></script>
+    <script src="js/tech.js" defer></script>
+    <script src="js/upgrade.js" defer></script>
+    <script src="js/motion.js" defer></script>
 </body>
 </html>

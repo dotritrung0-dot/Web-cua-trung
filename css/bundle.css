@@ -1,31 +1,3 @@
-/* ==========================================================================
-   ANIMEVESERSE - GIAO DIỆN CHUẨN MINIMALIST SAKURA (TRẮNG HỒNG ANH ĐÀO)
-   Tông màu: Nền trắng hồng (#fff7fb), Chữ tím đậm (#24142c), Điểm nhấn (#be185d)
-   Mã nguồn tối ưu trực tiếp màu sắc, không dùng biến CSS theo yêu cầu.
-   ========================================================================== */
-
-/* --- MOBILE POLISH & HIỂN THỊ TỐI ƯU --- */
-html, body {
-    background: radial-gradient(circle at 85% 10%, rgba(255, 130, 190, 0.25) 0, transparent 32%), #fff7fb !important;
-    color: #24142c !important;
-    overflow-x: hidden !important;
-    max-width: 100vw !important;
-}
-
-input, select, textarea {
-    color: #24142c !important;
-    background-color: #ffffff !important;
-    border-color: #f2d0e2 !important;
-}
-
-input::placeholder, textarea::placeholder {
-    color: #9d81a8 !important;
-}
-
-a {
-    color: inherit;
-}
-
 @import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&display=swap');
 
 /* ============================================================================
@@ -96,8 +68,8 @@ a {
    MỤC 1: BIẾN MÀU SẮC & KÍCH THƯỚC TOÀN CỤC (:root)
    📍 Tác dụng: Khai báo bảng màu dùng chung cho tất cả các trang.
    🛠️ CÁCH SỬA MÀU TOÀN WEBSITE:
-      - --bg         : Màu nền tối chính của trang (#24142c).
-      - --panel      : Màu nền của các tấm thẻ sản phẩm, hộp thông tin (#ffffff).
+      - --bg         : Màu nền tối chính của trang (#090912).
+      - --panel      : Màu nền của các tấm thẻ sản phẩm, hộp thông tin (#121220).
       - --text       : Màu chữ chính (#f7f5ff - trắng ánh tím nhạt).
       - --muted      : Màu chữ phụ / chữ mờ (#a7a4b8).
       - --pink       : Màu điểm nhấn Hồng Neon chủ đạo (#ff4fa3).
@@ -107,7 +79,24 @@ a {
       💡 Lưu ý: File css/upgrade.css ở cuối cũng có bảng :root nâng cấp màu sắc.
          Nếu muốn đổi màu mặc định, bạn sửa ở cả đây và đầu file css/upgrade.css nhé!
    ============================================================================ */
-
+:root {
+    /* ---- MÀU NỀN CHỦ ĐẠO: SAKURA PASTEL (TRẮNG HỒNG ANH ĐÀO) ---- */
+    --bg: #ffffff;                 /* nền chính của mọi trang */
+    --bg-deep: #fff0f7;            /* thanh thông báo + thanh menu (hồng phấn nhẹ) */
+    --bg-footer: #fce7f3;          /* chân trang */
+    /* Vệt sáng hồng phấn ở góc phải phía trên */
+    --page-bg: radial-gradient(circle at 85% 10%, rgba(255, 130, 190, 0.25) 0, transparent 32%), #ffffff;
+    --panel: #ffffff;
+    --panel-light: #fdf2f8;
+    --text: #24142c;
+    --muted: #6e5578;
+    --pink: #be185d;
+    --pink-glow: rgba(190, 24, 93, 0.25);
+    --purple: #9333ea;
+    --purple-glow: rgba(147, 51, 234, 0.25);
+    --line: #f2d0e2;
+    --max-width: 1500px;
+}
 
 * {
     box-sizing: border-box;
@@ -119,10 +108,10 @@ html {
 
 body {
     margin: 0;
-    background: radial-gradient(circle at 85% 10%, rgba(255, 130, 190, 0.25) 0, transparent 32%), #fff7fb;
+    background: var(--page-bg);
     background-attachment: fixed;   /* vệt sáng đứng yên, trang dài hay ngắn đều giống nhau */
     min-height: 100vh;
-    color: #24142c;
+    color: var(--text);
     font-family: 'Be Vietnam Pro', Arial, sans-serif;
     line-height: 1.6;
     overflow-x: hidden;
@@ -145,7 +134,7 @@ button, input, textarea, select {
 /* Viền focus khi dùng bàn phím (phím Tab).
    Trước đây outline bị tắt hết nên người dùng bàn phím không biết đang đứng ở đâu */
 :focus-visible {
-    outline: 2px solid #be185d;
+    outline: 2px solid var(--pink);
     outline-offset: 3px;
     border-radius: 6px;  /* Độ bo tròn góc khung */
 }
@@ -175,7 +164,7 @@ a {
 }
 
 .container {
-    width: min(1500px, calc(100% - 40px));
+    width: min(var(--max-width), calc(100% - 40px));
     margin: 0 auto;
 }
 
@@ -185,22 +174,22 @@ a {
 }
 
 ::-webkit-scrollbar-track {
-    background: #fff7fb;
+    background: var(--bg);
 }
 
 ::-webkit-scrollbar-thumb {
-    background: linear-gradient(#9333ea, #be185d);
+    background: linear-gradient(var(--purple), var(--pink));
     border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #be185d;
+    background: var(--pink);
 }
 
 
 /* Bôi đen chữ */
 ::selection {
-    background: #be185d;
+    background: var(--pink);
     color: #fff;
 }
 
@@ -213,8 +202,8 @@ a {
       - Đổi khoảng cách trên/dưới của thanh: Sửa padding trong .topbar-inner.
    ============================================================================ */
 .topbar {
-    background: #fceef5;
-    border-bottom: 1px solid #f2d0e2;
+    background: var(--bg-deep);
+    border-bottom: 1px solid var(--line);
     color: #c9c5d8;
     font-size: 12px;
 }
@@ -246,7 +235,7 @@ a {
     background: rgba(9, 9, 18, 0.7);
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
-    border-bottom: 1px solid #f2d0e2;
+    border-bottom: 1px solid var(--line);
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
 }
 
@@ -262,11 +251,11 @@ a {
     font-weight: 800;
     letter-spacing: 0.5px;
     white-space: nowrap;
-    text-shadow: 0 0 10px rgba(190, 24, 93, 0.25);
+    text-shadow: 0 0 10px var(--pink-glow);
 }
 
 .logo span {
-    color: #be185d;
+    color: var(--pink);
 }
 
 .search {
@@ -276,15 +265,15 @@ a {
     max-width: 620px;
     margin: auto;
     overflow: hidden;
-    border: 1px solid #f2d0e2;
+    border: 1px solid var(--line);
     border-radius: 12px;  /* Độ bo tròn góc khung */
-    background: #ffffff;
+    background: var(--panel);
     transition: 0.3s;
 }
 
 .search:focus-within {
-    border-color: #be185d;
-    box-shadow: 0 0 15px rgba(190, 24, 93, 0.25);
+    border-color: var(--pink);
+    box-shadow: 0 0 15px var(--pink-glow);
 }
 
 .search input {
@@ -292,7 +281,7 @@ a {
     padding: 0 16px;
     border: 0;
     background: transparent;
-    color: #24142c;
+    color: #fff;
 }
 
 .search input::placeholder {
@@ -303,7 +292,7 @@ a {
 .search button {
     width: 56px;
     border: 0;
-    background: linear-gradient(135deg, #9333ea, #be185d);
+    background: linear-gradient(135deg, var(--purple), var(--pink));
     color: #fff;
     font-size: 24px;
     transition: 0.3s;
@@ -329,13 +318,13 @@ a {
 }
 
 .icon-btn:hover, .cart-btn:hover {
-    color: #be185d;
+    color: var(--pink);
 }
 
 
 .icon-btn small {
     display: block;
-    color: #6e5578;
+    color: var(--muted);
     font-size: 10px;
 }
 
@@ -354,9 +343,9 @@ a {
     display: grid;
     place-items: center;
     border-radius: 50%;
-    background: #be185d;
+    background: var(--pink);
     font-size: 10px;
-    box-shadow: 0 0 10px #be185d;
+    box-shadow: 0 0 10px var(--pink);
 }
 
 /* ============================================================================
@@ -370,8 +359,8 @@ a {
       - Đổi khoảng cách giữa các mục menu: Sửa gap trong .nav-inner hoặc padding trong .nav a.
    ============================================================================ */
 .nav {
-    background: #fceef5;
-    border-bottom: 1px solid #f2d0e2;
+    background: var(--bg-deep);
+    border-bottom: 1px solid var(--line);
 }
 
 .nav-inner {
@@ -399,14 +388,14 @@ a {
     left: 0;
     width: 0%;
     height: 2px;
-    background: #be185d;
+    background: var(--pink);
     transition: 0.3s ease;
-    box-shadow: 0 0 8px #be185d;
+    box-shadow: 0 0 8px var(--pink);
 }
 
 .nav a:hover, .nav a.active {
-    color: #be185d;
-    text-shadow: 0 0 8px rgba(190, 24, 93, 0.25);
+    color: var(--pink);
+    text-shadow: 0 0 8px var(--pink-glow);
 }
 
 .nav a:hover::after, .nav a.active::after {
@@ -443,24 +432,24 @@ a {
 }
 
 .btn.primary {
-    background: linear-gradient(135deg, #9333ea, #be185d);
+    background: linear-gradient(135deg, var(--purple), var(--pink));
     color: #fff;
     box-shadow: 0 12px 30px rgba(255, 79, 163, 0.2);
 }
 
 .btn.primary:hover {
-    box-shadow: 0 15px 35px rgba(190, 24, 93, 0.25);
+    box-shadow: 0 15px 35px var(--pink-glow);
 }
 
 .btn.ghost {
-    border: 1px solid #f2d0e2;
+    border: 1px solid var(--line);
     background: #ffffff06;
 }
 
 .btn.ghost:hover {
-    border-color: #be185d;
-    color: #be185d;
-    box-shadow: inset 0 0 15px rgba(190, 24, 93, 0.25);
+    border-color: var(--pink);
+    color: var(--pink);
+    box-shadow: inset 0 0 15px var(--pink-glow);
 }
 
 .btn.light {
@@ -497,7 +486,7 @@ a {
 
 .eyebrow {
     margin: 0 0 10px;
-    color: #be185d;
+    color: var(--pink);
     font-size: 11px;
     font-weight: 800;
     letter-spacing: 2px;
@@ -512,7 +501,7 @@ a {
 
 
 .hero h1 strong {
-    background: linear-gradient(90deg, #fff, #be185d);
+    background: linear-gradient(90deg, #fff, var(--pink));
     color: transparent;
     -webkit-background-clip: text;
     background-clip: text;
@@ -520,7 +509,7 @@ a {
 
 .hero-copy > p:not(.eyebrow) {
     max-width: 570px;
-    color: #6e5578;
+    color: var(--muted);
     font-size: 15px;
 }
 
@@ -541,12 +530,12 @@ a {
 .hero-stats span {
     display: flex;
     flex-direction: column;
-    color: #6e5578;
+    color: var(--muted);
     font-size: 11px;
 }
 
 .hero-stats b {
-    color: #24142c;
+    color: #fff;
     font-size: 18px;
 }
 
@@ -591,7 +580,7 @@ a {
     justify-content: center;
     border: 1px solid #ffffff18;
     border-radius: 22px;
-    background: #ffffff;
+    background: linear-gradient(145deg, #22173c, #0f1020);
     box-shadow: 0 25px 70px #0009;
     transform: rotate(7deg);
     transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -599,7 +588,7 @@ a {
 
 .anime-card:hover {
     transform: rotate(0deg) scale(1.05);
-    box-shadow: 0 25px 70px rgba(190, 24, 93, 0.25);
+    box-shadow: 0 25px 70px var(--pink-glow);
 }
 
 .anime-card span {
@@ -608,7 +597,7 @@ a {
 }
 
 .anime-card small {
-    color: #be185d;
+    color: var(--pink);
     font-weight: 800;
     letter-spacing: 3px;
 }
@@ -663,7 +652,7 @@ a {
 }
 
 .section-head > a {
-    color: #be185d;
+    color: var(--pink);
     font-size: 12px;
     font-weight: 700;
 }
@@ -677,17 +666,17 @@ a {
 
 .category {
     padding: 18px 12px;
-    border: 1px solid #f2d0e2;
+    border: 1px solid var(--line);
     border-radius: 14px;
-    background: #ffffff;
+    background: linear-gradient(145deg, var(--panel), #0f0f19);
     text-align: center;
     transition: 0.3s;
 }
 
 .category:hover {
     transform: translateY(-8px);
-    border-color: #be185d;
-    box-shadow: 0 10px 20px rgba(190, 24, 93, 0.25);
+    border-color: var(--pink);
+    box-shadow: 0 10px 20px var(--pink-glow);
 }
 
 .category span {
@@ -707,12 +696,12 @@ a {
 
 .category b {
     font-size: 13px;
-    color: #24142c;
+    color: #fff;
 }
 
 .category small {
     margin-top: 2px;
-    color: #6e5578;
+    color: var(--muted);
     font-size: 10px;
 }
 
@@ -726,19 +715,19 @@ a {
 
 .filter {
     padding: 7px 12px;
-    border: 1px solid #f2d0e2;
+    border: 1px solid var(--line);
     border-radius: 20px;  /* Độ bo tròn góc khung */
-    background: #ffffff;
-    color: #6e5578;
+    background: var(--panel);
+    color: var(--muted);
     font-size: 11px;
     transition: 0.2s;
 }
 
 .filter:hover, .filter.active {
-    border-color: #9333ea;
-    background: #9333ea;
+    border-color: var(--purple);
+    background: var(--purple);
     color: #fff;
-    box-shadow: 0 0 10px rgba(147, 51, 234, 0.25);
+    box-shadow: 0 0 10px var(--purple-glow);
 }
 
 /* ============================================================================
@@ -765,9 +754,9 @@ a {
 
 .product-card {
     overflow: hidden;
-    border: 1px solid #f2d0e2;
+    border: 1px solid var(--line);
     border-radius: 15px;
-    background: #ffffff;
+    background: var(--panel);
     transition: 0.3s ease-in-out;
     display: flex;
     flex-direction: column;
@@ -775,15 +764,15 @@ a {
 
 .product-card:hover {
     transform: translateY(-8px);
-    border-color: #be185d;
-    box-shadow: 0 15px 30px rgba(190, 24, 93, 0.25);
+    border-color: var(--pink);
+    box-shadow: 0 15px 30px var(--pink-glow);
 }
 
 .product-image {
     height: 260px;
     position: relative;
     overflow: hidden;
-    background: #fdf2f8;
+    background: radial-gradient(circle at 50% 35%, #352052, #171727);
 }
 
 .product-image img {
@@ -805,7 +794,7 @@ a {
     left: 11px;
     padding: 4px 8px;
     border-radius: 5px;
-    background: #be185d;
+    background: var(--pink);
     font-size: 11.5px;
     font-weight: 800;
     letter-spacing: 0.02em;
@@ -820,16 +809,16 @@ a {
     height: 34px;
     border: 1px solid #ffffff22;
     border-radius: 50%;
-    background: #ffffff;
-    color: #24142c;
+    background: #090912aa;
+    color: #fff;
     font-size: 20px;
     transition: 0.3s;
 }
 
 .heart:hover, .heart.liked {
-    color: #be185d;
+    color: var(--pink);
     transform: scale(1.2);
-    text-shadow: 0 0 10px #be185d;
+    text-shadow: 0 0 10px var(--pink);
 }
 
 
@@ -851,7 +840,7 @@ a {
     margin: 4px 0 7px;
     font-size: 14px;  /* Cỡ chữ lớn hay nhỏ */
     line-height: 1.4;
-    color: #24142c;
+    color: #fff;
 }
 
 .rating {
@@ -860,7 +849,7 @@ a {
 }
 
 .rating span {
-    color: #6e5578;
+    color: var(--muted);
 }
 
 
@@ -898,16 +887,16 @@ a {
 
 .add:hover {
     border-color: transparent;
-    background-color: #be185d;
-    background-image: linear-gradient(90deg, #9333ea, #be185d);
+    background-color: var(--pink);
+    background-image: linear-gradient(90deg, var(--purple), var(--pink));
     color: #ffffff;
-    box-shadow: 0 4px 15px rgba(190, 24, 93, 0.25);
+    box-shadow: 0 4px 15px var(--pink-glow);
 }
 
 .empty {
     display: none;
     padding: 35px;
-    color: #6e5578;
+    color: var(--muted);
     text-align: center;
 }
 
@@ -941,7 +930,7 @@ a {
 .sale h2 {
     margin: 0 0 5px;
     font-size: 28px;  /* Cỡ chữ lớn hay nhỏ */
-    color: #24142c;
+    color: #fff;
 }
 
 .sale p {
@@ -968,24 +957,24 @@ a {
     padding: 7px;
     border: 1px solid #ffffff15;
     border-radius: 8px;
-    background: #ffffffaa;
+    background: #0d0c16aa;
     text-align: center;
 }
 
 .countdown b {
     display: block;
     font-size: 20px;
-    color: #24142c;
+    color: #fff;
 }
 
 .countdown small {
     display: block;
-    color: #6e5578;
+    color: var(--muted);
     font-size: 8px;  /* Cỡ chữ lớn hay nhỏ */
 }
 
 .countdown i {
-    color: #be185d;
+    color: var(--pink);
     font-style: normal;
 }
 
@@ -1004,16 +993,16 @@ a {
 
 .benefits > div {
     padding: 22px;
-    border: 1px solid #f2d0e2;
+    border: 1px solid var(--line);
     border-radius: 14px;
-    background: #ffffff;
+    background: var(--panel);
     transition: 0.3s;
 }
 
 .benefits > div:hover {
     transform: translateY(-5px);
-    border-color: #be185d;
-    box-shadow: 0 10px 20px rgba(190, 24, 93, 0.25);
+    border-color: var(--pink);
+    box-shadow: 0 10px 20px var(--pink-glow);
 }
 
 .benefits span {
@@ -1023,12 +1012,12 @@ a {
 .benefits h3 {
     margin: 10px 0 3px;
     font-size: 14px;
-    color: #24142c;
+    color: #fff;
 }
 
 .benefits p {
     margin: 0;
-    color: #6e5578;
+    color: var(--muted);
     font-size: 11px;  /* Cỡ chữ lớn hay nhỏ */
 }
 
@@ -1042,8 +1031,8 @@ a {
    ============================================================================ */
 footer {
     padding-top: 48px;
-    border-top: 1px solid #f2d0e2;
-    background: #f7e2ed;
+    border-top: 1px solid var(--line);
+    background: var(--bg-footer);
 }
 
 .footer-grid {
@@ -1054,25 +1043,25 @@ footer {
 }
 
 .footer-grid p {
-    color: #6e5578;
+    color: var(--muted);
     font-size: 12px;
 }
 
 .footer-grid h4 {
     margin: 0 0 14px;
     font-size: 13px;
-    color: #24142c;
+    color: #fff;
 }
 
 .footer-grid a:not(.logo) {
     display: block;
     margin: 8px 0;
-    color: #6e5578;
+    color: var(--muted);
     font-size: 11px;
 }
 
 .footer-grid a:hover {
-    color: #be185d;
+    color: var(--pink);
     padding-left: 5px;
 }
 
@@ -1086,7 +1075,7 @@ footer {
 
 .copyright {
     padding: 18px;
-    border-top: 1px solid #f2d0e2;
+    border-top: 1px solid var(--line);
     color: #666;
     font-size: 10px;
     text-align: center;
@@ -1107,8 +1096,8 @@ footer {
     z-index: 60;
     display: flex;
     flex-direction: column;
-    border-left: 1px solid #f2d0e2;
-    background: #ffffff;
+    border-left: 1px solid var(--line);
+    background: #11111d;
     transition: 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
@@ -1122,13 +1111,13 @@ footer {
     align-items: center;
     justify-content: space-between;
     padding: 22px;
-    border-bottom: 1px solid #f2d0e2;
+    border-bottom: 1px solid var(--line);
 }
 
 .cart-head h2 {
     margin: 0;
     font-size: 20px;
-    color: #24142c;
+    color: #fff;
 }
 
 .cart-head button {
@@ -1140,7 +1129,7 @@ footer {
 }
 
 .cart-head button:hover {
-    color: #be185d;
+    color: var(--pink);
     transform: rotate(90deg);
 }
 
@@ -1153,7 +1142,7 @@ footer {
 
 .cart-empty {
     padding: 50px 0;
-    color: #6e5578;
+    color: var(--muted);
     text-align: center;
 }
 
@@ -1162,7 +1151,7 @@ footer {
     align-items: center;
     gap: 10px;
     padding: 13px 0;
-    border-bottom: 1px solid #f2d0e2;
+    border-bottom: 1px solid var(--line);
 }
 
 .mini {
@@ -1181,7 +1170,7 @@ footer {
 .cart-item b {
     display: block;
     font-size: 11px;
-    color: #24142c;
+    color: #fff;
 }
 
 .cart-item small {
@@ -1201,15 +1190,15 @@ footer {
 .quantity button {
     width: 23px;
     height: 23px;
-    border: 1px solid #f2d0e2;
+    border: 1px solid var(--line);
     border-radius: 5px;  /* Độ bo tròn góc khung */
-    background: #ffffff;
+    background: var(--panel);
     color: #fff;
 }
 
 .quantity button:hover {
-    background: #be185d;
-    border-color: #be185d;
+    background: var(--pink);
+    border-color: var(--pink);
 }
 
 .quantity span {
@@ -1234,7 +1223,7 @@ footer {
 
 .cart-footer {
     padding: 20px;
-    border-top: 1px solid #f2d0e2;
+    border-top: 1px solid var(--line);
 }
 
 .cart-footer > div {
@@ -1287,31 +1276,31 @@ footer {
 .page-header {
     text-align: center;
     padding: 60px 0 40px;
-    border-bottom: 1px solid #f2d0e2;
+    border-bottom: 1px solid var(--line);
     background: linear-gradient(180deg, rgba(255, 79, 163, 0.05) 0%, transparent 100%);
 }
 
 .page-header h1 {
     font-size: 38px;  /* Cỡ chữ lớn hay nhỏ */
-    color: #be185d;
+    color: var(--pink);
     margin-bottom: 10px;
-    text-shadow: 0 0 20px rgba(190, 24, 93, 0.25);
+    text-shadow: 0 0 20px var(--pink-glow);
 }
 
 .page-header p {
-    color: #6e5578;
+    color: var(--muted);
     font-size: 15px;
 }
 
 
 .breadcrumb {
     padding: 20px 0;
-    color: #6e5578;
+    color: var(--muted);
     font-size: 13px;
 }
 
 .breadcrumb a {
-    color: #be185d;
+    color: var(--pink);
     font-weight: 600;
 }
 
@@ -1333,7 +1322,7 @@ footer {
     height: 500px;
     border-radius: 15px;
     object-fit: cover;
-    border: 1px solid #f2d0e2;
+    border: 1px solid var(--line);
     margin-bottom: 15px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.5);
 }
@@ -1342,7 +1331,7 @@ footer {
     font-size: 32px;  /* Cỡ chữ lớn hay nhỏ */
     margin: 0 0 10px;
     line-height: 1.3;
-    color: #24142c;
+    color: #fff;
 }
 
 .pro-price {
@@ -1356,12 +1345,12 @@ footer {
     padding: 15px 20px;
     border-radius: 12px;  /* Độ bo tròn góc khung */
     margin-bottom: 25px;
-    border-left: 4px solid #be185d;
+    border-left: 4px solid var(--pink);
 }
 
 .pro-price del {
     font-size: 18px;  /* Cỡ chữ lớn hay nhỏ */
-    color: #6e5578;
+    color: var(--muted);
     font-weight: normal;
 }
 
@@ -1373,13 +1362,13 @@ footer {
 .variant-group h4 {
     margin: 0 0 10px;
     font-size: 14px;
-    color: #24142c;
+    color: #fff;
 }
 
 .size-btn {
-    background: #ffffff;
-    border: 1px solid #f2d0e2;
-    color: #6e5578;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    color: var(--muted);
     padding: 10px 20px;
     border-radius: 8px;
     margin-right: 10px;
@@ -1388,9 +1377,9 @@ footer {
 
 .size-btn:hover, .size-btn.selected {
     background: rgba(139, 92, 246, 0.2);
-    border-color: #be185d;
+    border-color: var(--pink);
     color: #fff;
-    box-shadow: 0 0 15px rgba(190, 24, 93, 0.25);
+    box-shadow: 0 0 15px var(--pink-glow);
 }
 
 .action-group {
@@ -1401,7 +1390,7 @@ footer {
 
 .btn-buy-now {
     flex: 1;
-    background: linear-gradient(135deg, #ff2a8c, #be185d);
+    background: linear-gradient(135deg, #ff2a8c, var(--pink));
     color: white;
     border: none;
     padding: 15px;
@@ -1409,7 +1398,7 @@ footer {
     font-weight: 700;
     font-size: 16px;
     transition: 0.3s;
-    box-shadow: 0 8px 20px rgba(190, 24, 93, 0.25);
+    box-shadow: 0 8px 20px var(--pink-glow);
 }
 
 .btn-buy-now:hover {
@@ -1420,8 +1409,8 @@ footer {
 
 /* Khung bài viết mô tả, Blog tư vấn */
 .pro-details-section {
-    background: #ffffff;
-    border: 1px solid #f2d0e2;
+    background: var(--panel);
+    border: 1px solid var(--line);
     border-radius: 15px;  /* Độ bo tròn góc khung */
     padding: 40px;
     margin-bottom: 60px;
@@ -1430,9 +1419,9 @@ footer {
 }
 
 .pro-details-section h2, .pro-details-section h3 {
-    color: #be185d;
+    color: var(--pink);
     font-size: 24px;
-    border-bottom: 1px solid #f2d0e2;
+    border-bottom: 1px solid var(--line);
     padding-bottom: 10px;
     margin-bottom: 20px;
     margin-top: 25px;
@@ -1440,7 +1429,7 @@ footer {
 
 .pro-details-section ul {
     padding-left: 20px;
-    color: #6e5578;
+    color: var(--muted);
 }
 
 .pro-details-section li {
@@ -1454,7 +1443,7 @@ footer {
 .form-group label {
     display: block;
     margin-bottom: 8px;
-    color: #6e5578;
+    color: var(--muted);
     font-size: 14px;
 }
 
@@ -1462,16 +1451,16 @@ footer {
     width: 100%;
     padding: 15px;
     border-radius: 8px;
-    border: 1px solid #f2d0e2;
-    background: #fdf2f8;
-    color: #24142c;
+    border: 1px solid var(--line);
+    background: var(--panel-light);
+    color: white;
     outline: none;
     transition: 0.3s;
 }
 
 .form-group input:focus, .form-group textarea:focus {
-    border-color: #be185d;
-    box-shadow: 0 0 15px rgba(190, 24, 93, 0.25);
+    border-color: var(--pink);
+    box-shadow: 0 0 15px var(--pink-glow);
 }
 
 
@@ -1582,7 +1571,7 @@ footer {
 /* Mobile */
 @media (max-width: 600px) {
     .container {
-        width: min(calc(100% - 24px), 1500px);
+        width: min(calc(100% - 24px), var(--max-width));
     }
 
     .topbar-inner span:nth-child(2), .topbar-inner span:nth-child(3), .nav {
@@ -1754,7 +1743,7 @@ footer {
 .promo-page {
     margin: 0;
     /* nền do <body> đảm nhiệm, tránh chồng thêm một lớp nền khác */
-    color: #24142c;
+    color: var(--text);
     font-family: 'Be Vietnam Pro',Arial,sans-serif;
     font-size: 14px;
     line-height: 1.65;
@@ -1776,8 +1765,8 @@ footer {
 }
 
 .promo-page .topbar {
-    background: #fceef5;
-    border-bottom: 1px solid #f2d0e2;
+    background: var(--bg-deep);
+    border-bottom: 1px solid var(--line);
     color: #d7d1e8;
     font-size: 11px;
 }
@@ -1790,7 +1779,7 @@ footer {
 }
 
 .promo-page .header {
-    border-bottom: 1px solid #f2d0e2;
+    border-bottom: 1px solid var(--line);
     background: rgba(9, 9, 18, 0.7);
 }
 
@@ -1810,15 +1799,15 @@ footer {
 }
 
 .promo-page .logo>span:first-child {
-    color: #be185d;
+    color: var(--pink);
 }
 
 .promo-page .logo>span:last-child {
-    color: #be185d;
+    color: var(--pink);
 }
 
 .promo-page .header-note {
-    color: #6e5578;
+    color: var(--muted);
     font-size: 12px;
 }
 
@@ -1833,17 +1822,17 @@ footer {
 
 .promo-page .cart-link:hover {
     background: #a78bfa1c;
-    border-color: #9333ea;
+    border-color: var(--purple);
 }
 
 .promo-page .cart-link span {
-    color: #be185d;
+    color: var(--pink);
     margin-left: 8px;
 }
 
 .promo-page .nav {
-    border-bottom: 1px solid #f2d0e2;
-    background: #fceef5;
+    border-bottom: 1px solid var(--line);
+    background: var(--bg-deep);
 }
 
 .promo-page .nav-inner {
@@ -1854,7 +1843,7 @@ footer {
 
 .promo-page .nav a {
     padding: 14px 17px;
-    color: #6e5578;
+    color: var(--muted);
     font-size: 12px;
     white-space: nowrap;
     border-bottom: 2px solid transparent;
@@ -1862,7 +1851,7 @@ footer {
 
 .promo-page .nav a:hover, .promo-page .nav a.active {
     color: white;
-    border-color: #be185d;
+    border-color: var(--pink);
 }
 
 .promo-page .hero {
@@ -1878,7 +1867,7 @@ footer {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    color: #be185d;
+    color: var(--pink);
     font-size: 10px;
     font-weight: 800;
     letter-spacing: 2px;
@@ -1888,8 +1877,8 @@ footer {
     width: 7px;
     height: 7px;
     border-radius: 50%;
-    background: #be185d;
-    box-shadow: 0 0 12px #be185d;
+    background: var(--pink);
+    box-shadow: 0 0 12px var(--pink);
 }
 
 .promo-page h1, .promo-page h2, .promo-page h3, .promo-page p {
@@ -1912,7 +1901,7 @@ footer {
 
 .promo-page .hero-copy>p {
     max-width: 530px;
-    color: #6e5578;
+    color: var(--muted);
     font-size: 14px;
     line-height: 1.9;
 }
@@ -1949,7 +1938,7 @@ footer {
 }
 
 .promo-page .hero-tags span {
-    border: 1px solid #f2d0e2;
+    border: 1px solid var(--line);
     background: #ffffff05;
     border-radius: 30px;
     padding: 7px 11px;
@@ -1963,8 +1952,8 @@ footer {
     overflow: hidden;
     border: 1px solid #ffffff20;
     border-radius: 30px;
-    background: #fdf2f8;
-    box-shadow: #fff7fb;
+    background: radial-gradient(ellipse at 55% 45%,#753c8c 0%,#33204d 37%,#151427 75%);
+    box-shadow: var(--shadow);
 }
 
 .promo-page .hero-art:before, .promo-page .hero-art:after {
@@ -2078,7 +2067,7 @@ footer {
     position: absolute;
     color: #fff;
     font-size: 28px;  /* Cỡ chữ lớn hay nhỏ */
-    text-shadow: 0 0 16px #be185d;
+    text-shadow: 0 0 16px var(--pink);
 }
 
 .promo-page .spark-one {
@@ -2182,7 +2171,7 @@ footer {
 }
 
 .promo-page .section-heading p {
-    color: #6e5578;
+    color: var(--muted);
     font-size: 12px;
     margin: 0;
 }
@@ -2196,9 +2185,9 @@ footer {
 
 .promo-page .filter {
     padding: 8px 13px;
-    color: #6e5578;
+    color: var(--muted);
     background: #151522;
-    border: 1px solid #f2d0e2;
+    border: 1px solid var(--line);
     border-radius: 30px;
     font-size: 10px;
     transition: .2s;
@@ -2207,7 +2196,7 @@ footer {
 .promo-page .filter:hover, .promo-page .filter.active {
     background: #ff58b41c;
     color: #fff;
-    border-color: #be185d;
+    border-color: var(--pink);
     box-shadow: 0 0 18px #ff58b41c;
 }
 
@@ -2219,8 +2208,8 @@ footer {
 
 .promo-page .deal-card {
     overflow: hidden;
-    background: #ffffff;
-    border: 1px solid #f2d0e2;
+    background: linear-gradient(150deg,#171726,#10101a);
+    border: 1px solid var(--line);
     border-radius: 18px;
     transition: transform .3s,border-color .3s,box-shadow .3s;
 }
@@ -2261,27 +2250,27 @@ footer {
 }
 
 .promo-page .visual-purple {
-    background: #fdf2f8;
+    background: radial-gradient(circle,#54377e,#241a3a 65%,#191525);
 }
 
 .promo-page .visual-pink {
-    background: #fdf2f8;
+    background: radial-gradient(circle,#85345f,#3a1b3d 65%,#191525);
 }
 
 .promo-page .visual-blue {
-    background: #fdf2f8;
+    background: radial-gradient(circle,#315e82,#1b2846 65%,#191525);
 }
 
 .promo-page .visual-orange {
-    background: #fdf2f8;
+    background: radial-gradient(circle,#945332,#42243c 65%,#191525);
 }
 
 .promo-page .visual-green {
-    background: #fdf2f8;
+    background: radial-gradient(circle,#376d64,#1d3340 65%,#191525);
 }
 
 .promo-page .visual-lilac {
-    background: #fdf2f8;
+    background: radial-gradient(circle,#7358a0,#302345 65%,#191525);
 }
 
 .promo-page .deal-label, .promo-page .discount, .promo-page .product-emoji, .promo-page .deal-visual small {
@@ -2292,7 +2281,7 @@ footer {
 .promo-page .deal-label {
     top: 13px;
     left: 13px;
-    background: #fdf2f8aa;
+    background: #0a0919aa;
     border: 1px solid #ffffff25;
     border-radius: 6px;
     padding: 5px 8px;
@@ -2304,7 +2293,7 @@ footer {
 .promo-page .discount {
     right: 13px;
     top: 13px;
-    background: #be185d;
+    background: var(--pink);
     color: #fff;
     font-size: 11px;
     font-weight: 900;
@@ -2335,7 +2324,7 @@ footer {
 }
 
 .promo-page .category {
-    color: #9333ea;
+    color: var(--purple);
     font-size: 9px;
     font-weight: 800;
     letter-spacing: 1.4px;
@@ -2348,7 +2337,7 @@ footer {
 
 .promo-page .deal-desc {
     font-size: 11px;
-    color: #6e5578;
+    color: var(--muted);
     margin-bottom: 15px;
 }
 
@@ -2378,11 +2367,11 @@ footer {
     border-top: 1px dashed #ffffff25;
     border-bottom: 1px dashed #ffffff25;
     font-size: 10px;
-    color: #6e5578;
+    color: var(--muted);
 }
 
 .promo-page .coupon-row b {
-    color: #24142c;
+    color: #fff;
     letter-spacing: 1px;
 }
 
@@ -2400,7 +2389,7 @@ footer {
 
 .promo-page .copy-code:hover {
     background: #a78bfa35;
-    border-color: #9333ea;
+    border-color: var(--purple);
 }
 
 .promo-page .deal-cta {
@@ -2414,7 +2403,7 @@ footer {
 }
 
 .promo-page .deal-cta span {
-    color: #be185d;
+    color: var(--pink);
     font-size: 17px;  /* Cỡ chữ lớn hay nhỏ */
 }
 
@@ -2436,7 +2425,7 @@ footer {
     border: 1px solid #a78bfa44;
     border-radius: 22px;
     background: radial-gradient(ellipse at 10% 50%,#5c347a77,transparent 45%),linear-gradient(110deg,#211a35,#181526);
-    box-shadow: #fff7fb;
+    box-shadow: var(--shadow);
 }
 
 .promo-page .coupon-icon {
@@ -2460,7 +2449,7 @@ footer {
 }
 
 .promo-page .coupon-banner p {
-    color: #6e5578;
+    color: var(--muted);
     font-size: 11px;
     margin: 0;
 }
@@ -2476,7 +2465,7 @@ footer {
 
 .promo-page .welcome-code>span {
     font-size: 8px;
-    color: #6e5578;
+    color: var(--muted);
     letter-spacing: 2px;
 }
 
@@ -2508,7 +2497,7 @@ footer {
 
 .promo-page .benefits article {
     padding: 23px 17px;
-    border: 1px solid #f2d0e2;
+    border: 1px solid var(--line);
     border-radius: 16px;
     background: #ffffff03;
 }
@@ -2524,13 +2513,13 @@ footer {
 
 .promo-page .benefits p {
     font-size: 10px;  /* Cỡ chữ lớn hay nhỏ */
-    color: #6e5578;
+    color: var(--muted);
     margin: 0;
 }
 
 .promo-page .footer {
-    border-top: 1px solid #f2d0e2;
-    background: #f7e2ed;
+    border-top: 1px solid var(--line);
+    background: var(--bg-footer);
 }
 
 .promo-page .footer-grid {
@@ -2547,7 +2536,7 @@ footer {
 
 .promo-page .footer p {
     font-size: 11px;
-    color: #6e5578;
+    color: var(--muted);
     margin: 12px 0 0;
 }
 
@@ -2558,13 +2547,13 @@ footer {
 
 .promo-page .footer-grid a:not(.logo) {
     display: block;
-    color: #6e5578;
+    color: var(--muted);
     font-size: 11px;  /* Cỡ chữ lớn hay nhỏ */
     margin: 7px 0;
 }
 
 .promo-page .footer-grid a:not(.logo):hover {
-    color: #be185d;
+    color: var(--pink);
 }
 
 .promo-page .footer-small {
@@ -2581,7 +2570,7 @@ footer {
     border-radius: 12px;
     background: #25203b;
     border: 1px solid #a78bfa88;
-    box-shadow: #fff7fb;
+    box-shadow: var(--shadow);
     color: #fff;
     font-size: 12px;
     opacity: 0;
@@ -2789,7 +2778,7 @@ footer {
 .products-page .products-hero {
     position: relative;
     overflow: hidden;
-    border-bottom: 1px solid #f2d0e2;
+    border-bottom: 1px solid var(--line);
     background: radial-gradient(ellipse at 80% 40%, #6b2a7950, transparent 34%);  /* chỉ phủ vệt sáng lên nền chung */
 }
 
@@ -2810,7 +2799,7 @@ footer {
 
 .products-page .eyebrow {
     margin:0 0 12px;
-    color:#be185d;
+    color:var(--pink);
     font-size:10px;
     font-weight:800;
     letter-spacing:2px
@@ -2821,7 +2810,7 @@ footer {
     font-size: clamp(38px,5vw,62px);
     line-height: 1.08;
     letter-spacing: -2px;
-    color: #24142c;
+    color: #fff;
 }
 
 .products-page .products-hero h1 span {
@@ -2833,7 +2822,7 @@ footer {
 
 .products-page .products-hero-copy>p:not(.eyebrow) {
     max-width:520px;
-    color:#6e5578;
+    color:var(--muted);
     font-size:14px;
     line-height:1.9
 }
@@ -2912,7 +2901,7 @@ footer {
 
 .products-page .tile-back {
     transform:translate(-43px,-2px) rotate(-13deg);
-    background:linear-gradient(145deg,#fdf2f8,#ffffff)
+    background:linear-gradient(145deg,#3c235a,#171426)
 }
 
 .products-page .tile-front {
@@ -2977,7 +2966,7 @@ footer {
 
 .products-page .catalog-subtitle {
     margin:0;
-    color:#6e5578;
+    color:var(--muted);
     font-size:12px
 }
 
@@ -2995,13 +2984,13 @@ footer {
 
 .products-page .catalog-count strong {
     font-size:25px;
-    color:#be185d;
+    color:var(--pink);
     line-height:1.2
 }
 
 .products-page .catalog-count span {
     font-size:10px;
-    color:#6e5578
+    color:var(--muted)
 }
 
 .products-page .catalog-toolbar {
@@ -3011,9 +3000,9 @@ footer {
     gap: 15px;
     margin-bottom: 22px;
     padding: 12px;
-    border: 1px solid #f2d0e2;
+    border: 1px solid var(--line);
     border-radius: 14px;  /* Độ bo tròn góc khung */
-    background: #ffffff;
+    background: #121220aa;
 }
 
 .products-page .product-search {
@@ -3024,10 +3013,10 @@ footer {
     max-width: 520px;
     min-width: 0;
     padding: 0 12px;
-    border: 1px solid #f2d0e2;
+    border: 1px solid var(--line);
     border-radius: 10px;
-    background: #ffffff;
-    color: #be185d;
+    background: #0c0c16;
+    color: var(--pink);
 }
 
 .products-page .product-search>span {
@@ -3041,7 +3030,7 @@ footer {
     border: 0;
     outline: 0;
     background: transparent;
-    color: #24142c;
+    color: var(--text);
     font-size: 12px;
 }
 
@@ -3053,7 +3042,7 @@ footer {
     display: flex;
     align-items: center;
     gap: 9px;
-    color: #6e5578;
+    color: var(--muted);
     font-size: 11px;
     white-space: nowrap;
 }
@@ -3061,10 +3050,10 @@ footer {
 .products-page .sort-control select {
     max-width: 180px;
     padding: 11px 12px;
-    border: 1px solid #f2d0e2;
+    border: 1px solid var(--line);
     border-radius: 9px;
-    background: #ffffff;
-    color: #24142c;
+    background: var(--panel);
+    color: #fff;
     font-size: 11px;
 }
 
@@ -3079,9 +3068,9 @@ footer {
     position: sticky;
     top: 105px;
     padding: 17px 12px;
-    border: 1px solid #f2d0e2;
+    border: 1px solid var(--line);
     border-radius: 15px;
-    background: #ffffff;
+    background: linear-gradient(145deg,var(--panel),#0e0e18);
 }
 
 .products-page .category-sidebar h3 {
@@ -3098,7 +3087,7 @@ footer {
     border: 1px solid transparent;
     border-radius: 9px;
     background: transparent;
-    color: #6e5578;
+    color: var(--muted);
     text-align: left;
     font-size: 11px;
     transition: .2s;
@@ -3120,11 +3109,11 @@ footer {
 .products-page .category-filter:hover,.products-page .category-filter.active {
     border-color:#ff58b433;
     background:#ff58b411;
-    color: #24142c
+    color:#fff
 }
 
 .products-page .category-filter.active span {
-    color:#be185d
+    color:var(--pink)
 }
 
 .products-page .sidebar-note {
@@ -3136,19 +3125,19 @@ footer {
 }
 
 .products-page .sidebar-note>span {
-    color:#be185d;
+    color:var(--pink);
     font-size:21px
 }
 
 .products-page .sidebar-note p {
     margin:6px 0 0;
-    color:#6e5578;
+    color:var(--muted);
     font-size:10px;
     line-height:1.7
 }
 
 .products-page .sidebar-note b {
-    color: #24142c
+    color:#fff
 }
 
 .products-page .active-filter-row {
@@ -3164,7 +3153,7 @@ footer {
 .products-page #clear-filters {
     border:0;
     background:transparent;
-    color:#be185d;
+    color:var(--pink);
     font-size:10px
 }
 
@@ -3184,7 +3173,7 @@ footer {
 .products-page .product-image {
     height:auto;
     aspect-ratio:4/4.4;
-    background:#fdf2f8
+    background:radial-gradient(circle at 50% 35%,#352052,#171727)
 }
 
 .products-page .product-image img {
@@ -3233,22 +3222,22 @@ footer {
     height: 34px;
     border: 1px solid #ffffff2c;
     border-radius: 50%;  /* Độ bo tròn góc khung */
-    background: #ffffff;
-    color: #24142c;
+    background: #090912b8;
+    color: #fff;
     font-size: 20px;
     line-height: 1;
 }
 
 .products-page .heart:hover,.products-page .heart.liked {
-    color:#be185d;
-    border-color:#be185d;
+    color:var(--pink);
+    border-color:var(--pink);
     background:#ff4fa322
 }
 
 .products-page .empty-state {
     padding: 50px 20px;
     text-align: center;
-    border: 1px dashed #f2d0e2;
+    border: 1px dashed var(--line);
     border-radius: 16px;
     background: #ffffff03;
 }
@@ -3259,16 +3248,16 @@ footer {
 
 .products-page .empty-state>span {
     font-size:40px;
-    color:#be185d
+    color:var(--pink)
 }
 
 .products-page .empty-state h3 {
     margin:8px 0;
-    color: #24142c
+    color:#fff
 }
 
 .products-page .empty-state p {
-    color:#6e5578;
+    color:var(--muted);
     font-size:12px
 }
 
@@ -3279,7 +3268,7 @@ footer {
 }
 
 .products-page .products-benefits {
-    border-block:1px solid #f2d0e2;
+    border-block:1px solid var(--line);
     background:#ffffff03
 }
 
@@ -3305,7 +3294,7 @@ footer {
     border: 1px solid #ff58b433;
     border-radius: 13px;
     background: #ff58b411;
-    color: #be185d;
+    color: var(--pink);
     font-size: 20px;
 }
 
@@ -3322,13 +3311,13 @@ footer {
 
 .products-page .benefits-row small {
     font-size:10px;  /* Cỡ chữ lớn hay nhỏ */
-    color:#6e5578
+    color:var(--muted)
 }
 
 .products-page .products-footer {
     padding:22px 0;
-    background:#f7e2ed;
-    border-top:1px solid #f2d0e2
+    background:var(--bg-footer);
+    border-top:1px solid var(--line)
 }
 
 .products-page .footer-inner {
@@ -3344,7 +3333,7 @@ footer {
 
 .products-page .footer-inner p,.products-page .footer-inner>span {
     margin:0;
-    color:#6e5578;
+    color:var(--muted);
     font-size:10px
 }
 
@@ -3354,7 +3343,7 @@ footer {
 }
 
 .products-page .products-home-link:hover {
-    color:#be185d
+    color:var(--pink)
 }
 
 @keyframes products-spin {
@@ -3533,7 +3522,7 @@ footer {
 }
 
 .pro-series {
-    color: #be185d;
+    color: var(--pink);
     font-size: 12px;
     font-weight: 700;
     letter-spacing: 1.5px;
@@ -3541,7 +3530,7 @@ footer {
 }
 
 .pro-short {
-    color: #6e5578;
+    color: var(--muted);
     line-height: 1.7;
     margin: 0 0 22px;
 }
@@ -3550,9 +3539,9 @@ footer {
     padding: 10px;
     width: 80px;
     border-radius: 8px;
-    background: #ffffff;
-    color: #24142c;
-    border: 1px solid #f2d0e2;
+    background: var(--panel);
+    color: #fff;
+    border: 1px solid var(--line);
 }
 
 .pro-perks {
@@ -3562,13 +3551,13 @@ footer {
     gap: 8px 18px;
     padding: 0;
     margin: 22px 0 0;
-    color: #6e5578;
+    color: var(--muted);
     font-size: 13px;  /* Cỡ chữ lớn hay nhỏ */
 }
 
 .demo-note {
     font-size: 12px;
-    color: #6e5578;
+    color: var(--muted);
     margin-top: 18px;
 }
 
@@ -3577,7 +3566,7 @@ footer {
 }
 
 .related-section h3 {
-    color: #be185d;
+    color: var(--pink);
     font-size: 22px;
     margin-bottom: 18px;
 }
@@ -3589,11 +3578,11 @@ footer {
     gap: 12px;
     margin: 0 0 50px;
     padding-top: 20px;
-    border-top: 1px solid #f2d0e2;
+    border-top: 1px solid var(--line);
 }
 
 .pro-pager a {
-    color: #be185d;
+    color: var(--pink);
     font-weight: 600;
     font-size: 14px;  /* Cỡ chữ lớn hay nhỏ */
 }
@@ -3617,7 +3606,7 @@ footer {
 }
 
 .gallery-thumbs img.active {
-    border-color: #be185d;
+    border-color: var(--pink);
 }
 
 @media (max-width: 600px) {
@@ -3636,7 +3625,11 @@ footer {
       bảng xếp hạng (.rank-1 Vàng, .rank-2 Bạc, .rank-3 Đồng), trang chi tiết sản phẩm
       và thông báo nhỏ bật lên (.av-toast).
    ============================================================================ */
-
+:root {
+    --max-width: 1500px;
+    --gutter: 40px;
+    --radius: 18px;
+}
 
 html {
     -webkit-text-size-adjust: 100%;
@@ -3651,14 +3644,14 @@ img {
 }
 
 :focus-visible {
-    outline: 2px solid #be185d;
+    outline: 2px solid var(--pink);
     outline-offset: 3px;
 }
 
 
 .container,
 .promo-page .wrap {
-    width: min(1500px, calc(100% - #fff7fb * 2));
+    width: min(var(--max-width), calc(100% - var(--gutter) * 2));
     margin-inline: auto;
 }
 
@@ -3722,7 +3715,7 @@ img {
 }
 
 .nav a[aria-current="page"] {
-    color: #24142c;
+    color: #fff;
 }
 
 .nav a[aria-current="page"]::after {
@@ -3907,7 +3900,7 @@ img {
 }
 
 .product-card {
-    border-radius: #fff7fb;  /* Độ bo tròn góc khung */
+    border-radius: var(--radius);  /* Độ bo tròn góc khung */
 }
 
 .product-image {
@@ -4025,7 +4018,7 @@ a.add {
 
 .benefits > div {
     padding: 32px 28px;
-    border-radius: #fff7fb;
+    border-radius: var(--radius);
 }
 
 .benefits span {
@@ -4151,7 +4144,7 @@ main.section {
 
 .sold {
     margin: 0 0 6px;
-    color: #6e5578;
+    color: var(--muted);
     font-size: 14px;
 }
 
@@ -4181,7 +4174,7 @@ main.section {
     object-fit: contain;
     margin-bottom: 18px;
     border-radius: 20px;
-    background: #fdf2f8;
+    background: radial-gradient(circle at 50% 35%, #352052, #171727);
 }
 
 .gallery-main.is-placeholder {
@@ -4200,7 +4193,7 @@ main.section {
     aspect-ratio: 1 / 1;
     object-fit: cover;
     border-radius: 12px;
-    background: #fdf2f8;
+    background: #171727;
     transition: border-color .2s, transform .2s;
 }
 
@@ -4339,10 +4332,10 @@ main.section {
     height: 48px;
     border: 0;
     border-radius: 50%;  /* Độ bo tròn góc khung */
-    background: linear-gradient(135deg, #9333ea, #be185d);
+    background: linear-gradient(135deg, var(--purple), var(--pink));
     color: #fff;
     font-size: 22px;
-    box-shadow: 0 10px 28px rgba(190, 24, 93, 0.25);
+    box-shadow: 0 10px 28px var(--pink-glow);
     opacity: 0;
     pointer-events: none;
     transform: translateY(12px);
@@ -4609,7 +4602,7 @@ main.section {
 }
 
 .promo-page .nav {
-    background: #fceef5;
+    background: var(--bg-deep);
 }
 
 .promo-page .nav-inner {
@@ -4898,7 +4891,7 @@ main.section {
 
 .promo-page footer {
     padding-top: 0;
-    background: #f7e2ed;
+    background: var(--bg-footer);
 }
 
 .form-group label {
@@ -4935,7 +4928,7 @@ main.section {
     align-items: center;
     justify-content: flex-start;
     gap: 12px;
-    color: #6e5578;
+    color: var(--muted);
     font-size: 14px;  /* Cỡ chữ lớn hay nhỏ */
 }
 
@@ -4949,7 +4942,7 @@ main.section {
     border: 1px solid #ff4fa355;
     border-radius: 30px;  /* Độ bo tròn góc khung */
     background: #ff4fa31a;
-    color: #be185d !important;
+    color: var(--pink) !important;
     font-size: 12px;
     font-weight: 800;
     letter-spacing: 1px;
@@ -4959,7 +4952,7 @@ main.section {
     margin: 22px 0 16px;
     padding: 0;
     border: 0;
-    color: #24142c;
+    color: #fff;
     font-size: clamp(30px, 3vw, 44px);
     line-height: 1.25;
 }
@@ -4979,7 +4972,7 @@ main.section {
     border-radius: 18px;
     object-fit: cover;
     object-position: center 20%;
-    background: #fdf2f8;
+    background: radial-gradient(circle at 50% 35%, #352052, #171727);
 }
 
 .image-note {
@@ -5005,9 +4998,9 @@ main.section {
     gap: 22px;
     align-items: flex-start;
     padding: 24px 26px;
-    border: 1px solid #f2d0e2;
+    border: 1px solid var(--line);
     border-radius: 18px;
-    background: #ffffff;
+    background: linear-gradient(145deg, var(--panel-light), #10101a);
     transition: .3s;
 }
 
@@ -5029,13 +5022,13 @@ main.section {
 
 .advice-article .cosplay-tip h4 {
     margin: 0 0 6px;
-    color: #24142c;
+    color: #fff;
     font-size: 18px;
 }
 
 .advice-article .cosplay-tip p {
     margin: 0;
-    color: #6e5578;
+    color: var(--muted);
     font-size: 15px;
     line-height: 1.8;
 }
@@ -5051,7 +5044,7 @@ main.section {
     position: relative;
     margin: 0 !important;
     padding: 16px 20px 16px 56px;
-    border: 1px solid #f2d0e2;
+    border: 1px solid var(--line);
     border-radius: 14px;  /* Độ bo tròn góc khung */
     background: #ffffff04;
     color: #cfcbe0;
@@ -5069,7 +5062,7 @@ main.section {
     height: 26px;
     place-items: center;
     border-radius: 50%;  /* Độ bo tròn góc khung */
-    background: linear-gradient(135deg, #9333ea, #be185d);
+    background: linear-gradient(135deg, var(--purple), var(--pink));
     color: #fff;
     font-size: 13px;
     font-weight: 800;
@@ -5091,13 +5084,13 @@ main.section {
     margin: 6px 0 8px;
     padding: 0;
     border: 0;
-    color: #24142c;
+    color: #fff;
     font-size: 24px;
 }
 
 .article-cta p {
     margin: 0;
-    color: #6e5578;
+    color: var(--muted);
     font-size: 15px;
 }
 
@@ -5115,21 +5108,21 @@ main.section {
 
 .sidebar-card {
     padding: 30px;
-    border: 1px solid #f2d0e2;
+    border: 1px solid var(--line);
     border-radius: 20px;
-    background: #ffffff;
+    background: linear-gradient(145deg, var(--panel), #0f0f19);
 }
 
 .sidebar-card h2 {
     margin: 0 0 12px;
-    color: #24142c;
+    color: #fff;
     font-size: 22px;
     line-height: 1.4;
 }
 
 .sidebar-card p:not(.eyebrow) {
     margin: 0;
-    color: #6e5578;
+    color: var(--muted);
     font-size: 15px;
     line-height: 1.8;
 }
@@ -5143,7 +5136,7 @@ main.section {
     align-items: center;
     justify-content: space-between;
     padding: 14px 0;
-    border-bottom: 1px solid #f2d0e2;
+    border-bottom: 1px solid var(--line);
     color: #e8e3f7;
     font-size: 15px;
     font-weight: 600;
@@ -5154,11 +5147,11 @@ main.section {
 }
 
 .sidebar-links a span {
-    color: #be185d;
+    color: var(--pink);
 }
 
 .sidebar-links a:hover {
-    color: #be185d;
+    color: var(--pink);
     padding-left: 6px;
 }
 
@@ -5167,7 +5160,9 @@ main.section {
    MỤC 20D: CO GIÃN GIAO DIỆN BỔ SUNG CHO MÀN HÌNH LỚN, TABLET & ĐIỆN THOẠI
    ============================================================================ */
 @media (max-width: 1320px) {
-    
+    :root {
+        --gutter: 32px;
+    }
 
     .nav-inner {
         gap: 34px;
@@ -5241,10 +5236,12 @@ main.section {
 }
 
 @media (max-width: 900px) {
-    
+    :root {
+        --gutter: 24px;
+    }
 
     .container, .promo-page .wrap {
-        width: calc(100% - #fff7fb * 2);
+        width: calc(100% - var(--gutter) * 2);
     }
 
     .product-grid, .products-page .product-grid {
@@ -5299,7 +5296,9 @@ main.section {
 }
 
 @media (max-width: 600px) {
-    
+    :root {
+        --gutter: 16px;
+    }
 
     /* giữ menu điều hướng trên mobile: cuộn ngang thay vì ẩn */
     .nav {
@@ -5468,20 +5467,20 @@ main.section {
 
 /* tiêu đề mục "Sản phẩm cùng danh mục" không đè lên tên sản phẩm trong thẻ */
 .related-section > h3 {
-    color: #be185d;
+    color: var(--pink);
     font-size: 26px;  /* Cỡ chữ lớn hay nhỏ */
     margin-bottom: 22px;
 }
 
 .related-section .product-info h3 {
     margin: 6px 0 10px;
-    color: #24142c;
+    color: #fff;
     font-size: 18px;
 }
 
 
 .page-header .eyebrow {
-    color: #be185d;
+    color: var(--pink);
     font-size: 12px;
     font-weight: 800;
     letter-spacing: 2px;
@@ -5501,7 +5500,7 @@ main.section {
 
 .promo-page .logo > span:first-child,
 .promo-page .logo > span:last-child {
-    color: #be185d;
+    color: var(--pink);
 }
 
 .promo-page .footer-grid {
@@ -5536,11 +5535,11 @@ main.section {
 }
 
 .promo-page .copyright {
-    border-top: 1px solid #f2d0e2;
+    border-top: 1px solid var(--line);
 }
 
 .promo-page .site-footer {
-    border-top: 1px solid #f2d0e2;
+    border-top: 1px solid var(--line);
 }
 
 
@@ -5594,11 +5593,11 @@ main.section {
     display: grid;
     place-items: center;
     border-radius: 10px;
-    background: #be185d;
+    background: var(--pink);
     color: #fff;
     font-size: 11px;  /* Cỡ chữ lớn hay nhỏ */
     font-weight: 800;
-    box-shadow: 0 0 12px rgba(190, 24, 93, 0.25);
+    box-shadow: 0 0 12px var(--pink-glow);
 }
 
 .btn-add-cart {
@@ -5609,12 +5608,12 @@ main.section {
     color: #fff;
     border-radius: 10px;  /* Độ bo tròn góc khung */
     background: transparent;
-    border: 2px solid #9333ea;
+    border: 2px solid var(--purple);
     transition: .3s;
 }
 
 .btn-add-cart:hover {
-    background: rgba(147, 51, 234, 0.25);
+    background: var(--purple-glow);
     transform: translateY(-3px);
 }
 
@@ -5647,13 +5646,13 @@ main.section {
 }
 
 .promo-page .deal-visual.has-photo small {
-    background: #fdf2f8b3;
+    background: #0a0919b3;
     padding: 3px 8px;
     border-radius: 5px;  /* Độ bo tròn góc khung */
 }
 
 .heart.liked {
-    color: #be185d;
+    color: var(--pink);
 }
 
 
@@ -5685,8 +5684,8 @@ main.section {
     gap: 16px;
     align-items: center;
     padding: 14px;
-    background: #ffffff;
-    border: 1px solid #f2d0e2;
+    background: var(--panel);
+    border: 1px solid var(--line);
     border-radius: 16px;
 }
 
@@ -5695,7 +5694,7 @@ main.section {
     height: 96px;
     object-fit: cover;
     border-radius: 12px;
-    background: #fdf2f8;
+    background: var(--panel-light);
 }
 
 .cart-info h3 {
@@ -5705,7 +5704,7 @@ main.section {
 
 .cart-info small {
     display: block;
-    color: #6e5578;
+    color: var(--muted);
 }
 
 .cart-info b {
@@ -5722,16 +5721,16 @@ main.section {
 width: 32px;
 height: 32px;
 border-radius: 8px;  /* Độ bo tròn góc khung */
-border: 1px solid #f2d0e2;
-background: #fdf2f8;
+border: 1px solid var(--line);
+background: var(--panel-light);
 color: #fff;
 font-size: 18px;
 line-height: 1;
 }
 
 .cart-qty button:hover, .cart-remove:hover {
-    border-color: #be185d;
-    color: #be185d;
+    border-color: var(--pink);
+    color: var(--pink);
 }
 
 .cart-qty span {
@@ -5749,8 +5748,8 @@ line-height: 1;
     position: sticky;
     top: 100px;
     padding: 22px;
-    background: #ffffff;
-    border: 1px solid #f2d0e2;
+    background: var(--panel);
+    border: 1px solid var(--line);
     border-radius: 18px;
 }
 
@@ -5762,20 +5761,20 @@ line-height: 1;
 .free-ship p {
     margin: 6px 0 14px;
     font-size: 13px;
-    color: #6e5578;
+    color: var(--muted);
 }
 
 .free-ship .bar {
     height: 8px;
     border-radius: 8px;
-    background: #fdf2f8;
+    background: var(--panel-light);
     overflow: hidden;
 }
 
 .free-ship .bar i {
     display: block;
     height: 100%;
-    background: linear-gradient(90deg, #9333ea, #be185d);
+    background: linear-gradient(90deg, var(--purple), var(--pink));
     transition: width .3s;
 }
 
@@ -5788,7 +5787,7 @@ line-height: 1;
 }
 
 .cart-summary dt {
-    color: #6e5578;
+    color: var(--muted);
 }
 
 .cart-summary dd {
@@ -5805,19 +5804,19 @@ line-height: 1;
     width: 100%;
     padding: 11px 13px;
     border-radius: 10px;
-    border: 1px solid #f2d0e2;
-    background: #fdf2f8;
-    color: #24142c;
+    border: 1px solid var(--line);
+    background: var(--panel-light);
+    color: #fff;
 }
 
 .cart-coupon input:focus, .cart-form input:focus, .cart-form textarea:focus {
-    border-color: #be185d;
+    border-color: var(--pink);
 }
 
 .cart-coupon button {
     padding: 0 16px;
     border-radius: 10px;
-    border: 1px solid #9333ea;
+    border: 1px solid var(--purple);
     background: transparent;
     color: #fff;
     font-weight: 700;
@@ -5827,7 +5826,7 @@ line-height: 1;
     min-height: 20px;
     margin: 6px 0;
     font-size: 12px;
-    color: #6e5578;
+    color: var(--muted);
 }
 
 .cart-total {
@@ -5836,7 +5835,7 @@ line-height: 1;
     align-items: center;
     padding: 14px 0;
     margin-bottom: 14px;
-    border-block: 1px dashed #f2d0e2;
+    border-block: 1px dashed var(--line);
 }
 
 .cart-total strong {
@@ -5875,7 +5874,7 @@ line-height: 1;
 }
 
 .cart-empty p {
-    color: #6e5578;
+    color: var(--muted);
     margin: 0 0 12px;
 }
 
@@ -5907,7 +5906,7 @@ line-height: 1;
 }
 
 a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible {
-    outline: 2px solid #be185d;
+    outline: 2px solid var(--pink);
     outline-offset: 3px;
 }
 
@@ -5978,7 +5977,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 .lh-lead {
     max-width: 560px;
     margin: 0 0 28px;
-    color: #6e5578;
+    color: var(--muted);
     font-size: 17px;
     line-height: 1.8;
 }
@@ -5998,7 +5997,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 
 .lh-chips span {
     padding: 8px 14px;
-    border: 1px solid #f2d0e2;
+    border: 1px solid var(--line);
     border-radius: 30px;
     background: #ffffff06;
     color: #d5cde9;
@@ -6034,8 +6033,8 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
     width: 12px;
     height: 12px;
     border-radius: 50%;
-    background: #be185d;
-    box-shadow: 0 0 18px 4px rgba(190, 24, 93, 0.25);
+    background: var(--pink);
+    box-shadow: 0 0 18px 4px var(--pink-glow);
 }
 
 .lh-orbit.two {
@@ -6047,8 +6046,8 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 }
 
 .lh-orbit.two::before {
-    background: #9333ea;
-    box-shadow: 0 0 18px 4px rgba(147, 51, 234, 0.25);
+    background: var(--purple);
+    box-shadow: 0 0 18px 4px var(--purple-glow);
 }
 
 @keyframes lh-spin {
@@ -6065,7 +6064,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
     padding: 20px;
     border: 1px solid #ffffff22;
     border-radius: 24px;
-    background: #ffffff;
+    background: linear-gradient(160deg, #1d1633ee, #10101aee);
     box-shadow: 0 25px 70px #000a, 0 0 0 1px #ffffff08 inset;
     backdrop-filter: blur(10px);
     animation: lh-float 6s ease-in-out infinite;
@@ -6082,7 +6081,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
     align-items: center;
     gap: 10px;
     padding-bottom: 14px;
-    border-bottom: 1px solid #f2d0e2;
+    border-bottom: 1px solid var(--line);
 }
 
 .lh-chat-top b {
@@ -6091,7 +6090,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 
 .lh-chat-top small {
     display: block;
-    color: #6e5578;
+    color: var(--muted);
     font-size: 11px;
 }
 
@@ -6108,7 +6107,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
     margin-top: 14px;
     padding: 11px 14px;
     border-radius: 16px 16px 16px 4px;
-    background: #fdf2f8;
+    background: var(--panel-light);
     font-size: 13px;  /* Cỡ chữ lớn hay nhỏ */
     line-height: 1.5;
 }
@@ -6116,7 +6115,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 .lh-bubble.me {
     margin-left: auto;
     border-radius: 16px 16px 4px 16px;  /* Độ bo tròn góc khung */
-    background: linear-gradient(135deg, #9333ea, #be185d);
+    background: linear-gradient(135deg, var(--purple), var(--pink));
     color: #fff;
 }
 
@@ -6126,14 +6125,14 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
     margin-top: 14px;
     padding: 12px 14px;
     border-radius: 16px;
-    background: #fdf2f8;
+    background: var(--panel-light);
 }
 
 .lh-typing i {
     width: 6px;
     height: 6px;
     border-radius: 50%;
-    background: #6e5578;
+    background: var(--muted);
     animation: lh-blink 1.2s infinite;
 }
 
@@ -6159,7 +6158,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
     position: absolute;
     z-index: 3;  /* Thứ tự lớp nổi lên trên */
     color: #fff;
-    text-shadow: 0 0 16px #be185d;
+    text-shadow: 0 0 16px var(--pink);
     animation: lh-twinkle 3s ease-in-out infinite;
 }
 
@@ -6201,7 +6200,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 
 .lh-head p {
     margin: 0;
-    color: #6e5578;
+    color: var(--muted);
 }
 
 .lh-section {
@@ -6222,9 +6221,9 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
     flex-direction: column;
     gap: 6px;
     padding: 26px 22px;
-    border: 1px solid #f2d0e2;
+    border: 1px solid var(--line);
     border-radius: 20px;
-    background: #ffffff;
+    background: linear-gradient(150deg, var(--panel-light), #0f0f19);
     overflow: hidden;
     transition: transform .3s, border-color .3s, box-shadow .3s;
 }
@@ -6240,8 +6239,8 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 
 .lh-card:hover {
     transform: translateY(-8px);
-    border-color: #be185d;
-    box-shadow: 0 18px 40px rgba(190, 24, 93, 0.25);
+    border-color: var(--pink);
+    box-shadow: 0 18px 40px var(--pink-glow);
 }
 
 .lh-card:hover::after {
@@ -6256,7 +6255,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
     margin-bottom: 10px;
     border-radius: 15px;  /* Độ bo tròn góc khung */
     background: linear-gradient(135deg, #8b5cf633, #ff4fa333);
-    color: #be185d;
+    color: var(--pink);
 }
 
 .lh-icon svg {
@@ -6265,7 +6264,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 }
 
 .lh-card small {
-    color: #6e5578;
+    color: var(--muted);
     font-size: 11px;
     letter-spacing: 1.5px;
     font-weight: 700;
@@ -6278,7 +6277,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 
 .lh-card p {
     margin: 0;
-    color: #6e5578;
+    color: var(--muted);
     font-size: 13px;
 }
 
@@ -6297,7 +6296,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 
 .lh-copy:hover {
     background: #a78bfa38;
-    border-color: #9333ea;
+    border-color: var(--purple);
 }
 
 
@@ -6314,8 +6313,8 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
     padding: 38px 28px 32px;
     text-align: center;
     border-radius: 24px;
-    background: #ffffff;
-    transform: rotateX(0deg) rotateY(0deg);   /* JS đổi 2 biến này theo chuột */
+    background: linear-gradient(160deg, var(--panel-light), #0e0e18);
+    transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));   /* JS đổi 2 biến này theo chuột */
     transition: transform .15s ease-out, box-shadow .3s;
 }
 
@@ -6325,7 +6324,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
     inset: 0;
     padding: 1.5px;
     border-radius: inherit;
-    background: linear-gradient(120deg, #9333ea, #be185d, #76e5ff, #9333ea) 0 0 / 300% 100%;
+    background: linear-gradient(120deg, var(--purple), var(--pink), #76e5ff, var(--purple)) 0 0 / 300% 100%;
     -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
@@ -6345,13 +6344,13 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
     inset: 0;
     border-radius: inherit;  /* Độ bo tròn góc khung */
     pointer-events: none;
-    background: radial-gradient(260px circle at 50% 0%, #ff4fa322, transparent 60%);
+    background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 0%), #ff4fa322, transparent 60%);
     opacity: 0;
     transition: opacity .3s;
 }
 
 .lh-member:hover {
-    box-shadow: 0 25px 60px #000a, 0 0 40px rgba(190, 24, 93, 0.25);
+    box-shadow: 0 25px 60px #000a, 0 0 40px var(--pink-glow);
 }
 
 .lh-member:hover::after {
@@ -6366,11 +6365,11 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
     height: 98px;
     margin: 0 auto 20px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #9333ea, #be185d);
+    background: linear-gradient(135deg, var(--purple), var(--pink));
     color: #fff;
     font-size: 30px;
     font-weight: 800;
-    box-shadow: 0 10px 30px rgba(190, 24, 93, 0.25);
+    box-shadow: 0 10px 30px var(--pink-glow);
 }
 
 .lh-avatar::before {         /* vòng ngoài của avatar */
@@ -6390,7 +6389,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 
 .lh-role {
     margin: 0 0 6px;
-    color: #be185d;
+    color: var(--pink);
     font-size: 11px;  /* Cỡ chữ lớn hay nhỏ */
     font-weight: 800;
     letter-spacing: 2px;
@@ -6403,7 +6402,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 
 .lh-member p:last-child {
     margin: 0;
-    color: #6e5578;
+    color: var(--muted);
     font-size: 14px;
 }
 
@@ -6421,7 +6420,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
     padding: 40px;
     border: 1px solid #ffffff1c;
     border-radius: 26px;
-    background: #ffffff;
+    background: linear-gradient(160deg, #1a1530f0, #10101af0);
     box-shadow: 0 25px 70px #0008;
 }
 
@@ -6432,7 +6431,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 
 .lh-form-box > p, .lh-form > p {
     margin: 0 0 24px;
-    color: #6e5578;
+    color: var(--muted);
     font-size: 14px;
 }
 
@@ -6449,7 +6448,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 .lh-topics legend {
     margin-bottom: 10px;
     padding: 0;
-    color: #6e5578;
+    color: var(--muted);
     font-size: 13px;
 }
 
@@ -6462,29 +6461,29 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 .lh-topic span {
     display: inline-block;
     padding: 9px 16px;
-    border: 1px solid #f2d0e2;
+    border: 1px solid var(--line);
     border-radius: 30px;
     background: #ffffff06;
-    color: #6e5578;
+    color: var(--muted);
     font-size: 13px;
     cursor: pointer;
     transition: .2s;
 }
 
 .lh-topic span:hover {
-    border-color: #9333ea;
+    border-color: var(--purple);
     color: #fff;
 }
 
 .lh-topic input:checked + span {
     border-color: transparent;
     color: #fff;
-    background: linear-gradient(90deg, #9333ea, #be185d);
-    box-shadow: 0 6px 20px rgba(190, 24, 93, 0.25);
+    background: linear-gradient(90deg, var(--purple), var(--pink));
+    box-shadow: 0 6px 20px var(--pink-glow);
 }
 
 .lh-topic input:focus-visible + span {
-    outline: 2px solid #be185d;
+    outline: 2px solid var(--pink);
     outline-offset: 3px;
 }
 
@@ -6498,10 +6497,10 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 .lh-field input, .lh-field textarea {
     width: 100%;
     padding: 24px 16px 10px;
-    border: 1px solid #f2d0e2;
+    border: 1px solid var(--line);
     border-radius: 12px;  /* Độ bo tròn góc khung */
-    background: #fff7fb;
-    color: #24142c;
+    background: var(--bg);
+    color: #fff;
     font-size: 15px;
     transition: .25s;
 }
@@ -6515,7 +6514,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
     position: absolute;
     left: 17px;
     top: 17px;
-    color: #6e5578;
+    color: var(--muted);
     font-size: 15px;
     pointer-events: none;
     transform-origin: left top;
@@ -6526,11 +6525,11 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 .lh-field input:focus + label, .lh-field textarea:focus + label,
 .lh-field input:not(:placeholder-shown) + label, .lh-field textarea:not(:placeholder-shown) + label {
     transform: translateY(-11px) scale(.76);
-    color: #be185d;
+    color: var(--pink);
 }
 
 .lh-field input:focus, .lh-field textarea:focus {
-    border-color: #be185d;
+    border-color: var(--pink);
     box-shadow: 0 0 0 4px #ff4fa322;
 }
 
@@ -6552,7 +6551,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
     position: absolute;
     right: 12px;
     bottom: 28px;
-    color: #6e5578;
+    color: var(--muted);
     font-size: 11px;
 }
 
@@ -6617,7 +6616,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 .lh-done p {
     margin: 0 auto 24px;
     max-width: 380px;
-    color: #6e5578;
+    color: var(--muted);
 }
 
 .lh-check {
@@ -6627,7 +6626,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 
 .lh-check circle {
     fill: none;
-    stroke: #be185d;
+    stroke: var(--pink);
     stroke-width: 4;
     stroke-dasharray: 260;
     stroke-dashoffset: 260;
@@ -6664,9 +6663,9 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 }
 
 .lh-faq details {
-    border: 1px solid #f2d0e2;
+    border: 1px solid var(--line);
     border-radius: 16px;
-    background: #ffffff;
+    background: linear-gradient(150deg, var(--panel-light), #0f0f19);
     transition: border-color .25s;
 }
 
@@ -6691,7 +6690,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 
 .lh-faq summary::after {
     content: "+";
-    color: #be185d;
+    color: var(--pink);
     font-size: 24px;
     line-height: 1;
     transition: transform .25s;
@@ -6704,13 +6703,13 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 .lh-faq details p {
     margin: 0;
     padding: 0 20px 18px;
-    color: #6e5578;
+    color: var(--muted);
     font-size: 14px;  /* Cỡ chữ lớn hay nhỏ */
     line-height: 1.8;
 }
 
 .lh-faq a {
-    color: #be185d;
+    color: var(--pink);
     font-weight: 700;
 }
 
@@ -6735,7 +6734,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 
 .lh-cta p {
     margin: 0;
-    color: #6e5578;
+    color: var(--muted);
 }
 
 
@@ -6820,7 +6819,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 
 .footer-grid p a:hover {
     padding-left: 0;
-    color: #be185d;
+    color: var(--pink);
 }
 
 
@@ -6832,7 +6831,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
     left:12px;
     top:-60px;
     z-index:999;
-    background:#be185d;
+    background:var(--pink,#ff4fa3);
     color:#fff;
     padding:10px 16px;
     border-radius:10px;  /* Độ bo tròn góc khung */
@@ -6845,7 +6844,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 }
 
 :focus-visible {
-    outline:2px solid #be185d;
+    outline:2px solid var(--pink,#ff4fa3);
     outline-offset:3px;
     border-radius:6px
 }
@@ -6899,7 +6898,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
       position:fixed;
       left:0;
       right:0;
-      top:64px;
+      top:var(--hh,64px);
       z-index:60;
       background:rgba(9,9,18,.97);
       backdrop-filter:blur(10px);
@@ -7002,7 +7001,17 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
  *             Điểm danh +50 XP, Sân khấu Hero 3D, Thông báo mua sắm trực tiếp)
  */
 
-
+:root {
+  --neon: #ff4fa3;
+  --cyan: #38e8ff;
+  --violet: #8b5cf6;
+  --gold: #fbbf24;
+  --emerald: #10b981;
+  --glass-bg: rgba(18, 18, 32, 0.82);
+  --glass-border: rgba(56, 232, 255, 0.28);
+  --card-glow: rgba(255, 79, 163, 0.28);
+  --surface-elevated: #16162a;
+}
 
 /* ============================================================================
    MỤC 1: 4 CHẾ ĐỘ GIAO DIỆN MÀU SẮC (THEME SWITCHER)
@@ -7016,7 +7025,25 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
       - Muốn chỉnh màu của chủ đề nào, bạn sửa các mã màu (#...) bên trong khối
         html[data-theme="tên-chủ-đề"] tương ứng ở dưới đây.
    ============================================================================ */
-html
+html[data-theme="sakura"] {
+  --bg: #fff7fb;
+  --bg-deep: #fceef5;
+  --bg-footer: #f7e2ed;
+  --page-bg: radial-gradient(circle at 85% 10%, rgba(255, 130, 190, 0.25) 0, transparent 32%), #fff7fb;
+  --panel: #ffffff;
+  --panel-light: #fdf2f8;
+  --text: #24142c;
+  --muted: #6e5578;
+  --pink: #be185d;
+  --purple: #9333ea;
+  --neon: #be185d;
+  --cyan: #0284c7;
+  --violet: #9333ea;
+  --line: #f2d0e2;
+  --glass-bg: rgba(255, 255, 255, 0.88);
+  --glass-border: rgba(225, 29, 116, 0.25);
+  --surface-elevated: #fff0f7;
+}
 
 html[data-theme="sakura"] .topbar,
 html[data-theme="sakura"] .header,
@@ -7038,9 +7065,41 @@ html[data-theme="sakura"] .sidebar-card {
   box-shadow: 0 10px 28px rgba(225, 29, 116, 0.08);
 }
 
-html
+html[data-theme="gear5"] {
+  --bg: #0c0a06;
+  --bg-deep: #141008;
+  --bg-footer: #080603;
+  --page-bg: radial-gradient(circle at 85% 10%, #422b08 0, transparent 32%), #0c0a06;
+  --panel: #17130a;
+  --panel-light: #211b0e;
+  --pink: #f59e0b;
+  --purple: #ef4444;
+  --neon: #fbbf24;
+  --cyan: #fde047;
+  --violet: #f97316;
+  --line: #3b2f15;
+  --glass-bg: rgba(23, 19, 10, 0.88);
+  --glass-border: rgba(251, 191, 36, 0.35);
+  --surface-elevated: #231c0d;
+}
 
-html
+html[data-theme="gojo"] {
+  --bg: #050b14;
+  --bg-deep: #081221;
+  --bg-footer: #03070e;
+  --page-bg: radial-gradient(circle at 85% 10%, #0c2d57 0, transparent 34%), #050b14;
+  --panel: #0b1829;
+  --panel-light: #11223a;
+  --pink: #00f0ff;
+  --purple: #6366f1;
+  --neon: #00f0ff;
+  --cyan: #38bdf8;
+  --violet: #818cf8;
+  --line: #1b3556;
+  --glass-bg: rgba(11, 24, 41, 0.88);
+  --glass-border: rgba(0, 240, 255, 0.35);
+  --surface-elevated: #0f2138;
+}
 
 /* ============================================================================
    MỤC 2: NỀN LƯỚI CYBER, THANH TIẾN ĐỘ CUỘN (#avProgress) & HẠT SÁNG (#avParticles)
@@ -7074,8 +7133,8 @@ body {
   height: 3.5px;
   width: 0;
   z-index: 10001;  /* Thứ tự lớp nổi lên trên */
-  background: linear-gradient(90deg, #fff7fb, #fff7fb, #fff7fb, #fff7fb);
-  box-shadow: 0 0 14px #fff7fb;
+  background: linear-gradient(90deg, var(--cyan), var(--neon), var(--violet), var(--gold));
+  box-shadow: 0 0 14px var(--neon);
 }
 
 #avGlow {
@@ -7117,8 +7176,8 @@ body {
   padding: 2px 10px;
   border-radius: 999px;
   background: linear-gradient(90deg, rgba(255, 79, 163, 0.22), rgba(139, 92, 246, 0.25));
-  border: 1px solid #fff7fb;
-  color: #fff7fb;
+  border: 1px solid var(--glass-border);
+  color: var(--cyan);
   font-weight: 700;
   font-size: 11.5px;
   cursor: pointer;
@@ -7127,7 +7186,7 @@ body {
 
 .av-vip-pill:hover {
   transform: translateY(-1px);
-  box-shadow: 0 0 12px rgba(190, 24, 93, 0.25);
+  box-shadow: 0 0 12px var(--pink-glow);
 }
 
 /* ============================================================================
@@ -7138,8 +7197,8 @@ body {
 .header {
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  background: #fff7fb !important;
-  border-bottom: 1px solid #fff7fb;
+  background: var(--glass-bg) !important;
+  border-bottom: 1px solid var(--glass-border);
   position: sticky;
   top: 0;
   z-index: 900;
@@ -7165,14 +7224,14 @@ body {
   border-radius: 12px;
   border: 1px solid rgba(255, 255, 255, 0.1);
   background: rgba(255, 255, 255, 0.04);
-  color: #24142c;
+  color: var(--text);
   font-size: 13px;
   cursor: pointer;
   transition: all 0.22s ease;
 }
 
 .header-actions .icon-btn:hover {
-  border-color: #fff7fb;
+  border-color: var(--cyan);
   background: rgba(56, 232, 255, 0.1);
   transform: translateY(-2px);
   box-shadow: 0 6px 18px rgba(56, 232, 255, 0.18);
@@ -7186,14 +7245,14 @@ body {
   height: 18px;
   padding: 0 5px;
   border-radius: 999px;  /* Độ bo tròn góc khung */
-  background: linear-gradient(135deg, #fff7fb, #fff7fb);
+  background: linear-gradient(135deg, var(--neon), var(--violet));
   color: #fff;
   font-size: 10px;
   font-weight: 800;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 0 8px #fff7fb;
+  box-shadow: 0 0 8px var(--neon);
 }
 
 .av-badge-count[hidden] {
@@ -7207,7 +7266,7 @@ body {
 .hero-copy h1 strong,
 .products-hero-copy h1 span,
 .promo-page .hero-copy h1 span {
-  background: linear-gradient(90deg, #fff7fb, #fff7fb, #fff7fb, #fff7fb);
+  background: linear-gradient(90deg, var(--cyan), var(--neon), var(--violet), var(--cyan));
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -7252,7 +7311,7 @@ body {
 }
 
 .product-card:hover, .deal-card:hover {
-  box-shadow: 0 0 0 1px #fff7fb, 0 16px 42px #fff7fb;
+  box-shadow: 0 0 0 1px var(--cyan), 0 16px 42px var(--card-glow);
 }
 
 .product-card::after {
@@ -7263,7 +7322,7 @@ body {
   pointer-events: none;
   opacity: 0;
   transition: opacity 0.25s;
-  background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.16), transparent 55%);
+  background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(255, 255, 255, 0.16), transparent 55%);
 }
 
 .product-card:hover::after {
@@ -7326,9 +7385,9 @@ body {
 }
 
 .av-ov-btn:hover, .av-ov-btn.active {
-  background: #fff7fb;
-  border-color: #fff7fb;
-  box-shadow: 0 0 12px #fff7fb;
+  background: var(--neon);
+  border-color: var(--neon);
+  box-shadow: 0 0 12px var(--neon);
 }
 
 /* Hàng nút dưới cùng của thẻ sản phẩm */
@@ -7349,9 +7408,9 @@ body {
 .av-quick-cart-btn {
   padding: 9px 12px;
   border-radius: 10px;
-  border: 1px solid #fff7fb;
+  border: 1px solid var(--cyan);
   background: rgba(56, 232, 255, 0.12);
-  color: #fff7fb;
+  color: var(--cyan);
   font-weight: 700;
   font-size: 12.5px;
   cursor: pointer;
@@ -7360,9 +7419,9 @@ body {
 }
 
 .av-quick-cart-btn:hover {
-  background: #fff7fb;
-  color: #24142c;
-  box-shadow: 0 0 14px #fff7fb;
+  background: var(--cyan);
+  color: #090912;
+  box-shadow: 0 0 14px var(--cyan);
 }
 
 /* Thông tin phụ (Đã bán + Fandom tag) trên thẻ */
@@ -7371,7 +7430,7 @@ body {
   align-items: center;
   justify-content: space-between;
   font-size: 11.5px;
-  color: #6e5578;
+  color: var(--muted);
   margin: 4px 0 6px;
 }
 
@@ -7394,9 +7453,9 @@ body {
   left: 0;
   right: 0;
   top: calc(100% + 8px);
-  background: #fff7fb;
+  background: var(--glass-bg);
   backdrop-filter: blur(18px);
-  border: 1px solid #fff7fb;
+  border: 1px solid var(--glass-border);
   border-radius: 14px;
   overflow: hidden;
   z-index: 1200;
@@ -7412,7 +7471,7 @@ body {
   justify-content: space-between;
   gap: 12px;
   padding: 10px 14px;
-  color: #24142c;
+  color: var(--text);
   text-decoration: none;
   font-size: 13.5px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
@@ -7457,11 +7516,11 @@ body {
 
 .av-sug-left span {
   font-size: 11px;
-  color: #6e5578;
+  color: var(--muted);
 }
 
 #avSug small {
-  color: #fff7fb;
+  color: var(--cyan);
   font-weight: 700;
   white-space: nowrap;
 }
@@ -7518,8 +7577,8 @@ body {
   margin: 14px 0 22px;
   padding: 14px 18px;
   border-radius: 16px;  /* Độ bo tròn góc khung */
-  background: #fff7fb;
-  border: 1px solid #fff7fb;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
 }
 
 .av-fandom-pills {
@@ -7534,7 +7593,7 @@ body {
   border-radius: 999px;
   border: 1px solid rgba(255, 255, 255, 0.14);
   background: rgba(255, 255, 255, 0.04);
-  color: #24142c;
+  color: var(--text);
   font-size: 12px;
   font-weight: 600;
   cursor: pointer;
@@ -7542,10 +7601,10 @@ body {
 }
 
 .av-fandom-pill:hover, .av-fandom-pill.active {
-  background: linear-gradient(90deg, #fff7fb, #fff7fb);
+  background: linear-gradient(90deg, var(--neon), var(--violet));
   border-color: transparent;
   color: #fff;
-  box-shadow: 0 0 12px rgba(190, 24, 93, 0.25);
+  box-shadow: 0 0 12px var(--pink-glow);
 }
 
 .av-price-View-controls {
@@ -7559,8 +7618,8 @@ body {
   padding: 7px 12px;
   border-radius: 10px;  /* Độ bo tròn góc khung */
   border: 1px solid rgba(255, 255, 255, 0.16);
-  background: #fff7fb;
-  color: #24142c;
+  background: var(--surface-elevated);
+  color: var(--text);
   font-size: 12.5px;
 }
 
@@ -7575,13 +7634,13 @@ body {
   padding: 6px 10px;
   background: transparent;
   border: 0;
-  color: #6e5578;
+  color: var(--muted);
   cursor: pointer;
   font-size: 13px;
 }
 
 .av-view-toggle button.active {
-  background: #fff7fb;
+  background: var(--neon);
   color: #fff;
 }
 
@@ -7632,15 +7691,15 @@ body {
   width: min(920px, 100%);
   max-height: 90vh;
   overflow-y: auto;
-  background: #ffffff;
-  border: 1px solid #fff7fb;
+  background: var(--panel);
+  border: 1px solid var(--glass-border);
   border-radius: 22px;
   box-shadow: 0 24px 64px rgba(0, 0, 0, 0.75), 0 0 32px rgba(255, 79, 163, 0.16);
   padding: 24px;
   position: relative;
   transform: translateY(16px) scale(0.97);
   transition: transform 0.25s ease;
-  color: #24142c;
+  color: var(--text);
 }
 
 .av-backdrop.open .av-modal-card {
@@ -7656,7 +7715,7 @@ body {
   border-radius: 50%;
   border: 1px solid rgba(255, 255, 255, 0.18);
   background: rgba(255, 255, 255, 0.06);
-  color: #24142c;
+  color: var(--text);
   font-size: 18px;
   cursor: pointer;
   z-index: 5;  /* Thứ tự lớp nổi lên trên */
@@ -7667,7 +7726,7 @@ body {
 }
 
 .av-modal-close:hover {
-  background: #fff7fb;
+  background: var(--neon);
   color: #fff;
   transform: rotate(90deg);
 }
@@ -7692,7 +7751,7 @@ body {
   object-fit: cover;
   border-radius: 16px;
   border: 1px solid rgba(255, 255, 255, 0.12);
-  background: #fdf2f8;
+  background: #0d0d18;
 }
 
 .av-qv-thumbs {
@@ -7716,13 +7775,13 @@ body {
 
 .av-qv-thumbs img.active, .av-qv-thumbs img:hover {
   opacity: 1;
-  border-color: #fff7fb;
+  border-color: var(--neon);
 }
 
 .av-qv-price {
   font-size: 26px;
   font-weight: 800;
-  color: #fff7fb;
+  color: var(--neon);
   margin: 8px 0 12px;
   display: flex;
   align-items: center;
@@ -7731,7 +7790,7 @@ body {
 
 .av-qv-price del {
   font-size: 15px;
-  color: #6e5578;
+  color: var(--muted);
   font-weight: 500;
 }
 
@@ -7761,15 +7820,15 @@ body {
   border-radius: 8px;
   border: 1px solid rgba(255, 255, 255, 0.2);
   background: transparent;
-  color: #24142c;
+  color: var(--text);
   font-weight: 700;
   cursor: pointer;
 }
 
 .av-qv-size.selected {
-  background: #fff7fb;
-  border-color: #fff7fb;
-  color: #24142c;
+  background: var(--neon);
+  border-color: var(--neon);
+  color: #fff;
 }
 
 /* ============================================================================
@@ -7799,14 +7858,14 @@ body {
   right: 0;
   bottom: 0;
   width: min(440px, 100vw);
-  background: #ffffff;
-  border-left: 1px solid #fff7fb;
+  background: var(--panel);
+  border-left: 1px solid var(--glass-border);
   z-index: 9993;
   transform: translateX(102%);
   transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
   display: flex;
   flex-direction: column;
-  color: #24142c;
+  color: var(--text);
   box-shadow: -20px 0 50px rgba(0, 0, 0, 0.7);
 }
 
@@ -7836,7 +7895,7 @@ body {
   border-radius: 10px;
   border: 1px solid transparent;
   background: transparent;
-  color: #6e5578;
+  color: var(--muted);
   font-size: 12.5px;
   font-weight: 700;
   cursor: pointer;
@@ -7845,8 +7904,8 @@ body {
 
 .av-drawer-tab.active {
   background: linear-gradient(90deg, rgba(255, 79, 163, 0.22), rgba(139, 92, 246, 0.22));
-  border-color: #fff7fb;
-  color: #24142c;
+  border-color: var(--neon);
+  color: var(--text);
 }
 
 .av-drawer-body {
@@ -7887,13 +7946,13 @@ body {
 }
 
 .av-mini-item small {
-  color: #6e5578;
+  color: var(--muted);
   display: block;
   font-size: 11.5px;
 }
 
 .av-mini-item b {
-  color: #fff7fb;
+  color: var(--cyan);
   font-size: 13px;
 }
 
@@ -7910,7 +7969,7 @@ body {
   border-radius: 6px;
   border: 1px solid rgba(255, 255, 255, 0.2);
   background: transparent;
-  color: #24142c;
+  color: var(--text);
   cursor: pointer;
 }
 
@@ -7926,9 +7985,9 @@ body {
   flex-shrink: 0;
   padding: 7px 11px;
   border-radius: 10px;  /* Độ bo tròn góc khung */
-  border: 1px dashed #fff7fb;
+  border: 1px dashed var(--cyan);
   background: rgba(56, 232, 255, 0.08);
-  color: #24142c;
+  color: var(--text);
   font-size: 11.5px;
   cursor: pointer;
   transition: all 0.2s;
@@ -7936,12 +7995,12 @@ body {
 
 .av-voucher-chip:hover, .av-voucher-chip.active {
   background: rgba(255, 79, 163, 0.22);
-  border-color: #fff7fb;
-  box-shadow: 0 0 10px rgba(190, 24, 93, 0.25);
+  border-color: var(--neon);
+  box-shadow: 0 0 10px var(--pink-glow);
 }
 
 .av-voucher-chip b {
-  color: #fff7fb;
+  color: var(--cyan);
   display: block;
 }
 
@@ -7966,7 +8025,7 @@ body {
 .av-compare-table th {
   width: 130px;
   text-align: left;
-  color: #6e5578;
+  color: var(--muted);
   background: rgba(255, 255, 255, 0.03);
 }
 
@@ -7998,14 +8057,14 @@ body {
   border-radius: 12px;  /* Độ bo tròn góc khung */
   border: 1px solid rgba(255, 255, 255, 0.15);
   background: rgba(255, 255, 255, 0.04);
-  color: #24142c;
+  color: var(--text);
   font-weight: 700;
   font-size: 13px;  /* Cỡ chữ lớn hay nhỏ */
   cursor: pointer;
 }
 
 .av-hub-tab.active {
-  background: linear-gradient(90deg, #fff7fb, #fff7fb);
+  background: linear-gradient(90deg, var(--neon), var(--violet));
   border-color: transparent;
   color: #fff;
 }
@@ -8015,7 +8074,7 @@ body {
   padding: 24px 16px;
   border-radius: 18px;
   background: radial-gradient(circle at center, rgba(139, 92, 246, 0.28), rgba(9, 9, 18, 0.9));
-  border: 1px solid #fff7fb;
+  border: 1px solid var(--glass-border);
 }
 
 .av-gacha-orb {
@@ -8023,8 +8082,8 @@ body {
   height: 130px;
   margin: 0 auto 16px;
   border-radius: 50%;
-  background: radial-gradient(circle at 35% 30%, #fff, #fff7fb 35%, #fff7fb 70%, #fff7fb);
-  box-shadow: 0 0 40px #fff7fb, inset 0 0 24px #fff;
+  background: radial-gradient(circle at 35% 30%, #fff, var(--cyan) 35%, var(--neon) 70%, var(--violet));
+  box-shadow: 0 0 40px var(--neon), inset 0 0 24px #fff;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -8058,7 +8117,7 @@ body {
   padding: 14px;
   border-radius: 14px;
   background: rgba(255, 255, 255, 0.06);
-  border: 1px solid #fff7fb;
+  border: 1px solid var(--gold);
   display: none;
 }
 
@@ -8084,8 +8143,8 @@ body {
 .av-size-badge-big {
   font-size: 56px;
   font-weight: 900;
-  color: #fff7fb;
-  text-shadow: 0 0 20px #fff7fb;
+  color: var(--cyan);
+  text-shadow: 0 0 20px var(--cyan);
   line-height: 1;
   margin: 8px 0;
 }
@@ -8100,8 +8159,8 @@ body {
   margin-top: 32px;
   padding: 24px;
   border-radius: 20px;
-  background: #ffffff;
-  border: 1px solid #fff7fb;
+  background: var(--panel);
+  border: 1px solid var(--glass-border);
 }
 
 .av-rev-summary {
@@ -8153,7 +8212,7 @@ body {
   border-radius: 10px;
   border: 1px solid rgba(255, 255, 255, 0.16);
   background: rgba(0, 0, 0, 0.25);
-  color: #24142c;
+  color: var(--text);
 }
 
 /* Lightbox Zoom Ảnh */
@@ -8208,7 +8267,7 @@ body {
   cursor: pointer;
   font-size: 25px;
   color: #fff;
-  background: linear-gradient(135deg, #fff7fb, #fff7fb);
+  background: linear-gradient(135deg, var(--neon), var(--violet));
   box-shadow: 0 0 0 0 rgba(255, 79, 163, 0.7);
   animation: avPulse 2.4s infinite;
 }
@@ -8232,8 +8291,8 @@ body {
   height: 470px;
   max-height: 74vh;
   flex-direction: column;
-  background: #ffffff;
-  border: 1px solid #fff7fb;
+  background: var(--panel);
+  border: 1px solid var(--glass-border);
   border-radius: 18px;
   overflow: hidden;
   box-shadow: 0 0 30px rgba(56, 232, 255, 0.2), 0 20px 50px rgba(0, 0, 0, 0.75);
@@ -8247,7 +8306,7 @@ body {
   padding: 12px 14px;
   font-weight: 700;
   color: #fff;
-  background: linear-gradient(90deg, #fff7fb, #fff7fb);
+  background: linear-gradient(90deg, var(--neon), var(--violet));
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -8275,21 +8334,21 @@ body {
   border-radius: 12px;
   font-size: 13.5px;
   line-height: 1.45;
-  color: #24142c;
-  background: #fff7fb;
+  color: var(--text);
+  background: var(--surface-elevated);
   border: 1px solid rgba(255, 255, 255, 0.08);
   align-self: flex-start;
 }
 
 .avm.u {
   align-self: flex-end;
-  background: #fff7fb;
-  color: #24142c;
+  background: var(--neon);
+  color: #fff;
   border-color: transparent;
 }
 
 .avm a {
-    color: #fff7fb;
+    color: var(--cyan);
     font-weight: 700;
     text-decoration: underline;
 }
@@ -8302,9 +8361,9 @@ body {
 }
 
 #avChips button {
-  border: 1px solid #fff7fb;
+  border: 1px solid var(--cyan);
   background: rgba(56, 232, 255, 0.08);
-  color: #fff7fb;
+  color: var(--cyan);
   border-radius: 20px;
   padding: 4px 10px;
   font-size: 11.5px;
@@ -8319,8 +8378,8 @@ body {
 #avIn {
   flex: 1;
   border: 0;
-  background: #fff7fb;
-  color: #24142c;
+  background: var(--surface-elevated);
+  color: var(--text);
   padding: 12px;
   font-size: 13.5px;
   outline: 0;
@@ -8328,7 +8387,7 @@ body {
 
 #avForm button {
   border: 0;
-  background: #fff7fb;
+  background: var(--neon);
   color: #fff;
   padding: 0 16px;
   cursor: pointer;
@@ -8342,9 +8401,9 @@ body {
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  border: 1px solid #fff7fb;
-  background: #ffffff;
-  color: #fff7fb;
+  border: 1px solid var(--cyan);
+  background: var(--panel);
+  color: var(--cyan);
   cursor: pointer;
   z-index: 9980;
   opacity: 0;
@@ -8359,7 +8418,7 @@ body {
 
 #avTop:hover {
     transform: translateY(-3px);
-    box-shadow: 0 0 14px #fff7fb;
+    box-shadow: 0 0 14px var(--cyan);
 }
 
 .to-top {
@@ -8373,7 +8432,7 @@ body {
   padding: 14px;
   border-radius: 14px;
   background: rgba(56, 232, 255, 0.07);
-  border: 1px solid #fff7fb;
+  border: 1px solid var(--cyan);
   text-align: center;
 }
 
@@ -8389,7 +8448,7 @@ body {
   border-radius: 10px;
   border: 1px solid rgba(255, 255, 255, 0.15);
   background: rgba(255, 255, 255, 0.03);
-  color: #24142c;
+  color: var(--text);
   font-size: 12px;  /* Cỡ chữ lớn hay nhỏ */
   font-weight: 600;
   text-align: center;
@@ -8397,9 +8456,9 @@ body {
 }
 
 .av-pay-method.active {
-  border-color: #fff7fb;
+  border-color: var(--cyan);
   background: rgba(56, 232, 255, 0.16);
-  color: #fff7fb;
+  color: var(--cyan);
 }
 
 .av-reveal {
@@ -8456,19 +8515,19 @@ body {
 }
 
 .av-quiz-progress i.on {
-    background: linear-gradient(90deg, #fff7fb, #fff7fb);
+    background: linear-gradient(90deg, var(--neon), var(--violet));
 }
 
 .av-quiz-q {
     margin: 0 0 4px;
     font-weight: 800;
     font-size: 15px;
-    color: #fff7fb;
+    color: var(--cyan);
 }
 
 .av-quiz-hint {
     margin: 0 0 12px;
-    color: #6e5578;
+    color: var(--muted);
     font-size: 13px;  /* Cỡ chữ lớn hay nhỏ */
 }
 
@@ -8484,7 +8543,7 @@ body {
   border-radius: 12px;
   border: 1px solid rgba(128, 128, 170, 0.35);
   background: rgba(128, 128, 170, 0.1);
-  color: #24142c;
+  color: var(--text);
   font: inherit;
   font-weight: 700;
   font-size: 13px;
@@ -8496,9 +8555,9 @@ body {
 
 .av-quiz-opt:hover,
 .av-quiz-opt:focus-visible {
-  border-color: #fff7fb;
+  border-color: var(--cyan);
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px #fff7fb;
+  box-shadow: 0 6px 16px var(--card-glow);
   outline: none;
 }
 
@@ -8506,7 +8565,7 @@ body {
     display: block;
     margin-top: 2px;
     font-weight: 500;
-    color: #6e5578;
+    color: var(--muted);
     font-size: 11.5px;  /* Cỡ chữ lớn hay nhỏ */
 }
 
@@ -8525,7 +8584,7 @@ body {
   background: none;
   border: 0;
   padding: 6px 2px;
-  color: #6e5578;
+  color: var(--muted);
   font: inherit;
   font-size: 13px;  /* Cỡ chữ lớn hay nhỏ */
   cursor: pointer;
@@ -8533,7 +8592,7 @@ body {
 }
 
 .av-quiz-link:hover {
-    color: #fff7fb;
+    color: var(--cyan);
 }
 
 .av-quiz-summary {
@@ -8548,8 +8607,8 @@ body {
   border-radius: 999px;
   font-size: 12px;
   font-weight: 700;
-  border: 1px solid #fff7fb;
-  color: #fff7fb;
+  border: 1px solid var(--glass-border);
+  color: var(--cyan);
 }
 
 .av-quiz-results {
@@ -8569,8 +8628,8 @@ body {
 }
 
 .av-quiz-card.is-top {
-    border-color: #fff7fb;
-    box-shadow: 0 0 0 1px #fff7fb, 0 10px 26px #fff7fb;
+    border-color: var(--neon);
+    box-shadow: 0 0 0 1px var(--neon), 0 10px 26px var(--card-glow);
 }
 
 .av-quiz-ribbon {
@@ -8580,7 +8639,7 @@ body {
   z-index: 2;
   padding: 3px 10px;
   border-radius: 999px;
-  background: linear-gradient(90deg, #fff7fb, #fff7fb);
+  background: linear-gradient(90deg, var(--neon), var(--violet));
   color: #fff;
   font-size: 11px;
   font-weight: 800;
@@ -8591,7 +8650,7 @@ body {
     position: relative;
     display: block;
     aspect-ratio: 1 / 1;
-    background: #fdf2f8;
+    background: #0d0d17;
     overflow: hidden;
 }
 
@@ -8599,7 +8658,7 @@ body {
   content: "";
   position: absolute;
   inset: -20px;
-  background: #fff7fb center / cover no-repeat;
+  background: var(--qimg) center / cover no-repeat;
   filter: blur(18px) brightness(0.55);
 }
 
@@ -8637,12 +8696,12 @@ body {
   padding: 2px 8px;
   border-radius: 999px;
   background: linear-gradient(90deg, rgba(255, 79, 163, 0.22), rgba(139, 92, 246, 0.25));
-  color: #fff7fb;
+  color: var(--cyan);
 }
 
 .av-quiz-tags span.dim {
     background: rgba(128, 128, 170, 0.18);
-    color: #6e5578;
+    color: var(--muted);
 }
 
 .av-quiz-body b {
@@ -8651,16 +8710,16 @@ body {
 }
 
 .av-quiz-body b a {
-    color: #24142c;
+    color: var(--text);
     text-decoration: none;
 }
 
 .av-quiz-body b a:hover {
-    color: #fff7fb;
+    color: var(--cyan);
 }
 
 .av-quiz-meta {
-    color: #6e5578;
+    color: var(--muted);
     font-size: 12px;
 }
 
@@ -8674,11 +8733,11 @@ body {
 }
 
 .av-quiz-foot strong {
-    color: #fff7fb;
+    color: var(--neon);
 }
 
 .av-quiz-foot del {
-    color: #6e5578;
+    color: var(--muted);
     font-size: 11.5px;
     margin-left: 5px;
     font-weight: 400;
@@ -8787,9 +8846,9 @@ body {
 
 .av-angle-dot.active,
 .av-angle-dot:hover {
-    background: #fff7fb;
+    background: var(--cyan);
     transform: scale(1.3);
-    box-shadow: 0 0 8px #fff7fb;
+    box-shadow: 0 0 8px var(--cyan);
 }
 
 /* Hiệu ứng mượt mà khi đổi góc ảnh trên thẻ hoặc trong trang chi tiết */
@@ -8832,11 +8891,11 @@ body {
     width: 46px;
     height: 46px;
     border-radius: 50%;
-    background-color: #ffffff;
+    background-color: var(--panel);
     background-size: cover;
     background-position: center;
-    border: 2px solid #fff7fb;
-    box-shadow: 0 0 22px #be185d, 0 0 10px #fff7fb;
+    border: 2px solid var(--cyan);
+    box-shadow: 0 0 22px var(--pink), 0 0 10px var(--cyan);
     pointer-events: none;
     z-index: 10050;
     transition: transform 0.66s cubic-bezier(0.2, 0.85, 0.35, 1), opacity 0.66s ease;
@@ -8848,7 +8907,7 @@ body {
     z-index: 10051;
     padding: 4px 10px;
     border-radius: 999px;  /* Độ bo tròn góc khung */
-    background: linear-gradient(135deg, #be185d, #9333ea);
+    background: linear-gradient(135deg, var(--pink), var(--purple));
     color: #ffffff;
     font-size: 12px;
     font-weight: 800;
@@ -8915,8 +8974,8 @@ body {
     pointer-events: none;
     z-index: 10040;  /* Thứ tự lớp nổi lên trên */
     font-size: 14px;
-    color: #be185d;
-    text-shadow: 0 0 8px #be185d;
+    color: var(--pink);
+    text-shadow: 0 0 8px var(--pink);
     animation: avBurstOut 0.7s ease-out forwards;
 }
 
@@ -8928,7 +8987,7 @@ body {
 
     100% {
         opacity: 0;
-        transform: translate(calc(-50% + 0px), calc(-50% + -30px)) scale(1.25);
+        transform: translate(calc(-50% + var(--tx, 0px)), calc(-50% + var(--ty, -30px))) scale(1.25);
     }
 }
 
@@ -8950,7 +9009,7 @@ body {
 
     100% {
         opacity: 0;
-        transform: translate(40px, 92vh) rotate(540deg);
+        transform: translate(var(--fall-x, 40px), 92vh) rotate(540deg);
     }
 }
 
@@ -9022,9 +9081,9 @@ body {
 
 .av-hero-dot.active,
 .av-hero-dot:hover {
-    background: #be185d;
+    background: var(--pink);
     transform: scale(1.3);
-    box-shadow: 0 0 10px #be185d;
+    box-shadow: 0 0 10px var(--pink);
 }
 
 .av-hero-flip {
@@ -9083,19 +9142,19 @@ body {
 #avLiveTicker .av-ticker-text {
     font-size: 12px;
     line-height: 1.38;
-    color: #24142c;
+    color: var(--text);
 }
 
 #avLiveTicker .av-ticker-text small {
     display: block;
-    color: #fff7fb;
+    color: var(--cyan);
     font-size: 10.5px;
     font-weight: 700;
     margin-bottom: 2px;
 }
 
 #avLiveTicker .av-ticker-text a {
-    color: #be185d;
+    color: var(--pink);
     font-weight: 700;
     text-decoration: none;
 }
@@ -9113,14 +9172,14 @@ body {
     border-radius: 50%;
     border: none;
     background: rgba(255, 255, 255, 0.08);
-    color: #6e5578;
+    color: var(--muted);
     font-size: 14px;
     cursor: pointer;
     flex-shrink: 0;
 }
 
 #avLiveTicker .av-ticker-close:hover {
-    background: #be185d;
+    background: var(--pink);
     color: #ffffff;
 }
 
@@ -9377,7 +9436,7 @@ body {
   background: #fdf2f8;
   border: 1px solid rgba(225, 29, 116, 0.2);
   font-size: 12.5px;
-  color: #24142c;
+  color: var(--text, #24142c);
 }
 
 .av-freeship-track {
@@ -9390,7 +9449,7 @@ body {
 
 .av-freeship-fill {
   height: 100%;
-  background: linear-gradient(90deg, #e11d74, #9333ea);
+  background: var(--accent-grad, linear-gradient(90deg, #e11d74, #9333ea));
   border-radius: 99px;
   transition: width 0.3s ease;
 }
@@ -9513,10 +9572,10 @@ html:not([data-theme="sakura"]):not([data-theme="gear5"]):not([data-theme="gojo"
   --bg: #07060f;
   --bg-deep: #0b0918;
   --bg-footer: #05040b;
-  --panel: #ffffff;
+  --panel: #110e24;
   --panel-light: #181432;
   --surface-elevated: #1b1638;
-  --line: #f2d0e2;
+  --line: #2b2552;
   --pink: #ff3d9a;
   --neon: #ff3d9a;
   --purple: #9b6bff;
@@ -9543,12 +9602,12 @@ html {
 }
 
 body {
-  background-color: #24142c !important;
+  background-color: var(--bg) !important;
   background-image:
     radial-gradient(ellipse 85% 460px at 50% 0%, rgba(155, 107, 255, 0.22), rgba(255, 61, 154, 0.08) 55%, transparent 80%),
     radial-gradient(circle at 12% 30%, rgba(255, 61, 154, 0.06), transparent 45%) !important;
   background-size: auto !important;
-  color: #24142c;
+  color: var(--text);
   overflow-x: hidden;
   max-width: 100%;
 }
@@ -9572,7 +9631,7 @@ select:focus-visible,
 textarea:focus-visible,
 summary:focus-visible,
 [tabindex]:focus-visible {
-  outline: 2.5px solid #be185d !important;
+  outline: 2.5px solid var(--pink) !important;
   outline-offset: 2px !important;
   box-shadow: 0 0 0 4px rgba(255, 61, 154, 0.25) !important;
 }
@@ -9725,13 +9784,13 @@ a.deal-cta,
 .btn.ghost,
 .btn-add-cart {
   background: rgba(155, 107, 255, 0.1) !important;
-  border: 1px solid #f2d0e2 !important;
-  color: #24142c !important;
+  border: 1px solid #2b2552 !important;
+  color: var(--text) !important;
 }
 
 .btn.ghost:hover,
 .btn-add-cart:hover {
-  border-color: #be185d !important;
+  border-color: var(--pink) !important;
   background: rgba(255, 61, 154, 0.14) !important;
 }
 
@@ -9741,7 +9800,7 @@ a.deal-cta,
 .topbar,
 .promo-page .topbar {
   background: #05040b !important;
-  border-bottom: 1px solid #f2d0e2 !important;
+  border-bottom: 1px solid #2b2552 !important;
   padding: 6px 16px !important;
 }
 
@@ -9755,21 +9814,21 @@ a.deal-cta,
   padding: 6px 12px !important;
   border-radius: 999px;  /* Độ bo tròn góc khung */
   background: linear-gradient(90deg, rgba(255, 61, 154, 0.2), rgba(155, 107, 255, 0.24)) !important;
-  border: 1px solid #f2d0e2 !important;
-  color: #24142c !important;
+  border: 1px solid #2b2552 !important;
+  color: var(--text) !important;
   font-size: 12px !important;
 }
 
 .header,
 .promo-page .header {
   background: rgba(11, 9, 24, 0.92) !important;
-  border-bottom: 1px solid #f2d0e2 !important;
+  border-bottom: 1px solid #2b2552 !important;
 }
 
 .nav,
 .promo-page .nav {
   background: rgba(17, 14, 36, 0.95) !important;
-  border-bottom: 1px solid #f2d0e2 !important;
+  border-bottom: 1px solid #2b2552 !important;
 }
 
 .nav a {
@@ -9788,7 +9847,7 @@ a.deal-cta,
   overflow: hidden;
   border: 1px solid rgba(155, 107, 255, 0.32);
   box-shadow: 0 16px 42px rgba(0, 0, 0, 0.52);
-  background: #ffffff;
+  background: #110e24;
   line-height: 0;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
@@ -9846,7 +9905,7 @@ a.deal-cta,
 
 #home .hero-stats span {
   background: rgba(7, 6, 15, 0.62);
-  border: 1px solid #f2d0e2;
+  border: 1px solid #2b2552;
   border-radius: 14px;
   padding: 8px 12px;
   display: flex;
@@ -9855,7 +9914,7 @@ a.deal-cta,
 }
 
 #home .hero-stats b {
-  color: #be185d;
+  color: var(--pink);
   font-size: 20px !important;
 }
 
@@ -9867,8 +9926,8 @@ a.deal-cta,
 #otaku-hub-showcase .benefits > div,
 #best .benefits > div,
 .promo-page .benefits article {
-  background: #ffffff !important;
-  border: 1px solid #f2d0e2 !important;
+  background: #110e24 !important;
+  border: 1px solid #2b2552 !important;
   border-radius: 18px !important;
   padding: 22px 20px !important;
   box-shadow: 0 10px 26px rgba(0, 0, 0, 0.35);
@@ -9877,7 +9936,7 @@ a.deal-cta,
 
 #otaku-hub-showcase .benefits > div:hover,
 #best .benefits > div:hover {
-  border-color: #be185d !important;
+  border-color: var(--pink) !important;
   transform: translateY(-3px);
 }
 
@@ -9893,8 +9952,8 @@ a.deal-cta,
 }
 
 .categories > .category {
-  background: #ffffff !important;
-  border: 1px solid #f2d0e2 !important;
+  background: linear-gradient(160deg, #161230 0%, #110e24 100%) !important;
+  border: 1px solid #2b2552 !important;
   border-radius: 18px !important;
   padding: 20px 12px !important;
   display: flex !important;
@@ -9907,7 +9966,7 @@ a.deal-cta,
 }
 
 .categories > .category:hover {
-  border-color: #be185d !important;
+  border-color: var(--pink) !important;
   box-shadow: 0 10px 26px rgba(255, 61, 154, 0.22) !important;
   transform: translateY(-3px);
 }
@@ -9920,13 +9979,13 @@ a.deal-cta,
 
 .categories > .category b {
   font-size: 15px !important;
-  color: #24142c;
+  color: var(--text);
   margin-top: 6px;
 }
 
 .categories > .category small {
   font-size: 12px !important;
-  color: #6e5578;
+  color: var(--muted);
 }
 
 /* Nhãn danh mục nhỏ bên trong thẻ Deal trên trang Khuyến mãi */
@@ -9938,7 +9997,7 @@ a.deal-cta,
   border-radius: 0 !important;
   background: none !important;
   box-shadow: none !important;
-  color: #24142c !important;
+  color: var(--cyan) !important;
   font-size: 12px !important;
   font-weight: 800 !important;
   letter-spacing: 0.08em !important;
@@ -9951,8 +10010,8 @@ a.deal-cta,
    ============================================================================ */
 .product-card,
 .deal-card {
-  background: linear-gradient(165deg, #ffffff 0%, #ffffff 100%) !important;
-  border: 1px solid #f2d0e2 !important;
+  background: linear-gradient(165deg, #15112c 0%, #0e0b1e 100%) !important;
+  border: 1px solid #2b2552 !important;
   border-radius: 16px !important;  /* Độ bo tròn góc khung */
   min-width: 0;
   display: flex;
@@ -9963,7 +10022,7 @@ a.deal-cta,
 .deal-card:hover,
 .product-card:focus-within,
 .deal-card:focus-within {
-  border-color: #be185d !important;
+  border-color: var(--pink) !important;
   box-shadow: 0 0 0 1px rgba(255, 61, 154, 0.4), 0 14px 34px rgba(155, 107, 255, 0.22) !important;
 }
 
@@ -10021,14 +10080,14 @@ a.deal-cta,
   justify-content: center !important;
   padding: 0 12px !important;
   border-radius: 10px !important;
-  border: 1px solid #9333ea !important;
+  border: 1px solid var(--purple) !important;
   background: rgba(155, 107, 255, 0.14) !important;
   color: #e9dfff !important;
   line-height: 1 !important;
 }
 
 .av-quick-cart-btn:hover {
-  background: #9333ea !important;
+  background: var(--purple) !important;
   color: #fff !important;
 }
 
@@ -10038,8 +10097,8 @@ a.deal-cta,
 .av-modal-card,
 #avDrawer,
 #avBotBox {
-  background: #ffffff !important;
-  border-color: #f2d0e2 !important;
+  background: #110e24 !important;
+  border-color: #2b2552 !important;
 }
 
 .av-modal-close,
@@ -10093,8 +10152,8 @@ a.deal-cta,
 .lh-form-box,
 .lh-card,
 .lh-faq details {
-  background: #ffffff !important;
-  border-color: #f2d0e2 !important;
+  background: #110e24 !important;
+  border-color: #2b2552 !important;
 }
 
 /* ============================================================================
@@ -10104,7 +10163,9 @@ a.deal-cta,
       thành 11 mục nhỏ đánh số từ 1 đến 11 (như chú thích bên dưới).
    ============================================================================ */
 @media (max-width: 768px) {
-  
+  :root {
+    --gutter: 12px !important;
+  }
 
   .container,
   .promo-page .wrap {
@@ -10265,7 +10326,7 @@ a.deal-cta,
     gap: 6px !important;
     font-size: 15px !important;
     background: linear-gradient(135deg, rgba(255, 61, 154, 0.28), rgba(155, 107, 255, 0.32)) !important;
-    border: 1px solid #be185d !important;
+    border: 1px solid var(--pink) !important;
     border-radius: 999px !important;
   }
 
@@ -10274,7 +10335,7 @@ a.deal-cta,
     font-size: 13px !important;
     margin: 0 !important;
     font-weight: 700;
-    color: #24142c !important;
+    color: #fff !important;
   }
 
   /* Ẩn các nút phụ trên header mobile vì đã chuyển sang Quick Dock nổi */
@@ -10882,8 +10943,8 @@ a.deal-cta,
     max-height: 340px !important;
     aspect-ratio: 1 / 1 !important;
     margin-bottom: 10px !important;
-    background: #ffffff !important;
-    border: 1px solid #f2d0e2 !important;
+    background: #15112c !important;
+    border: 1px solid #2b2552 !important;
   }
 
   .gallery-thumbs {
@@ -10936,7 +10997,7 @@ a.deal-cta,
     background: rgba(11, 9, 24, 0.96) !important;
     backdrop-filter: blur(16px) !important;
     -webkit-backdrop-filter: blur(16px) !important;
-    border-top: 1px solid #f2d0e2 !important;
+    border-top: 1px solid #2b2552 !important;
     box-shadow: 0 -10px 28px rgba(0, 0, 0, 0.7) !important;
     display: flex !important;
     flex-direction: row !important;
@@ -11098,7 +11159,7 @@ a.deal-cta,
     min-width: 0 !important;
     position: relative;
     z-index: 1;
-    background: #ffffff;
+    background: #15112c;
     padding: 10px 12px !important;
   }
 
@@ -11173,7 +11234,7 @@ a.deal-cta,
 
 /* Trạng thái nút Nhạc nền đang phát xuyên trang */
 #avMusicBtn.is-playing {
-  border-color: #be185d !important;
+  border-color: var(--pink) !important;
   background: linear-gradient(135deg, rgba(255, 61, 154, 0.24), rgba(155, 107, 255, 0.26)) !important;
   box-shadow: 0 0 14px rgba(255, 61, 154, 0.35) !important;
   color: #ffffff !important;
@@ -11274,7 +11335,7 @@ a.deal-cta,
 /* Trạng thái mở menu */
 .av-quick-dock.is-open .av-dock-fab {
   background: #ec4899;
-  color: #24142c;
+  color: #ffffff;
   border-color: #db2777;
   box-shadow: 0 8px 24px rgba(236, 72, 153, 0.35);
 }
@@ -11496,7 +11557,7 @@ a.deal-cta,
   font-size: 12px !important;
   font-weight: 800 !important;
   letter-spacing: 0.02em !important;
-  background: #d81469 !important;
+  background: var(--primary-deep, #d81469) !important;
   color: #ffffff !important;
   border-radius: 9999px !important;
   padding: 4px 10px !important;
@@ -11517,7 +11578,7 @@ a.deal-cta,
 .category small {
   font-size: 12px !important;
   letter-spacing: 0.02em !important;
-  color: #6e5578 !important;
+  color: var(--muted, #a69ec8) !important;
   margin-top: 4px !important;
   display: block !important;
   line-height: 1.3 !important;
@@ -11532,7 +11593,7 @@ a.deal-cta,
 
 .site-footer .copyright,
 .copyright {
-  color: #6e5578 !important;
+  color: var(--muted, #a69ec8) !important;
   font-size: 13px !important;
   letter-spacing: 0.02em !important;
   padding: 22px 0 !important;
@@ -11576,7 +11637,7 @@ a.deal-cta,
   padding: 4px 14px;
   background: rgba(255, 61, 154, 0.12);
   border: 1px solid rgba(255, 61, 154, 0.35);
-  color: #be185d;
+  color: var(--pink, #ff3d9a);
   font-size: 11.5px;
   font-weight: 800;
   border-radius: 9999px;
@@ -11587,7 +11648,7 @@ a.deal-cta,
 .av-stream-header p {
   margin: 0;
   font-size: 14px;
-  color: #6e5578;
+  color: var(--muted, #a69ec8);
 }
 
 .av-stream-wrapper {
@@ -11640,8 +11701,8 @@ a.deal-cta,
 .av-stream-item:hover,
 .av-stream-item:focus-visible {
   transform: translateY(-8px) scale(1.03);
-  border-color: #be185d;
-  box-shadow: 0 14px 32px rgba(255, 61, 154, 0.35), 0 0 0 1px #be185d;
+  border-color: var(--pink, #ff3d9a);
+  box-shadow: 0 14px 32px rgba(255, 61, 154, 0.35), 0 0 0 1px var(--pink, #ff3d9a);
   z-index: 5;
 }
 
@@ -11676,7 +11737,7 @@ a.deal-cta,
 
 .av-stream-info b {
   font-size: 13.5px;
-  color: #24142c;
+  color: #ffffff;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -11685,7 +11746,7 @@ a.deal-cta,
 
 .av-stream-info small {
   font-size: 11px;
-  color: #6e5578;
+  color: var(--muted, #a69ec8);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -11797,11 +11858,16 @@ html[data-theme="gojo"] .av-stream-item:hover {
    ============================================================================ */
 
 /* 1. KHAI BÁO BIẾN SAFE AREA INSET TOÀN CỤC */
-
+:root {
+  --av-sat: env(safe-area-inset-top, 0px);
+  --av-sar: env(safe-area-inset-right, 0px);
+  --av-sab: env(safe-area-inset-bottom, 0px);
+  --av-sal: env(safe-area-inset-left, 0px);
+}
 
 body {
-  padding-left: #fff7fb;
-  padding-right: #fff7fb;
+  padding-left: var(--av-sal);
+  padding-right: var(--av-sar);
   min-height: 100vh;
   min-height: 100dvh;
 }
@@ -11810,28 +11876,28 @@ body {
 @supports (padding: max(0px)) {
   #avQuickDock,
   .av-quick-dock {
-    bottom: max(16px, calc(16px + #fff7fb)) !important;
-    right: max(16px, calc(16px + #fff7fb)) !important;
+    bottom: max(16px, calc(16px + var(--av-sab))) !important;
+    right: max(16px, calc(16px + var(--av-sar))) !important;
     z-index: 9990 !important;
   }
 
   /* Nâng Chatbot lên trên Quick Dock để chống va chạm và đè nút trên màn hình di động */
   #avBot {
-    bottom: max(80px, calc(80px + #fff7fb)) !important;
-    right: max(16px, calc(16px + #fff7fb)) !important;
+    bottom: max(80px, calc(80px + var(--av-sab))) !important;
+    right: max(16px, calc(16px + var(--av-sar))) !important;
     z-index: 9985 !important;
   }
 
   #avTop {
-    left: max(16px, calc(16px + #fff7fb)) !important;
-    bottom: max(16px, calc(16px + #fff7fb)) !important;
+    left: max(16px, calc(16px + var(--av-sal))) !important;
+    bottom: max(16px, calc(16px + var(--av-sab))) !important;
     z-index: 9980 !important;
   }
 
   .product-pro-layout .action-group {
-    padding-bottom: max(12px, calc(10px + #fff7fb)) !important;
-    padding-left: max(12px, calc(12px + #fff7fb)) !important;
-    padding-right: max(12px, calc(12px + #fff7fb)) !important;
+    padding-bottom: max(12px, calc(10px + var(--av-sab))) !important;
+    padding-left: max(12px, calc(12px + var(--av-sal))) !important;
+    padding-right: max(12px, calc(12px + var(--av-sar))) !important;
   }
 }
 
@@ -11980,7 +12046,7 @@ body {
     content: attr(data-label);
     font-weight: 600;
     font-size: 12px;
-    color: #a69ec8;
+    color: var(--text-muted, #a69ec8);
   }
 }
 
@@ -12035,10 +12101,12 @@ body {
 
 /* 7. MÀN HÌNH DESKTOP LỚN & SIÊU RỘNG (1440PX ĐẾN 4K) */
 @media (min-width: 1440px) {
-  
+  :root {
+    --max-width: 1500px;
+  }
 
   .container {
-    width: min(1500px, calc(100% - 64px)) !important;
+    width: min(var(--max-width), calc(100% - 64px)) !important;
     max-width: 1500px !important;
     margin-inline: auto !important;
   }
@@ -12229,7 +12297,7 @@ html {
 /* ============================================================================
    THEME-FIX.CSS — SỬA LỖI ĐỔI MÀU CHỦ ĐỀ (chữ trùng màu nền)
    📍 Vấn đề cũ: nhiều quy tắc trong style_new.css / tech.css / upgrade.css ghi cứng
-      màu chữ trắng (#fff) hoặc nền tối (#ffffff...) nên khi đổi sang chủ đề sáng
+      màu chữ trắng (#fff) hoặc nền tối (#110e24...) nên khi đổi sang chủ đề sáng
       (Sakura) thì chữ trắng nằm trên nền trắng, chữ tối nằm trên nền tối; còn ở
       Gear 5 / Gojo thì chữ trắng nằm trên nút vàng/xanh neon sáng.
    🛠️ Cách hoạt động: file này phải được nạp CUỐI CÙNG (sau upgrade.css).
@@ -12240,15 +12308,85 @@ html {
    ============================================================================ */
 
 /* ---------- 1) Biến bổ sung cho từng chủ đề (Quad-Theme & WCAG AA) ---------- */
-
+:root {
+  --on-accent: #ffffff;
+  --text-strong: #24142c;
+  --accent-grad: linear-gradient(135deg, #e11d74 0%, #9333ea 100%);
+  --surface: #ffffff;
+  --surface-2: #fdf2f8;
+  --surface-elevated: #fff0f7;
+  --hero-bg: linear-gradient(135deg, #ffe4f1 0%, #f3e8ff 55%, #ffeef6 100%);
+  --sale-bg: linear-gradient(100deg, #ffe0ef, #f1e4ff 50%, #ffe8f0);
+  --star: #b45309;
+  --price: #be185d;
+  --text: #24142c;
+  --muted: #6e5578;
+  --bg: #ffffff;
+  --page-bg: #ffffff;
+  color-scheme: light;
+}
 html[data-theme="cyber"],
-html
+html[data-theme="default"] {
+  --on-accent: #ffffff;
+  --text-strong: #ffffff;
+  --accent-grad: linear-gradient(135deg, #d81469 0%, #7c3aed 100%);
+  --surface: #110e24;
+  --surface-2: #181432;
+  --surface-elevated: #1b1638;
+  --hero-bg: linear-gradient(135deg, rgba(22, 17, 48, 0.92) 0%, rgba(13, 10, 28, 0.96) 100%);
+  --sale-bg: linear-gradient(100deg, #3a1752, #20133a 50%, #44152d);
+  --star: #fbbf24;
+  --price: #ff3d9a;
+  color-scheme: dark;
+}
 html[data-theme="sakura"],
-html
+html[data-theme="sakura-pastel"] {
+  --on-accent: #ffffff;
+  --text-strong: #24142c;
+  --accent-grad: linear-gradient(135deg, #e11d74 0%, #9333ea 100%);
+  --surface: #ffffff;
+  --surface-2: #fdf2f8;
+  --surface-elevated: #fff0f7;
+  --hero-bg: linear-gradient(135deg, #ffe4f1 0%, #f3e8ff 55%, #ffeef6 100%);
+  --sale-bg: linear-gradient(100deg, #ffe0ef, #f1e4ff 50%, #ffe8f0);
+  --star: #b45309;
+  --price: #be185d;
+  --text: #24142c;
+  --muted: #6e5578;
+  color-scheme: light;
+}
 html[data-theme="gear5"],
-html
+html[data-theme="dark-knight"] {
+  --on-accent: #1a1204;
+  --text-strong: #fff7e0;
+  --accent-grad: linear-gradient(135deg, #fbbf24 0%, #f97316 100%);
+  --surface: #17130a;
+  --surface-2: #211b0e;
+  --surface-elevated: #231c0d;
+  --hero-bg: radial-gradient(circle at 82% 28%, rgba(251, 191, 36, 0.22), transparent 55%), radial-gradient(circle at 12% 80%, rgba(249, 115, 22, 0.16), transparent 50%), #17130a;
+  --sale-bg: linear-gradient(100deg, rgba(251, 191, 36, 0.18), #17130a 55%, rgba(249, 115, 22, 0.18));
+  --star: #fbbf24;
+  --price: #f59e0b;
+  --text: #fff8e7;
+  --muted: #c9b896;
+  color-scheme: dark;
+}
 html[data-theme="gojo"],
-html
+html[data-theme="cyber-neon"] {
+  --on-accent: #02121f;
+  --text-strong: #eaf6ff;
+  --accent-grad: linear-gradient(135deg, #00f0ff 0%, #818cf8 100%);
+  --surface: #0b1829;
+  --surface-2: #11223a;
+  --surface-elevated: #0f2138;
+  --hero-bg: radial-gradient(circle at 82% 28%, rgba(0, 240, 255, 0.22), transparent 55%), radial-gradient(circle at 12% 80%, rgba(129, 140, 248, 0.16), transparent 50%), #0b1829;
+  --sale-bg: linear-gradient(100deg, rgba(0, 240, 255, 0.18), #0b1829 55%, rgba(129, 140, 248, 0.18));
+  --star: #38bdf8;
+  --price: #00f0ff;
+  --text: #eaf6ff;
+  --muted: #8da6c4;
+  color-scheme: dark;
+}
 
 /* ---------- 2) Nút / nhãn nền màu nổi: chữ phải tương phản ---------- */
 html[data-theme="gear5"] .btn.primary,
@@ -12267,10 +12405,10 @@ html[data-theme="cyber-neon"] .btn.primary,
 html[data-theme="cyber-neon"] .btn-primary,
 html[data-theme="cyber-neon"] .btn-buy-now,
 html[data-theme="cyber-neon"] .lh-submit {
-  background: #fff7fb !important;
-  color: #fff7fb !important;
+  background: var(--accent-grad) !important;
+  color: var(--on-accent) !important;
   border-color: rgba(255, 255, 255, 0.25) !important;
-  box-shadow: 0 8px 24px #fff7fb !important;
+  box-shadow: 0 8px 24px var(--glass-border) !important;
 }
 
 /* Badges nền màu nổi theo chủ đề & tương phản chuẩn */
@@ -12290,8 +12428,8 @@ html[data-theme="cyber-neon"] .badge,
 html[data-theme="cyber-neon"] .pro-price .badge,
 html[data-theme="cyber-neon"] .cart-badge,
 html[data-theme="cyber-neon"] .av-badge-count {
-  background: #fff7fb !important;
-  color: #fff7fb !important;
+  background: var(--accent-grad) !important;
+  color: var(--on-accent) !important;
 }
 html[data-theme="gear5"] .badge,
 html[data-theme="gear5"] .pro-price .badge,
@@ -12344,7 +12482,7 @@ html[data-theme="gojo"] .size-btn:hover,
 html[data-theme="gojo"] .size-btn.selected,
 html[data-theme="gojo"] .av-qv-size.selected,
 html[data-theme="gojo"] .rank-4 .rank-badge {
-  color: #fff7fb !important;
+  color: var(--on-accent) !important;
 }
 /* Nút "+ Giỏ" khi rê chuột: nền --cyan / --purple sáng → chữ đậm */
 html[data-theme="gear5"] .av-quick-cart-btn:hover,
@@ -12353,13 +12491,13 @@ html[data-theme="gear5"] .av-card-cta-row a.add,
 html[data-theme="gojo"] .av-card-cta-row a.add,
 html[data-theme="gear5"] .av-card-cta-row a.deal-cta,
 html[data-theme="gojo"] .av-card-cta-row a.deal-cta {
-  color: #24142c !important;
+  color: var(--on-accent) !important;
 }
 /* Chữ tiêu đề dạng gradient: lấy màu theo chủ đề (upgrade.css đang ghi cứng hồng-tím-xanh) */
 html[data-theme] #home .hero-copy h1 strong,
 html[data-theme] .products-hero-copy h1 span,
 html[data-theme] .promo-page .hero-copy h1 span {
-  background-image: linear-gradient(95deg, #fff7fb 0%, #fff7fb 50%, #fff7fb 100%) !important;
+  background-image: linear-gradient(95deg, var(--neon) 0%, var(--violet) 50%, var(--cyan) 100%) !important;
   -webkit-background-clip: text !important;
   background-clip: text !important;
 }
@@ -12374,11 +12512,11 @@ html[data-theme="sakura"] .promo-page .hero-copy h1 span {
    3) CHỦ ĐỀ SAKURA (SÁNG) — chuyển mọi khung tối cứng sang sáng
    ============================================================================ */
 html[data-theme="sakura"] body {
-  background-color: #24142c !important;
+  background-color: var(--bg) !important;
   background-image:
     radial-gradient(ellipse 85% 460px at 50% 0%, rgba(225, 29, 116, 0.10), rgba(147, 51, 234, 0.05) 55%, transparent 80%),
     radial-gradient(circle at 12% 30%, rgba(225, 29, 116, 0.05), transparent 45%) !important;
-  color: #24142c !important;
+  color: var(--text) !important;
 }
 
 /* Thanh trên cùng, header, menu, chân trang */
@@ -12391,8 +12529,8 @@ html[data-theme="sakura"] .promo-page .nav,
 html[data-theme="sakura"] body.nav-open .nav,
 html[data-theme="sakura"] .site-footer {
   background: rgba(255, 245, 250, 0.96) !important;
-  border-color: #f2d0e2 !important;
-  color: #24142c !important;
+  border-color: var(--line) !important;
+  color: var(--text) !important;
 }
 html[data-theme="sakura"] .nav a,
 html[data-theme="sakura"] .promo-page .nav a {
@@ -12404,55 +12542,55 @@ html[data-theme="sakura"] .nav a.active,
 html[data-theme="sakura"] .nav a[aria-current="page"],
 html[data-theme="sakura"] .promo-page .nav a:hover,
 html[data-theme="sakura"] .promo-page .nav a.active {
-  color: #24142c !important;
+  color: var(--neon) !important;
   text-shadow: none !important;
 }
-html[data-theme="sakura"] body.nav-open .nav a { border-bottom-color: #f2d0e2 !important; }
+html[data-theme="sakura"] body.nav-open .nav a { border-bottom-color: var(--line) !important; }
 html[data-theme="sakura"] .site-footer,
 html[data-theme="sakura"] .site-footer p,
 html[data-theme="sakura"] .site-footer a,
 html[data-theme="sakura"] .site-footer li { color: #5b4366 !important; }
 html[data-theme="sakura"] .footer-grid h4,
-html[data-theme="sakura"] .promo-page .footer-grid h4 { color: #24142c !important; }
-html[data-theme="sakura"] .site-footer a:hover { color: #24142c !important; }
+html[data-theme="sakura"] .promo-page .footer-grid h4 { color: var(--text-strong) !important; }
+html[data-theme="sakura"] .site-footer a:hover { color: var(--neon) !important; }
 html[data-theme="sakura"] .logo,
-html[data-theme="sakura"] .brand { color: #fff7fb; }
+html[data-theme="sakura"] .brand { color: var(--text-strong); }
 
 /* Ô tìm kiếm + các nút icon trên header */
 html[data-theme="sakura"] .search input,
 html[data-theme="sakura"] .products-page .product-search,
 html[data-theme="sakura"] .products-page .sort-control select {
   background: #ffffff !important;
-  color: #24142c !important;
-  border-color: #f2d0e2 !important;
+  color: var(--text) !important;
+  border-color: var(--line) !important;
 }
 html[data-theme="sakura"] .search input::placeholder { color: #8a7194; }
 html[data-theme="sakura"] .search button { color: #fff !important; }
 html[data-theme="sakura"] .icon-btn,
 html[data-theme="sakura"] .header-actions a,
 html[data-theme="sakura"] .header-actions button { color: #3d2748 !important; }
-html[data-theme="sakura"] .heart { background: rgba(255, 255, 255, 0.92) !important; color: #24142c !important; }
+html[data-theme="sakura"] .heart { background: rgba(255, 255, 255, 0.92) !important; color: var(--neon) !important; }
 
 /* Hero trang chủ */
 html[data-theme="sakura"] #home .hero {
-  background: #fff7fb !important;
-  border-color: #f2d0e2 !important;
+  background: var(--hero-bg) !important;
+  border-color: var(--line) !important;
   box-shadow: 0 14px 40px rgba(225, 29, 116, 0.12) !important;
 }
 html[data-theme="sakura"] #home .hero h1,
 html[data-theme="sakura"] #home .hero-copy,
-html[data-theme="sakura"] #home .hero-copy > p:not(.eyebrow) { color: #24142c !important; }
+html[data-theme="sakura"] #home .hero-copy > p:not(.eyebrow) { color: var(--text) !important; }
 html[data-theme="sakura"] #home .hero-copy > p:not(.eyebrow) { color: #5b4366 !important; }
 html[data-theme="sakura"] #home .hero-stats span {
   background: rgba(255, 255, 255, 0.85) !important;
-  border-color: #f2d0e2 !important;
+  border-color: var(--line) !important;
   color: #5b4366 !important;
 }
-html[data-theme="sakura"] #home .hero-stats b { color: #24142c !important; }
+html[data-theme="sakura"] #home .hero-stats b { color: var(--neon) !important; }
 html[data-theme="sakura"] .hero-art,
 html[data-theme="sakura"] .promo-page .hero-art { background: transparent !important; }
 html[data-theme="sakura"] .products-page .products-hero h1,
-html[data-theme="sakura"] .products-page .hero-product-tile small { color: #24142c !important; }
+html[data-theme="sakura"] .products-page .hero-product-tile small { color: var(--text) !important; }
 html[data-theme="sakura"] .products-page .tile-back { background: #ffffff !important; }
 html[data-theme="sakura"] .av-hero-switcher { background: rgba(255, 255, 255, 0.85) !important; }
 
@@ -12484,7 +12622,7 @@ html[data-theme="sakura"] .promo-page .benefits article,
 html[data-theme="sakura"] .promo-page .coupon-banner {
   background: #ffffff !important;
   border: 1px solid #f3cfe2 !important;
-  color: #24142c !important;
+  color: var(--text) !important;
   box-shadow: 0 8px 24px rgba(225, 29, 116, 0.07) !important;
 }
 html[data-theme="sakura"] .product-image,
@@ -12495,20 +12633,20 @@ html[data-theme="sakura"] .article-cover,
 html[data-theme="sakura"] .av-qv-main-img,
 html[data-theme="sakura"] .av-quiz-img,
 html[data-theme="sakura"] .av-gacha-stage {
-  background: #fff7fb !important;
+  background: var(--surface-2) !important;
 }
 html[data-theme="sakura"] .filter,
 html[data-theme="sakura"] .promo-page .filter {
   background: #ffffff !important;
   color: #5b4366 !important;
-  border-color: #f2d0e2 !important;
+  border-color: var(--line) !important;
 }
 html[data-theme="sakura"] .filter:hover,
 html[data-theme="sakura"] .filter.active,
 html[data-theme="sakura"] .promo-page .filter:hover,
 html[data-theme="sakura"] .promo-page .filter.active {
   background-color: #be185d !important;
-  background-image: #fff7fb !important;
+  background-image: var(--accent-grad) !important;
   color: #ffffff !important;
   border-color: transparent !important;
   box-shadow: 0 6px 16px rgba(225, 29, 116, 0.25) !important;
@@ -12537,17 +12675,17 @@ html[data-theme="sakura"] .sidebar-links a,
 html[data-theme="sakura"] .lh-copy,
 html[data-theme="sakura"] .products-page .sidebar-note b,
 html[data-theme="sakura"] .av-rev-score strong {
-  color: #24142c !important;
+  color: var(--text-strong) !important;
 }
 html[data-theme="sakura"] .cart-item small,
 html[data-theme="sakura"] .category small,
 html[data-theme="sakura"] .categories > .category small { color: #6e5578 !important; }
 html[data-theme="sakura"] .rating,
-html[data-theme="sakura"] .av-card-meta .av-stars { color: #24142c !important; }
+html[data-theme="sakura"] .av-card-meta .av-stars { color: var(--star) !important; }
 html[data-theme="sakura"] .price strong,
 html[data-theme="sakura"] .promo-page .price strong,
 html[data-theme="sakura"] .pro-price,
-html[data-theme="sakura"] .coupon-row b { color: #24142c !important; }
+html[data-theme="sakura"] .coupon-row b { color: var(--price) !important; }
 html[data-theme="sakura"] .av-quick-cart-btn {
   background: rgba(2, 132, 199, 0.10) !important;
   border-color: #0284c7 !important;
@@ -12561,9 +12699,9 @@ html[data-theme="sakura"] .quantity button,
 html[data-theme="sakura"] .cart-qty button,
 html[data-theme="sakura"] .cart-remove,
 html[data-theme="sakura"] .cart-head button {
-  color: #24142c !important;
+  color: var(--text) !important;
   background: #fdf2f8 !important;
-  border-color: #f2d0e2 !important;
+  border-color: var(--line) !important;
 }
 html[data-theme="sakura"] .qty-input,
 html[data-theme="sakura"] .form-group input,
@@ -12577,35 +12715,35 @@ html[data-theme="sakura"] .av-rev-form input,
 html[data-theme="sakura"] .av-rev-form select,
 html[data-theme="sakura"] .av-rev-form textarea {
   background: #ffffff !important;
-  color: #24142c !important;
-  border-color: #f2d0e2 !important;
+  color: var(--text) !important;
+  border-color: var(--line) !important;
 }
-html[data-theme="sakura"] .size-btn { background: #fff !important; color: #24142c !important; border-color: #f2d0e2 !important; }
+html[data-theme="sakura"] .size-btn { background: #fff !important; color: var(--text) !important; border-color: var(--line) !important; }
 html[data-theme="sakura"] .size-btn:hover,
 html[data-theme="sakura"] .size-btn.selected,
 html[data-theme="sakura"] .av-qv-size.selected {
-  background: #fff7fb !important;
+  background: var(--accent-grad) !important;
   color: #fff !important;
 }
 html[data-theme="sakura"] .lh-error { color: #b91c1c !important; }
-html[data-theme="sakura"] .lh-topic span { color: #24142c !important; }
+html[data-theme="sakura"] .lh-topic span { color: var(--text) !important; }
 
 /* Khối ưu đãi (sale) trên trang chủ */
 html[data-theme="sakura"] .sale {
-  background: #fff7fb !important;
+  background: var(--sale-bg) !important;
   border-color: #f3cfe2 !important;
 }
-html[data-theme="sakura"] .sale h2 { color: #24142c !important; }
+html[data-theme="sakura"] .sale h2 { color: var(--text-strong) !important; }
 html[data-theme="sakura"] .sale p,
 html[data-theme="sakura"] .sale .eyebrow { color: #5b4366 !important; }
-html[data-theme="sakura"] .sale strong { color: #24142c !important; }
+html[data-theme="sakura"] .sale strong { color: var(--price) !important; }
 html[data-theme="sakura"] .countdown span {
   background: #ffffff !important;
-  border-color: #f2d0e2 !important;
+  border-color: var(--line) !important;
 }
-html[data-theme="sakura"] .countdown b { color: #24142c !important; }
+html[data-theme="sakura"] .countdown b { color: var(--text-strong) !important; }
 html[data-theme="sakura"] .countdown small { color: #6e5578 !important; }
-html[data-theme="sakura"] .countdown i { color: #24142c !important; }
+html[data-theme="sakura"] .countdown i { color: var(--neon) !important; }
 
 /* Cửa sổ nổi, ngăn kéo, chatbot, trung tâm Otaku */
 html[data-theme="sakura"] .av-modal-card,
@@ -12614,12 +12752,12 @@ html[data-theme="sakura"] #avBotBox,
 html[data-theme="sakura"] .av-quiz-body,
 html[data-theme="sakura"] .av-drawer-foot {
   background: #ffffff !important;
-  border-color: #f2d0e2 !important;
-  color: #24142c !important;
+  border-color: var(--line) !important;
+  color: var(--text) !important;
 }
-html[data-theme="sakura"] .av-drawer-tabs { background: #fdf2f8 !important; border-bottom-color: #f2d0e2 !important; }
+html[data-theme="sakura"] .av-drawer-tabs { background: #fdf2f8 !important; border-bottom-color: var(--line) !important; }
 html[data-theme="sakura"] .av-modal-card *:not(button):not(a):not(.av-badge-count),
-html[data-theme="sakura"] #avDrawer *:not(button):not(a):not(.av-badge-count) { border-color: #f2d0e2; }
+html[data-theme="sakura"] #avDrawer *:not(button):not(a):not(.av-badge-count) { border-color: var(--line); }
 html[data-theme="sakura"] .av-modal-card,
 html[data-theme="sakura"] .av-modal-card h2,
 html[data-theme="sakura"] .av-modal-card h3,
@@ -12631,37 +12769,37 @@ html[data-theme="sakura"] #avDrawer h2,
 html[data-theme="sakura"] #avDrawer h3,
 html[data-theme="sakura"] #avDrawer strong,
 html[data-theme="sakura"] #avDrawer p,
-html[data-theme="sakura"] #avDrawer li { color: #fff7fb; }
+html[data-theme="sakura"] #avDrawer li { color: var(--text-strong); }
 html[data-theme="sakura"] .av-modal-close,
 html[data-theme="sakura"] #avDrawerClose {
-  color: #24142c !important;
+  color: var(--text) !important;
   background: #fdf2f8 !important;
-  border-color: #f2d0e2 !important;
+  border-color: var(--line) !important;
 }
-html[data-theme="sakura"] .av-modal-close:hover { background: #fff7fb !important; color: #fff !important; }
+html[data-theme="sakura"] .av-modal-close:hover { background: var(--neon) !important; color: #fff !important; }
 html[data-theme="sakura"] .av-drawer-tab { color: #5b4366 !important; }
 html[data-theme="sakura"] .av-drawer-tab.active {
   background: rgba(225, 29, 116, 0.12) !important;
-  color: #24142c !important;
-  border-color: #24142c !important;
+  color: var(--text-strong) !important;
+  border-color: var(--neon) !important;
 }
 html[data-theme="sakura"] .av-hub-tab {
   background: #fdf2f8 !important;
-  color: #24142c !important;
-  border-color: #f2d0e2 !important;
+  color: var(--text) !important;
+  border-color: var(--line) !important;
 }
 html[data-theme="sakura"] .av-hub-tab.active {
-  background: #fff7fb !important;
-  color: #24142c !important;
+  background: var(--accent-grad) !important;
+  color: #fff !important;
   border-color: transparent !important;
 }
-html[data-theme="sakura"] #avBotBox .avm { color: #24142c; }
-html[data-theme="sakura"] #avBotBox .avm.b { background: #fdf2f8; color: #24142c; }
-html[data-theme="sakura"] #avBotBox .avm.u { background: #fff7fb; color: #24142c !important; }
+html[data-theme="sakura"] #avBotBox .avm { color: var(--text); }
+html[data-theme="sakura"] #avBotBox .avm.b { background: #fdf2f8; color: var(--text); }
+html[data-theme="sakura"] #avBotBox .avm.u { background: var(--accent-grad); color: #fff !important; }
 html[data-theme="sakura"] #avBotBtn,
 html[data-theme="sakura"] #avBotHead { color: #fff !important; }
-html[data-theme="sakura"] #avLiveTicker { background: rgba(255, 255, 255, 0.96) !important; color: #24142c !important; border-color: #f2d0e2 !important; }
-html[data-theme="sakura"] .av-checkin-btn { background: #fff7fb !important; color: #fff !important; }
+html[data-theme="sakura"] #avLiveTicker { background: rgba(255, 255, 255, 0.96) !important; color: var(--text) !important; border-color: var(--line) !important; }
+html[data-theme="sakura"] .av-checkin-btn { background: var(--accent-grad) !important; color: #fff !important; }
 html[data-theme="sakura"] .av-checkin-btn.done { background: #ecfdf5 !important; color: #047857 !important; }
 html[data-theme="sakura"] .av-toast,
 html[data-theme="sakura"] .promo-page .toast { color: #fff !important; }
@@ -12673,12 +12811,12 @@ html[data-theme="sakura"] .btn-buy-now,
 html[data-theme="sakura"] .lh-submit,
 html[data-theme="sakura"] .btn-add-cart,
 html[data-theme="sakura"] .cart-coupon button {
-  background: #fff7fb !important;
+  background: var(--accent-grad) !important;
   color: #ffffff !important;
 }
 html[data-theme="sakura"] .btn.secondary,
 html[data-theme="sakura"] .btn:not(.primary):not(.btn-primary) {
-  color: #24142c;
+  color: var(--text);
 }
 
 /* ---------- 4) Gear 5 / Gojo: nút lọc đang chọn cần nền nổi để chữ đậm đọc được ---------- */
@@ -12702,8 +12840,8 @@ html[data-theme="gojo"] .size-btn:hover,
 html[data-theme="gojo"] .size-btn.selected,
 html[data-theme="gojo"] .av-qv-size.selected,
 html[data-theme="gojo"] .av-view-toggle button.active {
-  background: #24142c !important;
-  color: #24142c !important;
+  background: var(--accent-grad) !important;
+  color: var(--on-accent) !important;
   border-color: transparent !important;
 }
 
@@ -12717,7 +12855,7 @@ html[data-theme="gojo"] .av-view-toggle button.active {
 .promo-page .discount { background: #d61f78 !important; color: #ffffff !important; }
 .promo-page .deal-cta span { color: inherit !important; }
 html[data-theme="gear5"] .btn-add-cart,
-html[data-theme="gojo"] .btn-add-cart { color: #24142c !important; }
+html[data-theme="gojo"] .btn-add-cart { color: var(--text) !important; }
 
 /* ============================================================================
    6) SAKURA — các trang Sản phẩm, Chi tiết, Khuyến mãi, Liên hệ, Tư vấn
@@ -12730,28 +12868,28 @@ html[data-theme="sakura"] .hero-tags span,
 html[data-theme="sakura"] .lh-chips span {
   color: #5b4366 !important;
   background: rgba(255, 255, 255, 0.85) !important;
-  border-color: #f2d0e2 !important;
+  border-color: var(--line) !important;
 }
 html[data-theme="sakura"] .products-page .hero-product-tile,
 html[data-theme="sakura"] .products-page .tile-front {
   background: #ffffff !important;
-  border-color: #f2d0e2 !important;
+  border-color: var(--line) !important;
 }
 html[data-theme="sakura"] .products-page .tile-front span,
 html[data-theme="sakura"] .products-page .tile-front small,
-html[data-theme="sakura"] .products-page .tile-front b { color: #24142c !important; }
+html[data-theme="sakura"] .products-page .tile-front b { color: var(--text-strong) !important; }
 html[data-theme="sakura"] .products-page .sort-control,
 html[data-theme="sakura"] .products-page .sort-control span,
 html[data-theme="sakura"] .products-page .active-filter-row,
 html[data-theme="sakura"] #active-filter-label { color: #5b4366 !important; }
 html[data-theme="sakura"] .products-page .category-filter { color: #5b4366 !important; background: transparent !important; }
-html[data-theme="sakura"] .products-page .category-filter span { color: #9333ea !important; }
-html[data-theme="sakura"] .products-page .category-filter:hover { background: #fdf2f8 !important; color: #24142c !important; }
+html[data-theme="sakura"] .products-page .category-filter span { color: var(--purple) !important; }
+html[data-theme="sakura"] .products-page .category-filter:hover { background: #fdf2f8 !important; color: var(--text-strong) !important; }
 html[data-theme="sakura"] .products-page .category-filter.active {
-  background: #fff7fb !important;
-  color: #24142c !important;
+  background: var(--accent-grad) !important;
+  color: #ffffff !important;
 }
-html[data-theme="sakura"] .products-page .category-filter.active span { color: #24142c !important; }
+html[data-theme="sakura"] .products-page .category-filter.active span { color: #ffffff !important; }
 html[data-theme="sakura"] .pro-details-section,
 html[data-theme="sakura"] .pro-details-section p,
 html[data-theme="sakura"] .pro-details-section li,
@@ -12765,54 +12903,54 @@ html[data-theme="sakura"] .advice-article li { color: #3d2748 !important; }
 html[data-theme="sakura"] .pro-details-section h2,
 html[data-theme="sakura"] .pro-details-section h3,
 html[data-theme="sakura"] .advice-article h2,
-html[data-theme="sakura"] .advice-article h3 { color: #24142c !important; }
+html[data-theme="sakura"] .advice-article h3 { color: var(--text-strong) !important; }
 html[data-theme="sakura"] .av-rev-item {
   background: #fdf2f8 !important;
-  border-color: #f2d0e2 !important;
-  color: #24142c !important;
+  border-color: var(--line) !important;
+  color: var(--text) !important;
 }
 html[data-theme="sakura"] .av-rev-item b span { color: #047857 !important; }
-html[data-theme="sakura"] .av-rev-item div { color: #fff7fb; }
+html[data-theme="sakura"] .av-rev-item div { color: var(--star); }
 html[data-theme="sakura"] .av-rev-item p,
-html[data-theme="sakura"] .av-rev-item b { color: #24142c !important; }
+html[data-theme="sakura"] .av-rev-item b { color: var(--text) !important; }
 
 /* Trang Khuyến mãi */
 html[data-theme="sakura"] .promo-page .hero-copy .eyebrow { color: #be185d !important; }
-html[data-theme="sakura"] .promo-page .art-caption span { color: #9333ea !important; }
+html[data-theme="sakura"] .promo-page .art-caption span { color: var(--purple) !important; }
 html[data-theme="sakura"] .promo-page .art-caption small { color: #5b4366 !important; }
 html[data-theme="sakura"] .promo-page .spark,
-html[data-theme="sakura"] .lh-spark { color: #24142c !important; }
+html[data-theme="sakura"] .lh-spark { color: var(--neon) !important; }
 html[data-theme="sakura"] .promo-page .timer strong,
 html[data-theme="sakura"] .promo-page .timer span,
 html[data-theme="sakura"] .promo-page .timer > b,
 html[data-theme="sakura"] .promo-page .countdown-inner h2,
 html[data-theme="sakura"] .promo-page .countdown-inner p,
-html[data-theme="sakura"] .promo-page .countdown-inner .eyebrow { color: #24142c !important; }
-html[data-theme="sakura"] .promo-page .deal-label { color: #24142c !important; }
+html[data-theme="sakura"] .promo-page .countdown-inner .eyebrow { color: #ffffff !important; }
+html[data-theme="sakura"] .promo-page .deal-label { color: #ffffff !important; }
 html[data-theme="sakura"] .promo-page .demo-note,
 html[data-theme="sakura"] .demo-note { color: #6e5578 !important; }
 html[data-theme="sakura"] .promo-page .welcome-code strong,
-html[data-theme="sakura"] .welcome-code strong { color: #24142c !important; }
+html[data-theme="sakura"] .welcome-code strong { color: var(--price) !important; }
 html[data-theme="sakura"] .promo-page .copy-code,
 html[data-theme="sakura"] .copy-code {
   background: #f3e8ff !important;
   color: #6b21a8 !important;
   border-color: #c4a1ee !important;
 }
-html[data-theme="sakura"] .promo-page .deal-cta { color: #24142c !important; }
-html[data-theme="sakura"] .promo-page .coupon-row b { color: #24142c !important; }
+html[data-theme="sakura"] .promo-page .deal-cta { color: var(--text) !important; }
+html[data-theme="sakura"] .promo-page .coupon-row b { color: var(--price) !important; }
 
 /* Trang Liên hệ */
 html[data-theme="sakura"] .lh-chat {
   background: #ffffff !important;
-  border-color: #f2d0e2 !important;
-  color: #24142c !important;
+  border-color: var(--line) !important;
+  color: var(--text) !important;
 }
 html[data-theme="sakura"] .lh-chat b,
 html[data-theme="sakura"] .lh-chat small,
-html[data-theme="sakura"] .lh-chat span { color: #24142c !important; }
-html[data-theme="sakura"] .lh-bubble { background: #fdf2f8 !important; color: #24142c !important; }
-html[data-theme="sakura"] .lh-bubble.me { background: #fff7fb !important; color: #24142c !important; }
+html[data-theme="sakura"] .lh-chat span { color: var(--text) !important; }
+html[data-theme="sakura"] .lh-bubble { background: #fdf2f8 !important; color: var(--text) !important; }
+html[data-theme="sakura"] .lh-bubble.me { background: var(--accent-grad) !important; color: #ffffff !important; }
 html[data-theme="sakura"] .lh-member { background: #ffffff !important; }
 html[data-theme="sakura"] .lh-member b,
 html[data-theme="sakura"] .lh-member small,
@@ -12825,27 +12963,27 @@ html[data-theme="sakura"] .lh-cta h2,
 html[data-theme="sakura"] .lh-cta p,
 html[data-theme="sakura"] .lh-form-box label,
 html[data-theme="sakura"] .lh-form-box h2,
-html[data-theme="sakura"] .lh-form-box p { color: #24142c !important; }
+html[data-theme="sakura"] .lh-form-box p { color: var(--text) !important; }
 html[data-theme="sakura"] .lh-demo { color: #b45309 !important; }
-html[data-theme="sakura"] .lh-topic input:checked + span { background: #fff7fb !important; color: #24142c !important; }
-html[data-theme="sakura"] .lh-avatar { color: #24142c !important; }
+html[data-theme="sakura"] .lh-topic input:checked + span { background: var(--accent-grad) !important; color: #fff !important; }
+html[data-theme="sakura"] .lh-avatar { color: #ffffff !important; }
 
 /* ---------- 7) Vá nốt các điểm nhỏ còn sót ---------- */
 html[data-theme] .rank-3 .rank-badge,
 html[data-theme] .rank-4 .rank-badge { color: #ffffff !important; }
 .promo-page .search button { color: #1b0f2e !important; }
 
-html[data-theme="sakura"] .products-page .products-hero { background: #fff7fb !important; }
+html[data-theme="sakura"] .products-page .products-hero { background: var(--hero-bg) !important; }
 html[data-theme="sakura"] .products-page .sort-control { background: transparent !important; }
 html[data-theme="sakura"] .products-page .category-filter.active b,
-html[data-theme="sakura"] .products-page .category-filter.active small { color: #24142c !important; }
+html[data-theme="sakura"] .products-page .category-filter.active small { color: #ffffff !important; }
 html[data-theme="sakura"] .av-rev-item div,
-html[data-theme="sakura"] .av-rev-item div * { color: #24142c !important; }
+html[data-theme="sakura"] .av-rev-item div * { color: var(--star) !important; }
 html[data-theme="sakura"] .logo span,
-html[data-theme="sakura"] a.logo span { color: #24142c !important; }
-html[data-theme="sakura"] .promo-page .hero { background: #fff7fb !important; }
+html[data-theme="sakura"] a.logo span { color: var(--neon) !important; }
+html[data-theme="sakura"] .promo-page .hero { background: var(--hero-bg) !important; }
 html[data-theme="sakura"] .art-caption span,
-html[data-theme="sakura"] .promo-page .art-caption span { color: #9333ea !important; }
+html[data-theme="sakura"] .promo-page .art-caption span { color: var(--purple) !important; }
 html[data-theme="sakura"] .art-caption small,
 html[data-theme="sakura"] .promo-page .art-caption small { color: #5b4366 !important; }
 html[data-theme="sakura"] .promo-page .hero h1,
@@ -12853,8 +12991,8 @@ html[data-theme="sakura"] .promo-page .hero-copy > p,
 html[data-theme="sakura"] .lh-hero h1,
 html[data-theme="sakura"] .lh-hero p,
 html[data-theme="sakura"] .products-hero-copy h1,
-html[data-theme="sakura"] .products-hero-copy > p:not(.eyebrow) { color: #24142c !important; }
-html[data-theme="sakura"] .lh-hero { background: #fff7fb !important; }
+html[data-theme="sakura"] .products-hero-copy > p:not(.eyebrow) { color: var(--text) !important; }
+html[data-theme="sakura"] .lh-hero { background: var(--hero-bg) !important; }
 
 /* ---------- 8) Vá tiếp: nhãn nút header (điện thoại), thanh công cụ danh mục, nút tìm kiếm trang Khuyến mãi ---------- */
 body:has(.promo-page) .search button { color: #1b0f2e !important; }
@@ -12865,12 +13003,12 @@ html[data-theme="sakura"] a.icon-btn.cart-nav small { color: #5b4366 !important;
 html[data-theme="sakura"] .catalog-toolbar,
 html[data-theme="sakura"] .products-page .catalog-toolbar {
   background: #ffffff !important;
-  border-color: #f2d0e2 !important;
-  color: #24142c !important;
+  border-color: var(--line) !important;
+  color: var(--text) !important;
 }
 html[data-theme="sakura"] .catalog-toolbar * { color: #5b4366; }
 html[data-theme="sakura"] .catalog-toolbar select,
-html[data-theme="sakura"] .catalog-toolbar input { color: #24142c !important; background: #fff !important; }
+html[data-theme="sakura"] .catalog-toolbar input { color: var(--text) !important; background: #fff !important; }
 html[data-theme="sakura"] .art-caption span,
 html[data-theme="sakura"] .promo-page .art-caption span { color: #7e22ce !important; }
 html[data-theme="sakura"] .deal-content .category,
@@ -12880,7 +13018,7 @@ html[data-theme="sakura"] .header-actions .icon-btn:not(.cart-nav) { color: #5b4
 html[data-theme="sakura"] .header-actions .icon-btn:not(.cart-nav) small { color: #5b4366 !important; }
 
 /* Viên cầu Gacha: dấu ✦ luôn màu trắng cho nổi trên nền cầu */
-.av-gacha-orb { color: #24142c !important; }
+.av-gacha-orb { color: #ffffff !important; }
 
 /* ============================================================================
    9) GEAR 5 / GOJO — bỏ nền tím cứng của upgrade.css để khung nền đổi theo màu chủ đề
@@ -12888,21 +13026,21 @@ html[data-theme="sakura"] .header-actions .icon-btn:not(.cart-nav) small { color
 html[data-theme="gear5"] .topbar, html[data-theme="gojo"] .topbar,
 html[data-theme="gear5"] .header, html[data-theme="gojo"] .header,
 html[data-theme="gear5"] .nav, html[data-theme="gojo"] .nav {
-  background: color-mix(in srgb, #fceef5 94%, transparent) !important;
-  border-color: #f2d0e2 !important;
+  background: color-mix(in srgb, var(--bg-deep) 94%, transparent) !important;
+  border-color: var(--line) !important;
 }
 html[data-theme="gear5"] #home .hero,
 html[data-theme="gojo"] #home .hero {
   background:
-    radial-gradient(circle at 82% 28%, color-mix(in srgb, #fff7fb 22%, transparent), transparent 55%),
-    radial-gradient(circle at 12% 80%, color-mix(in srgb, #fff7fb 16%, transparent), transparent 50%),
-    #ffffff !important;
-  border-color: #f2d0e2 !important;
+    radial-gradient(circle at 82% 28%, color-mix(in srgb, var(--neon) 22%, transparent), transparent 55%),
+    radial-gradient(circle at 12% 80%, color-mix(in srgb, var(--violet) 16%, transparent), transparent 50%),
+    var(--panel) !important;
+  border-color: var(--line) !important;
 }
 html[data-theme="gear5"] .sale,
 html[data-theme="gojo"] .sale {
-  background: linear-gradient(100deg, color-mix(in srgb, #fff7fb 18%, #ffffff), #ffffff 55%, color-mix(in srgb, #fff7fb 18%, #ffffff)) !important;
-  border-color: #f2d0e2 !important;
+  background: linear-gradient(100deg, color-mix(in srgb, var(--neon) 18%, var(--panel)), var(--panel) 55%, color-mix(in srgb, var(--violet) 18%, var(--panel))) !important;
+  border-color: var(--line) !important;
 }
 html[data-theme="gear5"] .categories > .category, html[data-theme="gojo"] .categories > .category,
 html[data-theme="gear5"] .product-card, html[data-theme="gojo"] .product-card,
@@ -12919,8 +13057,8 @@ html[data-theme="gear5"] .lh-form-box, html[data-theme="gojo"] .lh-form-box,
 html[data-theme="gear5"] .lh-card, html[data-theme="gojo"] .lh-card,
 html[data-theme="gear5"] #otaku-hub-showcase .benefits > div, html[data-theme="gojo"] #otaku-hub-showcase .benefits > div,
 html[data-theme="gear5"] #best .benefits > div, html[data-theme="gojo"] #best .benefits > div {
-  background: #ffffff !important;
-  border-color: #f2d0e2 !important;
+  background: var(--panel) !important;
+  border-color: var(--line) !important;
 }
 
 /* ============================================================================
@@ -12984,7 +13122,7 @@ html[data-theme="sakura"] .av-dock-fab {
 }
 html[data-theme="sakura"] .av-quick-dock.is-open .av-dock-fab {
   background: #ec4899 !important;
-  color: #24142c !important;
+  color: #ffffff !important;
   border-color: #db2777 !important;
 }
 html[data-theme="sakura"] .av-dock-menu {
@@ -13048,7 +13186,7 @@ html[data-theme="gojo"] .av-dock-fab {
 }
 html[data-theme="gojo"] .av-quick-dock.is-open .av-dock-fab {
   background: #0284c7 !important;
-  color: #24142c !important;
+  color: #ffffff !important;
   border-color: #0369a1 !important;
 }
 html[data-theme="gojo"] .av-dock-menu {
@@ -13094,8 +13232,8 @@ html[data-theme="sakura"] .av-stream-item {
 
 html[data-theme="sakura"] .av-stream-item:hover,
 html[data-theme="sakura"] .av-stream-item:focus-visible {
-  border-color: #be185d !important;
-  box-shadow: 0 12px 28px rgba(225, 29, 116, 0.2), 0 0 0 1px #be185d !important;
+  border-color: var(--pink) !important;
+  box-shadow: 0 12px 28px rgba(225, 29, 116, 0.2), 0 0 0 1px var(--pink) !important;
 }
 
 html[data-theme="sakura"] .av-stream-item img {
@@ -13113,7 +13251,7 @@ html[data-theme="sakura"] .av-ov-btn {
 
 html[data-theme="sakura"] .av-ov-btn:hover,
 html[data-theme="sakura"] .av-ov-btn.active {
-  background: #fff7fb !important;
+  background: var(--accent-grad) !important;
   color: #ffffff !important;
   border-color: transparent !important;
   box-shadow: 0 4px 14px rgba(225, 29, 116, 0.3) !important;
@@ -13204,7 +13342,7 @@ html[data-theme="sakura"] .av-view-toggle button {
 }
 
 html[data-theme="sakura"] .av-view-toggle button.active {
-  background: #fff7fb !important;
+  background: var(--accent-grad) !important;
   color: #ffffff !important;
 }
 
@@ -13256,7 +13394,7 @@ html[data-theme="sakura"] .promo-page .toast {
 
 /* 12. Hiệu ứng bay vào giỏ hàng */
 html[data-theme="sakura"] .av-motion-flyer {
-  background-color: #24142c !important;
+  background-color: #ffffff !important;
   box-shadow: 0 8px 24px rgba(225, 29, 116, 0.35), 0 0 0 2px #e11d74 !important;
 }
 
@@ -14060,7 +14198,7 @@ html[data-theme="sakura"] .search-clear-btn:focus-visible {
 .filter-more-body h4 {
   font-size: 16px;
   font-weight: 700;
-  color: #24142c;
+  color: #ffffff;
   margin: 0 0 4px;
 }
 
@@ -14097,7 +14235,7 @@ html[data-theme="sakura"] .search-clear-btn:focus-visible {
   transform: translateY(-2px) scale(1.02);
   box-shadow: 0 6px 20px rgba(236, 72, 153, 0.5);
   filter: brightness(1.1);
-  color: #24142c !important;
+  color: #ffffff !important;
 }
 
 /* Giao diện Sakura Light Theme */
@@ -14307,7 +14445,7 @@ html[data-theme="sakura"] .filter-more-body p {
 }
 
 .minimal-title a {
-  color: #24142c;
+  color: #ffffff;
   text-decoration: none;
   transition: color 0.2s ease;
 }
@@ -14367,7 +14505,7 @@ html[data-theme="sakura"] .filter-more-body p {
 .minimal-coupon-info strong {
   font-size: 15px;
   font-weight: 800;
-  color: #24142c;
+  color: #ffffff;
   letter-spacing: 0.08em;
 }
 
@@ -14410,7 +14548,7 @@ html[data-theme="sakura"] .filter-more-body p {
   display: block;
   font-size: 20px;
   font-weight: 800;
-  color: #24142c;
+  color: #ffffff;
   letter-spacing: 0.02em;
 }
 
@@ -14468,7 +14606,7 @@ html[data-theme="sakura"] .filter-more-body p {
   display: block;
   font-size: 12.5px;
   font-weight: 700;
-  color: #24142c;
+  color: #ffffff;
 }
 
 .channel-action {
@@ -14493,7 +14631,7 @@ html[data-theme="sakura"] .filter-more-body p {
   display: block;
   font-size: 19px;
   font-weight: 900;
-  color: #24142c;
+  color: #ffffff;
   letter-spacing: -0.01em;
   line-height: 1.2;
 }
@@ -14704,9 +14842,9 @@ html[data-theme="sakura"] .minimal-status {
 }
 
 .lh-card-actions .lh-action-link:hover {
-  background: #be185d;
+  background: var(--pink, #ff4fa3);
   color: #ffffff;
-  border-color: #be185d;
+  border-color: var(--pink, #ff4fa3);
 }
 
 /* 3. Showroom Experience Center Card */
@@ -14730,7 +14868,7 @@ html[data-theme="sakura"] .minimal-status {
 .lh-showroom-info h2 {
   font-size: clamp(24px, 3.2vw, 32px);
   margin: 10px 0 12px;
-  color: #24142c;
+  color: #ffffff;
   line-height: 1.25;
 }
 
@@ -14943,7 +15081,7 @@ html[data-theme="sakura"] .minimal-status {
 }
 
 .lh-faq-search-input:focus {
-  border-color: #be185d;
+  border-color: var(--pink, #ff4fa3);
   background: rgba(255, 255, 255, 0.08);
   box-shadow: 0 0 16px rgba(255, 79, 163, 0.25);
 }
@@ -15027,7 +15165,7 @@ html[data-theme="sakura"] .lh-card-actions .lh-action-link {
 }
 html[data-theme="sakura"] .lh-card-actions .lh-action-link:hover {
   background: #b81565 !important;
-  color: #24142c !important;
+  color: #ffffff !important;
   border-color: #b81565 !important;
 }
 html[data-theme="sakura"] .lh-showroom-card {
@@ -15117,194 +15255,6 @@ html[data-theme="sakura"] .minimal-status.live {
   }
 }
 
-/* ============================================================================
-   BỘ STYLE TỐI GIẢN TOÀN DIỆN CHO ANIMEVERSE (MINIMALIST SAKURA PASTEL)
-   - Nguyên tắc: "Cánh hoa rơi nhẹ + Băng chuyền êm ái, mọi thứ khác đứng yên"
-   - Giao diện phẳng, tinh tế, khoảng trắng rộng rãi, bỏ các chi tiết thừa
-   ============================================================================ */
-
-/* 1. Ẩn triệt để các tiện ích và widget rườm rà */
-#avProgress,
-#avGlow,
-#avQuickDock,
-#avDockFab,
-#avDockMenu,
-#avBot,
-#avHubModal,
-#avLiveTicker,
-.av-angle-dots,
-.av-checkin-btn,
-.av-vip-pill,
-.av-xp-float,
-.av-confetti-piece,
-.av-click-ripple,
-.av-card-glare,
-.av-motion-flyer {
-  display: none !important;
-}
-
-/* 2. Cánh hoa rơi tự nhiên, nhẹ nhàng, không cản trở thao tác */
-#avParticles {
-  position: fixed;
-  inset: 0;
-  width: 100vw;
-  height: 100vh;
-  pointer-events: none !important;
-  z-index: 1;
-}
-
-/* 3. Nút cuộn lên đầu trang tối giản (#avTop) */
-#avTop.av-top-btn {
-  position: fixed;
-  right: 24px;
-  bottom: 24px;
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
-  background: #ffffff;
-  border: 1px solid rgba(225, 29, 116, 0.25);
-  color: #be185d;
-  font-size: 18px;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-  cursor: pointer;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
-  z-index: 990;
-}
-
-#avTop.av-top-btn.visible {
-  opacity: 1;
-  visibility: visible;
-}
-
-#avTop.av-top-btn:hover {
-  background: #fdf2f8;
-  border-color: #be185d;
-  transform: translateY(-2px);
-}
-
-/* 4. Nút tiện ích trên thanh Header (.av-header-utility) */
-.av-header-utility {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-  padding: 6px 12px;
-  border-radius: 999px;
-  background: #ffffff;
-  border: 1px solid rgba(225, 29, 116, 0.18);
-  color: #2b1f2d;
-  font-size: 13px;
-  font-weight: 600;
-  transition: all 0.15s ease;
-  cursor: pointer;
-}
-
-.av-header-utility:hover {
-  background: #fdf2f8;
-  border-color: #be185d;
-  color: #be185d;
-}
-
-.av-header-utility small {
-  font-size: 11.5px;
-  font-weight: 500;
-  color: #6b5c6f;
-}
-
-/* 5. Thẻ sản phẩm phẳng, thanh lịch, bỏ nghiêng 3D & phóng to quá đà */
-.product-card,
-.deal-card {
-  background: #ffffff !important;
-  border: 1px solid rgba(225, 29, 116, 0.12) !important;
-  border-radius: 12px !important;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease !important;
-  transform: none !important;
-}
-
-.product-card:hover,
-.deal-card:hover {
-  border-color: rgba(225, 29, 116, 0.38) !important;
-  box-shadow: 0 4px 16px rgba(225, 29, 116, 0.08) !important;
-  transform: none !important;
-}
-
-.product-card .product-image img,
-.deal-card .deal-visual img {
-  transition: opacity 0.2s ease !important;
-  transform: none !important;
-}
-
-/* 6. Băng chuyền sản phẩm: chạy êm, rê chuột dừng, thẻ phẳng sạch sẽ */
-.av-stream-section {
-  background: transparent !important;
-  border-top: 1px solid rgba(225, 29, 116, 0.08);
-  border-bottom: 1px solid rgba(225, 29, 116, 0.08);
-  padding: 24px 0 !important;
-}
-
-.av-stream-track:hover {
-  animation-play-state: paused;
-}
-
-.av-stream-item {
-  background: #ffffff !important;
-  border: 1px solid rgba(225, 29, 116, 0.12) !important;
-  border-radius: 10px !important;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03) !important;
-  transition: border-color 0.15s ease !important;
-}
-
-.av-stream-item:hover {
-  border-color: rgba(225, 29, 116, 0.35) !important;
-}
-
-/* 7. Hệ thống nút bấm tối giản: Chính (Hồng đậm) & Phụ (Viền mảnh) */
-.btn.primary,
-button.btn-add,
-.btn-primary {
-  background: #be185d !important;
-  color: #ffffff !important;
-  border: 1px solid #be185d !important;
-  border-radius: 8px !important;
-  box-shadow: none !important;
-  transition: background 0.15s ease, border-color 0.15s ease !important;
-}
-
-.btn.primary:hover,
-button.btn-add:hover,
-.btn-primary:hover {
-  background: #9d174d !important;
-  border-color: #9d174d !important;
-  transform: none !important;
-}
-
-.btn.ghost,
-.btn.secondary,
-.btn-secondary {
-  background: #ffffff !important;
-  color: #be185d !important;
-  border: 1px solid rgba(225, 29, 116, 0.28) !important;
-  border-radius: 8px !important;
-  box-shadow: none !important;
-  transition: all 0.15s ease !important;
-}
-
-.btn.ghost:hover,
-.btn.secondary:hover,
-.btn-secondary:hover {
-  background: #fdf2f8 !important;
-  border-color: #be185d !important;
-  color: #9d174d !important;
-  transform: none !important;
-}
-
 
 
 
@@ -15376,7 +15326,7 @@ button.btn-add:hover,
 
 .av-motion-tilt:hover,
 .av-motion-tilt:focus-within {
-    transform: perspective(1000px) translateY(-6px) rotateX(0deg) rotateY(0deg) translateZ(6px);
+    transform: perspective(1000px) translateY(-6px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg)) translateZ(6px);
 }
 
 /* Hiệu ứng tia sáng phản chiếu nhẹ trên thẻ khi nghiêng (Specular Glare) */
@@ -15387,31 +15337,31 @@ button.btn-add:hover,
     inset: 0;
     border-radius: inherit;
     pointer-events: none;
-    opacity: 0;
+    opacity: var(--glare-opacity, 0);
     transition: opacity 0.25s ease;
-    background: radial-gradient(320px circle at center center, rgba(255, 255, 255, 0.16), transparent 70%);
+    background: radial-gradient(320px circle at var(--tilt-gx, var(--glare-x, 50%)) var(--tilt-gy, var(--glare-y, 50%)), rgba(255, 255, 255, 0.16), transparent 70%);
     mix-blend-mode: overlay;
     z-index: 2;
 }
 
 .av-motion-tilt:hover::after {
-    opacity: 0.16;
+    opacity: var(--glare-opacity, 0.16);
 }
 
 /* Tinh chỉnh quầng sáng phản chiếu hòa quyện theo bảng màu Sakura Pastel */
 html[data-theme="sakura"] .av-motion-tilt::after,
 html[data-theme="sakura"] .av-card-glare {
-    background: radial-gradient(320px circle at center center, rgba(225, 29, 116, 0.14), transparent 70%);
+    background: radial-gradient(320px circle at var(--tilt-gx, var(--glare-x, 50%)) var(--tilt-gy, var(--glare-y, 50%)), rgba(225, 29, 116, var(--glare-opacity, 0.14)), transparent 70%);
 }
 
 html[data-theme="gear5"] .av-motion-tilt::after,
 html[data-theme="gear5"] .av-card-glare {
-    background: radial-gradient(320px circle at center center, rgba(251, 191, 36, 0.16), transparent 70%);
+    background: radial-gradient(320px circle at var(--tilt-gx, var(--glare-x, 50%)) var(--tilt-gy, var(--glare-y, 50%)), rgba(251, 191, 36, var(--glare-opacity, 0.16)), transparent 70%);
 }
 
 html[data-theme="gojo"] .av-motion-tilt::after,
 html[data-theme="gojo"] .av-card-glare {
-    background: radial-gradient(320px circle at center center, rgba(0, 240, 255, 0.16), transparent 70%);
+    background: radial-gradient(320px circle at var(--tilt-gx, var(--glare-x, 50%)) var(--tilt-gy, var(--glare-y, 50%)), rgba(0, 240, 255, var(--glare-opacity, 0.16)), transparent 70%);
 }
 
 /* ----------------------------------------------------------------------------
@@ -15429,8 +15379,8 @@ html[data-theme="gojo"] .av-card-glare {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    background-color: #ffffff;
-    box-shadow: 0 8px 24px rgba(225, 29, 116, 0.35), 0 0 0 2px #be185d;
+    background-color: var(--panel, #ffffff);
+    box-shadow: 0 8px 24px rgba(225, 29, 116, 0.35), 0 0 0 2px var(--pink, #e11d74);
     transition: transform 0.68s cubic-bezier(0.2, 0.82, 0.32, 1),
                 opacity 0.68s cubic-bezier(0.55, 0, 0.8, 0.6);
     will-change: transform, opacity;
@@ -15490,11 +15440,11 @@ html[data-theme="gojo"] .av-motion-flyer {
     }
     60% {
         opacity: 0.95;
-        transform: translate(calc(-50% + 0px), calc(-50% + -24px)) scale(1.2) rotate(180deg);
+        transform: translate(calc(-50% + var(--tx, 0px)), calc(-50% + var(--ty, -24px))) scale(1.2) rotate(var(--rot, 180deg));
     }
     100% {
         opacity: 0;
-        transform: translate(calc(-50% + 0px * 1.25), calc(-50% + -24px + 26px)) scale(0.8) rotate(360deg);
+        transform: translate(calc(-50% + var(--tx, 0px) * 1.25), calc(-50% + var(--ty, -24px) + 26px)) scale(0.8) rotate(var(--rot, 360deg));
     }
 }
 
@@ -15610,232 +15560,3 @@ html[data-theme="gojo"] .av-motion-flyer {
     }
 }
 
-
-/* Tối ưu tương phản tuyệt đối cho menu và search */
-.nav-toggle {
-    color: #24142c !important;
-}
-.lh-faq-search-input {
-    color: #24142c !important;
-    background-color: #ffffff !important;
-}
-
-/* ==========================================================================
-   BỔ SUNG TỐI ƯU TRẢI NGHIỆM: ĐIỀU KHIỂN DẢI CUỘN & TƯƠNG PHẢN CHUẨN SAKURA
-   ========================================================================== */
-
-/* 1. Dải sản phẩm cuộn ngang tự động tạm dừng khi rê chuột hoặc chạm tay */
-.av-stream-track:hover,
-.av-stream-track:focus-within,
-.av-stream-track:active {
-    animation-play-state: paused !important;
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .av-stream-track {
-        animation: none !important;
-        overflow-x: auto !important;
-    }
-}
-
-/* 2. Đảm bảo toàn bộ tiêu đề và chữ trên nền sáng đều sắc nét tương phản cao */
-.hero h1, .hero p, .hero-stats b, .hero-stats span,
-.sale h2, .countdown b, .product-info h3, .footer-grid h4,
-.category b, .cart-head h2, .pro-title {
-    color: #24142c !important;
-}
-
-.countdown b {
-    color: #be185d !important;
-}
-
-/* 3. Banner trang chủ bo góc nhẹ và có khoảng cách thở tinh tế */
-.home-banner {
-    margin: 24px auto !important;
-    max-width: 1500px;
-    padding: 0 16px;
-}
-.home-banner img {
-    border-radius: 16px;
-    box-shadow: 0 4px 20px rgba(190, 24, 93, 0.08);
-    border: 1px solid #f2d0e2;
-}
-
-
-/* ==========================================================================
-   SAKURA PASTEL TOTAL PURGE: LOẠI BỎ 100% MỌI KHỐI NỀN TỐI & CHỮ TÀNG HÌNH
-   Biến toàn bộ website thành giao diện Trắng Hồng (Pinkish-White) thuần khiết.
-   ========================================================================== */
-
-/* 1. Nền thẻ danh mục, lợi ích, banner, thẻ bài */
-.categories > .category,
-.category,
-#otaku-hub-showcase .benefits > div,
-#best .benefits > div,
-.benefits > div,
-.promo-page .benefits article,
-.anime-card,
-.sidebar-card,
-.products-page .category-sidebar,
-.promo-page .deal-card,
-.pro-details-section,
-.av-reviews-box,
-.cart-summary,
-.cart-item,
-.lh-card,
-.lh-member,
-.lh-form-box,
-.lh-chat,
-.lh-faq details,
-.lh-showroom-card,
-.av-modal-card,
-#avDrawer,
-#avBotBox,
-.products-page .catalog-toolbar,
-.products-page .tile-back,
-.cosplay-tip {
-    background: #ffffff !important;
-    background-color: #ffffff !important;
-    background-image: none !important;
-    border: 1px solid #f2d0e2 !important;
-    border-color: #f2d0e2 !important;
-    box-shadow: 0 4px 18px rgba(190, 24, 93, 0.05) !important;
-    color: #24142c !important;
-}
-
-/* 2. Khung ảnh sản phẩm & gallery (hồng phấn nhẹ, tôn dáng figure) */
-.product-image,
-.products-page .product-image,
-.gallery-main,
-.gallery-thumbs img,
-.article-cover,
-.av-quiz-img,
-.av-qv-main-img,
-.deal-visual {
-    background: #fdf2f8 !important;
-    background-color: #fdf2f8 !important;
-    background-image: none !important;
-    border-color: #f2d0e2 !important;
-}
-
-/* 3. Nút Tim yêu thích, Nút điều hướng, Bộ lọc */
-.heart,
-.products-page .heart {
-    background: #ffffff !important;
-    background-color: #ffffff !important;
-    border: 1px solid #f2d0e2 !important;
-    color: #be185d !important;
-    box-shadow: 0 2px 8px rgba(190, 24, 93, 0.1) !important;
-}
-
-.countdown span {
-    background: #ffffff !important;
-    border: 1px solid #f2d0e2 !important;
-    color: #be185d !important;
-    box-shadow: 0 2px 10px rgba(190, 24, 93, 0.08) !important;
-}
-
-/* 4. Toàn bộ chữ, tiêu đề, nhãn trên các thẻ phải là Tím Đậm (#24142c) rõ nét */
-.category b, .category span,
-.benefits h3, .benefits p,
-.product-info h3, .product-info p,
-.deal-content h3, .deal-content p,
-.cart-item b, .cart-item span, .cart-item div,
-.cart-summary h3, .cart-summary p, .cart-summary div,
-.pro-details-section h2, .pro-details-section h3, .pro-details-section p,
-.av-reviews-box h3, .av-reviews-box p,
-.lh-card h3, .lh-card p,
-.lh-form-box h2, .lh-form-box p, .lh-form-box label,
-.lh-faq details summary, .lh-faq details p,
-.sidebar-card h3, .sidebar-card p,
-.hero h1, .hero p, .hero-stats b, .hero-stats span,
-.sale h2, .sale p,
-.footer-grid h4, .footer-grid p, .footer-grid a,
-.nav a, .topbar span, .topbar a {
-    color: #24142c !important;
-}
-
-/* Điểm nhấn giá và thương hiệu */
-.price, .pro-price, .deal-price, .cart-total, .countdown b,
-.hero-buttons .primary, .btn.primary {
-    color: #be185d !important;
-}
-.btn.primary, .btn-primary, .btn-buy-now, .lh-submit {
-    color: #ffffff !important;
-    background: linear-gradient(135deg, #be185d, #9333ea) !important;
-    border: none !important;
-}
-
-/* Đảm bảo nền trang và container luôn là Trắng Hồng */
-html, body, #home, .container, main {
-    background: radial-gradient(circle at 85% 10%, rgba(255, 130, 190, 0.25) 0, transparent 32%), #fff7fb !important;
-    color: #24142c !important;
-}
-
-/* ==========================================================================
-   TỐI ƯU CÁC NÚT THAO TÁC (TĂNG GIẢM SỐ LƯỢNG, XÓA, MENU) CHỮ RÕ NÉT 100%
-   ========================================================================== */
-
-/* Nút tăng/giảm số lượng trong giỏ hàng và trang chi tiết */
-.quantity button,
-.cart-qty button,
-.cart-remove,
-.cart-head button,
-.cart-item button {
-    color: #24142c !important;
-    background-color: #fdf2f8 !important;
-    border: 1px solid #f2d0e2 !important;
-    font-weight: 700 !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    cursor: pointer !important;
-}
-
-.quantity button:hover,
-.cart-qty button:hover {
-    background-color: #fce7f3 !important;
-    color: #be185d !important;
-    border-color: #be185d !important;
-}
-
-.cart-remove:hover,
-.cart-head button:hover {
-    color: #e11d48 !important;
-    background-color: #ffe4e6 !important;
-}
-
-/* Nút menu 3 gạch điện thoại */
-.nav-toggle,
-.nav-toggle span {
-    color: #24142c !important;
-    border-color: #24142c !important;
-}
-
-/* Các nút trong modal, drawer */
-.av-modal-close,
-.close-drawer {
-    color: #24142c !important;
-    background: #fdf2f8 !important;
-    border: 1px solid #f2d0e2 !important;
-}
-.av-modal-close:hover {
-    color: #ffffff !important;
-    background: #be185d !important;
-}
-
-/* Thanh phân trang và view toggle */
-.av-view-toggle button,
-.pagination a,
-.pagination button {
-    color: #24142c !important;
-    background: #ffffff !important;
-    border: 1px solid #f2d0e2 !important;
-}
-
-.av-view-toggle button.active,
-.pagination a.active {
-    color: #ffffff !important;
-    background: #be185d !important;
-    border-color: #be185d !important;
-}

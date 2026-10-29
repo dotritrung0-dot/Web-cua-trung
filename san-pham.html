@@ -1,15 +1,75 @@
 <!DOCTYPE html>
 <html lang="vi" data-theme="sakura">
+<!--
+🛍️ FILE: san-pham.html — TRANG TẤT CẢ SẢN PHẨM (50 MÓN ĐỒ CỦA SHOP)
+📌 CẤU TRÚC CÁC MỤC TRONG TRANG NÀY:
+   - MỤC 1 : Phần HEAD (Tiêu đề tab, nạp file CSS gộp (bundle.css) giao diện).
+   - MỤC 2 : Dải thông báo trên cùng (.topbar).
+   - MỤC 3 : Thanh đầu trang (.header - Logo, Ô tìm kiếm, Nút Giỏ hàng & Hỗ trợ).
+   - MỤC 4 : Thanh Menu điều hướng (.nav).
+   - MỤC 5 : Khu vực Mở đầu trang Sản phẩm (.products-hero - Banner giới thiệu).
+   - MỤC 6 : Thanh công cụ Tìm kiếm & Sắp xếp (.catalog-heading & .catalog-toolbar).
+   - MỤC 7 : Cột bên trái — Bộ lọc theo Danh mục (.category-sidebar).
+   - MỤC 8 : Cột bên phải — Lưới 50 Sản phẩm (#product-grid) & Thông báo khi không tìm thấy.
+   - MỤC CUỐI 1: Chân trang (.site-footer).
+   - MỤC CUỐI 2: Đoạn mã JS xử lý Tìm kiếm / Lọc / Sắp xếp và nạp 3 file JS chính.
+-->
+<!--
+📘 CẨM NANG ĐỌC & SỬA FILE HTML NÀY (DÀNH CHO NGƯỜI CHƯA BIẾT CODE)
+1. HTML LÀ GÌ?
+   - HTML giống như "bộ khung và nội dung chữ/ảnh" của trang web.
+   - Mọi thứ bạn nhìn thấy trên trang (chữ, hình ảnh, nút bấm, đường link) đều được viết ở đây.
 
+2. CÁCH ĐỌC CÁC THẺ (TAG) CƠ BẢN TRONG FILE NÀY:
+   - Cặp thẻ mở và đóng: <ten-the> Nội dung ở giữa </ten-the>
+   - <h1>, <h2>, <h3>, <h4> : Các dòng TIÊU ĐỀ (h1 là to nhất, h4 là nhỏ nhất).
+   - <p> ... </p>           : Một ĐOẠN VĂN BẢN bình thường.
+   - <span>, <small>        : Một cụm chữ nhỏ hoặc nhãn ngắn.
+   - <strong>, <b>          : Chữ IN ĐẬM (thường dùng để viết GIÁ TIỀN hoặc từ quan trọng).
+   - <del> ... </del>       : Chữ GẠCH NGANG ở giữa (thường dùng để viết GIÁ CŨ trước khi giảm).
+   - <a href="địa-chỉ.html">Chữ hiện ra</a> : ĐƯỜNG LINK bấm vào để chuyển sang trang khác.
+     + href="..." là tên file trang web sẽ mở ra khi bấm vào.
+   - <img src="đường-dẫn-ảnh" alt="mô tả">  : HÌNH ẢNH hiển thị trên trang.
+     + src="..." là đường dẫn chỉ tới tấm ảnh trong thư mục "anh/..."
+     + alt="..." là dòng mô tả ảnh (hiện ra nếu ảnh bị lỗi).
+   - <button> ... </button> : NÚT BẤM để thực hiện hành động (lọc đồ, thêm giỏ hàng, thả tim...).
+   - <div>, <section>, <article>, <header>, <nav>, <main>, <footer>:
+     + Là các "CHIẾC HỘP" gom nhóm các phần lại với nhau để chia bố cục trang web.
+
+3. ⚠️ QUY TẮC VÀNG KHI TỰ SỬA CODE (ĐỌC KỸ ĐỂ KHÔNG BỊ LỖI GIAO DIỆN):
+   - ✅ ĐƯỢC SỬA:
+     + Sửa chữ tiếng Việt nằm GIỮA cặp dấu > và < (Ví dụ: <h3>Tên mới</h3>, <strong>500.000đ</strong>).
+     + Sửa đường dẫn ảnh trong src="anh/..." (nhưng phải giữ nguyên cặp dấu ngoặc kép "").
+     + Sửa đường dẫn trang trong href="..." (giữ nguyên cặp dấu ngoặc kép "").
+   - ❌ TUYỆT ĐỐI KHÔNG XÓA / KHÔNG SỬA:
+     + Không xóa các dấu đóng mở ngoặc nhọn < , > , </...>.
+     + Không tự ý đổi tên tiếng Anh trong class="..." hoặc id="..." (Vì file CSS và JS dựa vào
+       đúng tên class/id đó để tô màu và chạy tính năng. Đổi tên là mất màu hoặc hỏng nút!).
+   - 💡 MẸO: Lỡ tay sửa nhầm làm hỏng giao diện? Bấm tổ hợp phím Ctrl + Z (hoặc Cmd + Z trên Mac)
+     để quay lại bước trước đó ngay lập tức!
+-->
 <head>
-
+    <!--
+         MỤC 1: PHẦN ĐẦU TÀI LIỆU (Thẻ head) — CÀI ĐẶT TRANG & NẠP FILE CSS
+         📍 Tác dụng: Phần head chứa thông tin cài đặt ngầm cho trình duyệt.
+            Khách vào web không nhìn thấy trực tiếp phần này trên màn hình chính,
+            ngoại trừ dòng <title> hiện ở thanh Tab phía trên cùng của trình duyệt.
+         🛠️ Cách sửa:
+            - Muốn đổi TÊN TAB TRÌNH DUYỆT: Sửa chữ nằm giữa <title> ... </title>.
+            - Muốn đổi MÔ TẢ TRANG (khi chia sẻ link lên Facebook/Zalo): Sửa chữ trong
+              content="..." của thẻ <meta name="description"> và <meta property="og:description">.
+            - ⚠️ KHÔNG XÓA dòng <link rel="preconnect" href="https://fonts.googleapis.com">
+ <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+ <link rel="stylesheet" href="css/bundle.css"> vì đó là file
+              CSS tổng hợp tô màu và dàn trang cho toàn bộ website.
+    -->
       <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="description" content="Khám phá figure, cosplay, gấu bông và phụ kiện anime tại AnimeVerse.">
   <title>Sản phẩm | AnimeVerse</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/bundle.css">
     <meta name="theme-color" content="#fff7fb">
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23090912'/%3E%3Ctext x='32' y='46' font-size='40' text-anchor='middle' fill='%23ff4fa3'%3E%E2%9C%A6%3C/text%3E%3C/svg%3E">
     <meta property="og:type" content="website">
@@ -20,7 +80,16 @@
     <link rel="manifest" href="manifest.json">
 </head>
 <body class="products-page">
-
+        <!--
+         MỤC 2: DẢI THÔNG BÁO TRÊN CÙNG (.topbar)
+         📍 Vị trí: Thanh ngang nhỏ nằm ở sát mép trên cùng của màn hình.
+         🛠️ Cách sửa:
+            - Mỗi dòng <span>...</span> là một câu thông báo ngắn.
+            - Muốn đổi nội dung thông báo (ví dụ đổi "500.000đ" thành "300.000đ"),
+              bạn chỉ cần sửa chữ tiếng Việt nằm giữa <span> và </span>.
+            - Lưu ý: Khi web chạy, file js/tech.js sẽ tự động gắn thêm dòng chữ chạy
+              và huy hiệu Cấp độ VIP (Tân Binh / Thợ Săn / Trụ Cột / Tứ Hoàng) vào thanh này.
+        -->
     <div class="topbar">
         <div class="container topbar-inner">
             <span>🚚 Freeship đơn từ 500.000đ</span>
@@ -28,7 +97,19 @@
             <span>↩ Đổi trả trong 7 ngày</span>
         </div>
     </div>
-
+    <!--
+         MỤC 3: THANH ĐẦU TRANG (.header) — LOGO, Ô TÌM KIẾM & NÚT CÔNG CỤ
+         📍 Vị trí: Nằm ngay dưới dải thông báo trên cùng, gồm 3 phần xếp ngang:
+            1) Logo thương hiệu "✦ ANIMEVERSE" bên trái (bấm vào sẽ về Trang chủ).
+            2) Ô tìm kiếm sản phẩm ở giữa (gõ tên sản phẩm sẽ tự xổ ra gợi ý có ảnh).
+            3) Cụm nút công cụ bên phải (.header-actions): Giỏ hàng, Hỗ trợ.
+         💡 Điều thú vị: Khi mở trang, file js/tech.js sẽ tự động gắn thêm 5 nút tiện ích
+            nữa vào trong <div class="header-actions"> (gồm: Gacha, So sánh, Đã thích,
+            Chủ đề giao diện, và Nhạc nền).
+         🛠️ Cách sửa:
+            - Đổi tên shop trên Logo: sửa chữ ANIME và VERSE trong thẻ <a class="logo">.
+            - Đổi chữ gợi ý mờ trong ô tìm kiếm: sửa chữ trong placeholder="...".
+    -->
     <header class="header">
         <div class="container header-inner">
             <a class="logo" href="trang-chu.html" aria-label="AnimeVerse - Trang chủ">
@@ -40,13 +121,14 @@
                 <button type="submit" aria-label="Tìm kiếm">⌕</button>
             </form>
             <div class="header-actions">
-
+                <!-- Nút mở Giỏ hàng -->
                 <a class="icon-btn cart-nav" href="gio-hang.html" title="Giỏ hàng" aria-label="Giỏ hàng">
                     🛒
                     <small>Giỏ hàng</small>
                     <span class="cart-badge" hidden>0</span>
                 </a>
-
+                
+                <!-- Nút chuyển sang trang Liên hệ hỗ trợ -->
                 <a class="icon-btn" href="lien-he.html" title="Liên hệ hỗ trợ">
                     🎧
                     <small>Hỗ trợ</small>
@@ -54,7 +136,18 @@
             </div>
         </div>
     </header>
-
+    <!--
+         MỤC 4: THANH MENU ĐIỀU HƯỚNG CHÍNH (Thẻ nav.nav)
+         📍 Vị trí: Thanh menu nằm ngay dưới Header, giúp khách bấm chuyển qua lại
+            giữa 6 trang chính: Trang chủ, Sản phẩm, Tư vấn, Khuyến mãi, Bán chạy, Liên hệ.
+         🔍 Giải thích:
+            - Mỗi thẻ <a href="ten-file.html">Tên Mục</a> là 1 nút trên thanh menu.
+            - Nút nào có thêm chữ class="active" thì nút đó sẽ sáng màu hồng/tím để báo
+              cho khách biết họ đang đứng ở trang đó.
+         🛠️ Cách sửa:
+            - Muốn đổi tên mục trên menu: Sửa chữ tiếng Việt giữa > và </a>.
+            - Muốn đổi trang đích khi bấm vào: Sửa tên file trong href="...".
+                -->
     <nav class="nav" aria-label="Điều hướng chính">
         <div class="container nav-inner">
             <a href="trang-chu.html">Trang chủ</a>
@@ -66,6 +159,14 @@
         </div>
     </nav>
 
+  <!--
+       MỤC 5: KHU VỰC MỞ ĐẦU TRANG SẢN PHẨM (.products-hero)
+       📍 Vị trí: Phần giới thiệu đầu trang Sản phẩm (gồm tiêu đề bên trái và
+          hình trang trí 2 tấm thẻ xoay bên phải).
+       🛠️ Cách sửa:
+          - Sửa tiêu đề lớn trong <h1>Thế giới anime<br><span>trong tầm tay.</span></h1>.
+          - Sửa câu mô tả trong thẻ <p> ngay bên dưới.
+  -->
   <section class="products-hero">
     <div class="container products-hero-inner">
       <div class="products-hero-copy">
@@ -80,7 +181,7 @@
           <span>⚡ Nhiều phong cách</span>
         </div>
       </div>
-
+      <!-- Khối Trưng bày Tối giản Hiện đại (Minimalist Showcase) -->
       <div class="products-hero-showcase" aria-label="Sản phẩm tiêu biểu">
         <div class="minimal-card">
           <div class="minimal-card-header">
@@ -103,6 +204,7 @@
             </div>
           </div>
 
+          <!-- Dải số liệu đếm số động (Animated Live Metrics) -->
           <div class="minimal-metrics" aria-label="Thống kê cửa hàng">
             <div class="minimal-metric">
               <strong class="minimal-count" data-count="50" data-suffix="+">50+</strong>
@@ -122,6 +224,15 @@
     </div>
   </section>
 
+  <!--
+       MỤC 6: TIÊU ĐỀ KỆ HÀNG & THANH CÔNG CỤ TÌM KIẾM + SẮP XẾP (#catalog)
+       📍 Vị trí: Nằm phía trên danh sách sản phẩm, gồm:
+          - Tiêu đề "Bộ sưu tập nổi bật" và bộ đếm số lượng sản phẩm (#result-count).
+          - Ô tìm kiếm nhanh theo tên sản phẩm (#product-search).
+          - Menu thả xuống (#sort-products) để sắp xếp: Nổi bật, Tên A-Z, Giá thấp->cao, Giá cao->thấp.
+       💡 Lưu ý: Khi trang chạy, file js/tech.js cũng tự động chèn thêm bộ lọc theo
+          Bộ Anime (Fandom), Thanh kéo khoảng giá và nút Đổi kiểu xem Lưới/Danh sách vào đây.
+  -->
   <main class="container section products-catalog" id="catalog">
     <div class="catalog-heading">
       <div>
@@ -150,7 +261,15 @@
       </label>
     </div>
     <div class="catalog-layout">
-
+      <!--
+           MỤC 7: CỘT BÊN TRÁI — BỘ LỌC DANH MỤC (.category-sidebar)
+           📍 Vị trí: Cột dọc bên trái màn hình máy tính (hoặc hàng nút trên điện thoại).
+           🔍 Giải thích:
+              - Mỗi nút <button class="category-filter" data-filter="..."> dùng để lọc
+                sản phẩm theo từng nhóm: Tất cả (all), FIGURE, COSPLAY, GẤU BÔNG, ĐẠO CỤ,
+                THỜI TRANG, QUÀ TẶNG.
+              - Con số trong thẻ <b>8</b> là số lượng sản phẩm của nhóm đó.
+      -->
       <aside class="category-sidebar">
         <h3>Danh mục</h3>
         <button class="category-filter active" type="button" data-filter="all"><span>✦</span> Tất cả sản phẩm <b>50</b></button>
@@ -165,7 +284,25 @@
             <p><b>Chọn theo sở thích</b><br>Bấm vào trái tim để lưu món bạn thích.</p>
         </div>
       </aside>
-
+      <!--
+           MỤC 8: CỘT BÊN PHẢI — LƯỚI 50 SẢN PHẨM (#product-grid)
+           📍 Vị trí: Khu vực chính hiển thị toàn bộ 50 món đồ của cửa hàng.
+           🛠️ HƯỚNG DẪN CÁCH SỬA 1 SẢN PHẨM TRONG DANH SÁCH DƯỚI ĐÂY:
+              Mỗi sản phẩm là một khối thẻ article.product-card gồm:
+              1) Dòng mở đầu:
+                 thẻ article.product-card (có data-category, data-price, data-name)
+                 - data-category : Nhóm hàng (FIGURE, COSPLAY, GẤU BÔNG, ĐẠO CỤ, THỜI TRANG, QUÀ TẶNG).
+                 - data-price    : Giá viết liền KHÔNG có dấu chấm (ví dụ: 590000) để máy tính biết sắp xếp giá thấp/cao.
+                 - data-name     : Tên viết thường để máy tính tìm kiếm nhanh.
+              2) Hình ảnh: <img src="anh/..." alt="Tên sản phẩm"> -> Đổi đường dẫn ảnh trong src="...".
+              3) Dòng chữ nhỏ: <small>MÔ HÌNH FIGURE · One Piece</small> -> Đổi tên bộ Anime.
+              4) Tên hiển thị: <h3>Figure Luffy Gear 5 Nika</h3> -> Đổi tên sản phẩm hiện trên thẻ.
+              5) Giá hiển thị: <strong>590.000đ</strong> (và <del>Giá cũ</del> nếu có giảm giá).
+              6) Đường dẫn: <a href="chi-tiet-1.html" class="add">Xem chi tiết →</a> -> Trang chi tiết của món đó.
+              💡 MẸO QUAN TRỌNG: Nếu bạn sửa giá hoặc tên sản phẩm, nhớ sửa cả ở trong thẻ
+                 <h3> / <strong> LẪN trong data-price="..." / data-name="..." và trong mảng CATALOG
+                 ở đầu file js/tech.js để mọi nơi đều đồng bộ 100% nhé!
+      -->
       <section class="catalog-results" aria-label="Danh sách sản phẩm">
         <div class="active-filter-row">
           <span id="active-filter-label">Tất cả sản phẩm</span>
@@ -173,8 +310,9 @@
         </div>
         <div class="product-grid" id="product-grid">
 
+            <!-- ----- Sản phẩm #1 ----- -->
             <article class="product-card" data-category="FIGURE" data-price="590000" data-name="figure luffy gear 5 nika">
-
+                <!-- Khung ảnh sản phẩm -->
                 <div class="product-image">
                     <img loading="lazy" decoding="async" src="anh/luffy/luffy_1.webp" alt="Figure Luffy Gear 5 Nika">
                     <button class="heart" type="button" aria-label="Yêu thích Figure Luffy Gear 5 Nika" aria-pressed="false">♡</button>
@@ -189,8 +327,9 @@
                 </div>
             </article>
 
+            <!-- ----- Sản phẩm #2 ----- -->
             <article class="product-card" data-category="FIGURE" data-price="850000" data-name="mô hình zoro wano quốc">
-
+                <!-- Khung ảnh sản phẩm -->
                 <div class="product-image">
                     <img loading="lazy" decoding="async" src="anh/zoro/zoro_1.webp" alt="Mô Hình Zoro Wano Quốc">
                     <button class="heart" type="button" aria-label="Yêu thích Mô Hình Zoro Wano Quốc" aria-pressed="false">♡</button>
@@ -205,8 +344,9 @@
                 </div>
             </article>
 
+            <!-- ----- Sản phẩm #3 ----- -->
             <article class="product-card" data-category="FIGURE" data-price="490000" data-name="figure nezuko hóa quỷ">
-
+                <!-- Khung ảnh sản phẩm -->
                 <div class="product-image">
                     <img loading="lazy" decoding="async" src="anh/nezuko_demon/nezuko_demon_1.webp" alt="Figure Nezuko Hóa Quỷ">
                     <span class="badge">SALE</span>
@@ -223,8 +363,9 @@
                 </div>
             </article>
 
+            <!-- ----- Sản phẩm #4 ----- -->
             <article class="product-card" data-category="FIGURE" data-price="720000" data-name="goku bản năng vô cực">
-
+                <!-- Khung ảnh sản phẩm -->
                 <div class="product-image">
                     <img loading="lazy" decoding="async" src="anh/goku/goku_1.webp" alt="Goku Bản Năng Vô Cực">
                     <button class="heart" type="button" aria-label="Yêu thích Goku Bản Năng Vô Cực" aria-pressed="false">♡</button>
@@ -239,8 +380,9 @@
                 </div>
             </article>
 
+            <!-- ----- Sản phẩm #5 ----- -->
             <article class="product-card" data-category="FIGURE" data-price="890000" data-name="nendoroid anya forger">
-
+                <!-- Khung ảnh sản phẩm -->
                 <div class="product-image">
                     <img loading="lazy" decoding="async" src="anh/anya/anya_1.webp" alt="Nendoroid Anya Forger">
                     <button class="heart" type="button" aria-label="Yêu thích Nendoroid Anya Forger" aria-pressed="false">♡</button>
@@ -255,8 +397,9 @@
                 </div>
             </article>
 
+            <!-- ----- Sản phẩm #6 ----- -->
             <article class="product-card" data-category="FIGURE" data-price="950000" data-name="figure raiden shogun">
-
+                <!-- Khung ảnh sản phẩm -->
                 <div class="product-image">
                     <img loading="lazy" decoding="async" src="anh/raiden_shogun/raiden_shogun_1.webp" alt="Figure Raiden Shogun">
                     <button class="heart" type="button" aria-label="Yêu thích Figure Raiden Shogun" aria-pressed="false">♡</button>
@@ -271,8 +414,9 @@
                 </div>
             </article>
 
+            <!-- ----- Sản phẩm #7 ----- -->
             <article class="product-card" data-category="FIGURE" data-price="680000" data-name="naruto lục đạo tiên nhân">
-
+                <!-- Khung ảnh sản phẩm -->
                 <div class="product-image">
                     <img loading="lazy" decoding="async" src="anh/naruto/naruto_1.webp" alt="Naruto Lục Đạo Tiên Nhân">
                     <button class="heart" type="button" aria-label="Yêu thích Naruto Lục Đạo Tiên Nhân" aria-pressed="false">♡</button>
@@ -287,8 +431,9 @@
                 </div>
             </article>
 
+            <!-- ----- Sản phẩm #8 ----- -->
             <article class="product-card" data-category="FIGURE" data-price="750000" data-name="figure gojo satoru vô hạ hạn">
-
+                <!-- Khung ảnh sản phẩm -->
                 <div class="product-image">
                     <img loading="lazy" decoding="async" src="anh/gojo_limit/gojo-limit_1.webp" alt="Figure Gojo Satoru Vô Hạ Hạn">
                     <button class="heart" type="button" aria-label="Yêu thích Figure Gojo Satoru Vô Hạ Hạn" aria-pressed="false">♡</button>
@@ -303,8 +448,9 @@
                 </div>
             </article>
 
+            <!-- ----- Sản phẩm #9 ----- -->
             <article class="product-card" data-category="COSPLAY" data-price="450000" data-name="set cosplay gojo satoru">
-
+                <!-- Khung ảnh sản phẩm -->
                 <div class="product-image">
                     <img loading="lazy" decoding="async" src="anh/11_jujutsu_kaisen/01_mat_truoc.png" alt="Set Cosplay Gojo Satoru">
                     <span class="badge">SALE</span>
@@ -321,8 +467,9 @@
                 </div>
             </article>
 
+            <!-- ----- Sản phẩm #10 ----- -->
             <article class="product-card" data-category="COSPLAY" data-price="250000" data-name="áo haori tanjiro kamado">
-
+                <!-- Khung ảnh sản phẩm -->
                 <div class="product-image">
                     <img loading="lazy" decoding="async" src="anh/06_demonslayer_tanjiro/mat_truoc.webp" alt="Áo Haori Tanjiro Kamado">
                     <span class="badge">SALE</span>
@@ -339,8 +486,9 @@
                 </div>
             </article>
 
+            <!-- ----- Sản phẩm #11 ----- -->
             <article class="product-card" data-category="COSPLAY" data-price="300000" data-name="áo choàng akatsuki">
-
+                <!-- Khung ảnh sản phẩm -->
                 <div class="product-image">
                     <img loading="lazy" decoding="async" src="anh/05_naruto_akatsuki_cloak/mat_truoc.png" alt="Áo Choàng Akatsuki">
                     <button class="heart" type="button" aria-label="Yêu thích Áo Choàng Akatsuki" aria-pressed="false">♡</button>
@@ -355,8 +503,9 @@
                 </div>
             </article>
 
+            <!-- ----- Sản phẩm #12 ----- -->
             <article class="product-card" data-category="COSPLAY" data-price="480000" data-name="set kimono nezuko">
-
+                <!-- Khung ảnh sản phẩm -->
                 <div class="product-image">
                     <img loading="lazy" decoding="async" src="anh/10_nezukoz-kamado/01_mat_truoc.webp" alt="Set Kimono Nezuko">
                     <button class="heart" type="button" aria-label="Yêu thích Set Kimono Nezuko" aria-pressed="false">♡</button>
@@ -371,8 +520,9 @@
                 </div>
             </article>
 
+            <!-- ----- Sản phẩm #13 ----- -->
             <article class="product-card" data-category="COSPLAY" data-price="350000" data-name="đồng phục anya forger">
-
+                <!-- Khung ảnh sản phẩm -->
                 <div class="product-image">
                     <img loading="lazy" decoding="async" src="anh/04_spyfamily_anya/mat_truoc.webp" alt="Đồng Phục Anya Forger">
                     <button class="heart" type="button" aria-label="Yêu thích Đồng Phục Anya Forger" aria-pressed="false">♡</button>
@@ -387,8 +537,9 @@
                 </div>
             </article>
 
+            <!-- ----- Sản phẩm #14 ----- -->
             <article class="product-card" data-category="COSPLAY" data-price="280000" data-name="áo khoác trinh sát đoàn">
-
+                <!-- Khung ảnh sản phẩm -->
                 <div class="product-image">
                     <img loading="lazy" decoding="async" src="anh/03_aot_trinh_sat_doan/mat_truoc.webp" alt="Áo Khoác Trinh Sát Đoàn">
                     <button class="heart" type="button" aria-label="Yêu thích Áo Khoác Trinh Sát Đoàn" aria-pressed="false">♡</button>
@@ -403,8 +554,9 @@
                 </div>
             </article>
 
+            <!-- ----- Sản phẩm #15 ----- -->
             <article class="product-card" data-category="COSPLAY" data-price="390000" data-name="trang phục hầu gái (maid)">
-
+                <!-- Khung ảnh sản phẩm -->
                 <div class="product-image">
                     <img loading="lazy" decoding="async" src="anh/12_set_hau_gai_maid/01_mat_truoc.webp" alt="Trang Phục Hầu Gái (Maid)">
                     <button class="heart" type="button" aria-label="Yêu thích Trang Phục Hầu Gái (Maid)" aria-pressed="false">♡</button>
@@ -419,8 +571,9 @@
                 </div>
             </article>
 
+            <!-- ----- Sản phẩm #16 ----- -->
             <article class="product-card" data-category="COSPLAY" data-price="420000" data-name="set đồ luffy wano">
-
+                <!-- Khung ảnh sản phẩm -->
                 <div class="product-image">
                     <img loading="lazy" decoding="async" src="anh/02_onepiece_luffy_wano/mat_truoc.webp" alt="Set Đồ Luffy Wano">
                     <button class="heart" type="button" aria-label="Yêu thích Set Đồ Luffy Wano" aria-pressed="false">♡</button>
@@ -435,8 +588,9 @@
                 </div>
             </article>
 
+            <!-- ----- Sản phẩm #17 ----- -->
             <article class="product-card" data-category="ĐẠO CỤ" data-price="780000" data-name="kiếm nichirin tanjiro">
-
+                <!-- Khung ảnh sản phẩm -->
                 <div class="product-image">
                     <img loading="lazy" decoding="async" src="anh/sp17/sp17_1.webp" alt="Kiếm Nichirin Tanjiro">
                     <button class="heart" type="button" aria-label="Yêu thích Kiếm Nichirin Tanjiro" aria-pressed="false">♡</button>
@@ -451,8 +605,9 @@
                 </div>
             </article>
 
+            <!-- ----- Sản phẩm #18 ----- -->
             <article class="product-card" data-category="ĐẠO CỤ" data-price="350000" data-name="kiếm gỗ enma (zoro)">
-
+                <!-- Khung ảnh sản phẩm -->
                 <div class="product-image">
                     <img loading="lazy" decoding="async" src="anh/zoro/zoro_2.webp" alt="Kiếm Gỗ Enma (Zoro)">
                     <button class="heart" type="button" aria-label="Yêu thích Kiếm Gỗ Enma (Zoro)" aria-pressed="false">♡</button>
@@ -467,8 +622,9 @@
                 </div>
             </article>
 
+            <!-- ----- Sản phẩm #19 ----- -->
             <article class="product-card" data-category="ĐẠO CỤ" data-price="120000" data-name="set kunai ninja naruto">
-
+                <!-- Khung ảnh sản phẩm -->
                 <div class="product-image">
                     <img loading="lazy" decoding="async" src="anh/sp19/sp19_1.webp" alt="Set Kunai Ninja Naruto">
                     <span class="badge">SALE</span>
@@ -485,8 +641,9 @@
                 </div>
             </article>
 
+            <!-- ----- Sản phẩm #20 ----- -->
             <article class="product-card" data-category="ĐẠO CỤ" data-price="90000" data-name="phi tiêu shuriken kim loại">
-
+                <!-- Khung ảnh sản phẩm -->
                 <div class="product-image">
                     <img loading="lazy" decoding="async" src="anh/sp20/sp20_1.webp" alt="Phi Tiêu Shuriken Kim Loại">
                     <button class="heart" type="button" aria-label="Yêu thích Phi Tiêu Shuriken Kim Loại" aria-pressed="false">♡</button>
@@ -501,8 +658,9 @@
                 </div>
             </article>
 
+            <!-- ----- Sản phẩm #21 ----- -->
             <article class="product-card" data-category="ĐẠO CỤ" data-price="450000" data-name="gậy phép thuật sakura">
-
+                <!-- Khung ảnh sản phẩm -->
                 <div class="product-image">
                     <img loading="lazy" decoding="async" src="anh/sp21/sp21_1.webp" alt="Gậy Phép Thuật Sakura">
                     <button class="heart" type="button" aria-label="Yêu thích Gậy Phép Thuật Sakura" aria-pressed="false">♡</button>
@@ -517,8 +675,9 @@
                 </div>
             </article>
 
+            <!-- ----- Sản phẩm #22 ----- -->
             <article class="product-card" data-category="ĐẠO CỤ" data-price="150000" data-name="mặt nạ cáo anbu">
-
+                <!-- Khung ảnh sản phẩm -->
                 <div class="product-image">
                     <img loading="lazy" decoding="async" src="anh/sp22/sp22_1.webp" alt="Mặt Nạ Cáo Anbu">
                     <button class="heart" type="button" aria-label="Yêu thích Mặt Nạ Cáo Anbu" aria-pressed="false">♡</button>
@@ -533,8 +692,9 @@
                 </div>
             </article>
 
+            <!-- ----- Sản phẩm #23 ----- -->
             <article class="product-card" data-category="ĐẠO CỤ" data-price="60000" data-name="bịt mắt gojo satoru">
-
+                <!-- Khung ảnh sản phẩm -->
                 <div class="product-image">
                     <img loading="lazy" decoding="async" src="anh/11_jujutsu_kaisen/06_bit_mat.webp" alt="Bịt Mắt Gojo Satoru">
                     <button class="heart" type="button" aria-label="Yêu thích Bịt Mắt Gojo Satoru" aria-pressed="false">♡</button>
@@ -549,8 +709,9 @@
                 </div>
             </article>
 
+            <!-- ----- Sản phẩm #24 ----- -->
             <article class="product-card" data-category="ĐẠO CỤ" data-price="180000" data-name="mũ rơm luffy chính hãng">
-
+                <!-- Khung ảnh sản phẩm -->
                 <div class="product-image">
                     <img loading="lazy" decoding="async" src="anh/sp24/sp24_1.webp" alt="Mũ Rơm Luffy Chính Hãng">
                     <button class="heart" type="button" aria-label="Yêu thích Mũ Rơm Luffy Chính Hãng" aria-pressed="false">♡</button>
@@ -565,8 +726,9 @@
                 </div>
             </article>
 
+            <!-- ----- Sản phẩm #25 ----- -->
             <article class="product-card" data-category="GẤU BÔNG" data-price="250000" data-name="gấu bông anya forger">
-
+                <!-- Khung ảnh sản phẩm -->
                 <div class="product-image">
                     <img loading="lazy" decoding="async" src="anh/anya/anya_3.png" alt="Gấu bông Anya Forger">
                     <button class="heart" type="button" aria-label="Yêu thích Gấu bông Anya Forger" aria-pressed="false">♡</button>
@@ -581,8 +743,9 @@
                 </div>
             </article>
 
+            <!-- ----- Sản phẩm #26 ----- -->
             <article class="product-card" data-category="GẤU BÔNG" data-price="220000" data-name="chó máy pochita (chainsaw man)">
-
+                <!-- Khung ảnh sản phẩm -->
                 <div class="product-image">
                     <img loading="lazy" decoding="async" src="anh/sp26/sp26_1.webp" alt="Chó máy Pochita (Chainsaw Man)">
                     <button class="heart" type="button" aria-label="Yêu thích Chó máy Pochita (Chainsaw Man)" aria-pressed="false">♡</button>
@@ -597,8 +760,9 @@
                 </div>
             </article>
 
+            <!-- ----- Sản phẩm #27 ----- -->
             <article class="product-card" data-category="GẤU BÔNG" data-price="280000" data-name="gấu bông pikachu (50cm)">
-
+                <!-- Khung ảnh sản phẩm -->
                 <div class="product-image">
                     <img loading="lazy" decoding="async" src="anh/sp27/sp27_1.webp" alt="Gấu bông Pikachu (50cm)">
                     <span class="badge">SALE</span>
@@ -615,8 +779,9 @@
                 </div>
             </article>
 
+            <!-- ----- Sản phẩm #28 ----- -->
             <article class="product-card" data-category="GẤU BÔNG" data-price="260000" data-name="tony tony chopper">
-
+                <!-- Khung ảnh sản phẩm -->
                 <div class="product-image">
                     <img loading="lazy" decoding="async" src="anh/sp28/sp28_1.webp" alt="Tony Tony Chopper">
                     <button class="heart" type="button" aria-label="Yêu thích Tony Tony Chopper" aria-pressed="false">♡</button>
@@ -631,8 +796,9 @@
                 </div>
             </article>
 
+            <!-- ----- Sản phẩm #29 ----- -->
             <article class="product-card" data-category="GẤU BÔNG" data-price="190000" data-name="gojo satoru phiên bản mèo">
-
+                <!-- Khung ảnh sản phẩm -->
                 <div class="product-image">
                     <img loading="lazy" decoding="async" src="anh/gojo/gojo_2.webp" alt="Gojo Satoru phiên bản Mèo">
                     <button class="heart" type="button" aria-label="Yêu thích Gojo Satoru phiên bản Mèo" aria-pressed="false">♡</button>
@@ -647,8 +813,9 @@
                 </div>
             </article>
 
+            <!-- ----- Sản phẩm #30 ----- -->
             <article class="product-card" data-category="GẤU BÔNG" data-price="290000" data-name="gấu mập doraemon">
-
+                <!-- Khung ảnh sản phẩm -->
                 <div class="product-image">
                     <img loading="lazy" decoding="async" src="anh/sp30/sp30_1.webp" alt="Gấu mập Doraemon">
                     <button class="heart" type="button" aria-label="Yêu thích Gấu mập Doraemon" aria-pressed="false">♡</button>
@@ -663,8 +830,9 @@
                 </div>
             </article>
 
+            <!-- ----- Sản phẩm #31 ----- -->
             <article class="product-card" data-category="GẤU BÔNG" data-price="350000" data-name="cửu vĩ kurama (naruto)">
-
+                <!-- Khung ảnh sản phẩm -->
                 <div class="product-image">
                     <img loading="lazy" decoding="async" src="anh/sp31/sp31_1.webp" alt="Cửu Vĩ Kurama (Naruto)">
                     <button class="heart" type="button" aria-label="Yêu thích Cửu Vĩ Kurama (Naruto)" aria-pressed="false">♡</button>
@@ -679,8 +847,9 @@
                 </div>
             </article>
 
+            <!-- ----- Sản phẩm #32 ----- -->
             <article class="product-card" data-category="GẤU BÔNG" data-price="320000" data-name="totoro bụng bự">
-
+                <!-- Khung ảnh sản phẩm -->
                 <div class="product-image">
                     <img loading="lazy" decoding="async" src="anh/sp32/sp32_1.webp" alt="Totoro Bụng Bự">
                     <button class="heart" type="button" aria-label="Yêu thích Totoro Bụng Bự" aria-pressed="false">♡</button>
@@ -695,8 +864,9 @@
                 </div>
             </article>
 
+            <!-- ----- Sản phẩm #33 ----- -->
             <article class="product-card" data-category="THỜI TRANG" data-price="320000" data-name="áo hoodie akatsuki (naruto)">
-
+                <!-- Khung ảnh sản phẩm -->
                 <div class="product-image">
                     <img loading="lazy" decoding="async" src="anh/08_naruto_akatsuki_hoodie/mat_truoc.png" alt="Áo Hoodie Akatsuki (Naruto)">
                     <button class="heart" type="button" aria-label="Yêu thích Áo Hoodie Akatsuki (Naruto)" aria-pressed="false">♡</button>
@@ -711,8 +881,9 @@
                 </div>
             </article>
 
+            <!-- ----- Sản phẩm #34 ----- -->
             <article class="product-card" data-category="THỜI TRANG" data-price="199000" data-name="áo thun one piece oversize">
-
+                <!-- Khung ảnh sản phẩm -->
                 <div class="product-image">
                     <img loading="lazy" decoding="async" src="anh/07_onepiece_ao_thun/mat_truoc.png" alt="Áo Thun One Piece Oversize">
                     <button class="heart" type="button" aria-label="Yêu thích Áo Thun One Piece Oversize" aria-pressed="false">♡</button>
@@ -727,8 +898,9 @@
                 </div>
             </article>
 
+            <!-- ----- Sản phẩm #35 ----- -->
             <article class="product-card" data-category="THỜI TRANG" data-price="290000" data-name="hoodie jujutsu kaisen">
-
+                <!-- Khung ảnh sản phẩm -->
                 <div class="product-image">
                     <img loading="lazy" decoding="async" src="anh/09_jujutsukaisen_hoodie/mat_truoc.webp" alt="Hoodie Jujutsu Kaisen">
                     <span class="badge">SALE</span>
@@ -745,8 +917,9 @@
                 </div>
             </article>
 
+            <!-- ----- Sản phẩm #36 ----- -->
             <article class="product-card" data-category="THỜI TRANG" data-price="350000" data-name="áo khoác attack on titan">
-
+                <!-- Khung ảnh sản phẩm -->
                 <div class="product-image">
                     <img loading="lazy" decoding="async" src="anh/01_aot_ao_khoac_quan_doan/mat_truoc.webp" alt="Áo Khoác Attack on Titan">
                     <button class="heart" type="button" aria-label="Yêu thích Áo Khoác Attack on Titan" aria-pressed="false">♡</button>
@@ -761,8 +934,9 @@
                 </div>
             </article>
 
+            <!-- ----- Sản phẩm #37 ----- -->
             <article class="product-card" data-category="THỜI TRANG" data-price="420000" data-name="balo đi học my hero academia">
-
+                <!-- Khung ảnh sản phẩm -->
                 <div class="product-image">
                     <img loading="lazy" decoding="async" src="anh/sp37/sp37_1.webp" alt="Balo Đi Học My Hero Academia">
                     <button class="heart" type="button" aria-label="Yêu thích Balo Đi Học My Hero Academia" aria-pressed="false">♡</button>
@@ -777,8 +951,9 @@
                 </div>
             </article>
 
+            <!-- ----- Sản phẩm #38 ----- -->
             <article class="product-card" data-category="THỜI TRANG" data-price="120000" data-name="mũ lưỡi trai làng lá">
-
+                <!-- Khung ảnh sản phẩm -->
                 <div class="product-image">
                     <img loading="lazy" decoding="async" src="anh/sp38/sp38_1.webp" alt="Mũ Lưỡi Trai Làng Lá">
                     <button class="heart" type="button" aria-label="Yêu thích Mũ Lưỡi Trai Làng Lá" aria-pressed="false">♡</button>
@@ -793,8 +968,9 @@
                 </div>
             </article>
 
+            <!-- ----- Sản phẩm #39 ----- -->
             <article class="product-card" data-category="THỜI TRANG" data-price="890000" data-name="giày sneaker custom anime">
-
+                <!-- Khung ảnh sản phẩm -->
                 <div class="product-image">
                     <img loading="lazy" decoding="async" src="anh/sp39/sp39_1.webp" alt="Giày Sneaker Custom Anime">
                     <button class="heart" type="button" aria-label="Yêu thích Giày Sneaker Custom Anime" aria-pressed="false">♡</button>
@@ -809,8 +985,9 @@
                 </div>
             </article>
 
+            <!-- ----- Sản phẩm #40 ----- -->
             <article class="product-card" data-category="THỜI TRANG" data-price="280000" data-name="áo len hồng anya dễ thương">
-
+                <!-- Khung ảnh sản phẩm -->
                 <div class="product-image">
                     <img loading="lazy" decoding="async" src="anh/anya/anya_4.webp" alt="Áo Len Hồng Anya Dễ Thương">
                     <button class="heart" type="button" aria-label="Yêu thích Áo Len Hồng Anya Dễ Thương" aria-pressed="false">♡</button>
@@ -825,8 +1002,9 @@
                 </div>
             </article>
 
+            <!-- ----- Sản phẩm #41 ----- -->
             <article class="product-card" data-category="QUÀ TẶNG" data-price="200000" data-name="blind box genshin impact">
-
+                <!-- Khung ảnh sản phẩm -->
                 <div class="product-image">
                     <img loading="lazy" decoding="async" src="anh/sp41/sp41_1.webp" alt="Blind Box Genshin Impact">
                     <button class="heart" type="button" aria-label="Yêu thích Blind Box Genshin Impact" aria-pressed="false">♡</button>
@@ -841,8 +1019,9 @@
                 </div>
             </article>
 
+            <!-- ----- Sản phẩm #42 ----- -->
             <article class="product-card" data-category="QUÀ TẶNG" data-price="500000" data-name="giftset one piece hộp gỗ">
-
+                <!-- Khung ảnh sản phẩm -->
                 <div class="product-image">
                     <img loading="lazy" decoding="async" src="anh/sp42/sp42_1.webp" alt="Giftset One Piece Hộp Gỗ">
                     <button class="heart" type="button" aria-label="Yêu thích Giftset One Piece Hộp Gỗ" aria-pressed="false">♡</button>
@@ -857,8 +1036,9 @@
                 </div>
             </article>
 
+            <!-- ----- Sản phẩm #43 ----- -->
             <article class="product-card" data-category="QUÀ TẶNG" data-price="120000" data-name="combo 5 móc khóa mica">
-
+                <!-- Khung ảnh sản phẩm -->
                 <div class="product-image">
                     <img loading="lazy" decoding="async" src="anh/sp43/sp43_1.webp" alt="Combo 5 Móc Khóa Mica">
                     <span class="badge">SALE</span>
@@ -875,8 +1055,9 @@
                 </div>
             </article>
 
+            <!-- ----- Sản phẩm #44 ----- -->
             <article class="product-card" data-category="QUÀ TẶNG" data-price="350000" data-name="hộp nhạc ghibli spirited away">
-
+                <!-- Khung ảnh sản phẩm -->
                 <div class="product-image">
                     <img loading="lazy" decoding="async" src="anh/sp44/sp44_1.webp" alt="Hộp Nhạc Ghibli Spirited Away">
                     <button class="heart" type="button" aria-label="Yêu thích Hộp Nhạc Ghibli Spirited Away" aria-pressed="false">♡</button>
@@ -891,8 +1072,9 @@
                 </div>
             </article>
 
+            <!-- ----- Sản phẩm #45 ----- -->
             <article class="product-card" data-category="QUÀ TẶNG" data-price="80000" data-name="sổ tay tử thần death note">
-
+                <!-- Khung ảnh sản phẩm -->
                 <div class="product-image">
                     <img loading="lazy" decoding="async" src="anh/sp45/sp45_1.webp" alt="Sổ Tay Tử Thần Death Note">
                     <button class="heart" type="button" aria-label="Yêu thích Sổ Tay Tử Thần Death Note" aria-pressed="false">♡</button>
@@ -907,8 +1089,9 @@
                 </div>
             </article>
 
+            <!-- ----- Sản phẩm #46 ----- -->
             <article class="product-card" data-category="QUÀ TẶNG" data-price="180000" data-name="lót chuột gaming anime (size đại)">
-
+                <!-- Khung ảnh sản phẩm -->
                 <div class="product-image">
                     <img loading="lazy" decoding="async" src="anh/sp46/sp46_1.webp" alt="Lót Chuột Gaming Anime (Size Đại)">
                     <button class="heart" type="button" aria-label="Yêu thích Lót Chuột Gaming Anime (Size Đại)" aria-pressed="false">♡</button>
@@ -923,8 +1106,9 @@
                 </div>
             </article>
 
+            <!-- ----- Sản phẩm #47 ----- -->
             <article class="product-card" data-category="QUÀ TẶNG" data-price="50000" data-name="set 100 sticker chống nước">
-
+                <!-- Khung ảnh sản phẩm -->
                 <div class="product-image">
                     <img loading="lazy" decoding="async" src="anh/sp47/sp47_1.webp" alt="Set 100 Sticker Chống Nước">
                     <button class="heart" type="button" aria-label="Yêu thích Set 100 Sticker Chống Nước" aria-pressed="false">♡</button>
@@ -939,8 +1123,9 @@
                 </div>
             </article>
 
+            <!-- ----- Sản phẩm #48 ----- -->
             <article class="product-card" data-category="QUÀ TẶNG" data-price="299000" data-name="hộp quà bí ẩn (trị giá ngẫu nhiên)">
-
+                <!-- Khung ảnh sản phẩm -->
                 <div class="product-image">
                     <img loading="lazy" decoding="async" src="anh/sp48/sp48_1.webp" alt="Hộp Quà Bí Ẩn (Trị giá ngẫu nhiên)">
                     <button class="heart" type="button" aria-label="Yêu thích Hộp Quà Bí Ẩn (Trị giá ngẫu nhiên)" aria-pressed="false">♡</button>
@@ -955,8 +1140,9 @@
                 </div>
             </article>
 
+            <!-- ----- Sản phẩm #49 ----- -->
             <article class="product-card" data-category="THỜI TRANG" data-price="320000" data-name="áo hoodie trafalgar law">
-
+                <!-- Khung ảnh sản phẩm -->
                 <div class="product-image">
                     <img loading="lazy" decoding="async" src="anh/sp49/sp49_1.webp" alt="Áo Hoodie Trafalgar Law">
                     <button class="heart" type="button" aria-label="Yêu thích Áo Hoodie Trafalgar Law" aria-pressed="false">♡</button>
@@ -971,8 +1157,9 @@
                 </div>
             </article>
 
+            <!-- ----- Sản phẩm #50 ----- -->
             <article class="product-card" data-category="QUÀ TẶNG" data-price="199000" data-name="blind box one piece wano">
-
+                <!-- Khung ảnh sản phẩm -->
                 <div class="product-image">
                     <img loading="lazy" decoding="async" src="anh/sp50/sp50_1.webp" alt="Blind Box One Piece Wano">
                     <button class="heart" type="button" aria-label="Yêu thích Blind Box One Piece Wano" aria-pressed="false">♡</button>
@@ -1003,7 +1190,19 @@
     <div><span>♡</span><p><b>Chọn món bạn yêu</b><small>Lọc và tìm kiếm nhanh chóng</small></p></div>
     <div><span>↗</span><p><b>Trải nghiệm dễ dàng</b><small>Giao diện thân thiện trên mọi màn hình</small></p></div>
   </div></section>
-
+    <!--
+         MỤC CUỐI 1: CHÂN TRANG (Thẻ footer.site-footer)
+         📍 Vị trí: Phần dưới cùng của trang web, chia làm 4 cột thông tin:
+            - Cột 1: Logo và câu giới thiệu ngắn về cửa hàng AnimeVerse.
+            - Cột 2 (Danh mục): Các đường link dẫn tới 6 trang danh mục sản phẩm.
+            - Cột 3 (Khám phá): Các đường link dẫn tới các trang chính.
+            - Cột 4 (Liên hệ): Địa chỉ, Số điện thoại và Email của shop.
+         🛠️ Cách sửa:
+            - Đổi địa chỉ: Sửa chữ sau biểu tượng 📍 (hiện tại là "CUWC").
+            - Đổi số điện thoại: Sửa số trong href="tel:0936271107" VÀ số hiển thị bên ngoài.
+            - Đổi email: Sửa địa chỉ email trong href="mailto:..." VÀ chữ hiển thị bên ngoài.
+            - Đổi dòng bản quyền dưới cùng: Sửa chữ trong <div class="copyright">.
+            -->
   <footer class="site-footer">
         <div class="container footer-grid">
             <div>
@@ -1040,8 +1239,131 @@
         </div>
         <div class="copyright">© 2026 AnimeVerse. Made with ♡ for Otaku.</div>
     </footer>
-  
+  <script>
+  /* ==========================================================
+     LỌC / TÌM KIẾM / SẮP XẾP SẢN PHẨM TRÊN TRANG "SẢN PHẨM"
+     Dùng hàm tự chạy ngay (IIFE) để các biến bên trong
+     không bị lẫn với biến của file js khác.
+     ========================================================== */
+  (() => {
+    // ---------- 1. Lấy các phần tử trên trang ----------
+    const grid = document.getElementById('product-grid');                      // khung chứa các thẻ sản phẩm
+    const cards = Array.from(grid.querySelectorAll('.product-card'));          // danh sách tất cả thẻ sản phẩm
+    const search = document.getElementById('product-search');                  // ô tìm kiếm
+    const sort = document.getElementById('sort-products');                     // ô chọn cách sắp xếp
+    const count = document.getElementById('result-count');                     // chỗ hiện "có X sản phẩm"
+    const empty = document.getElementById('empty-state');                      // thông báo "không tìm thấy"
+    const filterLabel = document.getElementById('active-filter-label');        // tên danh mục đang chọn
 
-    <script src="js/main.js" defer></script>
+    // Danh mục đang được chọn ('all' = tất cả)
+    let category = 'all';
+
+    // Tên hiển thị tương ứng với từng mã danh mục
+    const labels = {
+      all: 'Tất cả sản phẩm',
+      'FIGURE': 'Figure',
+      'COSPLAY': 'Cosplay',
+      'GẤU BÔNG': 'Gấu bông',
+      'ĐẠO CỤ': 'Đạo cụ',
+      'THỜI TRANG': 'Thời trang',
+      'QUÀ TẶNG': 'Quà tặng'
+    };
+    // ---------- 2. Hàm cập nhật danh sách (chạy mỗi khi lọc / tìm / sắp xếp) ----------
+    function update() {
+      // Từ khóa tìm kiếm: bỏ khoảng trắng thừa, chuyển về chữ thường
+      const query = search.value.trim().toLocaleLowerCase('vi');
+
+      // Giữ lại những thẻ đúng danh mục VÀ khớp từ khóa (theo tên hoặc nội dung thẻ)
+      let visible = cards.filter(card =>
+        (category === 'all' || card.dataset.category === category) &&
+        (card.dataset.name.includes(query) || card.textContent.toLocaleLowerCase('vi').includes(query))
+      );
+
+      // Sắp xếp theo lựa chọn: giá thấp -> cao, cao -> thấp, theo tên A-Z, hoặc thứ tự mặc định
+      visible.sort((a, b) => {
+        if (sort.value === 'low') {
+          return Number(a.dataset.price) - Number(b.dataset.price);
+        }
+        if (sort.value === 'high') {
+          return Number(b.dataset.price) - Number(a.dataset.price);
+        }
+        if (sort.value === 'name') {
+          return a.dataset.name.localeCompare(b.dataset.name, 'vi');
+        }
+        return cards.indexOf(a) - cards.indexOf(b);
+      });
+
+      // Ẩn tất cả thẻ trước, rồi chỉ hiện và tạo hiệu ứng xuất hiện mượt cho những thẻ phù hợp
+      cards.forEach(card => {
+        card.hidden = true;
+      });
+      visible.forEach((card, index) => {
+        card.hidden = false;
+        card.classList.remove('av-card-pop');
+        void card.offsetWidth;
+        card.style.animationDelay = Math.min(index * 20, 240) + 'ms';
+        card.classList.add('av-card-pop');
+        grid.appendChild(card);
+      });
+
+      // Cập nhật số lượng kết quả và thông báo "không có sản phẩm"
+      count.textContent = visible.length;
+      empty.hidden = visible.length !== 0;
+      grid.hidden = visible.length === 0;
+      filterLabel.textContent = labels[category] || labels.all;
+    }
+    // ---------- 3. Bấm vào nút danh mục (Figure, Cosplay, ...) ----------
+    document.querySelectorAll('.category-filter').forEach(button => button.addEventListener('click', () => {
+      category = button.dataset.filter;
+      // Chỉ nút vừa bấm mới có class "active" (được tô sáng)
+      document.querySelectorAll('.category-filter').forEach(item => item.classList.toggle('active', item === button));
+      update();
+    }));
+    // ---------- 4. Gõ vào ô tìm kiếm hoặc đổi cách sắp xếp ----------
+    search.addEventListener('input', update);
+    sort.addEventListener('change', update);
+    // ---------- 5. Nút "Xóa bộ lọc": đưa mọi thứ về mặc định ----------
+    function reset() {
+      category = 'all';
+      search.value = '';
+      sort.value = 'featured';
+      document.querySelectorAll('.category-filter').forEach(item => item.classList.toggle('active', item.dataset.filter === 'all'));
+      update();
+    }
+    document.getElementById('clear-filters').addEventListener('click', reset);
+    document.getElementById('reset-empty').addEventListener('click', reset);
+    // ---------- 6. Nút trái tim "yêu thích" trên mỗi thẻ ----------
+    document.querySelectorAll('.heart').forEach(button => button.addEventListener('click', () => {
+      // Đang chưa thích -> thành thích, và ngược lại
+      const liked = button.getAttribute('aria-pressed') !== 'true';
+      button.setAttribute('aria-pressed', String(liked));
+      button.classList.toggle('liked', liked);
+      button.textContent = liked ? '♥' : '♡';
+      // Cập nhật nhãn đọc cho người dùng trình đọc màn hình
+      button.setAttribute(
+        'aria-label',
+        (liked ? 'Bỏ yêu thích ' : 'Yêu thích ') + button.closest('.product-card').querySelector('h3').textContent
+      );
+    }));
+    // ---------- 7. Chạy lần đầu khi mở trang ----------
+    update();
+  })();
+  </script>
+    <!--
+         MỤC CUỐI 2: NẠP 3 FILE JAVASCRIPT ("BỘ NÃO" CỦA WEBSITE)
+         📍 Tác dụng: 3 dòng script dưới đây nối trang HTML này với 3 file xử lý
+            thông minh nằm trong thư mục "js/":
+            1) js/site.js    : Quản lý Giỏ hàng, Yêu thích, So sánh, Mã giảm giá, Điểm VIP.
+            2) js/tech.js    : Chứa dữ liệu 50 sản phẩm, Đổi 4 giao diện, Vòng quay Gacha,
+                               AI chọn Size, Quiz, Tìm kiếm gợi ý, Đánh giá 5 sao, Chatbot AV-Bot.
+            3) js/upgrade.js : Giữ cho nhạc nền phát liên tục không bị ngắt khi chuyển trang
+                               và tối ưu nút bấm trên điện thoại.
+         ⚠️ LƯU Ý QUAN TRỌNG: TUYỆT ĐỐI KHÔNG XÓA 3 dòng script này, nếu xóa web sẽ
+            mất giỏ hàng, mất nhạc và các nút bấm không hoạt động!
+    -->
+    <script src="js/site.js" defer></script>
+    <script src="js/tech.js" defer></script>
+    <script src="js/upgrade.js" defer></script>
+    <script src="js/motion.js" defer></script>
 </body>
 </html>
