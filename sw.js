@@ -1,43 +1,18 @@
-/*
- * FILE: sw.js — BỘ NHỚ ĐỆM GIÚP WEB TẢI NHANH & XEM ĐƯỢC KHI MẤT MẠNG
- *
- * Chào bạn! Nếu bạn chưa biết gì về lập trình thì cứ yên tâm đọc nhé.
- * File này hoạt động ngầm giống như một "người thủ thư":
- *   - Lần đầu khách mở web, nó lưu sẵn các trang chính vào bộ nhớ trình duyệt.
- *   - Những lần sau, trang web sẽ mở ra cực nhanh.
- *   - Lỡ khách đang xem mà rớt mạng Wi-Fi/4G, web vẫn hiện ra bình thường.
- *
- * BẢN ĐỒ CÁC MỤC TRONG FILE NÀY:
- *   - MỤC 1: Đặt tên phiên bản và danh sách các trang cần lưu sẵn.
- *   - MỤC 2: Bước Cài đặt (install) — Lưu các file quan trọng vào bộ nhớ.
- *   - MỤC 3: Bước Kích hoạt (activate) — Xóa bản lưu cũ khi bạn cập nhật web mới.
- *   - MỤC 4: Bước Tải trang (fetch) — Ưu tiên lấy bản mới nhất khi có mạng.
- */
+/* Service Worker: Cache-first fallback for offline support */
 
-// -----------------------------------------------------------------------------
-// MỤC 1: TÊN PHIÊN BẢN & DANH SÁCH FILE QUAN TRỌNG CẦN LƯU SẴN
-// -----------------------------------------------------------------------------
-// Mẹo nhỏ khi bạn sửa code:
 // Nếu bạn sửa HTML/CSS/JS xong mà mở trình duyệt vẫn thấy giao diện cũ,
 // hãy đổi chữ 'av-v8-motion' bên dưới thành 'av-v9-...' (hoặc bấm Ctrl + F5).
-const V = 'av-v33-upgrade';
+const V = 'av-v34-bundled';
 
 // Danh sách các file cốt lõi được lưu sẵn ngay từ lần đầu mở trang
 const CORE = [
     'index.html',
     'trang-chu.html',
     'san-pham.html',
-    'css/bundle.css',
-    'js/site.js',
-    'js/tech.js',
-    'js/upgrade.js',
-    'js/motion.js'
+    'css/style.css',
+    'js/main.js'
 ];
 
-
-// -----------------------------------------------------------------------------
-// MỤC 2: BƯỚC CÀI ĐẶT (LƯU SẴN CÁC FILE TRONG DANH SÁCH CORE)
-// -----------------------------------------------------------------------------
 self.addEventListener('install', (e) => {
     e.waitUntil(
         caches.open(V)
@@ -51,10 +26,6 @@ self.addEventListener('install', (e) => {
     );
 });
 
-
-// -----------------------------------------------------------------------------
-// MỤC 3: BƯỚC KÍCH HOẠT (DỌN DẸP BỘ NHỚ ĐỆM CỦA PHIÊN BẢN CŨ)
-// -----------------------------------------------------------------------------
 self.addEventListener('activate', (e) => {
     e.waitUntil(
         caches.keys()
@@ -74,10 +45,6 @@ self.addEventListener('activate', (e) => {
     );
 });
 
-
-// -----------------------------------------------------------------------------
-// MỤC 4: BƯỚC TẢI TRANG (ƯU TIÊN MẠNG TRƯỚC, DÙNG BẢN LƯU KHI MẤT MẠNG)
-// -----------------------------------------------------------------------------
 self.addEventListener('fetch', (e) => {
     // Bỏ qua các file nhạc .mp3 vì dung lượng lớn, không lưu vào bộ nhớ đệm
     const isGetRequest = e.request.method === 'GET';

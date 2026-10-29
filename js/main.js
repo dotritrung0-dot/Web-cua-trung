@@ -1,36 +1,1449 @@
-/*
- * FILE: js/tech.js — DỮ LIỆU 50 SẢN PHẨM, HIỆU ỨNG CHUYỂN ĐỘNG & TRUNG TÂM TƯƠNG TÁC OTAKU
- *
- * Chào bạn! Đây là file JavaScript lớn nhất của website AnimeVerse.
- * Mình đã chia sẵn thành từng MỤC đánh số rõ ràng từ MỤC 0 đến MỤC 15 và viết
- * xuống dòng từng ý thật thoáng để bạn chưa biết code đọc vào cũng hiểu ngay.
- *
- * BẢN ĐỒ CÁC MỤC TRONG FILE NÀY (Bấm Ctrl + F rồi gõ "MỤC 0", "MỤC 1"... để tìm):
- *   - MỤC 0 : Danh sách dữ liệu gốc của 50 sản phẩm (biến CATALOG).
- *   - MỤC 1 : Bộ chuyển đổi 4 giao diện màu sắc (Cyber Neon, Sakura, Gear 5, Gojo).
- *   - MỤC 2 : Thanh tiến độ cuộn, Nút lên đầu trang & Hạt năng lượng tương tác theo chủ đề.
- *   - MỤC 3 : Máy phát nhạc nền MP3 xuyên trang (biến MUSIC_PLAYLIST).
- *   - MỤC 4 : Gắn các nút tiện ích lên Header, Huy hiệu VIP & Nút Điểm danh nhận quà (+50 XP).
- *   - MỤC 5 : Nâng cấp thẻ sản phẩm (Nghiêng 3D, Chấm đổi góc ảnh trực tiếp, Xem nhanh, + Giỏ).
- *   - MỤC 6 : Cửa sổ Xem nhanh sản phẩm (Quick View Modal).
- *   - MỤC 7 : Ngăn kéo trượt bên phải (Mini-Cart, Tủ Yêu thích, Đơn hàng & Thẻ VIP).
- *   - MỤC 8 : Bàn cân So sánh tối đa 3 sản phẩm đặt cạnh nhau.
- *   - MỤC 9A: Trung tâm Tương tác Otaku — Vòng quay Gacha Săn Voucher & AI Tính Size.
- *   - MỤC 9B: Bài trắc nghiệm "Quiz Tìm Đồ Hợp Hệ" (3 câu hỏi gợi ý sản phẩm).
- *   - MỤC 10: Nâng cấp trang Chi tiết sản phẩm (Phóng to ảnh, Đánh giá 5 sao, Kệ vừa xem).
- *   - MỤC 11: Bộ lọc nâng cao theo Bộ Anime (Fandom), Khoảng giá & Đổi kiểu xem Lưới/Danh sách.
- *   - MỤC 12: Ô tìm kiếm gợi ý tức thì có ảnh thu nhỏ và giá tiền.
- *   - MỤC 13: Trợ lý ảo Chatbot "AV-Bot 3.0" trả lời tự động ở góc phải dưới.
- *   - MỤC 14: Hiệu ứng Bay vào giỏ hàng, Bắn pháo hoa tim, Sóng sáng khi bấm & Điểm danh.
- *   - MỤC 15: Sân khấu Hero 3D đổi nhân vật, Thông báo mua sắm trực tiếp & Hiệu ứng cuộn trang.
- */
+/* Quản lý giỏ hàng, khuyến mãi, danh sách yêu thích & thanh toán */
+
+/* Quản lý giỏ hàng, khuyến mãi, danh sách yêu thích & thanh toán */
+
+(function () {
+    'use strict';
+
+    // Hàm bảo vệ chuỗi chữ an toàn trước khi đưa lên giao diện HTML
+    function esc(t) {
+        var str = String(t || '');
+        var map = {
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#39;'
+        };
+        return str.replace(/[&<>"']/g, function (c) {
+            return map[c];
+        });
+    }
+
+    // Hàm đổi con số (ví dụ: 590000) thành chữ có dấu chấm và đơn vị tiền ("590.000đ")
+    function money(n) {
+        var num = Number(n || 0);
+        return num.toLocaleString('vi-VN') + 'đ';
+    }
+
+    // Hàm bật hộp thông báo nhỏ ở góc dưới màn hình trong 2.8 giây rồi tự tắt
+    // Muốn thông báo hiện lâu hơn: bạn đổi số 2800 ở dưới thành 3500 (tức là 3.5 giây).
+    var toastTimer;
+
+    function toast(msg) {
+        var el = document.getElementById('av-toast');
+
+        if (!el) {
+            el = document.createElement('div');
+            el.id = 'av-toast';
+            el.className = 'av-toast';
+            el.setAttribute('role', 'status');
+            el.setAttribute('aria-live', 'polite');
+            document.body.appendChild(el);
+        }
+
+        el.textContent = msg;
+        el.classList.add('show');
+
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(function () {
+            el.classList.remove('show');
+        }, 2800);
+    }
+
+    window.AnimeVerseToast = toast;
+
+    window.AVUtils = {
+        esc: esc,
+        money: money,
+        toast: toast
+    };
+
+    // Cách sửa hoặc thêm Mã giảm giá mặc định trong biến DEFAULT_VOUCHERS dưới đây:
+    // - code     : Mã chữ in hoa để khách nhập (ví dụ: 'WELCOME10').
+    // - title    : Dòng mô tả ngắn hiện trong Ví Voucher.
+    // - type     : Kiểu giảm giá:
+    //              + 'percent'  : Giảm theo % (khi đó val: 10 nghĩa là giảm 10%).
+    //              + 'fixed'    : Giảm số tiền cố định (khi đó val: 50000 nghĩa là giảm 50.000đ).
+    //              + 'freeship' : Miễn phí vận chuyển (val: 30000).
+    // - max      : Số tiền giảm tối đa (ví dụ: 200000 là giảm nhiều nhất 200.000đ).
+    // - minOrder : Giá trị đơn hàng tối thiểu để áp dụng được mã này.
+
+    var DEFAULT_VOUCHERS = [
+        {
+            code: 'WELCOME10',
+            title: 'Giảm 10% toàn bộ đơn',
+            type: 'percent',
+            val: 10,
+            max: 200000,
+            minOrder: 0
+        },
+        {
+            code: 'FREESHIP',
+            title: 'Miễn phí vận chuyển',
+            type: 'freeship',
+            val: 30000,
+            max: 30000,
+            minOrder: 150000
+        },
+        {
+            code: 'OTAKU50K',
+            title: 'Giảm 50.000đ đơn từ 400k',
+            type: 'fixed',
+            val: 50000,
+            max: 50000,
+            minOrder: 400000
+        }
+    ];
+
+    // Bộ nhớ dự phòng trong trường hợp trình duyệt chặn localStorage
+    var _mem = {};
+
+    function safeGet(key, fallback) {
+        try {
+            var raw = localStorage.getItem(key);
+            if (raw) {
+                var parsed = JSON.parse(raw);
+                return (parsed !== null && parsed !== undefined) ? parsed : fallback;
+            }
+        } catch (e) {}
+
+        if (Object.prototype.hasOwnProperty.call(_mem, key)) {
+            var memVal = _mem[key];
+            return (memVal !== null && memVal !== undefined) ? JSON.parse(JSON.stringify(memVal)) : fallback;
+        }
+        return fallback;
+    }
+
+    function safeSet(key, val) {
+        _mem[key] = JSON.parse(JSON.stringify(val));
+        try {
+            localStorage.setItem(key, JSON.stringify(val));
+        } catch (e) {}
+    }
+
+    // Đối tượng Store chứa toàn bộ các hàm quản lý Giỏ hàng, Yêu thích, So sánh, Voucher và Điểm VIP
+    var Store = {
+        esc: esc,
+        money: money,
+        toast: toast,
+
+        // Lấy danh sách sản phẩm đang có trong giỏ hàng (lọc an toàn mảng và đối tượng hợp lệ)
+        cartGet: function () {
+            var c = safeGet('av_cart', []);
+            return Array.isArray(c) ? c.filter(function (i) {
+                return i && typeof i === 'object';
+            }) : [];
+        },
+
+        // Lưu lại danh sách giỏ hàng và cập nhật con số trên biểu tượng 🛒
+        cartSet: function (c) {
+            safeSet('av_cart', c);
+            Store.syncBadges();
+            document.dispatchEvent(new CustomEvent('av:cart-updated'));
+        },
+
+        // Thêm 1 sản phẩm vào giỏ hàng (kèm hiệu ứng ảnh bay vào giỏ nếu có nút bấm)
+        addToCart: function (it, sourceEl) {
+            var c = Store.cartGet();
+            var size = it.size || '';
+
+            var existingItem = c.filter(function (x) {
+                return x.id === it.id && (x.size || '') === size;
+            })[0];
+
+            if (existingItem) {
+                existingItem.qty = Math.min(99, existingItem.qty + (it.qty || 1));
+            } else {
+                c.push({
+                    id: it.id,
+                    name: it.name,
+                    price: Number(it.price) || 0,
+                    img: it.img || 'anh/sp17/sp17_1.webp',
+                    size: size,
+                    qty: Math.min(99, Math.max(1, Number(it.qty) || 1))
+                });
+            }
+
+            Store.cartSet(c);
+            Store.addXP(10, 'Thêm sản phẩm vào giỏ');
+
+            // Gọi hiệu ứng ảnh thu nhỏ bay vào giỏ hàng và pháo hoa ăn mừng Sakura Pastel
+            if (window.AVFlyToCart) {
+                window.AVFlyToCart(sourceEl || null, it.img);
+            }
+            if (window.AVCartCelebration) {
+                window.AVCartCelebration(sourceEl || null);
+            }
+
+            return it;
+        },
+
+        // Lấy danh sách các món đã thả tim yêu thích
+        wishGet: function () {
+            return safeGet('av_wish', []);
+        },
+
+        // Lưu danh sách yêu thích
+        wishSet: function (w) {
+            safeSet('av_wish', w);
+            Store.syncBadges();
+            document.dispatchEvent(new CustomEvent('av:wish-updated'));
+        },
+
+        // Bật / tắt trạng thái yêu thích của 1 sản phẩm
+        wishToggle: function (href) {
+            var list = Store.wishGet();
+            var idx = list.indexOf(href);
+            var liked = false;
+
+            if (idx === -1) {
+                list.push(href);
+                liked = true;
+                Store.addXP(5, 'Yêu thích sản phẩm');
+            } else {
+                list.splice(idx, 1);
+            }
+
+            Store.wishSet(list);
+            return liked;
+        },
+
+        // Lấy danh sách sản phẩm đang so sánh (tối đa 3 món)
+        compareGet: function () {
+            return safeGet('av_compare', []);
+        },
+
+        compareSet: function (list) {
+            safeSet('av_compare', list);
+            Store.syncBadges();
+            document.dispatchEvent(new CustomEvent('av:compare-updated'));
+        },
+
+        // Thêm hoặc bỏ 1 sản phẩm khỏi bàn cân so sánh
+        compareToggle: function (id) {
+            var list = Store.compareGet();
+            var idx = list.indexOf(id);
+
+            if (idx > -1) {
+                list.splice(idx, 1);
+                Store.compareSet(list);
+                toast('Đã bỏ khỏi danh sách so sánh');
+                return false;
+            }
+
+            if (list.length >= 3) {
+                toast('⚠ Chỉ so sánh tối đa 3 sản phẩm cùng lúc!');
+                return false;
+            }
+
+            list.push(id);
+            Store.compareSet(list);
+            toast('⚖ Đã thêm vào so sánh (' + list.length + '/3)');
+            return true;
+        },
+
+        // Lấy danh sách mã giảm giá trong Ví Voucher của khách
+        vouchersGet: function () {
+            var saved = safeGet('av_vouchers', null);
+            if (!saved || !saved.length) {
+                safeSet('av_vouchers', DEFAULT_VOUCHERS);
+                return DEFAULT_VOUCHERS;
+            }
+            return saved;
+        },
+
+        // Thêm mã giảm giá mới vào Ví Voucher (khi quay trúng Gacha hoặc Điểm danh)
+        addVoucher: function (v) {
+            var list = Store.vouchersGet();
+            var exists = list.some(function (x) {
+                return x.code === v.code;
+            });
+
+            if (!exists) {
+                list.unshift(v);
+                safeSet('av_vouchers', list);
+            }
+        },
+
+        // Xem mã giảm giá nào đang được chọn áp dụng
+        activeVoucherGet: function () {
+            try {
+                return localStorage.getItem('av_coupon') || _mem['av_coupon'] || '';
+            } catch (e) {
+                return _mem['av_coupon'] || '';
+            }
+        },
+
+        // Chọn áp dụng một mã giảm giá
+        activeVoucherSet: function (code) {
+            _mem['av_coupon'] = code || '';
+            try {
+                localStorage.setItem('av_coupon', code || '');
+            } catch (e) {}
+            document.dispatchEvent(new CustomEvent('av:cart-updated'));
+        },
+
+        // Tính số tiền được giảm khi khách áp dụng mã Voucher
+        calcDiscount: function (sub, code) {
+            if (!code || sub <= 0) {
+                return {
+                    discount: 0,
+                    shipDiscount: 0,
+                    valid: false,
+                    msg: ''
+                };
+            }
+
+            var c = String(code).trim().toUpperCase();
+
+            // Gộp các mã trong ví với các mã sự kiện đặc biệt
+            var extraVouchers = [
+                {
+                    code: 'SSR-WIBU20',
+                    title: 'Giảm 20% tối đa 100k',
+                    type: 'percent',
+                    val: 20,
+                    max: 100000,
+                    minOrder: 200000
+                },
+                {
+                    code: 'UR-NIKA25',
+                    title: 'Giảm 25% tối đa 150k',
+                    type: 'percent',
+                    val: 25,
+                    max: 150000,
+                    minOrder: 300000
+                },
+                {
+                    code: 'OTAKU-VIP15',
+                    title: 'Giảm 15% quà điểm danh tối đa 80k',
+                    type: 'percent',
+                    val: 15,
+                    max: 80000,
+                    minOrder: 150000
+                }
+            ];
+
+            var all = Store.vouchersGet().concat(extraVouchers);
+            var found = all.filter(function (v) {
+                return v.code === c;
+            })[0];
+
+            if (!found) {
+                return {
+                    discount: 0,
+                    shipDiscount: 0,
+                    valid: false,
+                    msg: 'Mã giảm giá không tồn tại.'
+                };
+            }
+
+            if (sub < (found.minOrder || 0)) {
+                return {
+                    discount: 0,
+                    shipDiscount: 0,
+                    valid: false,
+                    msg: 'Đơn tối thiểu ' + money(found.minOrder) + ' để dùng mã ' + c
+                };
+            }
+
+            if (found.type === 'freeship') {
+                return {
+                    discount: 0,
+                    shipDiscount: 30000,
+                    valid: true,
+                    code: c,
+                    msg: '✓ Đã áp dụng ' + c + ' (Miễn phí ship)'
+                };
+            }
+
+            var d = (found.type === 'percent') ? Math.round(sub * (found.val / 100)) : found.val;
+            if (found.max) {
+                d = Math.min(found.max, d);
+            }
+
+            return {
+                discount: d,
+                shipDiscount: 0,
+                valid: true,
+                code: c,
+                msg: '✓ Đã áp dụng ' + c + ' (−' + money(d) + ')'
+            };
+        },
+
+        // Lấy số điểm thưởng Otaku XP hiện tại (mặc định tặng sẵn 120 XP cho khách mới)
+        xpGet: function () {
+            return Number(safeGet('av_xp', 120)) || 120;
+        },
+
+        // Cộng thêm điểm thưởng Otaku XP
+        addXP: function (pts, reason) {
+            var cur = Store.xpGet() + (Number(pts) || 0);
+            safeSet('av_xp', cur);
+            Store.syncBadges();
+            return cur;
+        },
+
+        // Xác định danh hiệu VIP dựa trên số điểm XP của khách
+        getRankInfo: function (xp) {
+            var x = (xp != null) ? xp : Store.xpGet();
+
+            if (x >= 1000) {
+                return {
+                    name: '👑 Tứ Hoàng (Yonko)',
+                    next: 'MAX',
+                    pct: 100,
+                    perk: 'Giảm thêm 5% VIP + Quà bí ẩn'
+                };
+            }
+
+            if (x >= 500) {
+                return {
+                    name: '⚔️ Trụ Cột (Hashira)',
+                    next: 1000,
+                    pct: Math.round((x - 500) / 5),
+                    perk: 'Ưu tiên đóng gói chống sốc 2 lớp'
+                };
+            }
+
+            if (x >= 250) {
+                return {
+                    name: '🔥 Thợ Săn (Hunter)',
+                    next: 500,
+                    pct: Math.round((x - 250) / 2.5),
+                    perk: 'Tặng kèm sticker anime mỗi đơn'
+                };
+            }
+
+            return {
+                name: '🌱 Tân Binh Wibu',
+                next: 250,
+                pct: Math.round(x / 2.5),
+                perk: 'Tích điểm đổi quà & quay Gacha'
+            };
+        },
+
+        // Lấy lịch sử các đơn hàng đã đặt
+        ordersGet: function () {
+            return safeGet('av_orders', []);
+        },
+
+        // Lưu đơn hàng mới vào lịch sử
+        addOrder: function (ord) {
+            var list = Store.ordersGet();
+            list.unshift(ord);
+            safeSet('av_orders', list.slice(0, 20));
+        },
+
+        // Đồng bộ con số hiển thị trên các nút Giỏ hàng, Yêu thích, So sánh và Huy hiệu VIP
+        syncBadges: function () {
+            var cartCount = Store.cartGet().reduce(function (s, i) {
+                return s + (i && Number(i.qty) || 0);
+            }, 0);
+
+            document.querySelectorAll('.cart-badge').forEach(function (b) {
+                b.textContent = (cartCount > 99) ? '99+' : cartCount;
+                b.hidden = !cartCount;
+                if (cartCount > 0) {
+                    b.classList.add('has-items', 'pulse');
+                } else {
+                    b.classList.remove('has-items', 'pulse');
+                }
+            });
+
+            var wishCount = Store.wishGet().length;
+            document.querySelectorAll('.av-wish-badge').forEach(function (b) {
+                b.textContent = wishCount;
+                b.hidden = !wishCount;
+            });
+
+            var compCount = Store.compareGet().length;
+            document.querySelectorAll('.av-compare-badge').forEach(function (b) {
+                b.textContent = compCount;
+                b.hidden = !compCount;
+            });
+
+            var rk = Store.getRankInfo();
+            document.querySelectorAll('.av-vip-pill').forEach(function (el) {
+                el.innerHTML = rk.name + ' · <b>' + Store.xpGet() + ' XP</b>';
+            });
+        },
+
+        // Thanh toán đơn hàng chính thức: kiểm tra dữ liệu, tính giảm giá, freeship, tạo mã AV-2026-XXXX, cộng 150 XP
+        checkout: function (customer, phone, addr, payMethod, note) {
+            var items = Store.cartGet();
+            if (!items || !items.length) {
+                throw new Error('Cannot checkout empty cart');
+            }
+            var custName = String(customer || '').trim();
+            if (!custName) {
+                throw new Error('Customer name required');
+            }
+            var phoneStr = String(phone || '').trim();
+            var VN_PHONE_REGEX = /^(0|\+84)[35789][0-9]{8}$/;
+            if (!VN_PHONE_REGEX.test(phoneStr)) {
+                throw new Error('Invalid VN phone number');
+            }
+            var addrStr = String(addr || '').trim();
+            if (!addrStr) {
+                throw new Error('Shipping address required');
+            }
+            var pMethod = payMethod || 'COD';
+            var sub = items.reduce(function (s, i) {
+                var qty = Math.max(1, parseInt(i && i.qty, 10) || 1);
+                return s + (Number(i && i.price) || 0) * qty;
+            }, 0);
+            var FREE = 500000;
+            var activeCode = Store.activeVoucherGet();
+            var res = Store.calcDiscount(sub, activeCode);
+            var baseShip = (sub >= FREE) ? 0 : 30000;
+            var finalShip = Math.max(0, baseShip - (res.shipDiscount || 0));
+            var grandTotal = Math.max(0, sub - (res.discount || 0) + finalShip);
+            var ordId = 'AV-2026-' + Math.floor(1000 + Math.random() * 9000);
+
+            var now = new Date();
+            var dateStr = now.toLocaleDateString('vi-VN') + ' ' + now.toLocaleTimeString('vi-VN', {
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+
+            var sanitizedItems = items.map(function (i) {
+                var it = JSON.parse(JSON.stringify(i));
+                it.qty = Math.max(1, parseInt(it.qty, 10) || 1);
+                return it;
+            });
+
+            var order = {
+                id: ordId,
+                date: dateStr,
+                customer: custName,
+                phone: phoneStr,
+                addr: addrStr,
+                note: String(note || '').trim(),
+                payMethod: pMethod,
+                items: sanitizedItems,
+                total: grandTotal,
+                status: 'Đang đóng gói chống sốc'
+            };
+
+            Store.addOrder(order);
+            Store.addXP(150, 'Đặt đơn hàng ' + ordId);
+            Store.cartSet([]);
+            Store.activeVoucherSet('');
+
+            if (window.AVConfettiBurst) {
+                window.AVConfettiBurst();
+            }
+
+            toast('🎉 Đặt hàng thành công! Mã đơn: ' + ordId + ' (+150 XP)');
+            return order;
+        }
+    };
+
+    window.AVStore = Store;
+
+    // Lắng nghe sự kiện storage để đồng bộ Giỏ hàng và Huy hiệu trên mọi Tab trình duyệt
+    window.addEventListener('storage', function (e) {
+        if (!e.key || e.key === 'av_cart' || e.key === 'av_wish' || e.key === 'av_compare' || e.key === 'av_xp' || e.key === 'av_coupon' || e.key === 'av_vouchers') {
+            Store.syncBadges();
+            document.dispatchEvent(new CustomEvent('av:cart-updated'));
+            if (!e.key || e.key === 'av_wish') {
+                document.dispatchEvent(new CustomEvent('av:wish-updated'));
+            }
+        }
+    });
+
+    // Ngắt tên sản phẩm dài thành tối đa 3 dòng để in lên khung ảnh dự phòng
+    function wrapText(text, max) {
+        var words = String(text).split(/\s+/);
+        var lines = [];
+        var line = '';
+
+        words.forEach(function (w) {
+            var testLine = (line + ' ' + w).trim();
+            if (testLine.length > max) {
+                if (line) {
+                    lines.push(line);
+                }
+                line = w;
+            } else {
+                line = testLine;
+            }
+        });
+
+        if (line) {
+            lines.push(line);
+        }
+
+        return lines.slice(0, 3);
+    }
+
+    // Tạo tấm ảnh SVG màu tím hồng có in tên sản phẩm ở giữa
+    function placeholder(label) {
+        var lines = wrapText(label || 'AnimeVerse', 18);
+        var y0 = 430 - (lines.length - 1) * 22;
+
+        var tspans = lines.map(function (l, i) {
+            var yPos = y0 + i * 44;
+            return '<text x="300" y="' + yPos + '" text-anchor="middle" font-family="Arial,sans-serif" font-size="30" font-weight="700" fill="#f7f5ff">' + esc(l) + '</text>';
+        }).join('');
+
+        var svgParts = [
+            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 750">',
+            '<defs>',
+            '<radialGradient id="g" cx="50%" cy="35%" r="75%">',
+            '<stop offset="0" stop-color="#4a2a6e"/>',
+            '<stop offset="1" stop-color="#14141f"/>',
+            '</radialGradient>',
+            '<linearGradient id="p" x1="0" x2="1">',
+            '<stop offset="0" stop-color="#8b5cf6"/>',
+            '<stop offset="1" stop-color="#ff4fa3"/>',
+            '</linearGradient>',
+            '</defs>',
+            '<rect width="600" height="750" fill="url(#g)"/>',
+            '<circle cx="300" cy="290" r="130" fill="none" stroke="#ff4fa3" stroke-opacity=".35" stroke-dasharray="6 10"/>',
+            '<circle cx="300" cy="290" r="90" fill="none" stroke="#8b5cf6" stroke-opacity=".5"/>',
+            '<text x="300" y="320" text-anchor="middle" font-size="96" fill="url(#p)" font-family="Arial,sans-serif">✦</text>',
+            tspans,
+            '<text x="300" y="' + (y0 + lines.length * 44 + 14) + '" text-anchor="middle" font-family="Arial,sans-serif" font-size="16" letter-spacing="5" fill="#ff4fa3">ANIMEVERSE</text>',
+            '</svg>'
+        ];
+
+        return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svgParts.join(''));
+    }
+
+    function labelFor(img) {
+        var alt = (img.getAttribute('alt') || '').trim();
+        if (!alt || /^(ảnh|anh)\s*\d*$/i.test(alt) || /^ảnh chính$/i.test(alt)) {
+            var t = document.querySelector('.pro-title');
+            if (t) {
+                return t.textContent.trim();
+            }
+        }
+        return alt || 'AnimeVerse';
+    }
+
+    function applyFallback(img) {
+        if (!img || img.dataset.fallbackDone) {
+            return;
+        }
+        img.dataset.fallbackDone = '1';
+        img.removeAttribute('onerror');
+        img.src = placeholder(labelFor(img));
+        img.classList.add('is-placeholder');
+    }
+
+    document.addEventListener('error', function (e) {
+        if (e.target && e.target.tagName === 'IMG') {
+            applyFallback(e.target);
+        }
+    }, true);
+
+    function scanImages() {
+        document.querySelectorAll('img').forEach(function (img) {
+            var s = img.getAttribute('src') || '';
+            if (/placeholder\.svg$/i.test(s) || /placehold\.co|via\.placeholder/i.test(s)) {
+                applyFallback(img);
+            } else if (img.complete && img.naturalWidth === 0) {
+                applyFallback(img);
+            }
+        });
+    }
+
+    function initSearch() {
+        var form = document.getElementById('searchForm');
+        if (!form) {
+            return;
+        }
+
+        // Khi khách bấm Enter hoặc bấm nút kính lúp tìm kiếm
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            var inputEl = form.querySelector('input');
+            var q = (inputEl && inputEl.value ? inputEl.value : '').trim();
+            var targetUrl = 'san-pham.html' + (q ? '?q=' + encodeURIComponent(q) : '');
+            window.location.href = targetUrl;
+        });
+
+        // Nếu đang ở trang san-pham.html và trên thanh địa chỉ có sẵn từ khóa ?q=...
+        var field = document.getElementById('product-search');
+        var q = new URLSearchParams(window.location.search).get('q');
+
+        if (field && q) {
+            field.value = q;
+            var hv = form.querySelector('input');
+            if (hv) {
+                hv.value = q;
+            }
+            field.dispatchEvent(new Event('input', { bubbles: true }));
+        }
+    }
+
+    function initProduct() {
+        var main = document.querySelector('.gallery-main');
+        if (!main) {
+            return;
+        }
+
+        // 1. Đổi tấm ảnh lớn khi khách bấm vào các tấm ảnh nhỏ bên dưới (.gallery-thumbs)
+        var thumbs = document.querySelectorAll('.gallery-thumbs img');
+        thumbs.forEach(function (th) {
+            th.addEventListener('click', function () {
+                thumbs.forEach(function (t) {
+                    t.classList.remove('active');
+                });
+                th.classList.add('active');
+
+                // Hiệu ứng chuyển ảnh mượt mà
+                main.classList.remove('av-img-switch');
+                void main.offsetWidth;
+                main.classList.add('av-img-switch');
+
+                main.src = th.src;
+                main.classList.toggle('is-placeholder', th.classList.contains('is-placeholder'));
+            });
+        });
+
+        // 2. Chọn cỡ (Size S, M, L, XL) khi khách bấm vào các nút .size-btn
+        var sizeBtns = document.querySelectorAll('.size-btn');
+        sizeBtns.forEach(function (b) {
+            b.addEventListener('click', function () {
+                sizeBtns.forEach(function (x) {
+                    x.classList.remove('selected');
+                });
+                b.classList.add('selected');
+            });
+        });
+
+        var qty = document.getElementById('qty') || document.querySelector('.qty-input');
+        var buy = document.getElementById('buy-btn') || document.querySelector('.btn-buy-now');
+        var add = document.getElementById('add-cart-btn');
+
+        // 3. Gom thông tin sản phẩm trên trang hiện tại để đưa vào Giỏ hàng
+        function collect(triggerBtn) {
+            var sizes = document.querySelectorAll('.size-btn');
+            var selectedSizeBtn = document.querySelector('.size-btn.selected');
+
+            if (sizes.length && !selectedSizeBtn) {
+                toast('Vui lòng chọn size trước nhé');
+                return null;
+            }
+
+            var priceEl = document.querySelector('.pro-price');
+            var priceTxt = ((priceEl && priceEl.textContent) || '').split('đ')[0];
+            var file = (location.pathname.split('/').pop() || '').replace(/\.html$/i, '');
+            var titleEl = document.querySelector('.pro-title');
+            var prodName = ((titleEl && titleEl.textContent) || 'Sản phẩm').trim();
+            var quantityVal = Math.min(99, Math.max(1, parseInt(qty && qty.value, 10) || 1));
+
+            return Store.addToCart(
+                {
+                    id: file,
+                    name: prodName,
+                    price: parseInt(priceTxt.replace(/\D/g, ''), 10) || 0,
+                    img: main.getAttribute('src'),
+                    size: selectedSizeBtn ? selectedSizeBtn.textContent.trim() : '',
+                    qty: quantityVal
+                },
+                triggerBtn || main
+            );
+        }
+
+        // Khi bấm nút "THÊM VÀO GIỎ"
+        if (add) {
+            add.addEventListener('click', function () {
+                var it = collect(add);
+                if (!it) {
+                    return;
+                }
+                var sizeNote = it.size ? ' (size ' + it.size + ')' : '';
+                toast('✓ Đã thêm ' + it.qty + ' × ' + it.name + sizeNote + ' vào giỏ hàng (+10 XP)');
+            });
+        }
+
+        // Khi bấm nút "MUA NGAY" -> Thêm vào giỏ rồi chuyển sang trang Giỏ hàng
+        if (buy) {
+            buy.addEventListener('click', function () {
+                var it = collect(buy);
+                if (it) {
+                    window.location.href = 'gio-hang.html';
+                }
+            });
+        }
+    }
+
+    // Hàm vẽ mã QR thanh toán minh họa trực tiếp bằng SVG
+    function makeVietQRSvg(amount, orderRef) {
+        var cells = '';
+        var seed = String(amount) + orderRef;
+
+        for (var r = 0; r < 15; r++) {
+            for (var c = 0; c < 15; c++) {
+                var isCorner = (r < 4 && c < 4) || (r < 4 && c > 10) || (r > 10 && c < 4);
+                var charCode = seed.charCodeAt((r * 15 + c) % seed.length);
+                var bit = isCorner ? 1 : ((charCode + r * 7 + c * 13) % 3 !== 0);
+
+                if (bit) {
+                    var xPos = 15 + c * 10;
+                    var yPos = 15 + r * 10;
+                    cells += '<rect x="' + xPos + '" y="' + yPos + '" width="8.5" height="8.5" rx="1.5" fill="#090912"/>';
+                }
+            }
+        }
+
+        var svgLines = [
+            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180" width="150" height="150">',
+            '<rect width="180" height="180" rx="14" fill="#ffffff"/>',
+            cells,
+            '<rect x="72" y="72" width="36" height="36" rx="8" fill="#ff4fa3"/>',
+            '<text x="90" y="96" text-anchor="middle" font-size="18" font-weight="900" fill="#fff">✦</text>',
+            '</svg>'
+        ];
+
+        return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svgLines.join(''));
+    }
+
+    Store.makeVietQRSvg = makeVietQRSvg;
+    window.AVMakeVietQRSvg = makeVietQRSvg;
+
+    // Hàm điều khiển toàn bộ trang gio-hang.html
+    // Cách sửa mức Freeship và phí vận chuyển:
+    // - Đổi số 500000 ở dòng "var FREE = 500000;" thành mức miễn phí ship bạn muốn.
+    // - Đổi số 30000 ở dòng "var baseShip = (left === 0) ? 0 : 30000;" thành phí ship mặc định.
+    function initCartPage() {
+        var root = document.getElementById('cart-root');
+        if (!root) {
+            return;
+        }
+
+        var FREE = 500000;
+        var payMethod = 'COD';
+        var lastOrder = null;
+
+        // --- Các hàm con hỗ trợ trang giỏ hàng (Single Responsibility Helpers) ---
+        function saveFormInputs() {
+            var keep = {};
+            var f = document.getElementById('checkout');
+            if (f) {
+                ['name', 'phone', 'addr', 'note'].forEach(function (k) {
+                    if (f.elements[k]) keep[k] = f.elements[k].value;
+                });
+            }
+            return keep;
+        }
+
+        function restoreFormInputs(keep) {
+            var nf = document.getElementById('checkout');
+            if (nf && keep) {
+                Object.keys(keep).forEach(function (k) {
+                    if (nf.elements[k] && keep[k] != null) {
+                        nf.elements[k].value = keep[k];
+                    }
+                });
+            }
+        }
+
+        function renderEmptyOrSuccessState() {
+            if (lastOrder) {
+                root.innerHTML = [
+                    '<div class="cart-empty" style="max-width:620px;margin:0 auto;padding:32px;border:1px solid #38e8ff;border-radius:20px;background:#121220">',
+                    '    <span style="font-size:48px">🎉</span>',
+                    '    <h2>Đặt hàng thành công! Mã đơn: <strong style="color:#38e8ff">' + esc(lastOrder.id) + '</strong></h2>',
+                    '    <p>Cảm ơn <b>' + esc(lastOrder.customer) + '</b>! Bạn vừa nhận được <b>+150 Otaku XP</b>. Đơn hàng đang được chuẩn bị đóng gói chống sốc.</p>',
+                    '    <div style="text-align:left;background:rgba(255,255,255,.04);padding:14px 18px;border-radius:12px;margin:16px 0;font-size:13.5px">',
+                    '        <div><b>Phương thức:</b> ' + esc(lastOrder.payMethod) + '</div>',
+                    '        <div><b>Tổng thanh toán:</b> <span style="color:#ff4fa3;font-weight:800">' + money(lastOrder.total) + '</span></div>',
+                    '        <div><b>Địa chỉ:</b> ' + esc(lastOrder.addr) + '</div>',
+                    '    </div>',
+                    '    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">',
+                    '        <button type="button" class="btn primary" id="btnViewOrderTrack">📦 Theo dõi đơn hàng</button>',
+                    '        <a class="btn ghost" href="san-pham.html">Tiếp tục mua sắm →</a>',
+                    '    </div>',
+                    '</div>'
+                ].join('\n');
+
+                var btnTrack = document.getElementById('btnViewOrderTrack');
+                if (btnTrack && window.AVOpenDrawer) {
+                    btnTrack.addEventListener('click', function () {
+                        window.AVOpenDrawer('orders');
+                    });
+                }
+                return;
+            }
+
+            root.innerHTML = [
+                '<div class="cart-empty">',
+                '    <span>🛒</span>',
+                '    <h2>Giỏ hàng đang trống</h2>',
+                '    <p>Chọn vài món đồ Anime yêu thích hoặc quay Gacha săn mã giảm giá rồi quay lại đây nhé.</p>',
+                '    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:14px">',
+                '        <a class="btn primary" href="san-pham.html">Xem sản phẩm →</a>',
+                '        <button type="button" class="btn ghost" id="emptyOpenGacha">🎰 Quay Gacha Săn Voucher</button>',
+                '    </div>',
+                '</div>'
+            ].join('\n');
+
+            var gBtn = document.getElementById('emptyOpenGacha');
+            if (gBtn && window.AVOpenHub) {
+                gBtn.addEventListener('click', function () {
+                    window.AVOpenHub('gacha');
+                });
+            }
+        }
+
+        function calculateCartTotals(items, activeCode) {
+            var sub = items.reduce(function (s, i) { return s + i.price * i.qty; }, 0);
+            var res = Store.calcDiscount(sub, activeCode);
+            var left = Math.max(0, FREE - sub);
+            var baseShip = (left === 0) ? 0 : 30000;
+            var finalShip = Math.max(0, baseShip - (res.shipDiscount || 0));
+            var grandTotal = Math.max(0, sub - (res.discount || 0) + finalShip);
+            var totalCount = items.reduce(function (s, x) { return s + x.qty; }, 0);
+            return {
+                sub: sub,
+                res: res,
+                left: left,
+                finalShip: finalShip,
+                grandTotal: grandTotal,
+                totalCount: totalCount
+            };
+        }
+
+        function buildItemsListHtml(items) {
+            return items.map(function (i, k) {
+                var sizeText = i.size ? '<small>Size: ' + esc(i.size) + '</small>' : '<small>Bản tiêu chuẩn</small>';
+                return [
+                    '<article class="cart-item">',
+                    '    <a href="' + esc(i.id) + '.html"><img src="' + esc(i.img) + '" alt="' + esc(i.name) + '"></a>',
+                    '    <div class="cart-info">',
+                    '        <a href="' + esc(i.id) + '.html"><h3>' + esc(i.name) + '</h3></a>',
+                    '        ' + sizeText,
+                    '        <b>' + money(i.price) + '</b>',
+                    '    </div>',
+                    '    <div class="cart-qty">',
+                    '        <button type="button" data-act="dec" data-i="' + k + '" aria-label="Giảm">−</button>',
+                    '        <span>' + i.qty + '</span>',
+                    '        <button type="button" data-act="inc" data-i="' + k + '" aria-label="Tăng">+</button>',
+                    '    </div>',
+                    '    <strong class="cart-line">' + money(i.price * i.qty) + '</strong>',
+                    '    <button type="button" class="cart-remove" data-act="rm" data-i="' + k + '" aria-label="Xóa ' + esc(i.name) + '">×</button>',
+                    '</article>'
+                ].join('\n');
+            }).join('\n');
+        }
+
+        function buildVouchersHtml(vouchers, res) {
+            return vouchers.map(function (v) {
+                var isAct = res.valid && res.code === v.code;
+                var activeClass = isAct ? ' active' : '';
+                return [
+                    '<button type="button" class="av-voucher-chip' + activeClass + '" data-vcode="' + esc(v.code) + '">',
+                    '    <b>' + esc(v.code) + '</b>',
+                    '    <span>' + esc(v.title) + '</span>',
+                    '</button>'
+                ].join('\n');
+            }).join('\n');
+        }
+
+        function buildQrSectionHtml(method, grandTotal) {
+            if (method === 'COD') return '';
+            return [
+                '<div class="av-qr-box">',
+                '    <img src="' + makeVietQRSvg(grandTotal, 'AV2026') + '" alt="Mã QR thanh toán" style="border-radius:10px">',
+                '    <div style="font-size:12px;margin-top:6px">',
+                '        Quét mã <b>' + method + '</b> · Số tiền: <b style="color:#38e8ff">' + money(grandTotal) + '</b><br>',
+                '        <small>Nội dung: ANIMEVERSE VIP</small>',
+                '    </div>',
+                '</div>'
+            ].join('\n');
+        }
+
+        function render() {
+            var keep = saveFormInputs();
+            var items = Store.cartGet();
+
+            if (!items.length) {
+                renderEmptyOrSuccessState();
+                return;
+            }
+
+            var activeCode = Store.activeVoucherGet();
+            var totals = calculateCartTotals(items, activeCode);
+            var vouchers = Store.vouchersGet();
+
+            var freeShipNote = totals.left
+                ? 'Mua thêm <b>' + money(totals.left) + '</b> để được Freeship 500k'
+                : '🎉 Đơn của bạn đủ điều kiện Freeship!';
+
+            var discountRowHtml = totals.res.discount
+                ? '<dt>Giảm giá (' + esc(totals.res.code) + ')</dt><dd style="color:#ff4fa3">−' + money(totals.res.discount) + '</dd>'
+                : '';
+
+            var shipDisplay = (totals.finalShip === 0)
+                ? '<span style="color:#10b981">Miễn phí (0đ)</span>'
+                : money(totals.finalShip);
+
+            var fullCartHtml = [
+                '<div class="cart-layout">',
+                '    <div class="cart-list">',
+                buildItemsListHtml(items),
+                '    </div>',
+                '    <aside class="cart-summary">',
+                '        <h2>Tóm tắt đơn hàng</h2>',
+                '        <div class="free-ship">',
+                '            <div class="bar">',
+                '                <i style="width:' + Math.min(100, Math.round(totals.sub / FREE * 100)) + '%"></i>',
+                '            </div>',
+                '            <p>' + freeShipNote + '</p>',
+                '        </div>',
+                '        <div style="margin:10px 0 6px;font-size:12px;color:#a7a4b8;display:flex;justify-content:space-between">',
+                '            <span>🎟 Ví Voucher của bạn (bấm để chọn):</span>',
+                '            <button type="button" id="cartOpenGacha" style="background:none;border:0;color:#38e8ff;font-size:11.5px;cursor:pointer;padding:0">🎰 Săn thêm mã</button>',
+                '        </div>',
+                '        <div class="av-voucher-wallet">',
+                buildVouchersHtml(vouchers, totals.res),
+                '        </div>',
+                '        <div class="cart-coupon">',
+                '            <input id="coupon" value="' + esc(activeCode) + '" placeholder="Nhập mã giảm giá (WELCOME10, OTAKU50K...)" aria-label="Mã giảm giá">',
+                '            <button type="button" id="apply">Áp dụng</button>',
+                '        </div>',
+                '        <p class="coupon-msg" id="couponMsg">' + esc(totals.res.msg) + '</p>',
+                '        <dl>',
+                '            <dt>Tạm tính (' + totals.totalCount + ' món)</dt>',
+                '            <dd>' + money(totals.sub) + '</dd>',
+                '            ' + discountRowHtml,
+                '            <dt>Phí vận chuyển</dt>',
+                '            <dd>' + shipDisplay + '</dd>',
+                '        </dl>',
+                '        <div class="cart-total">',
+                '            <span>Tổng thanh toán</span>',
+                '            <strong>' + money(totals.grandTotal) + '</strong>',
+                '        </div>',
+                '        <form id="checkout" class="cart-form">',
+                '            <h3>Phương thức thanh toán</h3>',
+                '            <div class="av-pay-methods">',
+                '                <button type="button" class="av-pay-method' + (payMethod === 'COD' ? ' active' : '') + '" data-pay="COD">💵 Tiền mặt COD</button>',
+                '                <button type="button" class="av-pay-method' + (payMethod === 'VIETQR' ? ' active' : '') + '" data-pay="VIETQR">🏦 VietQR</button>',
+                '                <button type="button" class="av-pay-method' + (payMethod === 'MOMO' ? ' active' : '') + '" data-pay="MOMO">📱 Ví MoMo</button>',
+                '            </div>',
+                buildQrSectionHtml(payMethod, totals.grandTotal),
+                '            <h3>Thông tin nhận hàng</h3>',
+                '            <input name="name" required placeholder="Họ và tên người nhận" autocomplete="name">',
+                '            <input name="phone" required pattern="^(0|\\+84)[3|5|7|8|9][0-9]{8}$" title="Vui lòng nhập số điện thoại Việt Nam hợp lệ (10 số, bắt đầu bằng 0 hoặc +84)" placeholder="Số điện thoại liên hệ (10 số)" autocomplete="tel" inputmode="tel">',
+                '            <textarea name="addr" required rows="2" placeholder="Địa chỉ nhận hàng chi tiết (Số nhà, Phường/Xã, Quận/Huyện, Tỉnh/TP)" autocomplete="street-address"></textarea>',
+                '            <input name="note" placeholder="Ghi chú thêm (vd: Bọc chống sốc hộp figure, giao giờ hành chính...)">',
+                '            <button class="btn primary" type="submit">✦ Hoàn tất đặt hàng (' + money(totals.grandTotal) + ')</button>',
+                '            <p style="font-size:12px;color:#a7a4b8;text-align:center;margin:8px 0 0">🔒 Bảo mật thanh toán • Đổi trả 7 ngày • Chống sốc 100%</p>',
+                '        </form>',
+                '    </aside>',
+                '</div>'
+            ].join('\n');
+
+            root.innerHTML = fullCartHtml;
+            restoreFormInputs(keep);
+
+            var gBtn2 = document.getElementById('cartOpenGacha');
+            if (gBtn2 && window.AVOpenHub) {
+                gBtn2.addEventListener('click', function () {
+                    window.AVOpenHub('gacha');
+                });
+            }
+
+            scanImages();
+        }
+
+        // Lắng nghe các thao tác bấm nút trong trang Giỏ hàng (chọn mã, tăng/giảm số lượng, xóa món)
+        root.addEventListener('click', function (e) {
+            var vchip = e.target.closest('[data-vcode]');
+            if (vchip) {
+                var code = vchip.getAttribute('data-vcode');
+                var nextCode = (Store.activeVoucherGet() === code) ? '' : code;
+                Store.activeVoucherSet(nextCode);
+                render();
+                return;
+            }
+
+            var pbtn = e.target.closest('[data-pay]');
+            if (pbtn) {
+                payMethod = pbtn.getAttribute('data-pay');
+                render();
+                return;
+            }
+
+            var b = e.target.closest('[data-act], #apply');
+            if (!b) {
+                return;
+            }
+
+            if (b.id === 'apply') {
+                var couponInput = document.getElementById('coupon');
+                var inpCode = ((couponInput && couponInput.value) || '').trim().toUpperCase();
+                Store.activeVoucherSet(inpCode);
+                render();
+                return;
+            }
+
+            var c = Store.cartGet();
+            var i = Number(b.dataset.i);
+
+            if (b.dataset.act === 'rm') {
+                c.splice(i, 1);
+            } else if (b.dataset.act === 'inc') {
+                c[i].qty = Math.min(99, c[i].qty + 1);
+            } else if (b.dataset.act === 'dec') {
+                c[i].qty = Math.max(1, c[i].qty - 1);
+            }
+
+            Store.cartSet(c);
+            render();
+        });
+
+        // Khi khách bấm nút "Hoàn tất đặt hàng"
+        root.addEventListener('submit', function (e) {
+            e.preventDefault();
+            var f = e.target;
+            try {
+                lastOrder = Store.checkout(
+                    f.elements.name ? f.elements.name.value : '',
+                    f.elements.phone ? f.elements.phone.value : '',
+                    f.elements.addr ? f.elements.addr.value : '',
+                    payMethod,
+                    f.elements.note ? f.elements.note.value : ''
+                );
+                render();
+            } catch (err) {
+                toast('⚠ ' + (err.message || 'Lỗi khi đặt hàng'));
+            }
+        });
+
+        document.addEventListener('av:cart-updated', render);
+        render();
+    }
+
+    function initHearts() {
+        // Tìm đường dẫn trang chi tiết của thẻ sản phẩm chứa nút trái tim đó
+        function key(b) {
+            var a = b.closest('article');
+            var l = a && a.querySelector('a[href*="chi-tiet"]');
+            return l ? l.getAttribute('href') : null;
+        }
+
+        // Cập nhật màu sắc và biểu tượng cho tất cả các nút trái tim trên trang
+        function paintAll() {
+            var w = Store.wishGet();
+            document.querySelectorAll('.heart').forEach(function (b) {
+                var k = key(b);
+                var on = !!k && w.indexOf(k) > -1;
+                b.classList.toggle('liked', on);
+                b.textContent = on ? '♥' : '♡';
+                b.setAttribute('aria-pressed', on ? 'true' : 'false');
+            });
+        }
+
+        paintAll();
+        document.addEventListener('av:wish-updated', paintAll);
+
+        document.addEventListener('click', function (e) {
+            var b = e.target.closest && e.target.closest('.heart');
+            if (!b) {
+                return;
+            }
+
+            e.preventDefault();
+            e.stopPropagation();
+
+            var k = key(b);
+            if (!k) {
+                return;
+            }
+
+            var on = Store.wishToggle(k);
+            paintAll();
+
+            // Gọi hiệu ứng bắn pháo hoa trái tim lấp lánh khi bấm thích
+            if (window.AVHeartBurst) {
+                window.AVHeartBurst(b, on);
+            }
+
+            if (on) {
+                toast('♥ Đã lưu vào Tủ Yêu Thích (+5 XP)');
+            } else {
+                toast('Đã bỏ khỏi Tủ Yêu Thích');
+            }
+        }, true);
+    }
+
+    // Cuộn thanh menu ngang trên điện thoại để mục đang chọn nằm ngay giữa tầm mắt
+    function initNav() {
+        var a = document.querySelector('.nav a.active');
+        if (a && a.scrollIntoView && a.parentElement.scrollWidth > a.parentElement.clientWidth) {
+            a.scrollIntoView({
+                inline: 'center',
+                block: 'nearest'
+            });
+        }
+    }
+
+    // Xử lý hiệu ứng nghiêng 3D, nút sao chép SĐT/Email và kiểm tra Form trên trang Liên hệ
+    function initContact() {
+        var box = document.getElementById('lhBox');
+        var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+        var items = document.querySelectorAll('.lh-reveal');
+
+        if (items.length) {
+            if (!('IntersectionObserver' in window) || reduce) {
+                items.forEach(function (el) {
+                    el.classList.add('in');
+                });
+            } else {
+                var io = new IntersectionObserver(function (entries) {
+                    entries.forEach(function (en) {
+                        if (en.isIntersecting) {
+                            en.target.classList.add('in');
+                            io.unobserve(en.target);
+                        }
+                    });
+                }, { threshold: 0.15 });
+
+                items.forEach(function (el) {
+                    io.observe(el);
+                });
+            }
+        }
+
+        // Hiệu ứng nghiêng 3D cho 3 tấm thẻ Cổ đông chính khi rê chuột
+        var canHover = window.matchMedia && matchMedia('(hover: hover)').matches;
+        if (canHover && !reduce) {
+            document.querySelectorAll('.lh-tilt').forEach(function (card) {
+                card.addEventListener('mousemove', function (e) {
+                    var r = card.getBoundingClientRect();
+                    var x = (e.clientX - r.left) / r.width;
+                    var y = (e.clientY - r.top) / r.height;
+
+                    card.style.setProperty('--ry', ((x - 0.5) * 12).toFixed(2) + 'deg');
+                    card.style.setProperty('--rx', ((0.5 - y) * 12).toFixed(2) + 'deg');
+                    card.style.setProperty('--mx', (x * 100) + '%');
+                    card.style.setProperty('--my', (y * 100) + '%');
+                });
+
+                card.addEventListener('mouseleave', function () {
+                    card.style.setProperty('--rx', '0deg');
+                    card.style.setProperty('--ry', '0deg');
+                });
+            });
+        }
+
+        // Nút sao chép nhanh số điện thoại / địa chỉ email
+        document.querySelectorAll('[data-copy]').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                var text = btn.getAttribute('data-copy');
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(text).then(
+                        function () {
+                            toast('✓ Đã sao chép: ' + text);
+                        },
+                        function () {
+                            toast('Mã: ' + text);
+                        }
+                    );
+                } else {
+                    toast('Mã: ' + text);
+                }
+            });
+        });
+
+        // Kiểm tra dữ liệu nhập trong Form Gửi lời nhắn ở trang Liên hệ
+        var form = document.getElementById('contactForm');
+        if (!form || !box) {
+            return;
+        }
+
+        var msg = document.getElementById('lhMsg');
+        var count = document.getElementById('lhCount');
+        var submit = document.getElementById('lhSubmit');
+
+        msg.addEventListener('input', function () {
+            count.textContent = msg.value.length + '/500';
+        });
+
+        var rules = {
+            lhName: function (v) {
+                return v.trim().length < 2 ? 'Bạn cho tụi mình biết tên nhé.' : '';
+            },
+            lhEmail: function (v) {
+                return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim())
+                    ? ''
+                    : 'Email chưa đúng định dạng (vd: ban@gmail.com).';
+            },
+            lhMsg: function (v) {
+                return v.trim().length < 10 ? 'Viết thêm chút nữa nhé (ít nhất 10 ký tự).' : '';
+            }
+        };
+
+        function check(id) {
+            var input = document.getElementById(id);
+            var err = form.querySelector('.lh-error[data-for="' + id + '"]');
+            var m = rules[id](input.value);
+
+            err.textContent = m;
+            input.closest('.lh-field').classList.toggle('bad', !!m);
+            input.setAttribute('aria-invalid', m ? 'true' : 'false');
+            return !m;
+        }
+
+        Object.keys(rules).forEach(function (id) {
+            var el = document.getElementById(id);
+            el.addEventListener('blur', function () {
+                check(id);
+            });
+            el.addEventListener('input', function () {
+                if (el.closest('.lh-field').classList.contains('bad')) {
+                    check(id);
+                }
+            });
+        });
+
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            var ok = Object.keys(rules).map(check).every(Boolean);
+
+            if (!ok) {
+                var firstBad = form.querySelector('.lh-field.bad input, .lh-field.bad textarea');
+                if (firstBad) {
+                    firstBad.focus();
+                }
+                return;
+            }
+
+            submit.disabled = true;
+            submit.textContent = 'Đang gửi...';
+
+            setTimeout(function () {
+                box.classList.add('sent');
+                submit.disabled = false;
+                submit.textContent = 'Gửi lời nhắn →';
+                Store.addXP(25, 'Gửi phản hồi liên hệ');
+                toast('✓ Đã ghi nhận lời nhắn của bạn (+25 XP)');
+            }, 600);
+        });
+
+        var again = document.getElementById('lhAgain');
+        if (again) {
+            again.addEventListener('click', function () {
+                form.reset();
+                count.textContent = '0/500';
+                form.querySelectorAll('.lh-field.bad').forEach(function (f) {
+                    f.classList.remove('bad');
+                });
+                form.querySelectorAll('.lh-error').forEach(function (s) {
+                    s.textContent = '';
+                });
+                box.classList.remove('sent');
+            });
+        }
+    }
+
+    // Khởi tạo nút đóng/mở menu trên điện thoại và hiệu ứng đổ bóng khi cuộn Header
+    function initMobileNavAndHeader() {
+        var header = document.querySelector('.header');
+        var nav = document.querySelector('.nav');
+        var main = document.querySelector('main');
+
+        if (main) {
+            if (!main.id) {
+                main.id = 'main';
+            }
+            var sk = document.createElement('a');
+            sk.className = 'skip-link';
+            sk.href = '#' + main.id;
+            sk.textContent = 'Bỏ qua đến nội dung chính';
+            document.body.insertBefore(sk, document.body.firstChild);
+        }
+
+        if (header && nav) {
+            var inner = header.querySelector('.header-inner');
+            var btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'nav-toggle';
+            btn.setAttribute('aria-label', 'Mở menu');
+            btn.setAttribute('aria-expanded', 'false');
+            btn.textContent = '☰';
+
+            if (inner) {
+                inner.insertBefore(btn, inner.firstChild);
+            }
+
+            function setOpen(on) {
+                document.body.classList.toggle('nav-open', on);
+                btn.setAttribute('aria-expanded', on);
+                btn.textContent = on ? '✕' : '☰';
+                if (on) {
+                    var bottomPos = header.getBoundingClientRect().bottom + 'px';
+                    document.documentElement.style.setProperty('--hh', bottomPos);
+                }
+            }
+
+            btn.addEventListener('click', function () {
+                setOpen(!document.body.classList.contains('nav-open'));
+            });
+            nav.addEventListener('click', function (e) {
+                if (e.target.closest('a')) {
+                    setOpen(false);
+                }
+            });
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape') {
+                    setOpen(false);
+                }
+            });
+            window.addEventListener('resize', function () {
+                if (window.innerWidth > 600) {
+                    setOpen(false);
+                }
+            });
+        }
+
+        if (header) {
+            var updateHeaderScroll = function () {
+                header.classList.toggle('is-scrolled', window.scrollY > 8);
+            };
+            window.addEventListener('scroll', updateHeaderScroll, { passive: true });
+            updateHeaderScroll();
+        }
+    }
+
+    // Chạy tất cả các tính năng khi trang đã tải xong
+    function ready() {
+        scanImages();
+        initSearch();
+        initProduct();
+        initHearts();
+        initCartPage();
+        Store.syncBadges();
+        initNav();
+        initContact();
+        initMobileNavAndHeader();
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', ready);
+    } else {
+        ready();
+    }
+
+    window.addEventListener('load', scanImages);
+})();
+
+;
+
+/* Dữ liệu sản phẩm, đổi giao diện, bộ lọc & tiện ích tương tác Otaku */
+
+/* Dữ liệu sản phẩm, đổi giao diện, bộ lọc & tiện ích tương tác Otaku */
 
 (function () {
   'use strict';
 
-  // ---------------------------------------------------------------------------
-  // MỤC 0: CƠ SỞ DỮ LIỆU GỐC CỦA 50 SẢN PHẨM (biến CATALOG)
-  // ---------------------------------------------------------------------------
   // Giải thích dễ hiểu:
   // Đây là "cuốn sổ cái" lưu thông tin của cả 50 món đồ trong shop (từ #1 đến #50).
   // Khi bạn sửa tên, giá hoặc ảnh của 1 sản phẩm ở đây thì Ô tìm kiếm, Cửa sổ Xem nhanh,
@@ -53,8 +1466,6 @@
 
   var CATALOG = [
 
-
-    // ----- Sản phẩm #1: Figure Luffy Gear 5 Nika -----
     {
       // Nhận diện
       num: 1,
@@ -91,7 +1502,6 @@
       sold: 203
     },
 
-    // ----- Sản phẩm #2: Mô Hình Zoro Wano Quốc -----
     {
       // Nhận diện
       num: 2,
@@ -127,7 +1537,6 @@
       sold: 286
     },
 
-    // ----- Sản phẩm #3: Figure Nezuko Hóa Quỷ -----
     {
       // Nhận diện
       num: 3,
@@ -163,7 +1572,6 @@
       sold: 369
     },
 
-    // ----- Sản phẩm #4: Goku Bản Năng Vô Cực -----
     {
       // Nhận diện
       num: 4,
@@ -199,7 +1607,6 @@
       sold: 452
     },
 
-    // ----- Sản phẩm #5: Nendoroid Anya Forger -----
     {
       // Nhận diện
       num: 5,
@@ -235,7 +1642,6 @@
       sold: 535
     },
 
-    // ----- Sản phẩm #6: Figure Raiden Shogun -----
     {
       // Nhận diện
       num: 6,
@@ -272,7 +1678,6 @@
       sold: 618
     },
 
-    // ----- Sản phẩm #7: Naruto Lục Đạo Tiên Nhân -----
     {
       // Nhận diện
       num: 7,
@@ -308,7 +1713,6 @@
       sold: 701
     },
 
-    // ----- Sản phẩm #8: Figure Gojo Satoru Vô Hạ Hạn -----
     {
       // Nhận diện
       num: 8,
@@ -344,7 +1748,6 @@
       sold: 784
     },
 
-    // ----- Sản phẩm #9: Set Cosplay Gojo Satoru -----
     {
       // Nhận diện
       num: 9,
@@ -387,7 +1790,6 @@
       sold: 867
     },
 
-    // ----- Sản phẩm #10: Áo Haori Tanjiro Kamado -----
     {
       // Nhận diện
       num: 10,
@@ -430,7 +1832,6 @@
       sold: 950
     },
 
-    // ----- Sản phẩm #11: Áo Choàng Akatsuki -----
     {
       // Nhận diện
       num: 11,
@@ -473,7 +1874,6 @@
       sold: 1033
     },
 
-    // ----- Sản phẩm #12: Set Kimono Nezuko -----
     {
       // Nhận diện
       num: 12,
@@ -516,7 +1916,6 @@
       sold: 166
     },
 
-    // ----- Sản phẩm #13: Đồng Phục Anya Forger -----
     {
       // Nhận diện
       num: 13,
@@ -559,7 +1958,6 @@
       sold: 249
     },
 
-    // ----- Sản phẩm #14: Áo Khoác Trinh Sát Đoàn -----
     {
       // Nhận diện
       num: 14,
@@ -602,7 +2000,6 @@
       sold: 332
     },
 
-    // ----- Sản phẩm #15: Trang Phục Hầu Gái (Maid) -----
     {
       // Nhận diện
       num: 15,
@@ -644,7 +2041,6 @@
       sold: 415
     },
 
-    // ----- Sản phẩm #16: Set Đồ Luffy Wano -----
     {
       // Nhận diện
       num: 16,
@@ -687,7 +2083,6 @@
       sold: 498
     },
 
-    // ----- Sản phẩm #17: Kiếm Nichirin Tanjiro -----
     {
       // Nhận diện
       num: 17,
@@ -723,7 +2118,6 @@
       sold: 581
     },
 
-    // ----- Sản phẩm #18: Kiếm Gỗ Enma (Zoro) -----
     {
       // Nhận diện
       num: 18,
@@ -759,7 +2153,6 @@
       sold: 664
     },
 
-    // ----- Sản phẩm #19: Set Kunai Ninja Naruto -----
     {
       // Nhận diện
       num: 19,
@@ -795,7 +2188,6 @@
       sold: 747
     },
 
-    // ----- Sản phẩm #20: Phi Tiêu Shuriken Kim Loại -----
     {
       // Nhận diện
       num: 20,
@@ -830,7 +2222,6 @@
       sold: 830
     },
 
-    // ----- Sản phẩm #21: Gậy Phép Thuật Sakura -----
     {
       // Nhận diện
       num: 21,
@@ -866,7 +2257,6 @@
       sold: 913
     },
 
-    // ----- Sản phẩm #22: Mặt Nạ Cáo Anbu -----
     {
       // Nhận diện
       num: 22,
@@ -902,7 +2292,6 @@
       sold: 996
     },
 
-    // ----- Sản phẩm #23: Bịt Mắt Gojo Satoru -----
     {
       // Nhận diện
       num: 23,
@@ -938,7 +2327,6 @@
       sold: 129
     },
 
-    // ----- Sản phẩm #24: Mũ Rơm Luffy Chính Hãng -----
     {
       // Nhận diện
       num: 24,
@@ -974,7 +2362,6 @@
       sold: 212
     },
 
-    // ----- Sản phẩm #25: Gấu bông Anya Forger -----
     {
       // Nhận diện
       num: 25,
@@ -1009,7 +2396,6 @@
       sold: 295
     },
 
-    // ----- Sản phẩm #26: Chó máy Pochita (Chainsaw Man) -----
     {
       // Nhận diện
       num: 26,
@@ -1045,7 +2431,6 @@
       sold: 378
     },
 
-    // ----- Sản phẩm #27: Gấu bông Pikachu (50kg) -----
     {
       // Nhận diện
       num: 27,
@@ -1076,7 +2461,6 @@
       sold: 461
     },
 
-    // ----- Sản phẩm #28: Tony Tony Chopper -----
     {
       // Nhận diện
       num: 28,
@@ -1112,7 +2496,6 @@
       sold: 544
     },
 
-    // ----- Sản phẩm #29: Gojo Satoru phiên bản Mèo -----
     {
       // Nhận diện
       num: 29,
@@ -1148,7 +2531,6 @@
       sold: 627
     },
 
-    // ----- Sản phẩm #30: Gấu mập Doraemon -----
     {
       // Nhận diện
       num: 30,
@@ -1184,7 +2566,6 @@
       sold: 710
     },
 
-    // ----- Sản phẩm #31: Cửu Vĩ Kurama (Naruto) -----
     {
       // Nhận diện
       num: 31,
@@ -1215,7 +2596,6 @@
       sold: 793
     },
 
-    // ----- Sản phẩm #32: Totoro Bụng Bự -----
     {
       // Nhận diện
       num: 32,
@@ -1251,7 +2631,6 @@
       sold: 876
     },
 
-    // ----- Sản phẩm #33: Áo Hoodie Akatsuki (Naruto) -----
     {
       // Nhận diện
       num: 33,
@@ -1294,7 +2673,6 @@
       sold: 959
     },
 
-    // ----- Sản phẩm #34: Áo Thun One Piece Oversize -----
     {
       // Nhận diện
       num: 34,
@@ -1337,7 +2715,6 @@
       sold: 1042
     },
 
-    // ----- Sản phẩm #35: Hoodie Jujutsu Kaisen -----
     {
       // Nhận diện
       num: 35,
@@ -1380,7 +2757,6 @@
       sold: 175
     },
 
-    // ----- Sản phẩm #36: Áo Khoác Attack on Titan -----
     {
       // Nhận diện
       num: 36,
@@ -1423,7 +2799,6 @@
       sold: 258
     },
 
-    // ----- Sản phẩm #37: Balo Đi Học My Hero Academia -----
     {
       // Nhận diện
       num: 37,
@@ -1459,7 +2834,6 @@
       sold: 341
     },
 
-    // ----- Sản phẩm #38: Mũ Lưỡi Trai Làng Lá -----
     {
       // Nhận diện
       num: 38,
@@ -1495,7 +2869,6 @@
       sold: 424
     },
 
-    // ----- Sản phẩm #39: Giày Sneaker Custom Anime -----
     {
       // Nhận diện
       num: 39,
@@ -1539,7 +2912,6 @@
       sold: 507
     },
 
-    // ----- Sản phẩm #40: Áo Len Hồng Anya Dễ Thương -----
     {
       // Nhận diện
       num: 40,
@@ -1577,7 +2949,6 @@
       sold: 590
     },
 
-    // ----- Sản phẩm #41: Blind Box Genshin Impact -----
     {
       // Nhận diện
       num: 41,
@@ -1613,7 +2984,6 @@
       sold: 673
     },
 
-    // ----- Sản phẩm #42: Giftset One Piece Hộp Gỗ -----
     {
       // Nhận diện
       num: 42,
@@ -1649,7 +3019,6 @@
       sold: 756
     },
 
-    // ----- Sản phẩm #43: Combo 5 Móc Khóa Mica -----
     {
       // Nhận diện
       num: 43,
@@ -1685,7 +3054,6 @@
       sold: 839
     },
 
-    // ----- Sản phẩm #44: Hộp Nhạc Ghibli Spirited Away -----
     {
       // Nhận diện
       num: 44,
@@ -1721,7 +3089,6 @@
       sold: 922
     },
 
-    // ----- Sản phẩm #45: Sổ Tay Tử Thần Death Note -----
     {
       // Nhận diện
       num: 45,
@@ -1757,7 +3124,6 @@
       sold: 1005
     },
 
-    // ----- Sản phẩm #46: Lót Chuột Gaming Anime (Size Đại) -----
     {
       // Nhận diện
       num: 46,
@@ -1793,7 +3159,6 @@
       sold: 138
     },
 
-    // ----- Sản phẩm #47: Set 100 Sticker Chống Nước -----
     {
       // Nhận diện
       num: 47,
@@ -1829,7 +3194,6 @@
       sold: 221
     },
 
-    // ----- Sản phẩm #48: Hộp Quà Bí Ẩn (Trị giá ngẫu nhiên) -----
     {
       // Nhận diện
       num: 48,
@@ -1865,7 +3229,6 @@
       sold: 304
     },
 
-    // ----- Sản phẩm #49: Áo Hoodie Trafalgar Law -----
     {
       // Nhận diện
       num: 49,
@@ -1906,7 +3269,6 @@
       sold: 387
     },
 
-    // ----- Sản phẩm #50: Blind Box One Piece Wano -----
     {
       // Nhận diện
       num: 50,
@@ -1995,20 +3357,12 @@
     return matches[0] || null;
   }
 
-
-  // ---------------------------------------------------------------------------
-  // MỤC 1: BỘ CHUYỂN ĐỔI 4 CHẾ ĐỘ GIAO DIỆN MÀU SẮC (THEME SWITCHER)
-  // ---------------------------------------------------------------------------
   // Khi khách bấm nút "Chủ đề" trên thanh đầu trang, web sẽ xoay vòng qua 4 tông màu:
   //   1. cyber  : Tím - Hồng Neon (Mặc định)
   //   2. sakura : Trắng Hồng Hoa Anh Đào (Giao diện sáng)
   //   3. gear5  : Đen Ánh Vàng Hoàng Kim Nika
   //   4. gojo   : Đen Xanh Băng Tuyết Vô Hạ Hạn
-  // Muốn đổi tên hiển thị của các chủ đề, bạn sửa chữ trong biến THEMES dưới đây:
 
-  // ---------------------------------------------------------------------------
-  // MỤC 1: BỘ CHUYỂN ĐỔI 4 CHẾ ĐỘ GIAO DIỆN MÀU SẮC (THEME SWITCHER)
-  // ---------------------------------------------------------------------------
   // Web xoay vòng qua 4 tông màu:
   //   1. cyber  : ⚡ Mặc định (Cyber Neon)
   //   2. gear5  : ☀️ Dark Knight (Gear 5 Gold)
@@ -2119,10 +3473,6 @@
   window.getTheme = getTheme;
   window.AV_THEMES = THEMES;
 
-
-  // ---------------------------------------------------------------------------
-  // MỤC 2: NÚT LÊN ĐẦU TRANG TỐI GIẢN (#avTop) & HIỆU ỨNG CÁNH HOA RƠI NHẸ (#avParticles)
-  // ---------------------------------------------------------------------------
   // Nút lên đầu trang tối giản, phẳng, chỉ hiện khi cuộn trang
   var topBtn = document.createElement('button');
   topBtn.id = 'avTop';
@@ -2248,10 +3598,6 @@
     petalRaf = requestAnimationFrame(drawPetals);
   }
 
-
-  // ---------------------------------------------------------------------------
-  // MỤC 3: MÁY PHÁT NHẠC NỀN MP3 XUYÊN TRANG (biến MUSIC_PLAYLIST)
-  // ---------------------------------------------------------------------------
   // Cách thêm hoặc đổi bài hát MP3 phát trên web:
   //   1. Bỏ file nhạc .mp3 mới vào thư mục "nhac/".
   //   2. Sửa hoặc thêm dòng mới vào danh sách MUSIC_PLAYLIST ngay bên dưới.
@@ -2636,10 +3982,6 @@
     }
   };
 
-
-  // ---------------------------------------------------------------------------
-  // MỤC 4: GẮN CÁC NÚT TIỆN ÍCH LÊN HEADER, HUY HIỆU VIP & NÚT ĐIỂM DANH (+50 XP)
-  // ---------------------------------------------------------------------------
   // Tác dụng:
   //   - Trên thanh Topbar: Gắn Huy hiệu VIP hiện tại và nút "🎁 Điểm danh +50 XP".
   //   - Trên thanh Header: Gắn thêm các nút Gacha, So sánh, Yêu thích, Giao diện, Nhạc nền.
@@ -2723,10 +4065,6 @@
     Store.syncBadges();
   }
 
-
-  // ---------------------------------------------------------------------------
-  // MỤC 5: NÂNG CẤP THẺ SẢN PHẨM (.product-card & .deal-card) TRÊN MỌI TRANG
-  // ---------------------------------------------------------------------------
   // Tác dụng:
   //   1. Thêm hiệu ứng nghiêng 3D Hologram mượt mà khi rê chuột vào thẻ sản phẩm.
   //   2. Thêm hàng chấm tròn (.av-angle-dots) ngay dưới đáy ảnh để khách bấm hoặc
@@ -2866,10 +4204,6 @@
     }
   });
 
-
-  // ---------------------------------------------------------------------------
-  // MỤC 6: CỬA SỔ XEM NHANH SẢN PHẨM (QUICK VIEW MODAL)
-  // ---------------------------------------------------------------------------
   // Khi khách bấm nút "👁 Xem nhanh" trên thẻ sản phẩm, cửa sổ này sẽ bật lên
   // ngay giữa màn hình để khách xem đủ góc ảnh, chọn Size và thêm vào giỏ.
 
@@ -2926,7 +4260,7 @@
       sizesHtml = [
         '<div>',
         '    <b style="font-size:13px">Chọn Size:</b>',
-        '    <button type="button" id="qvOpenSizeAi" style="background:none;border:0;color:var(--cyan);font-size:12px;cursor:pointer;text-decoration:underline">📏 AI Gợi ý Size</button>',
+        '    <button type="button" id="qvOpenSizeAi" style="background:none;border:0;color:#38e8ff;font-size:12px;cursor:pointer;text-decoration:underline">📏 AI Gợi ý Size</button>',
         '    <div class="av-qv-sizes">' + sizeButtons + '</div>',
         '</div>'
       ].join('\n');
@@ -2942,7 +4276,7 @@
       '        ' + thumbsHtml,
       '    </div>',
       '    <div>',
-      '        <small style="color:var(--cyan);font-weight:700;letter-spacing:.1em">' + esc(p.catLabel) + ' · ' + esc(p.fandom) + '</small>',
+      '        <small style="color:#38e8ff;font-weight:700;letter-spacing:.1em">' + esc(p.catLabel) + ' · ' + esc(p.fandom) + '</small>',
       '        <h2 style="margin:6px 0">' + esc(p.name) + '</h2>',
       '        <div style="color:#fbbf24;font-size:13.5px">★★★★★ <b>' + p.rating + '/5</b> · Đã bán ' + p.sold + ' sản phẩm</div>',
       '        <div class="av-qv-price">',
@@ -2950,12 +4284,12 @@
       '            ' + oldPriceHtml,
       '            ' + badgeHtml,
       '        </div>',
-      '        <p style="color:var(--muted);font-size:14px;margin:8px 0">' + esc(p.desc) + '</p>',
+      '        <p style="color:#a7a4b8;font-size:14px;margin:8px 0">' + esc(p.desc) + '</p>',
       '        ' + specsHtml,
       '        ' + sizesHtml,
       '        <div style="display:flex;align-items:center;gap:10px;margin:14px 0">',
       '            <label style="font-size:13px;font-weight:600">Số lượng:</label>',
-      '            <input type="number" id="avQvQty" value="1" min="1" max="99" style="width:70px;padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,.2);background:transparent;color:var(--text);text-align:center">',
+      '            <input type="number" id="avQvQty" value="1" min="1" max="99" style="width:70px;padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,.2);background:transparent;color:#f7f5ff;text-align:center">',
       '        </div>',
       '        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px">',
       '            <button type="button" class="btn primary" id="avQvAddBtn" style="flex:1">🛒 Thêm vào giỏ</button>',
@@ -3035,10 +4369,6 @@
 
   window.AVOpenQuickView = openQuickView;
 
-
-  // ---------------------------------------------------------------------------
-  // MỤC 7: NGĂN KÉO TRƯỢT BÊN PHẢI (MINI-CART, TỦ YÊU THÍCH, ĐƠN HÀNG & VIP)
-  // ---------------------------------------------------------------------------
   // Tác dụng: Tạo ngăn kéo trượt ra từ mép phải màn hình với 3 ngăn (Tab):
   //   - Ngăn 1 (🛒 Giỏ hàng): Xem nhanh giỏ hàng, chọn Voucher, xem thanh Freeship.
   //   - Ngăn 2 (♥ Yêu thích): Xem các món đã thả tim và chuyển nhanh sang giỏ hàng.
@@ -3108,7 +4438,7 @@
 
       if (!items.length) {
         body.innerHTML = [
-          '<div style="text-align:center;padding:40px 10px;color:var(--muted)">',
+          '<div style="text-align:center;padding:40px 10px;color:#a7a4b8">',
           '    <div style="font-size:44px;margin-bottom:10px">🛒</div>',
           '    <b>Giỏ hàng của bạn đang trống</b>',
           '    <p style="font-size:13px">Khám phá các mẫu Figure, Cosplay hoặc quay Gacha nhận mã giảm giá nhé!</p>',
@@ -3134,7 +4464,7 @@
           '            <button type="button" data-dact="inc" data-i="' + idx + '">+</button>',
           '        </div>',
           '    </div>',
-          '    <button type="button" data-dact="rm" data-i="' + idx + '" style="background:none;border:0;color:var(--muted);font-size:18px;cursor:pointer">×</button>',
+          '    <button type="button" data-dact="rm" data-i="' + idx + '" style="background:none;border:0;color:#a7a4b8;font-size:18px;cursor:pointer">×</button>',
           '</div>'
         ].join('\n');
       }).join('\n');
@@ -3167,7 +4497,7 @@
         '</div>',
         miniItemsHtml,
         '<div style="margin-top:10px">',
-        '    <small style="color:var(--muted)">🎟 Chọn nhanh Voucher:</small>',
+        '    <small style="color:#a7a4b8">🎟 Chọn nhanh Voucher:</small>',
         '    <div class="av-voucher-wallet">',
         miniVouchersHtml,
         '    </div>',
@@ -3175,16 +4505,16 @@
       ].join('\n');
 
       var voucherRow = res.discount
-        ? '<div style="display:flex;justify-content:space-between;font-size:13px;color:var(--neon);margin-bottom:6px"><span>Voucher (' + esc(res.code) + '):</span><b>−' + money(res.discount) + '</b></div>'
+        ? '<div style="display:flex;justify-content:space-between;font-size:13px;color:#ff4fa3;margin-bottom:6px"><span>Voucher (' + esc(res.code) + '):</span><b>−' + money(res.discount) + '</b></div>'
         : '';
 
       var qrSection = '';
       if (quickPayMethod === 'VIETQR') {
         var qrFn = window.AVMakeVietQRSvg || (Store && Store.makeVietQRSvg);
         var qrImg = qrFn ? qrFn(grandTotal, 'AV2026') : '';
-        qrSection = '<div style="text-align:center;margin:8px 0;padding:8px;background:#ffffff;border-radius:10px;border:1px solid var(--line)"><img src="' + qrImg + '" alt="VietQR" style="width:130px;height:130px;display:block;margin:0 auto 4px"><small style="font-size:11px;color:var(--muted)">Quét mã VietQR chuyển khoản nhanh</small></div>';
+        qrSection = '<div style="text-align:center;margin:8px 0;padding:8px;background:#ffffff;border-radius:10px;border:1px solid #29283b"><img src="' + qrImg + '" alt="VietQR" style="width:130px;height:130px;display:block;margin:0 auto 4px"><small style="font-size:11px;color:#a7a4b8">Quét mã VietQR chuyển khoản nhanh</small></div>';
       } else if (quickPayMethod === 'MOMO') {
-        qrSection = '<div style="text-align:center;margin:8px 0;padding:8px;background:#fff0f7;border-radius:10px;border:1px solid #fbcfe8"><b style="color:#d82d8b;font-size:13px">Ví điện tử MoMo</b><p style="font-size:11.5px;color:var(--muted);margin:4px 0 0">Chuyển tiền MoMo: 0901234567 (AnimeVerse)</p></div>';
+        qrSection = '<div style="text-align:center;margin:8px 0;padding:8px;background:#fff0f7;border-radius:10px;border:1px solid #fbcfe8"><b style="color:#d82d8b;font-size:13px">Ví điện tử MoMo</b><p style="font-size:11.5px;color:#a7a4b8;margin:4px 0 0">Chuyển tiền MoMo: 0901234567 (AnimeVerse)</p></div>';
       }
 
       foot.innerHTML = [
@@ -3193,20 +4523,20 @@
         '    <b>' + money(sub) + '</b>',
         '</div>',
         voucherRow,
-        '<div style="display:flex;justify-content:space-between;font-size:13px;color:var(--muted);margin-bottom:6px">',
+        '<div style="display:flex;justify-content:space-between;font-size:13px;color:#a7a4b8;margin-bottom:6px">',
         '    <span>Phí vận chuyển:</span>',
         '    <b>' + (finalShip === 0 ? 'Miễn phí' : money(finalShip)) + '</b>',
         '</div>',
         '<div style="display:flex;justify-content:space-between;font-size:16px;font-weight:800;margin-bottom:12px">',
         '    <span>Tổng cộng:</span>',
-        '    <span style="color:var(--price, #be185d)">' + money(grandTotal) + '</span>',
+        '    <span style="color:#be185d">' + money(grandTotal) + '</span>',
         '</div>',
         '<div class="av-quick-checkout-wrap">',
         '    <button type="button" class="btn primary" id="btnToggleQuickCheckout" style="width:100%;margin-bottom:8px">',
         '        ⚡ ' + (showQuickCheckout ? 'Ẩn thanh toán nhanh ▲' : 'Thanh toán nhanh (Quick Checkout) ▼'),
         '    </button>',
         '    <div id="avQuickForm" class="av-quick-form" style="display:' + (showQuickCheckout ? 'block' : 'none') + '">',
-        '        <div style="font-weight:700;font-size:12px;margin-bottom:6px;color:var(--text)">Phương thức thanh toán:</div>',
+        '        <div style="font-weight:700;font-size:12px;margin-bottom:6px;color:#f7f5ff">Phương thức thanh toán:</div>',
         '        <div class="av-pay-methods">',
         '            <button type="button" class="av-pay-method' + (quickPayMethod === 'COD' ? ' active' : '') + '" data-qpay="COD">💵 COD</button>',
         '            <button type="button" class="av-pay-method' + (quickPayMethod === 'VIETQR' ? ' active' : '') + '" data-qpay="VIETQR">🏦 VietQR</button>',
@@ -3222,7 +4552,7 @@
         '            ✦ Xác nhận đặt hàng (' + money(grandTotal) + ')',
         '        </button>',
         '    </div>',
-        '    <a href="gio-hang.html" style="display:block;text-align:center;font-size:12px;color:var(--muted);margin-top:8px">',
+        '    <a href="gio-hang.html" style="display:block;text-align:center;font-size:12px;color:#a7a4b8;margin-top:8px">',
         '        Hoặc xem giỏ hàng đầy đủ & ưu đãi lớn →',
         '    </a>',
         '</div>'
@@ -3238,7 +4568,7 @@
 
       if (!wProds.length) {
         body.innerHTML = [
-          '<div style="text-align:center;padding:40px 10px;color:var(--muted)">',
+          '<div style="text-align:center;padding:40px 10px;color:#a7a4b8">',
           '    <div style="font-size:44px;margin-bottom:10px">♡</div>',
           '    <b>Tủ đồ Yêu thích chưa có món nào</b>',
           '    <p style="font-size:13px">Bấm vào biểu tượng trái tim ♡ trên bất kỳ sản phẩm nào để lưu lại nhé!</p>',
@@ -3260,7 +4590,7 @@
           '    </div>',
           '    <div style="display:flex;flex-direction:column;gap:6px">',
           '        <button type="button" class="av-quick-cart-btn" data-qadd="' + esc(p.id) + '" style="padding:5px 8px;font-size:11px">+ Giỏ</button>',
-          '        <button type="button" data-wrm="' + esc(p.href) + '" style="background:none;border:0;color:var(--muted);font-size:12px;cursor:pointer">Xóa</button>',
+          '        <button type="button" data-wrm="' + esc(p.href) + '" style="background:none;border:0;color:#a7a4b8;font-size:12px;cursor:pointer">Xóa</button>',
           '    </div>',
           '</div>'
         ].join('\n');
@@ -3286,20 +4616,20 @@
             '        <b>' + esc(o.id) + '</b>',
             '        <span style="color:#10b981;font-weight:700">● ' + esc(o.status) + '</span>',
             '    </div>',
-            '    <div style="color:var(--muted);margin:4px 0">' + esc(o.date) + ' · ' + esc(o.payMethod) + '</div>',
-            '    <div>Khách: <b>' + esc(o.customer) + '</b> — Tổng: <b style="color:var(--neon)">' + money(o.total) + '</b></div>',
+            '    <div style="color:#a7a4b8;margin:4px 0">' + esc(o.date) + ' · ' + esc(o.payMethod) + '</div>',
+            '    <div>Khách: <b>' + esc(o.customer) + '</b> — Tổng: <b style="color:#ff4fa3">' + money(o.total) + '</b></div>',
             '</div>'
           ].join('\n');
         }).join('\n')
-      : '<p style="font-size:13px;color:var(--muted)">Bạn chưa có đơn hàng nào. Đặt hàng ngay để nhận +150 XP nhé!</p>';
+      : '<p style="font-size:13px;color:#a7a4b8">Bạn chưa có đơn hàng nào. Đặt hàng ngay để nhận +150 XP nhé!</p>';
 
     body.innerHTML = [
-      '<div style="padding:16px;border-radius:16px;background:linear-gradient(135deg,rgba(255,79,163,.2),rgba(139,92,246,.25));border:1px solid var(--glass-border);margin-bottom:16px">',
-      '    <small style="color:var(--cyan);font-weight:700">THẺ THÀNH VIÊN OTAKU PASS</small>',
+      '<div style="padding:16px;border-radius:16px;background:linear-gradient(135deg,rgba(255,79,163,.2),rgba(139,92,246,.25));border:1px solid rgba(56, 232, 255, 0.28);margin-bottom:16px">',
+      '    <small style="color:#38e8ff;font-weight:700">THẺ THÀNH VIÊN OTAKU PASS</small>',
       '    <h3 style="margin:4px 0">' + rk.name + '</h3>',
-      '    <div style="font-size:13px;margin-bottom:8px">Điểm tích lũy: <b style="color:var(--gold)">' + xp + ' XP</b> ' + nextRankText + '</div>',
+      '    <div style="font-size:13px;margin-bottom:8px">Điểm tích lũy: <b style="color:#fbbf24">' + xp + ' XP</b> ' + nextRankText + '</div>',
       '    <div style="height:8px;background:rgba(0,0,0,.35);border-radius:99px;overflow:hidden;margin-bottom:8px">',
-      '        <div style="height:100%;width:' + rk.pct + '%;background:linear-gradient(90deg,var(--gold),var(--neon))"></div>',
+      '        <div style="height:100%;width:' + rk.pct + '%;background:linear-gradient(90deg,#fbbf24,#ff4fa3)"></div>',
       '    </div>',
       '    <small style="display:block;opacity:.9">✦ Đặc quyền: ' + esc(rk.perk) + '</small>',
       '</div>',
@@ -3394,10 +4724,10 @@
           bEl.innerHTML = [
             '<div class="av-quick-success">',
             '    <div style="font-size:42px;margin-bottom:8px">🎉</div>',
-            '    <h3 style="margin:0 0 6px;color:var(--text-strong)">Đặt hàng thành công!</h3>',
-            '    <p style="font-size:13.5px;margin:0 0 8px">Mã đơn hàng: <b style="color:var(--neon)">' + esc(ord.id) + '</b></p>',
-            '    <p style="font-size:12.5px;color:var(--muted);margin:0 0 12px">Đã cộng <b>+150 XP</b> Otaku Pass. Đơn hàng đang được đóng gói chống sốc 2 lớp.</p>',
-            '    <div style="text-align:left;background:#ffffff;padding:12px;border-radius:10px;font-size:12.5px;margin-bottom:12px;border:1px solid var(--line)">',
+            '    <h3 style="margin:0 0 6px;color:#ffffff">Đặt hàng thành công!</h3>',
+            '    <p style="font-size:13.5px;margin:0 0 8px">Mã đơn hàng: <b style="color:#ff4fa3">' + esc(ord.id) + '</b></p>',
+            '    <p style="font-size:12.5px;color:#a7a4b8;margin:0 0 12px">Đã cộng <b>+150 XP</b> Otaku Pass. Đơn hàng đang được đóng gói chống sốc 2 lớp.</p>',
+            '    <div style="text-align:left;background:#ffffff;padding:12px;border-radius:10px;font-size:12.5px;margin-bottom:12px;border:1px solid #29283b">',
             '        <div>Người nhận: <b>' + esc(ord.customer) + '</b> (' + esc(ord.phone) + ')</div>',
             '        <div>Địa chỉ: ' + esc(ord.addr) + '</div>',
             '        <div>Thanh toán: <b>' + esc(ord.payMethod) + '</b> (' + money(ord.total) + ')</div>',
@@ -3440,10 +4770,6 @@
     }
   });
 
-
-  // ---------------------------------------------------------------------------
-  // MỤC 8: BẢNG SO SÁNH TỐI ĐA 3 SẢN PHẨM ĐẶT CẠNH NHAU (COMPARE MODAL)
-  // ---------------------------------------------------------------------------
   var compBackdrop = document.createElement('div');
   compBackdrop.className = 'av-backdrop';
   compBackdrop.id = 'avCompareModal';
@@ -3477,7 +4803,7 @@
         '<div style="text-align:center;padding:30px">',
         '    <div style="font-size:48px">⚖️</div>',
         '    <h2>Chưa có sản phẩm nào để so sánh</h2>',
-        '    <p style="color:var(--muted)">Bấm vào nút <b>"⚖ So sánh"</b> trên bất kỳ thẻ sản phẩm nào (tối đa 3 món) để đặt lên bàn cân đối chiếu chi tiết.</p>',
+        '    <p style="color:#a7a4b8">Bấm vào nút <b>"⚖ So sánh"</b> trên bất kỳ thẻ sản phẩm nào (tối đa 3 món) để đặt lên bàn cân đối chiếu chi tiết.</p>',
         '</div>'
       ].join('\n');
       return;
@@ -3488,12 +4814,12 @@
     }).join('');
 
     var rowPrice = prods.map(function (p) {
-      var oldP = p.oldPrice ? '<br><del style="color:var(--muted);font-size:12px">' + money(p.oldPrice) + '</del>' : '';
-      return '<td><strong style="color:var(--neon);font-size:16px">' + money(p.price) + '</strong>' + oldP + '</td>';
+      var oldP = p.oldPrice ? '<br><del style="color:#a7a4b8;font-size:12px">' + money(p.oldPrice) + '</del>' : '';
+      return '<td><strong style="color:#ff4fa3;font-size:16px">' + money(p.price) + '</strong>' + oldP + '</td>';
     }).join('');
 
     var rowCat = prods.map(function (p) {
-      return '<td>' + esc(p.catLabel) + '<br><span style="color:var(--cyan)">' + esc(p.fandom) + '</span></td>';
+      return '<td>' + esc(p.catLabel) + '<br><span style="color:#38e8ff">' + esc(p.fandom) + '</span></td>';
     }).join('');
 
     var rowRate = prods.map(function (p) {
@@ -3544,10 +4870,6 @@
 
   window.AVOpenCompare = openCompareModal;
 
-
-  // ---------------------------------------------------------------------------
-  // MỤC 9A: TRUNG TÂM TƯƠNG TÁC OTAKU 3.0 — VÒNG QUAY GACHA & AI TÍNH SIZE
-  // ---------------------------------------------------------------------------
   // Cách sửa phần thưởng Vòng quay Gacha:
   // Bạn tìm biến "var PRIZES" ở bên dưới để sửa tên mã (code), mức giảm (val)
   // hoặc câu mô tả (title) tùy ý nhé!
@@ -3588,7 +4910,7 @@
         '<div class="av-gacha-stage">',
         '    <p class="eyebrow" style="margin:0 0 6px">ANIMEVERSE GACHA SUMMON</p>',
         '    <h2 style="margin:0 0 8px">Triệu Hồi Thẻ Bài — Săn Voucher Cực Phẩm</h2>',
-        '    <p style="color:var(--muted);font-size:13.5px;margin:0 0 18px">Mỗi lần triệu hồi đều có cơ hội trúng Voucher SSR/UR giảm tới 25% và cộng thẳng vào Ví Voucher của bạn!</p>',
+        '    <p style="color:#a7a4b8;font-size:13.5px;margin:0 0 18px">Mỗi lần triệu hồi đều có cơ hội trúng Voucher SSR/UR giảm tới 25% và cộng thẳng vào Ví Voucher của bạn!</p>',
         '    <div class="av-gacha-orb" id="avGachaOrb">✦</div>',
         '    <button type="button" class="btn primary" id="avSpinBtn" style="font-size:15px;padding:12px 28px">✨ Triệu Hồi Ngay (Miễn phí)</button>',
         '    <div class="av-gacha-result" id="avGachaRes"></div>',
@@ -3676,8 +4998,8 @@
           }
 
           resBox.innerHTML = [
-            '<div style="color:var(--gold);font-weight:800;font-size:13px">★ CHÚC MỪNG! BẠN QUAY TRÚNG BẬC ' + esc(prize.rank) + ' (+' + prize.xp + ' XP)</div>',
-            '<h3 style="margin:6px 0;color:var(--cyan)">Mã: ' + esc(prize.code) + ' — ' + esc(prize.title) + '</h3>',
+            '<div style="color:#fbbf24;font-weight:800;font-size:13px">★ CHÚC MỪNG! BẠN QUAY TRÚNG BẬC ' + esc(prize.rank) + ' (+' + prize.xp + ' XP)</div>',
+            '<h3 style="margin:6px 0;color:#38e8ff">Mã: ' + esc(prize.code) + ' — ' + esc(prize.title) + '</h3>',
             '<p style="font-size:12.5px;margin:4px 0 10px">Mã đã được tự động lưu vào <b>Ví Voucher</b> và kích hoạt sẵn cho giỏ hàng của bạn!</p>',
             '<a href="san-pham.html" class="btn primary" style="padding:8px 18px;font-size:13px">Dùng mã mua sắm ngay →</a>'
           ].join('\n');
@@ -3697,20 +5019,20 @@
         '<div class="av-size-calc">',
         '    <div>',
         '        <h3 style="margin-top:0">📏 Trợ Lý AI Tính Size Cosplay & Áo Hoodie</h3>',
-        '        <p style="color:var(--muted);font-size:13px">Kéo thanh trượt chiều cao, cân nặng và chọn phong cách mặc để hệ thống tính toán size chuẩn xác nhất cho bạn.</p>',
+        '        <p style="color:#a7a4b8;font-size:13px">Kéo thanh trượt chiều cao, cân nặng và chọn phong cách mặc để hệ thống tính toán size chuẩn xác nhất cho bạn.</p>',
         '        <div style="margin:14px 0">',
         '            <label style="display:flex;justify-content:space-between;font-size:13px;font-weight:600">',
         '                <span>Chiều cao:</span>',
-        '                <b id="avHVal" style="color:var(--cyan)">165 cm</b>',
+        '                <b id="avHVal" style="color:#38e8ff">165 cm</b>',
         '            </label>',
-        '            <input type="range" id="avHRange" min="145" max="192" value="165" style="width:100%;accent-color:var(--neon)">',
+        '            <input type="range" id="avHRange" min="145" max="192" value="165" style="width:100%;accent-color:#ff4fa3">',
         '        </div>',
         '        <div style="margin:14px 0">',
         '            <label style="display:flex;justify-content:space-between;font-size:13px;font-weight:600">',
         '                <span>Cân nặng:</span>',
-        '                <b id="avWVal" style="color:var(--cyan)">56 kg</b>',
+        '                <b id="avWVal" style="color:#38e8ff">56 kg</b>',
         '            </label>',
-        '            <input type="range" id="avWRange" min="38" max="98" value="56" style="width:100%;accent-color:var(--neon)">',
+        '            <input type="range" id="avWRange" min="38" max="98" value="56" style="width:100%;accent-color:#ff4fa3">',
         '        </div>',
         '        <div style="margin:14px 0">',
         '            <label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px">Form mặc mong muốn:</label>',
@@ -3721,10 +5043,10 @@
         '            </select>',
         '        </div>',
         '    </div>',
-        '    <div style="text-align:center;padding:22px;border-radius:18px;background:rgba(255,255,255,.04);border:1px solid var(--glass-border)">',
-        '        <small style="color:var(--muted)">SIZE GỢI Ý CHO BẠN</small>',
+        '    <div style="text-align:center;padding:22px;border-radius:18px;background:rgba(255,255,255,.04);border:1px solid rgba(56, 232, 255, 0.28)">',
+        '        <small style="color:#a7a4b8">SIZE GỢI Ý CHO BẠN</small>',
         '        <div class="av-size-badge-big" id="avSizeOut">M</div>',
-        '        <p id="avSizeNote" style="font-size:13px;color:var(--text);margin:8px 0 14px">Phù hợp chiều cao 160–168cm, mặc thoải mái khi vận động chụp ảnh cosplay.</p>',
+        '        <p id="avSizeNote" style="font-size:13px;color:#f7f5ff;margin:8px 0 14px">Phù hợp chiều cao 160–168cm, mặc thoải mái khi vận động chụp ảnh cosplay.</p>',
         '        <button type="button" class="btn primary" id="avApplySizeBtn" style="padding:9px 18px;font-size:13px">✓ Áp dụng Size này</button>',
         '    </div>',
         '</div>'
@@ -3785,10 +5107,6 @@
     renderQuiz(body);
   }
 
-
-  // ---------------------------------------------------------------------------
-  // MỤC 9B: BÀI TRẮC NGHIỆM "QUIZ TÌM ĐỒ HỢP HỆ" (3 CÂU HỎI GỢI Ý SẢN PHẨM)
-  // ---------------------------------------------------------------------------
   var QUIZ_CATS = [
     {
       code: 'FIGURE',
@@ -4104,10 +5422,6 @@
     draw();
   }
 
-
-  // ---------------------------------------------------------------------------
-  // MỤC 10: NÂNG CẤP TRANG CHI TIẾT SẢN PHẨM (PHÓNG TO ẢNH, ĐÁNH GIÁ 5 SAO, KỆ VỪA XEM)
-  // ---------------------------------------------------------------------------
   var proLayout = $('.product-pro-layout');
   if (proLayout) {
     var curFile = (location.pathname.split('/').pop() || '').replace(/\.html$/i, '');
@@ -4149,7 +5463,7 @@
       if (h4) {
         var aiLink = document.createElement('button');
         aiLink.type = 'button';
-        aiLink.style.cssText = 'margin-left:10px;background:rgba(56,232,255,.12);border:1px solid var(--cyan);color:var(--cyan);border-radius:8px;padding:3px 10px;font-size:12px;cursor:pointer';
+        aiLink.style.cssText = 'margin-left:10px;background:rgba(56,232,255,.12);border:1px solid #38e8ff;color:#38e8ff;border-radius:8px;padding:3px 10px;font-size:12px;cursor:pointer';
         aiLink.textContent = '📏 AI Tính Size chuẩn cho bạn';
         aiLink.onclick = function () {
           openHub('size');
@@ -4163,7 +5477,7 @@
       var cmpBtn = document.createElement('button');
       cmpBtn.type = 'button';
       cmpBtn.className = 'btn ghost';
-      cmpBtn.style.cssText = 'padding:12px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.05);color:var(--text);font-weight:700';
+      cmpBtn.style.cssText = 'padding:12px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.05);color:#f7f5ff;font-weight:700';
       cmpBtn.textContent = '⚖ So sánh';
       cmpBtn.onclick = function () {
         Store.compareToggle(curProd.id);
@@ -4225,7 +5539,7 @@
             '<div class="av-rev-item">',
             '    <div class="av-rev-item-head">',
             '        <b>' + esc(r.name) + ' <span style="color:#10b981;font-weight:400;font-size:11.5px">✓ Đã mua tại AnimeVerse</span></b>',
-            '        <small style="color:var(--muted)">' + esc(r.date) + '</small>',
+            '        <small style="color:#a7a4b8">' + esc(r.date) + '</small>',
             '    </div>',
             '    <div style="color:#fbbf24;font-size:13px;margin-bottom:4px">' + '★★★★★'.slice(0, r.stars) + '</div>',
             '    <p style="margin:0;font-size:13.5px">' + esc(r.text) + '</p>',
@@ -4340,10 +5654,6 @@
     } catch (e) {}
   }
 
-
-  // ---------------------------------------------------------------------------
-  // MỤC 11: BỘ LỌC NÂNG CAO THEO BỘ ANIME (FANDOM), KHOẢNG GIÁ & KIỂU XEM LƯỚI/DANH SÁCH
-  // ---------------------------------------------------------------------------
   var catalogResults = $('.catalog-results') || (($('.page-header') && $('main .product-grid')) ? $('main') : null);
   var targetGrid = $('#product-grid') || ($('.page-header') ? $('main .product-grid') : null);
 
@@ -4369,7 +5679,7 @@
 
     advBar.innerHTML = [
       '<div class="av-fandom-pills">',
-      '    <small style="color:var(--muted);font-weight:700;margin-right:4px">Fandom:</small>',
+      '    <small style="color:#a7a4b8;font-weight:700;margin-right:4px">Fandom:</small>',
       fandomPillsHtml,
       '</div>',
       '<div class="av-price-View-controls">',
@@ -4521,7 +5831,6 @@
     })();
   }
 
-
   // Helper highlight từ khóa tìm kiếm an toàn với <mark class="av-sug-hl">
   function highlightMatch(text, rawQuery) {
     if (!rawQuery || !text) return esc(text);
@@ -4550,9 +5859,6 @@
   }
   window.AVHighlightMatch = highlightMatch;
 
-  // ---------------------------------------------------------------------------
-  // MỤC 12: Ô TÌM KIẾM GỢI Ý TỨC THÌ CÓ ẢNH NHỎ & GIÁ TIỀN (LIVE SEARCH DROPDOWN)
-  // ---------------------------------------------------------------------------
   var inp = $('#searchInput');
   var form = $('#searchForm');
 
@@ -4863,10 +6169,6 @@
     });
   }
 
-
-  // ---------------------------------------------------------------------------
-  // MỤC 13: TRỢ LÝ ẢO CHATBOT "AV-BOT 3.0" (GÓC DƯỚI BÊN PHẢI MÀN HÌNH)
-  // ---------------------------------------------------------------------------
   // Cách dạy thêm câu trả lời mới cho Chatbot AV-Bot:
   // Bạn tìm biến "var KB = [" ở ngay bên dưới. Mỗi dòng gồm:
   //   [ /tu-khoa-1|tu-khoa-2/, 'Câu trả lời của Bot' ],
@@ -5015,11 +6317,7 @@
     });
   }
 
-
-  // ---------------------------------------------------------------------------
-  // MỤC 14: HIỆU ỨNG TƯƠNG TÁC SINH ĐỘNG (BAY VÀO GIỎ HÀNG, BẮN PHÁO HOA TIM,
   //         PHÁO HOA GIẤY CONFETTI & SÓNG SÁNG KHI CLICK)
-  // ---------------------------------------------------------------------------
 
   // 14a. Hiệu ứng thêm vào giỏ hàng tinh gọn (cập nhật biểu tượng Giỏ hàng, không bay lượn che màn hình)
   function flyToCart(sourceEl, imgSrc) {
@@ -5049,11 +6347,7 @@
 
   window.AVConfettiBurst = spawnConfettiBurst;
 
-
-  // ---------------------------------------------------------------------------
-  // MỤC 15: SÂN KHẤU HERO 3D ĐỔI NHÂN VẬT, THÔNG BÁO HOẠT ĐỘNG MUA SẮM TRỰC TIẾP
   //         & HIỆU ỨNG CUỘN TRANG MƯỢT MÀ
-  // ---------------------------------------------------------------------------
 
   // 15a. Biến thẻ Hero trên Trang chủ (.hero-art .anime-card) thành Sân khấu 3D đổi nhân vật
   function initInteractiveHero() {
@@ -5254,10 +6548,7 @@
     })(performance.now());
   });
 
-  // ---------------------------------------------------------------------------
-  // MỤC 15f: XỬ LÝ KHỐI TỐI GIẢN HIỆN ĐẠI & ĐẾM SỐ ĐỘNG (MINIMALIST SHOWCASES)
   // Dành cho 3 trang: san-pham.html, khuyen-mai.html, lien-he.html
-  // ---------------------------------------------------------------------------
   (function initMinimalShowcases() {
     // 1. Hiệu ứng đếm số tăng dần mượt mà cho các badge số liệu (.minimal-count)
     var countEls = $$('.minimal-count');
@@ -5340,3 +6631,1029 @@
     navigator.serviceWorker.register('sw.js').catch(function () {});
   }
 })();
+
+;
+
+/* Trình phát nhạc nền xuyên trang & giao diện di động */
+
+/* Dữ liệu sản phẩm, đổi giao diện, bộ lọc & tiện ích tương tác Otaku */
+
+(function () {
+    'use strict';
+
+    // Kiểm tra xem trang hiện tại có thanh nút "Thêm vào giỏ / Mua ngay" cố định ở đáy không.
+    // Nếu có thì gắn thêm nhãn 'has-sticky-action' vào trang để nút Chat tự đẩy cao lên, không đè lên nhau.
+    function initStickyActionClass() {
+        var actionGroup = document.querySelector('.product-pro-layout .action-group');
+        if (actionGroup) {
+            document.body.classList.add('has-sticky-action');
+        }
+    }
+
+    // Rút gọn chữ trên các nút tiện ích ở thanh đầu trang (Header) khi xem bằng điện thoại
+    // để chữ hiển thị trọn vẹn, không bị cắt mất chữ.
+    function refineHeaderButtonLabels() {
+        var isMobile = window.innerWidth <= 768;
+        var buttons = document.querySelectorAll('.header-actions .icon-btn, .av-quick-dock .icon-btn');
+        if (!buttons.length) {
+            return;
+        }
+
+        buttons.forEach(function (btn) {
+            var sm = btn.querySelector('small');
+            if (!sm) {
+                return;
+            }
+
+            var txt = sm.textContent.trim();
+
+            if (/gacha/i.test(txt)) {
+                sm.textContent = 'Gacha';
+            } else if (/yêu thích/i.test(txt)) {
+                sm.textContent = 'Đã thích';
+            } else if (/giao diện/i.test(txt)) {
+                sm.textContent = 'Chủ đề';
+            } else if (btn.id === 'avMusicBtn' && isMobile) {
+                if (btn.classList.contains('is-playing')) {
+                    sm.textContent = 'Đang phát';
+                } else {
+                    sm.textContent = 'Nhạc';
+                }
+            }
+        });
+    }
+
+    // Chỉnh kích thước nút chọn Size AI vừa vặn và kiểm tra hiệu ứng hiện dần khi cuộn trang
+    function enhanceAccessibilityAndButtons() {
+        var aiBtn = document.querySelector('.variant-group h4 button');
+        if (aiBtn) {
+            aiBtn.style.minHeight = '44px';
+            aiBtn.style.padding = '6px 12px';
+            aiBtn.style.display = 'inline-flex';
+            aiBtn.style.alignItems = 'center';
+        }
+
+        // Chỉ hiện ngay các khối nếu người dùng bật chế độ "giảm chuyển động" hoặc đang ở màn hình điện thoại nhỏ.
+        // Trên máy tính, giữ nguyên hiệu ứng trượt lên mượt mà khi cuộn trang.
+        var preferCalm = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        var isSmallMobile = window.innerWidth <= 768;
+
+        if (preferCalm || isSmallMobile) {
+            var revealItems = document.querySelectorAll('.lh-reveal, .av-reveal, .reveal');
+            revealItems.forEach(function (el) {
+                el.classList.add('in');
+            });
+        }
+    }
+
+    function setupStandalonePersistentMusic() {
+        if (window.AVMusic && typeof window.AVMusic.syncUI === 'function') {
+            window.AVMusic.syncUI();
+        }
+    }
+
+    // Tinh chỉnh tương tác thông minh cho trang Liên hệ (lien-he.html)
+    function initContactPageEnhancements() {
+        var isContactPage = document.getElementById('contactForm') || document.querySelector('.lh-hero');
+        if (!isContactPage) {
+            return;
+        }
+
+        // 1. Cập nhật trạng thái trực tuyến của cửa hàng theo giờ thực tế (08:30 - 22:00)
+        var statusBadge = document.getElementById('deskStatusBadge');
+        var statusNote = document.getElementById('deskRealtimeNote');
+        if (statusBadge) {
+            var now = new Date();
+            var mins = now.getHours() * 60 + now.getMinutes();
+            var isOpen = (mins >= 510 && mins <= 1320); // 08:30 đến 22:00
+            if (isOpen) {
+                statusBadge.textContent = '🟢 ĐANG TRỰC TUYẾN';
+                statusBadge.classList.add('live');
+                if (statusNote) {
+                    statusNote.textContent = 'Thứ 2 – Chủ Nhật (Cả ngày lễ) • Phản hồi tức thì (~5 phút)';
+                }
+            } else {
+                statusBadge.textContent = '🌙 NGOÀI GIỜ TRỰC';
+                statusBadge.classList.remove('live');
+                if (statusNote) {
+                    statusNote.textContent = 'Tiếp nhận 24/7 • Sẵn sàng phản hồi lúc 08:30 sáng';
+                }
+            }
+        }
+
+        // 2. Tương tác bấm chip chủ đề ở Hero -> tự cuộn và chọn topic trong Form
+        var chipBtns = document.querySelectorAll('.lh-chip-btn');
+        var formSection = document.getElementById('lh-form');
+        var msgInput = document.getElementById('lhMsg');
+
+        chipBtns.forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                var topic = btn.getAttribute('data-topic');
+                var radio = document.querySelector('input[name="topic"][value*="' + topic + '"]') ||
+                            document.querySelector('input[name="topic"][value="' + topic + '"]');
+                if (radio) {
+                    radio.checked = true;
+                    var evt = document.createEvent ? document.createEvent('HTMLEvents') : null;
+                    if (evt) {
+                        evt.initEvent('change', true, true);
+                        radio.dispatchEvent(evt);
+                    }
+                }
+
+                if (formSection) {
+                    formSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+
+                if (msgInput) {
+                    setTimeout(function () {
+                        msgInput.focus();
+                        if (!msgInput.value.trim()) {
+                            var placeholders = {
+                                'Đơn hàng': 'Chào shop, mình muốn hỏi về tình trạng đơn hàng...',
+                                'Sản phẩm': 'Chào shop, mình cần tư vấn về chọn size cosplay / chi tiết mô hình...',
+                                'Hợp tác': 'Chào đội ngũ sáng lập AnimeVerse, mình muốn trao đổi về cơ hội hợp tác...',
+                                'Góp ý': 'Chào AnimeVerse, mình có một số góp ý về dịch vụ...'
+                            };
+                            if (placeholders[topic]) {
+                                msgInput.placeholder = placeholders[topic];
+                            }
+                        }
+                    }, 450);
+                }
+            });
+        });
+
+        // 3. Xử lý xuất phiếu tiếp nhận và lưu lịch sử liên hệ khi gửi form thành công
+        var form = document.getElementById('contactForm');
+        var receiptCodeVal = document.getElementById('receiptCodeVal');
+        var receiptName = document.getElementById('receiptName');
+        var receiptEmail = document.getElementById('receiptEmail');
+        var receiptTopic = document.getElementById('receiptTopic');
+        var receiptTime = document.getElementById('receiptTime');
+        var receiptCopyBtn = document.getElementById('receiptCopyBtn');
+
+        if (form && receiptCodeVal) {
+            form.addEventListener('submit', function () {
+                setTimeout(function () {
+                    var box = document.getElementById('lhBox');
+                    if (box && box.classList.contains('sent')) {
+                        var ticketNum = Math.floor(10000 + Math.random() * 90000);
+                        var ticketCode = '#AV-2026-' + ticketNum;
+                        var nameVal = (document.getElementById('lhName') || {}).value || 'Khách hàng';
+                        var emailVal = (document.getElementById('lhEmail') || {}).value || '—';
+                        var checkedTopic = document.querySelector('input[name="topic"]:checked');
+                        var topicVal = checkedTopic ? checkedTopic.value : 'Hỗ trợ chung';
+
+                        var nowD = new Date();
+                        var pad = function (n) { return n < 10 ? '0' + n : n; };
+                        var timeStr = pad(nowD.getDate()) + '/' + pad(nowD.getMonth() + 1) + '/' + nowD.getFullYear() + ' ' + pad(nowD.getHours()) + ':' + pad(nowD.getMinutes());
+
+                        receiptCodeVal.textContent = ticketCode;
+                        if (receiptName) receiptName.textContent = nameVal;
+                        if (receiptEmail) receiptEmail.textContent = emailVal;
+                        if (receiptTopic) receiptTopic.textContent = topicVal;
+                        if (receiptTime) receiptTime.textContent = timeStr;
+
+                        if (receiptCopyBtn) {
+                            receiptCopyBtn.setAttribute('data-copy', ticketCode);
+                        }
+
+                        // Lưu vào localStorage
+                        try {
+                            var savedTickets = JSON.parse(localStorage.getItem('av_contact_tickets') || '[]');
+                            savedTickets.unshift({
+                                code: ticketCode,
+                                name: nameVal,
+                                email: emailVal,
+                                topic: topicVal,
+                                time: timeStr
+                            });
+                            localStorage.setItem('av_contact_tickets', JSON.stringify(savedTickets.slice(0, 10)));
+                        } catch (e) {}
+                    }
+                }, 750);
+            });
+        }
+
+        // 4. Tìm kiếm câu hỏi FAQ thời gian thực và lọc theo danh mục
+        var faqInput = document.getElementById('faqSearchInput');
+        var faqList = document.getElementById('faqList');
+        var faqEmpty = document.getElementById('faqEmptyState');
+        var faqCatBtns = document.querySelectorAll('.faq-cat-btn');
+
+        if (faqList) {
+            var allFaqs = Array.from(faqList.querySelectorAll('details'));
+
+            function filterFaqs() {
+                var query = (faqInput ? faqInput.value : '').trim().toLowerCase();
+                var activeCatBtn = document.querySelector('.faq-cat-btn.active');
+                var activeCat = activeCatBtn ? activeCatBtn.getAttribute('data-cat') : 'all';
+                var visibleCount = 0;
+
+                allFaqs.forEach(function (faq) {
+                    var text = (faq.textContent || '').toLowerCase();
+                    var cat = faq.getAttribute('data-cat') || '';
+                    var matchesQuery = !query || text.indexOf(query) !== -1;
+                    var matchesCat = (activeCat === 'all' || cat === activeCat);
+
+                    if (matchesQuery && matchesCat) {
+                        faq.style.display = '';
+                        visibleCount++;
+                        if (query) {
+                            faq.open = true; // Tự động mở rộng câu hỏi khi đang tìm kiếm
+                        }
+                    } else {
+                        faq.style.display = 'none';
+                    }
+                });
+
+                if (faqEmpty) {
+                    faqEmpty.style.display = (visibleCount === 0) ? 'block' : 'none';
+                }
+            }
+
+            if (faqInput) {
+                faqInput.addEventListener('input', filterFaqs);
+            }
+
+            faqCatBtns.forEach(function (cBtn) {
+                cBtn.addEventListener('click', function () {
+                    faqCatBtns.forEach(function (b) { b.classList.remove('active'); });
+                    cBtn.classList.add('active');
+                    filterFaqs();
+                });
+            });
+        }
+    }
+
+    // Hàm khởi động tất cả các tinh chỉnh trong file này
+    function init() {
+        initStickyActionClass();
+        refineHeaderButtonLabels();
+        enhanceAccessibilityAndButtons();
+        setupStandalonePersistentMusic();
+        initContactPageEnhancements();
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
+    }
+})();
+
+;
+
+/* Hiệu ứng chuyển động 3D Tilt, Scroll Reveal & Particles */
+
+/* Hiệu ứng chuyển động 3D Tilt, Scroll Reveal & Particles */
+
+(function () {
+    'use strict';
+
+    // Kiểm tra cài đặt giảm chuyển động của hệ điều hành và gắn bộ lắng nghe thay đổi runtime (AV-SEC-07)
+    var mql = (window.matchMedia) ? window.matchMedia('(prefers-reduced-motion: reduce)') : null;
+    var prefersReduced = mql ? !!mql.matches : false;
+
+    if (mql) {
+        var onMotionChange = function (e) {
+            prefersReduced = !!(e && e.matches);
+        };
+        if (typeof mql.addEventListener === 'function') {
+            mql.addEventListener('change', onMotionChange);
+        } else if (typeof mql.addListener === 'function') {
+            mql.addListener(onMotionChange);
+        }
+    }
+
+    // 1. HIỆU ỨNG CUỘN HIỆN DẦN ĐỒNG BỘ (UNIFIED SCROLL REVEAL)
+    var revealObserver = null;
+
+    function applyRevealElement(el, index) {
+        if (!el || el._avRevealBound) {
+            return;
+        }
+        el._avRevealBound = true;
+        el.classList.add('av-motion-reveal');
+
+        var vh = window.innerHeight || document.documentElement.clientHeight;
+        var rect = el.getBoundingClientRect();
+
+        // Nếu phần tử đang nằm trong tầm nhìn lúc tải trang thì hiển thị ngay lập tức không trễ
+        if (rect.top < vh * 0.95 && rect.bottom > 0) {
+            el.classList.add('av-motion-in', 'in');
+            setTimeout(function () {
+                el.style.willChange = 'auto';
+            }, 600);
+            return;
+        }
+
+        // Nếu ở dưới tầm nhìn, gán delay so le nhẹ và theo dõi bằng IntersectionObserver
+        if (revealObserver) {
+            el.style.transitionDelay = ((index % 4) * 45) + 'ms';
+            revealObserver.observe(el);
+        } else {
+            el.classList.add('av-motion-in', 'in');
+        }
+    }
+
+    function initScrollReveal(scope) {
+        var root = scope || document;
+        var targets = root.querySelectorAll(
+            '.product-card, .deal-card, h1, h2, .section-title, .category, .categories-item, .benefit-card, .benefits > div, .cosplay-tip, .article-card, .home-banner, .av-reveal'
+        );
+
+        if (!targets.length) {
+            return;
+        }
+
+        if (prefersReduced) {
+            targets.forEach(function (el) {
+                el.classList.add('av-motion-in', 'in');
+            });
+            return;
+        }
+
+        if ('IntersectionObserver' in window && !revealObserver) {
+            revealObserver = new IntersectionObserver(function (entries) {
+                entries.forEach(function (entry) {
+                    if (entry.isIntersecting) {
+                        var target = entry.target;
+                        target.classList.add('av-motion-in', 'in');
+                        revealObserver.unobserve(target);
+                        setTimeout(function () {
+                            target.style.willChange = 'auto';
+                        }, 600);
+                    }
+                });
+            }, {
+                threshold: 0.08,
+                rootMargin: '0px 0px 40px 0px'
+            });
+        }
+
+        targets.forEach(function (el, index) {
+            applyRevealElement(el, index);
+        });
+    }
+
+    window.AVInitScrollReveal = function (container) {
+        initScrollReveal(container);
+    };
+
+    // 2. HIỆU ỨNG THẺ SẢN PHẨM NGHIÊNG 3D MƯỢT MÀ VỚI QUẦNG SÁNG (SMOOTH 3D TILT & GLARE)
+    // Chuẩn hóa tọa độ con trỏ chuột [-1, 1], RAF 60/120fps, perspective 1000px
+    // Guard: (hover: hover) and (pointer: fine) để bảo vệ trải nghiệm cuộn trên thiết bị cảm ứng
+    var isFinePointer = window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+    function attachCardTilt(card) {
+        // Tối giản hóa: Bỏ hiệu ứng nghiêng 3D để thẻ sản phẩm hoàn toàn phẳng, thanh lịch
+        return;
+        if (!card || card._avTiltBound || !isFinePointer || prefersReduced) {
+            return;
+        }
+        card._avTiltBound = true;
+        card.classList.add('av-motion-tilt');
+
+        // Đảm bảo phần tử quầng sáng specular glare tồn tại trong DOM thẻ
+        var glareEl = card.querySelector('.av-card-glare');
+        if (!glareEl) {
+            glareEl = document.createElement('div');
+            glareEl.className = 'av-card-glare';
+            glareEl.setAttribute('aria-hidden', 'true');
+            card.appendChild(glareEl);
+        }
+
+        var rafId = null;
+        var rect = null;
+
+        function updateTilt(clientX, clientY) {
+            if (prefersReduced) {
+                return;
+            }
+            if (!rect) {
+                rect = card.getBoundingClientRect();
+            }
+            if (!rect.width || !rect.height) {
+                return;
+            }
+
+            // Tọa độ tương đối từ 0 đến 1
+            var relX = (clientX - rect.left) / rect.width;
+            var relY = (clientY - rect.top) / rect.height;
+
+            // Kẹp giá trị an toàn trong khoảng [0, 1]
+            relX = Math.max(0, Math.min(1, relX));
+            relY = Math.max(0, Math.min(1, relY));
+
+            // Chuẩn hóa tọa độ so với tâm thẻ: [-1, 1]
+            var normX = Math.max(-1, Math.min(1, (relX - 0.5) * 2));
+            var normY = Math.max(-1, Math.min(1, (relY - 0.5) * 2));
+
+            var maxTilt = 8.5; // Góc nghiêng tối đa ±8.5deg
+            var rotX = (-normY * maxTilt).toFixed(2);
+            var rotY = (normX * maxTilt).toFixed(2);
+
+            card.classList.add('is-tilting');
+            card.style.setProperty('--tilt-x', rotX + 'deg');
+            card.style.setProperty('--tilt-y', rotY + 'deg');
+
+            // Tọa độ vệt sáng phản chiếu specular glare
+            var gx = (relX * 100).toFixed(1) + '%';
+            var gy = (relY * 100).toFixed(1) + '%';
+            card.style.setProperty('--tilt-gx', gx);
+            card.style.setProperty('--tilt-gy', gy);
+            card.style.setProperty('--glare-x', gx);
+            card.style.setProperty('--glare-y', gy);
+
+            // Điều chế độ sáng của quầng phản chiếu từ 0.14 đến 0.18 theo khoảng cách từ tâm
+            var distFromCenter = Math.sqrt(normX * normX + normY * normY);
+            var glareOpacity = (0.14 + Math.min(0.04, distFromCenter * 0.04)).toFixed(2);
+            card.style.setProperty('--glare-opacity', glareOpacity);
+
+            // Đồng bộ với lớp quầng sáng radial trong tech.css (--mx, --my)
+            card.style.setProperty('--mx', gx);
+            card.style.setProperty('--my', gy);
+        }
+
+        function onEnter() {
+            if (prefersReduced) {
+                return;
+            }
+            rect = card.getBoundingClientRect();
+        }
+
+        function onMove(e) {
+            if (prefersReduced) {
+                return;
+            }
+            var clientX = e.clientX;
+            var clientY = e.clientY;
+            if (rafId) {
+                cancelAnimationFrame(rafId);
+            }
+            rafId = requestAnimationFrame(function () {
+                updateTilt(clientX, clientY);
+                rafId = null;
+            });
+        }
+
+        function onLeave() {
+            if (rafId) {
+                cancelAnimationFrame(rafId);
+                rafId = null;
+            }
+            rect = null;
+            card.classList.remove('is-tilting');
+            card.style.setProperty('--tilt-x', '0deg');
+            card.style.setProperty('--tilt-y', '0deg');
+            card.style.setProperty('--glare-opacity', '0');
+        }
+
+        // Hỗ trợ cả PointerEvent và MouseEvent
+        card.addEventListener('pointerenter', onEnter);
+        card.addEventListener('pointermove', onMove, { passive: true });
+        card.addEventListener('pointerleave', onLeave);
+        card.addEventListener('mouseenter', onEnter);
+        card.addEventListener('mousemove', onMove, { passive: true });
+        card.addEventListener('mouseleave', onLeave);
+    }
+
+    function init3DTilt(scope) {
+        if (!isFinePointer || prefersReduced) {
+            return;
+        }
+        var root = scope || document;
+        var cards = root.querySelectorAll('.product-card, .deal-card, .av-motion-tilt');
+        cards.forEach(attachCardTilt);
+    }
+
+    window.AVInitTilt = function (target) {
+        if (prefersReduced) {
+            return;
+        }
+        if (!target) {
+            init3DTilt();
+            return;
+        }
+        if (target.matches && target.matches('.product-card, .deal-card, .av-motion-tilt')) {
+            attachCardTilt(target);
+        } else if (target.querySelectorAll) {
+            target.querySelectorAll('.product-card, .deal-card, .av-motion-tilt').forEach(attachCardTilt);
+        }
+    };
+
+    // 3. HIỆU ỨNG PHÁO HOA CÁNH HOA ANH ĐÀO SAKURA PASTEL (CELEBRATORY BURST)
+    // Tự động dọn dẹp DOM trong 800-900ms, phòng ngừa rò rỉ bộ nhớ
+    var lastCelebrationTime = 0;
+    var lastCelebrationEl = null;
+
+    function spawnCartCelebration(sourceEl) {
+        // Tối giản hóa: Bỏ pháo hoa hạt che màn hình, chỉ giữ rung nhẹ biểu tượng giỏ hàng
+        var cartNav = document.querySelector('.cart-nav, a[href*="gio-hang"]');
+        if (cartNav) {
+            cartNav.classList.remove('av-motion-cart-bump');
+            void cartNav.offsetWidth;
+            cartNav.classList.add('av-motion-cart-bump');
+        }
+        if (prefersReduced || true) {
+            return;
+        }
+
+        // Chống kích hoạt đúp trong cùng 1 frame
+        var now = Date.now();
+        if (now - lastCelebrationTime < 40 && sourceEl === lastCelebrationEl) {
+            return;
+        }
+        lastCelebrationTime = now;
+        lastCelebrationEl = sourceEl;
+
+        // Tọa độ xuất phát: tại tâm nút bấm hoặc giữa màn hình nếu không có nút (fallback an toàn)
+        var originX = 0;
+        var originY = 0;
+
+        if (sourceEl && sourceEl.getBoundingClientRect) {
+            var rect = sourceEl.getBoundingClientRect();
+            originX = rect.left + rect.width / 2;
+            originY = rect.top + rect.height / 2;
+        } else {
+            originX = window.innerWidth / 2;
+            originY = window.innerHeight / 2;
+        }
+
+        // Bảng màu anime Sakura Pastel thanh lịch hòa quyện với theme
+        var sakuraColors = ['#e11d74', '#9333ea', '#0284c7', '#fbbf24'];
+        var symbols = ['🌸', '✦', '★', '✨', '❀'];
+        var count = 16; // 14-20 hạt pháo hoa cánh hoa và ngôi sao
+
+        for (var i = 0; i < count; i++) {
+            var p = document.createElement('span');
+            p.className = 'av-cart-particle';
+            p.textContent = symbols[i % symbols.length];
+            p.style.color = sakuraColors[i % sakuraColors.length];
+            p.style.left = originX + 'px';
+            p.style.top = originY + 'px';
+
+            var angle = (i / count) * 2 * Math.PI + (Math.random() - 0.5) * 0.35;
+            var distance = 38 + Math.random() * 46;
+            var tx = Math.cos(angle) * distance;
+            var ty = Math.sin(angle) * distance - 24; // Hướng bay bổng lên trên
+            var rot = ((Math.random() - 0.5) * 360).toFixed(0);
+
+            p.style.setProperty('--tx', tx.toFixed(1) + 'px');
+            p.style.setProperty('--ty', ty.toFixed(1) + 'px');
+            p.style.setProperty('--rot', rot + 'deg');
+
+            document.body.appendChild(p);
+
+            // Dọn dẹp DOM sạch sẽ sau 850ms (trong khoảng 800-900ms)
+            (function (el) {
+                setTimeout(function () {
+                    if (el && el.parentNode) {
+                        el.parentNode.removeChild(el);
+                    }
+                }, 850);
+            })(p);
+        }
+    }
+
+    window.AVCartCelebration = spawnCartCelebration;
+    if (!window.AVConfettiBurst) {
+        window.AVConfettiBurst = spawnCartCelebration;
+    }
+
+    // 4. HIỆU ỨNG ẢNH SẢN PHẨM BAY VÀO ICON GIỎ HÀNG (FLY TO CART)
+    function playFlyToCart(sourceEl, imgSrc) {
+        // Tối giản hóa: Bỏ hiệu ứng bay lượn che màn hình, chỉ cập nhật nhịp nảy giỏ hàng
+        var cartNav = document.querySelector('.cart-nav, .header-actions .cart-nav, a[href*="gio-hang"]');
+        if (cartNav) {
+            cartNav.classList.remove('av-motion-cart-bump');
+            void cartNav.offsetWidth;
+            cartNav.classList.add('av-motion-cart-bump');
+            var cartBadge = cartNav.querySelector('.cart-badge');
+            if (cartBadge) {
+                cartBadge.classList.remove('av-badge-pop');
+                void cartBadge.offsetWidth;
+                cartBadge.classList.add('av-badge-pop');
+            }
+        }
+        if (prefersReduced || true) {
+            return;
+        }
+
+        // Kích hoạt pháo hoa hạt ăn mừng Sakura Pastel tại vị trí nút bấm
+        spawnCartCelebration(sourceEl);
+
+        // Tìm icon giỏ hàng trên thanh header hoặc thanh đáy điện thoại
+        var cartNav = document.querySelector('.cart-nav, .header-actions .cart-nav, a[href*="gio-hang"]');
+        if (!cartNav) {
+            return;
+        }
+
+        // Xác định vị trí xuất phát an toàn
+        var startRect = null;
+        if (sourceEl && sourceEl.getBoundingClientRect) {
+            startRect = sourceEl.getBoundingClientRect();
+        } else {
+            var mainImg = document.querySelector('.gallery-main img, .product-detail img, .product-card img');
+            if (mainImg) {
+                startRect = mainImg.getBoundingClientRect();
+            } else {
+                startRect = {
+                    left: window.innerWidth / 2 - 25,
+                    top: window.innerHeight / 2 - 25,
+                    width: 50,
+                    height: 50
+                };
+            }
+        }
+
+        // Nếu nút bấm quá nhỏ hoặc không có ảnh, tìm ảnh trong thẻ cha
+        var resolvedImg = imgSrc;
+        if (!resolvedImg && sourceEl && sourceEl.closest) {
+            var parentCard = sourceEl.closest('.product-card, .deal-card, .pro-layout, .product-pro-layout');
+            if (parentCard) {
+                var foundImg = parentCard.querySelector('img');
+                if (foundImg) {
+                    resolvedImg = foundImg.getAttribute('src');
+                }
+            }
+        }
+
+        var endRect = cartNav.getBoundingClientRect();
+
+        // Tạo phần tử thumbnail bay
+        var flyer = document.createElement('div');
+        flyer.className = 'av-motion-flyer';
+        if (resolvedImg) {
+            flyer.style.backgroundImage = 'url("' + encodeURI(resolvedImg) + '")';
+        }
+
+        var size = 58;
+        var startX = startRect.left + (startRect.width / 2) - (size / 2);
+        var startY = startRect.top + (startRect.height / 2) - (size / 2);
+        var targetX = endRect.left + (endRect.width / 2) - (size / 2);
+        var targetY = endRect.top + (endRect.height / 2) - (size / 2);
+
+        // Khởi tạo vị trí ban đầu bằng GPU transform
+        flyer.style.transform = 'translate3d(' + startX + 'px, ' + startY + 'px, 0) scale(1)';
+        flyer.style.opacity = '1';
+        document.body.appendChild(flyer);
+
+        // Kích hoạt animation ở frame tiếp theo
+        requestAnimationFrame(function () {
+            requestAnimationFrame(function () {
+                flyer.style.transform = 'translate3d(' + targetX + 'px, ' + targetY + 'px, 0) scale(0.2) rotate(360deg)';
+                flyer.style.opacity = '0.15';
+            });
+        });
+
+        // Kết thúc hiệu ứng
+        setTimeout(function () {
+            if (flyer.parentNode) {
+                flyer.parentNode.removeChild(flyer);
+            }
+            // Rung nảy icon giỏ hàng
+            cartNav.classList.remove('av-motion-cart-bump');
+            void cartNav.offsetWidth;
+            cartNav.classList.add('av-motion-cart-bump');
+
+            // Kích hoạt hiệu ứng pop trên huy hiệu số lượng giỏ hàng
+            var cartBadge = cartNav.querySelector('.cart-badge');
+            if (cartBadge) {
+                cartBadge.classList.remove('av-badge-pop');
+                void cartBadge.offsetWidth;
+                cartBadge.classList.add('av-badge-pop');
+            }
+        }, 700);
+    }
+
+    // Kết nối với hàm window.AVFlyToCart (được gọi từ Store.addToCart trong site.js)
+    var originalFly = window.AVFlyToCart;
+    window.AVFlyToCart = function (sourceEl, imgSrc) {
+        try {
+            playFlyToCart(sourceEl, imgSrc);
+        } catch (err) {
+            if (typeof originalFly === 'function') {
+                originalFly(sourceEl, imgSrc);
+            }
+        }
+    };
+
+    // Bắt thêm sự kiện click trực tiếp để đảm bảo không bỏ sót bất kỳ nút thêm giỏ nào
+    function setupCartClickListeners() {
+        document.addEventListener('click', function (e) {
+            var btn = e.target.closest(
+                '#add-cart-btn, .btn-add-cart, .btn-add, [data-qadd], .av-card-cta-row a.add, .av-card-cta-row .add'
+            );
+            if (!btn) {
+                return;
+            }
+
+            // Nếu là trang chi tiết, lấy ảnh chính
+            var mainImgEl = document.querySelector('.gallery-main img, #main-img, .pro-gallery img');
+            var imgSrc = mainImgEl ? mainImgEl.getAttribute('src') : '';
+
+            // Nếu bấm trên thẻ sản phẩm ở trang chủ hoặc danh mục
+            if (!imgSrc && btn.closest) {
+                var card = btn.closest('.product-card, .deal-card');
+                if (card) {
+                    var cardImg = card.querySelector('img');
+                    if (cardImg) {
+                        imgSrc = cardImg.getAttribute('src');
+                    }
+                }
+            }
+
+            // Chạy hiệu ứng bay vào giỏ
+            playFlyToCart(btn, imgSrc);
+        }, true);
+    }
+
+    // KHỞI ĐỘNG CÁC HIỆU ỨNG
+    function initMotion() {
+        initScrollReveal();
+        init3DTilt();
+        setupCartClickListeners();
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initMotion);
+    } else {
+        initMotion();
+    }
+})();
+
+;
+
+
+
+/* ============================================================================
+   TÍCH HỢP TƯƠNG TÁC THEO TỪNG TRANG (TRANG CHỦ, SẢN PHẨM, KHUYẾN MÃI)
+   ============================================================================ */
+document.addEventListener('DOMContentLoaded', function () {
+    // 1. Tương tác Trang chủ & Trang danh mục (Lọc danh mục, dẫn hướng & Countdown)
+    if (document.getElementById('filterMoreCard') || document.querySelector('.filter') || document.querySelector('.home-banner')) {
+        try {
+
+        // Danh mục tương ứng để dẫn hướng khi khách lọc trên Trang chủ (P2 Clarify)
+        const categoryMeta = {
+            fashion: { name: "Thời trang Anime", href: "thoi-trang.html", count: "15+", icon: "👘", desc: "Áo Haori, Kimono cách tân, Hoodie & T-shirt anime độc quyền" },
+            accessory: { name: "Phụ kiện & Đạo cụ", href: "dao-cu.html", count: "18+", icon: "⚔️", desc: "Kiếm Nichirin, quạt xếp, phụ kiện cosplay & mô hình vũ khí" },
+            cosplay: { name: "Trang phục Cosplay", href: "cosplay.html", count: "12+", icon: "🎭", desc: "Trọn bộ trang phục cosplay Demon Slayer, Jujutsu Kaisen, Genshin" },
+            plush: { name: "Gấu bông & Plushies", href: "plush.html", count: "10+", icon: "🧸", desc: "Pochita cưa máy, Pikachu, Chopper & linh vật anime siêu mềm" },
+            figure: { name: "Mô hình Figure", href: "figure.html", count: "25+", icon: "✨", desc: "Scale figure chính hãng, Nendoroid & phiên bản giới hạn" }
+        };
+
+        const filterMoreCard = document.getElementById("filterMoreCard");
+
+        // Tính năng click vào các bộ lọc (Tất cả, Mô hình, Cosplay...) để ẩn/hiện sản phẩm
+        document.querySelectorAll(".filter").forEach(button => {
+            button.addEventListener("click", () => {
+                const filterValue = button.getAttribute("data-filter");
+                const wasActive = button.classList.contains("active");
+
+                // Nếu click lại vào nút đang chọn (khác "Tất cả"), tự động uncheck và quay về "Tất cả"
+                if (wasActive && filterValue !== "all") {
+                    const allBtn = document.querySelector('.filter[data-filter="all"]');
+                    if (allBtn) {
+                        allBtn.click();
+                        return;
+                    }
+                }
+
+                // Xóa nút active cũ, thêm vào nút vừa click
+                document.querySelectorAll(".filter").forEach(item => item.classList.remove("active"));
+                button.classList.add("active");
+
+                const allProducts = document.querySelectorAll(".product-card");
+
+                // Ẩn các thẻ không thuộc nhóm đang chọn và tạo hiệu ứng nảy mượt cho các thẻ hiện ra
+                allProducts.forEach((card, index) => {
+                    const isMatch = (filterValue === "all") || (card.getAttribute("data-category") === filterValue);
+                    if (isMatch) {
+                        card.style.display = "flex";
+                        card.classList.remove("av-card-pop");
+                        void card.offsetWidth;
+                        card.style.animationDelay = (index * 45) + "ms";
+                        card.classList.add("av-card-pop");
+                    } else {
+                        card.style.display = "none";
+                    }
+                });
+
+                // Xử lý thẻ dẫn hướng khi danh mục có ít sản phẩm mẫu trên trang chủ (P2)
+                if (filterMoreCard) {
+                    if (filterValue !== "all" && categoryMeta[filterValue]) {
+                        const meta = categoryMeta[filterValue];
+                        filterMoreCard.innerHTML = `
+                            <div class="filter-more-content">
+                                <span class="filter-more-icon" aria-hidden="true">${meta.icon}</span>
+                                <div class="filter-more-body">
+                                    <div class="filter-more-badge">BỘ SƯU TẬP ${meta.name.toUpperCase()}</div>
+                                    <h4>Khám phá trọn bộ ${meta.name}</h4>
+                                    <p>${meta.desc}. Còn hơn <strong>${meta.count}</strong> mẫu đang có sẵn tại kho AnimeVerse!</p>
+                                </div>
+                                <a href="${meta.href}" class="filter-more-cta" aria-label="Xem tất cả ${meta.name}">
+                                    Xem tất cả ${meta.name} (${meta.count}) →
+                                </a>
+                            </div>
+                        `;
+                        filterMoreCard.style.display = "block";
+                        filterMoreCard.classList.remove("av-card-pop");
+                        void filterMoreCard.offsetWidth;
+                        filterMoreCard.classList.add("av-card-pop");
+                    } else {
+                        filterMoreCard.style.display = "none";
+                    }
+                }
+            });
+        });
+
+        // Đồng hồ đếm ngược Sale
+        function startCountdown() {
+            let secondsLeft = 2 * 24 * 60 * 60 + 18 * 60 * 60 + 42 * 60;
+            setInterval(() => {
+                if (secondsLeft <= 0) return;
+                secondsLeft--;
+                const days = Math.floor(secondsLeft / 86400);
+                const hours = Math.floor((secondsLeft % 86400) / 3600);
+                const minutes = Math.floor((secondsLeft % 3600) / 60);
+                const seconds = secondsLeft % 60;
+
+                document.getElementById("days").textContent = String(days).padStart(2, "0");
+                document.getElementById("hours").textContent = String(hours).padStart(2, "0");
+                document.getElementById("minutes").textContent = String(minutes).padStart(2, "0");
+                document.getElementById("seconds").textContent = String(seconds).padStart(2, "0");
+            }, 1000);
+        }
+        startCountdown();
+    
+        } catch (e) {}
+    }
+
+    // 2. Tương tác Trang Sản Phẩm (Lọc, Tìm kiếm, Sắp xếp chuyên sâu)
+    if (document.getElementById('sort-products') && document.getElementById('product-grid')) {
+        try {
+
+  /* ==========================================================
+     LỌC / TÌM KIẾM / SẮP XẾP SẢN PHẨM TRÊN TRANG "SẢN PHẨM"
+     Dùng hàm tự chạy ngay (IIFE) để các biến bên trong
+     không bị lẫn với biến của file js khác.
+     ========================================================== */
+  (() => {
+    // ---------- 1. Lấy các phần tử trên trang ----------
+    const grid = document.getElementById('product-grid');                      // khung chứa các thẻ sản phẩm
+    const cards = Array.from(grid.querySelectorAll('.product-card'));          // danh sách tất cả thẻ sản phẩm
+    const search = document.getElementById('product-search');                  // ô tìm kiếm
+    const sort = document.getElementById('sort-products');                     // ô chọn cách sắp xếp
+    const count = document.getElementById('result-count');                     // chỗ hiện "có X sản phẩm"
+    const empty = document.getElementById('empty-state');                      // thông báo "không tìm thấy"
+    const filterLabel = document.getElementById('active-filter-label');        // tên danh mục đang chọn
+
+    // Danh mục đang được chọn ('all' = tất cả)
+    let category = 'all';
+
+    // Tên hiển thị tương ứng với từng mã danh mục
+    const labels = {
+      all: 'Tất cả sản phẩm',
+      'FIGURE': 'Figure',
+      'COSPLAY': 'Cosplay',
+      'GẤU BÔNG': 'Gấu bông',
+      'ĐẠO CỤ': 'Đạo cụ',
+      'THỜI TRANG': 'Thời trang',
+      'QUÀ TẶNG': 'Quà tặng'
+    };
+    // ---------- 2. Hàm cập nhật danh sách (chạy mỗi khi lọc / tìm / sắp xếp) ----------
+    function update() {
+      // Từ khóa tìm kiếm: bỏ khoảng trắng thừa, chuyển về chữ thường
+      const query = search.value.trim().toLocaleLowerCase('vi');
+
+      // Giữ lại những thẻ đúng danh mục VÀ khớp từ khóa (theo tên hoặc nội dung thẻ)
+      let visible = cards.filter(card =>
+        (category === 'all' || card.dataset.category === category) &&
+        (card.dataset.name.includes(query) || card.textContent.toLocaleLowerCase('vi').includes(query))
+      );
+
+      // Sắp xếp theo lựa chọn: giá thấp -> cao, cao -> thấp, theo tên A-Z, hoặc thứ tự mặc định
+      visible.sort((a, b) => {
+        if (sort.value === 'low') {
+          return Number(a.dataset.price) - Number(b.dataset.price);
+        }
+        if (sort.value === 'high') {
+          return Number(b.dataset.price) - Number(a.dataset.price);
+        }
+        if (sort.value === 'name') {
+          return a.dataset.name.localeCompare(b.dataset.name, 'vi');
+        }
+        return cards.indexOf(a) - cards.indexOf(b);
+      });
+
+      // Ẩn tất cả thẻ trước, rồi chỉ hiện và tạo hiệu ứng xuất hiện mượt cho những thẻ phù hợp
+      cards.forEach(card => {
+        card.hidden = true;
+      });
+      visible.forEach((card, index) => {
+        card.hidden = false;
+        card.classList.remove('av-card-pop');
+        void card.offsetWidth;
+        card.style.animationDelay = Math.min(index * 20, 240) + 'ms';
+        card.classList.add('av-card-pop');
+        grid.appendChild(card);
+      });
+
+      // Cập nhật số lượng kết quả và thông báo "không có sản phẩm"
+      count.textContent = visible.length;
+      empty.hidden = visible.length !== 0;
+      grid.hidden = visible.length === 0;
+      filterLabel.textContent = labels[category] || labels.all;
+    }
+    // ---------- 3. Bấm vào nút danh mục (Figure, Cosplay, ...) ----------
+    document.querySelectorAll('.category-filter').forEach(button => button.addEventListener('click', () => {
+      category = button.dataset.filter;
+      // Chỉ nút vừa bấm mới có class "active" (được tô sáng)
+      document.querySelectorAll('.category-filter').forEach(item => item.classList.toggle('active', item === button));
+      update();
+    }));
+    // ---------- 4. Gõ vào ô tìm kiếm hoặc đổi cách sắp xếp ----------
+    search.addEventListener('input', update);
+    sort.addEventListener('change', update);
+    // ---------- 5. Nút "Xóa bộ lọc": đưa mọi thứ về mặc định ----------
+    function reset() {
+      category = 'all';
+      search.value = '';
+      sort.value = 'featured';
+      document.querySelectorAll('.category-filter').forEach(item => item.classList.toggle('active', item.dataset.filter === 'all'));
+      update();
+    }
+    document.getElementById('clear-filters').addEventListener('click', reset);
+    document.getElementById('reset-empty').addEventListener('click', reset);
+    // ---------- 6. Nút trái tim "yêu thích" trên mỗi thẻ ----------
+    document.querySelectorAll('.heart').forEach(button => button.addEventListener('click', () => {
+      // Đang chưa thích -> thành thích, và ngược lại
+      const liked = button.getAttribute('aria-pressed') !== 'true';
+      button.setAttribute('aria-pressed', String(liked));
+      button.classList.toggle('liked', liked);
+      button.textContent = liked ? '♥' : '♡';
+      // Cập nhật nhãn đọc cho người dùng trình đọc màn hình
+      button.setAttribute(
+        'aria-label',
+        (liked ? 'Bỏ yêu thích ' : 'Yêu thích ') + button.closest('.product-card').querySelector('h3').textContent
+      );
+    }));
+    // ---------- 7. Chạy lần đầu khi mở trang ----------
+    update();
+  })();
+  
+        } catch (e) {}
+    }
+
+    // 3. Tương tác Trang Khuyến Mãi (Sao chép mã voucher, đếm ngược Deal)
+    if (document.querySelector('.deal-card') || document.querySelector('.copy-code')) {
+        try {
+
+    // Lọc các ưu đãi theo danh mục
+    document.querySelectorAll('.filter').forEach(button => {
+      button.addEventListener('click', () => {
+        document.querySelectorAll('.filter').forEach(item => item.classList.remove('active'));
+        button.classList.add('active');
+        const selected = button.dataset.filter;
+        document.querySelectorAll('.deal-card').forEach(card => {
+          card.hidden = selected !== 'all' && card.dataset.category !== selected;
+        });
+      });
+    });
+    // Sao chép mã ưu đãi
+    const toast = document.getElementById('toast');
+    document.querySelectorAll('.copy-code').forEach(button => {
+      button.addEventListener('click', async () => {
+        const code = button.dataset.code;
+        try {
+          await navigator.clipboard.writeText(code);
+          toast.textContent = `Đã sao chép mã ${code}!`;
+        } catch (error) {
+          toast.textContent = `Mã ưu đãi: ${code}`;
+        }
+        toast.classList.add('show');
+        window.setTimeout(() => toast.classList.remove('show'), 2200);
+      });
+    });
+    // Đồng hồ đếm ngược minh họa: 2 ngày 18 giờ 42 phút
+    let remaining = 2 * 86400 + 18 * 3600 + 42 * 60;
+    function updateTimer() {
+      const days = Math.floor(remaining / 86400);
+      const hours = Math.floor((remaining % 86400) / 3600);
+      const minutes = Math.floor((remaining % 3600) / 60);
+      const seconds = remaining % 60;
+      document.getElementById('days').textContent = String(days).padStart(2, '0');
+      document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+      document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+      document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+      if (remaining > 0) remaining--;
+    }
+    updateTimer();
+    window.setInterval(updateTimer, 1000);
+  
+        } catch (e) {}
+    }
+});
