@@ -96,8 +96,8 @@ a {
    MỤC 1: BIẾN MÀU SẮC & KÍCH THƯỚC TOÀN CỤC (:root)
    📍 Tác dụng: Khai báo bảng màu dùng chung cho tất cả các trang.
    🛠️ CÁCH SỬA MÀU TOÀN WEBSITE:
-      - --bg         : Màu nền tối chính của trang (#090912).
-      - --panel      : Màu nền của các tấm thẻ sản phẩm, hộp thông tin (#121220).
+      - --bg         : Màu nền tối chính của trang (#24142c).
+      - --panel      : Màu nền của các tấm thẻ sản phẩm, hộp thông tin (#ffffff).
       - --text       : Màu chữ chính (#f7f5ff - trắng ánh tím nhạt).
       - --muted      : Màu chữ phụ / chữ mờ (#a7a4b8).
       - --pink       : Màu điểm nhấn Hồng Neon chủ đạo (#ff4fa3).
@@ -591,7 +591,7 @@ a {
     justify-content: center;
     border: 1px solid #ffffff18;
     border-radius: 22px;
-    background: linear-gradient(145deg, #22173c, #0f1020);
+    background: #ffffff;
     box-shadow: 0 25px 70px #0009;
     transform: rotate(7deg);
     transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -679,7 +679,7 @@ a {
     padding: 18px 12px;
     border: 1px solid #f2d0e2;
     border-radius: 14px;
-    background: linear-gradient(145deg, #ffffff, #0f0f19);
+    background: #ffffff;
     text-align: center;
     transition: 0.3s;
 }
@@ -783,7 +783,7 @@ a {
     height: 260px;
     position: relative;
     overflow: hidden;
-    background: radial-gradient(circle at 50% 35%, #352052, #171727);
+    background: #fdf2f8;
 }
 
 .product-image img {
@@ -820,7 +820,7 @@ a {
     height: 34px;
     border: 1px solid #ffffff22;
     border-radius: 50%;
-    background: #090912aa;
+    background: #ffffff;
     color: #24142c;
     font-size: 20px;
     transition: 0.3s;
@@ -968,7 +968,7 @@ a {
     padding: 7px;
     border: 1px solid #ffffff15;
     border-radius: 8px;
-    background: #0d0c16aa;
+    background: #ffffffaa;
     text-align: center;
 }
 
@@ -1108,7 +1108,7 @@ footer {
     display: flex;
     flex-direction: column;
     border-left: 1px solid #f2d0e2;
-    background: #11111d;
+    background: #ffffff;
     transition: 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
@@ -1963,7 +1963,7 @@ footer {
     overflow: hidden;
     border: 1px solid #ffffff20;
     border-radius: 30px;
-    background: radial-gradient(ellipse at 55% 45%,#753c8c 0%,#33204d 37%,#151427 75%);
+    background: #fdf2f8;
     box-shadow: #fff7fb;
 }
 
@@ -2219,7 +2219,7 @@ footer {
 
 .promo-page .deal-card {
     overflow: hidden;
-    background: linear-gradient(150deg,#171726,#10101a);
+    background: #ffffff;
     border: 1px solid #f2d0e2;
     border-radius: 18px;
     transition: transform .3s,border-color .3s,box-shadow .3s;
@@ -2261,27 +2261,27 @@ footer {
 }
 
 .promo-page .visual-purple {
-    background: radial-gradient(circle,#54377e,#241a3a 65%,#191525);
+    background: #fdf2f8;
 }
 
 .promo-page .visual-pink {
-    background: radial-gradient(circle,#85345f,#3a1b3d 65%,#191525);
+    background: #fdf2f8;
 }
 
 .promo-page .visual-blue {
-    background: radial-gradient(circle,#315e82,#1b2846 65%,#191525);
+    background: #fdf2f8;
 }
 
 .promo-page .visual-orange {
-    background: radial-gradient(circle,#945332,#42243c 65%,#191525);
+    background: #fdf2f8;
 }
 
 .promo-page .visual-green {
-    background: radial-gradient(circle,#376d64,#1d3340 65%,#191525);
+    background: #fdf2f8;
 }
 
 .promo-page .visual-lilac {
-    background: radial-gradient(circle,#7358a0,#302345 65%,#191525);
+    background: #fdf2f8;
 }
 
 .promo-page .deal-label, .promo-page .discount, .promo-page .product-emoji, .promo-page .deal-visual small {
@@ -2292,7 +2292,7 @@ footer {
 .promo-page .deal-label {
     top: 13px;
     left: 13px;
-    background: #0a0919aa;
+    background: #fdf2f8aa;
     border: 1px solid #ffffff25;
     border-radius: 6px;
     padding: 5px 8px;
@@ -2912,7 +2912,7 @@ footer {
 
 .products-page .tile-back {
     transform:translate(-43px,-2px) rotate(-13deg);
-    background:linear-gradient(145deg,#3c235a,#171426)
+    background:linear-gradient(145deg,#fdf2f8,#ffffff)
 }
 
 .products-page .tile-front {
@@ -3013,7 +3013,7 @@ footer {
     padding: 12px;
     border: 1px solid #f2d0e2;
     border-radius: 14px;  /* Độ bo tròn góc khung */
-    background: #121220aa;
+    background: #ffffff;
 }
 
 .products-page .product-search {
@@ -3026,7 +3026,7 @@ footer {
     padding: 0 12px;
     border: 1px solid #f2d0e2;
     border-radius: 10px;
-    background: #0c0c16;
+    background: #ffffff;
     color: #be185d;
 }
 
@@ -3081,7 +3081,7 @@ footer {
     padding: 17px 12px;
     border: 1px solid #f2d0e2;
     border-radius: 15px;
-    background: linear-gradient(145deg,#ffffff,#0e0e18);
+    background: #ffffff;
 }
 
 .products-page .category-sidebar h3 {
@@ -3184,7 +3184,7 @@ footer {
 .products-page .product-image {
     height:auto;
     aspect-ratio:4/4.4;
-    background:radial-gradient(circle at 50% 35%,#352052,#171727)
+    background:#fdf2f8
 }
 
 .products-page .product-image img {
@@ -3233,7 +3233,7 @@ footer {
     height: 34px;
     border: 1px solid #ffffff2c;
     border-radius: 50%;  /* Độ bo tròn góc khung */
-    background: #090912b8;
+    background: #ffffff;
     color: #24142c;
     font-size: 20px;
     line-height: 1;
@@ -4181,7 +4181,7 @@ main.section {
     object-fit: contain;
     margin-bottom: 18px;
     border-radius: 20px;
-    background: radial-gradient(circle at 50% 35%, #352052, #171727);
+    background: #fdf2f8;
 }
 
 .gallery-main.is-placeholder {
@@ -4200,7 +4200,7 @@ main.section {
     aspect-ratio: 1 / 1;
     object-fit: cover;
     border-radius: 12px;
-    background: #171727;
+    background: #fdf2f8;
     transition: border-color .2s, transform .2s;
 }
 
@@ -4979,7 +4979,7 @@ main.section {
     border-radius: 18px;
     object-fit: cover;
     object-position: center 20%;
-    background: radial-gradient(circle at 50% 35%, #352052, #171727);
+    background: #fdf2f8;
 }
 
 .image-note {
@@ -5007,7 +5007,7 @@ main.section {
     padding: 24px 26px;
     border: 1px solid #f2d0e2;
     border-radius: 18px;
-    background: linear-gradient(145deg, #fdf2f8, #10101a);
+    background: #ffffff;
     transition: .3s;
 }
 
@@ -5117,7 +5117,7 @@ main.section {
     padding: 30px;
     border: 1px solid #f2d0e2;
     border-radius: 20px;
-    background: linear-gradient(145deg, #ffffff, #0f0f19);
+    background: #ffffff;
 }
 
 .sidebar-card h2 {
@@ -5647,7 +5647,7 @@ main.section {
 }
 
 .promo-page .deal-visual.has-photo small {
-    background: #0a0919b3;
+    background: #fdf2f8b3;
     padding: 3px 8px;
     border-radius: 5px;  /* Độ bo tròn góc khung */
 }
@@ -6065,7 +6065,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
     padding: 20px;
     border: 1px solid #ffffff22;
     border-radius: 24px;
-    background: linear-gradient(160deg, #1d1633ee, #10101aee);
+    background: #ffffff;
     box-shadow: 0 25px 70px #000a, 0 0 0 1px #ffffff08 inset;
     backdrop-filter: blur(10px);
     animation: lh-float 6s ease-in-out infinite;
@@ -6224,7 +6224,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
     padding: 26px 22px;
     border: 1px solid #f2d0e2;
     border-radius: 20px;
-    background: linear-gradient(150deg, #fdf2f8, #0f0f19);
+    background: #ffffff;
     overflow: hidden;
     transition: transform .3s, border-color .3s, box-shadow .3s;
 }
@@ -6314,7 +6314,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
     padding: 38px 28px 32px;
     text-align: center;
     border-radius: 24px;
-    background: linear-gradient(160deg, #fdf2f8, #0e0e18);
+    background: #ffffff;
     transform: rotateX(0deg) rotateY(0deg);   /* JS đổi 2 biến này theo chuột */
     transition: transform .15s ease-out, box-shadow .3s;
 }
@@ -6421,7 +6421,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
     padding: 40px;
     border: 1px solid #ffffff1c;
     border-radius: 26px;
-    background: linear-gradient(160deg, #1a1530f0, #10101af0);
+    background: #ffffff;
     box-shadow: 0 25px 70px #0008;
 }
 
@@ -6666,7 +6666,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 .lh-faq details {
     border: 1px solid #f2d0e2;
     border-radius: 16px;
-    background: linear-gradient(150deg, #fdf2f8, #0f0f19);
+    background: #ffffff;
     transition: border-color .25s;
 }
 
@@ -7361,7 +7361,7 @@ body {
 
 .av-quick-cart-btn:hover {
   background: #fff7fb;
-  color: #090912;
+  color: #24142c;
   box-shadow: 0 0 14px #fff7fb;
 }
 
@@ -7692,7 +7692,7 @@ body {
   object-fit: cover;
   border-radius: 16px;
   border: 1px solid rgba(255, 255, 255, 0.12);
-  background: #0d0d18;
+  background: #fdf2f8;
 }
 
 .av-qv-thumbs {
@@ -8591,7 +8591,7 @@ body {
     position: relative;
     display: block;
     aspect-ratio: 1 / 1;
-    background: #0d0d17;
+    background: #fdf2f8;
     overflow: hidden;
 }
 
@@ -9513,10 +9513,10 @@ html:not([data-theme="sakura"]):not([data-theme="gear5"]):not([data-theme="gojo"
   --bg: #07060f;
   --bg-deep: #0b0918;
   --bg-footer: #05040b;
-  --panel: #110e24;
+  --panel: #ffffff;
   --panel-light: #181432;
   --surface-elevated: #1b1638;
-  --line: #2b2552;
+  --line: #f2d0e2;
   --pink: #ff3d9a;
   --neon: #ff3d9a;
   --purple: #9b6bff;
@@ -9725,7 +9725,7 @@ a.deal-cta,
 .btn.ghost,
 .btn-add-cart {
   background: rgba(155, 107, 255, 0.1) !important;
-  border: 1px solid #2b2552 !important;
+  border: 1px solid #f2d0e2 !important;
   color: #24142c !important;
 }
 
@@ -9741,7 +9741,7 @@ a.deal-cta,
 .topbar,
 .promo-page .topbar {
   background: #05040b !important;
-  border-bottom: 1px solid #2b2552 !important;
+  border-bottom: 1px solid #f2d0e2 !important;
   padding: 6px 16px !important;
 }
 
@@ -9755,7 +9755,7 @@ a.deal-cta,
   padding: 6px 12px !important;
   border-radius: 999px;  /* Độ bo tròn góc khung */
   background: linear-gradient(90deg, rgba(255, 61, 154, 0.2), rgba(155, 107, 255, 0.24)) !important;
-  border: 1px solid #2b2552 !important;
+  border: 1px solid #f2d0e2 !important;
   color: #24142c !important;
   font-size: 12px !important;
 }
@@ -9763,13 +9763,13 @@ a.deal-cta,
 .header,
 .promo-page .header {
   background: rgba(11, 9, 24, 0.92) !important;
-  border-bottom: 1px solid #2b2552 !important;
+  border-bottom: 1px solid #f2d0e2 !important;
 }
 
 .nav,
 .promo-page .nav {
   background: rgba(17, 14, 36, 0.95) !important;
-  border-bottom: 1px solid #2b2552 !important;
+  border-bottom: 1px solid #f2d0e2 !important;
 }
 
 .nav a {
@@ -9788,7 +9788,7 @@ a.deal-cta,
   overflow: hidden;
   border: 1px solid rgba(155, 107, 255, 0.32);
   box-shadow: 0 16px 42px rgba(0, 0, 0, 0.52);
-  background: #110e24;
+  background: #ffffff;
   line-height: 0;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
@@ -9846,7 +9846,7 @@ a.deal-cta,
 
 #home .hero-stats span {
   background: rgba(7, 6, 15, 0.62);
-  border: 1px solid #2b2552;
+  border: 1px solid #f2d0e2;
   border-radius: 14px;
   padding: 8px 12px;
   display: flex;
@@ -9867,8 +9867,8 @@ a.deal-cta,
 #otaku-hub-showcase .benefits > div,
 #best .benefits > div,
 .promo-page .benefits article {
-  background: #110e24 !important;
-  border: 1px solid #2b2552 !important;
+  background: #ffffff !important;
+  border: 1px solid #f2d0e2 !important;
   border-radius: 18px !important;
   padding: 22px 20px !important;
   box-shadow: 0 10px 26px rgba(0, 0, 0, 0.35);
@@ -9893,8 +9893,8 @@ a.deal-cta,
 }
 
 .categories > .category {
-  background: linear-gradient(160deg, #161230 0%, #110e24 100%) !important;
-  border: 1px solid #2b2552 !important;
+  background: #ffffff !important;
+  border: 1px solid #f2d0e2 !important;
   border-radius: 18px !important;
   padding: 20px 12px !important;
   display: flex !important;
@@ -9951,8 +9951,8 @@ a.deal-cta,
    ============================================================================ */
 .product-card,
 .deal-card {
-  background: linear-gradient(165deg, #15112c 0%, #0e0b1e 100%) !important;
-  border: 1px solid #2b2552 !important;
+  background: linear-gradient(165deg, #ffffff 0%, #ffffff 100%) !important;
+  border: 1px solid #f2d0e2 !important;
   border-radius: 16px !important;  /* Độ bo tròn góc khung */
   min-width: 0;
   display: flex;
@@ -10038,8 +10038,8 @@ a.deal-cta,
 .av-modal-card,
 #avDrawer,
 #avBotBox {
-  background: #110e24 !important;
-  border-color: #2b2552 !important;
+  background: #ffffff !important;
+  border-color: #f2d0e2 !important;
 }
 
 .av-modal-close,
@@ -10093,8 +10093,8 @@ a.deal-cta,
 .lh-form-box,
 .lh-card,
 .lh-faq details {
-  background: #110e24 !important;
-  border-color: #2b2552 !important;
+  background: #ffffff !important;
+  border-color: #f2d0e2 !important;
 }
 
 /* ============================================================================
@@ -10882,8 +10882,8 @@ a.deal-cta,
     max-height: 340px !important;
     aspect-ratio: 1 / 1 !important;
     margin-bottom: 10px !important;
-    background: #15112c !important;
-    border: 1px solid #2b2552 !important;
+    background: #ffffff !important;
+    border: 1px solid #f2d0e2 !important;
   }
 
   .gallery-thumbs {
@@ -10936,7 +10936,7 @@ a.deal-cta,
     background: rgba(11, 9, 24, 0.96) !important;
     backdrop-filter: blur(16px) !important;
     -webkit-backdrop-filter: blur(16px) !important;
-    border-top: 1px solid #2b2552 !important;
+    border-top: 1px solid #f2d0e2 !important;
     box-shadow: 0 -10px 28px rgba(0, 0, 0, 0.7) !important;
     display: flex !important;
     flex-direction: row !important;
@@ -11098,7 +11098,7 @@ a.deal-cta,
     min-width: 0 !important;
     position: relative;
     z-index: 1;
-    background: #15112c;
+    background: #ffffff;
     padding: 10px 12px !important;
   }
 
@@ -12229,7 +12229,7 @@ html {
 /* ============================================================================
    THEME-FIX.CSS — SỬA LỖI ĐỔI MÀU CHỦ ĐỀ (chữ trùng màu nền)
    📍 Vấn đề cũ: nhiều quy tắc trong style_new.css / tech.css / upgrade.css ghi cứng
-      màu chữ trắng (#fff) hoặc nền tối (#110e24...) nên khi đổi sang chủ đề sáng
+      màu chữ trắng (#fff) hoặc nền tối (#ffffff...) nên khi đổi sang chủ đề sáng
       (Sakura) thì chữ trắng nằm trên nền trắng, chữ tối nằm trên nền tối; còn ở
       Gear 5 / Gojo thì chữ trắng nằm trên nút vàng/xanh neon sáng.
    🛠️ Cách hoạt động: file này phải được nạp CUỐI CÙNG (sau upgrade.css).
@@ -15659,4 +15659,183 @@ html[data-theme="gojo"] .av-motion-flyer {
     border-radius: 16px;
     box-shadow: 0 4px 20px rgba(190, 24, 93, 0.08);
     border: 1px solid #f2d0e2;
+}
+
+
+/* ==========================================================================
+   SAKURA PASTEL TOTAL PURGE: LOẠI BỎ 100% MỌI KHỐI NỀN TỐI & CHỮ TÀNG HÌNH
+   Biến toàn bộ website thành giao diện Trắng Hồng (Pinkish-White) thuần khiết.
+   ========================================================================== */
+
+/* 1. Nền thẻ danh mục, lợi ích, banner, thẻ bài */
+.categories > .category,
+.category,
+#otaku-hub-showcase .benefits > div,
+#best .benefits > div,
+.benefits > div,
+.promo-page .benefits article,
+.anime-card,
+.sidebar-card,
+.products-page .category-sidebar,
+.promo-page .deal-card,
+.pro-details-section,
+.av-reviews-box,
+.cart-summary,
+.cart-item,
+.lh-card,
+.lh-member,
+.lh-form-box,
+.lh-chat,
+.lh-faq details,
+.lh-showroom-card,
+.av-modal-card,
+#avDrawer,
+#avBotBox,
+.products-page .catalog-toolbar,
+.products-page .tile-back,
+.cosplay-tip {
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+    background-image: none !important;
+    border: 1px solid #f2d0e2 !important;
+    border-color: #f2d0e2 !important;
+    box-shadow: 0 4px 18px rgba(190, 24, 93, 0.05) !important;
+    color: #24142c !important;
+}
+
+/* 2. Khung ảnh sản phẩm & gallery (hồng phấn nhẹ, tôn dáng figure) */
+.product-image,
+.products-page .product-image,
+.gallery-main,
+.gallery-thumbs img,
+.article-cover,
+.av-quiz-img,
+.av-qv-main-img,
+.deal-visual {
+    background: #fdf2f8 !important;
+    background-color: #fdf2f8 !important;
+    background-image: none !important;
+    border-color: #f2d0e2 !important;
+}
+
+/* 3. Nút Tim yêu thích, Nút điều hướng, Bộ lọc */
+.heart,
+.products-page .heart {
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+    border: 1px solid #f2d0e2 !important;
+    color: #be185d !important;
+    box-shadow: 0 2px 8px rgba(190, 24, 93, 0.1) !important;
+}
+
+.countdown span {
+    background: #ffffff !important;
+    border: 1px solid #f2d0e2 !important;
+    color: #be185d !important;
+    box-shadow: 0 2px 10px rgba(190, 24, 93, 0.08) !important;
+}
+
+/* 4. Toàn bộ chữ, tiêu đề, nhãn trên các thẻ phải là Tím Đậm (#24142c) rõ nét */
+.category b, .category span,
+.benefits h3, .benefits p,
+.product-info h3, .product-info p,
+.deal-content h3, .deal-content p,
+.cart-item b, .cart-item span, .cart-item div,
+.cart-summary h3, .cart-summary p, .cart-summary div,
+.pro-details-section h2, .pro-details-section h3, .pro-details-section p,
+.av-reviews-box h3, .av-reviews-box p,
+.lh-card h3, .lh-card p,
+.lh-form-box h2, .lh-form-box p, .lh-form-box label,
+.lh-faq details summary, .lh-faq details p,
+.sidebar-card h3, .sidebar-card p,
+.hero h1, .hero p, .hero-stats b, .hero-stats span,
+.sale h2, .sale p,
+.footer-grid h4, .footer-grid p, .footer-grid a,
+.nav a, .topbar span, .topbar a {
+    color: #24142c !important;
+}
+
+/* Điểm nhấn giá và thương hiệu */
+.price, .pro-price, .deal-price, .cart-total, .countdown b,
+.hero-buttons .primary, .btn.primary {
+    color: #be185d !important;
+}
+.btn.primary, .btn-primary, .btn-buy-now, .lh-submit {
+    color: #ffffff !important;
+    background: linear-gradient(135deg, #be185d, #9333ea) !important;
+    border: none !important;
+}
+
+/* Đảm bảo nền trang và container luôn là Trắng Hồng */
+html, body, #home, .container, main {
+    background: radial-gradient(circle at 85% 10%, rgba(255, 130, 190, 0.25) 0, transparent 32%), #fff7fb !important;
+    color: #24142c !important;
+}
+
+/* ==========================================================================
+   TỐI ƯU CÁC NÚT THAO TÁC (TĂNG GIẢM SỐ LƯỢNG, XÓA, MENU) CHỮ RÕ NÉT 100%
+   ========================================================================== */
+
+/* Nút tăng/giảm số lượng trong giỏ hàng và trang chi tiết */
+.quantity button,
+.cart-qty button,
+.cart-remove,
+.cart-head button,
+.cart-item button {
+    color: #24142c !important;
+    background-color: #fdf2f8 !important;
+    border: 1px solid #f2d0e2 !important;
+    font-weight: 700 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+}
+
+.quantity button:hover,
+.cart-qty button:hover {
+    background-color: #fce7f3 !important;
+    color: #be185d !important;
+    border-color: #be185d !important;
+}
+
+.cart-remove:hover,
+.cart-head button:hover {
+    color: #e11d48 !important;
+    background-color: #ffe4e6 !important;
+}
+
+/* Nút menu 3 gạch điện thoại */
+.nav-toggle,
+.nav-toggle span {
+    color: #24142c !important;
+    border-color: #24142c !important;
+}
+
+/* Các nút trong modal, drawer */
+.av-modal-close,
+.close-drawer {
+    color: #24142c !important;
+    background: #fdf2f8 !important;
+    border: 1px solid #f2d0e2 !important;
+}
+.av-modal-close:hover {
+    color: #ffffff !important;
+    background: #be185d !important;
+}
+
+/* Thanh phân trang và view toggle */
+.av-view-toggle button,
+.pagination a,
+.pagination button {
+    color: #24142c !important;
+    background: #ffffff !important;
+    border: 1px solid #f2d0e2 !important;
+}
+
+.av-view-toggle button.active,
+.pagination a.active {
+    color: #ffffff !important;
+    background: #be185d !important;
+    border-color: #be185d !important;
 }
