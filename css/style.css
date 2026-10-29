@@ -1,15 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&display=swap');
 
 /* ============================================================================
-   ANIMEVERSE MASTER STYLESHEET BUNDLE (css/bundle.css)
+   ANIMEVERSE OFFICIAL STYLESHEET (css/style.css)
    Vũ trụ mua sắm & giải trí Anime/Manga Otaku đa chiều
-   Phiên bản: Hoàn chỉnh v32 (Tất cả 5 tệp CSS được gộp lại tối ưu tốc độ tải trang)
-   Thứ tự nạp quy chuẩn:
+   Phiên bản: Hoàn chỉnh v35 (Giao diện chuẩn Minimalist Sakura Pastel)
+   1 file CSS duy nhất nạp cho toàn bộ 65 trang HTML:
      1. style_new.css  - Bố cục shop, biến nền tảng, danh mục & lưới sản phẩm
      2. tech.css       - Tính năng công nghệ, Gacha, AV-Bot, Trung tâm Otaku
-     3. upgrade.css    - Quick Dock FAB, menu di động, khả năng tiếp cận
-     4. theme-fix.css  - Chuẩn 4 giao diện (Sakura, Cyberpunk, Gear 5, Gojo), WCAG AA
-     5. motion.css     - Hiệu ứng chuyển cảnh & chuyển động vi mô mượt mà
+     3. upgrade.css    - Quick Dock FAB, menu di động, khả năng tiếp cận WCAG AA
+     4. theme-fix.css  - Chuẩn 4 giao diện (Sakura, Cyberpunk, Gear 5, Gojo)
+     5. motion.css     - Hiệu ứng chuyển cảnh 3D Card Tilt & pháo hoa Sakura
    ============================================================================ */
 
 /* ============================================================================

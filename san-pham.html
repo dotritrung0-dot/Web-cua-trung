@@ -60,7 +60,7 @@
               content="..." của thẻ <meta name="description"> và <meta property="og:description">.
             - ⚠️ KHÔNG XÓA dòng <link rel="preconnect" href="https://fonts.googleapis.com">
  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
- <link rel="stylesheet" href="css/bundle.css"> vì đó là file
+ <link rel="stylesheet" href="css/style.css"> vì đó là file
               CSS tổng hợp tô màu và dàn trang cho toàn bộ website.
     -->
       <meta charset="UTF-8">
@@ -69,7 +69,7 @@
   <title>Sản phẩm | AnimeVerse</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="css/bundle.css">
+  <link rel="stylesheet" href="css/style.css">
     <meta name="theme-color" content="#fff7fb">
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23090912'/%3E%3Ctext x='32' y='46' font-size='40' text-anchor='middle' fill='%23ff4fa3'%3E%E2%9C%A6%3C/text%3E%3C/svg%3E">
     <meta property="og:type" content="website">
@@ -1239,131 +1239,16 @@
         </div>
         <div class="copyright">© 2026 AnimeVerse. Made with ♡ for Otaku.</div>
     </footer>
-  <script>
-  /* ==========================================================
-     LỌC / TÌM KIẾM / SẮP XẾP SẢN PHẨM TRÊN TRANG "SẢN PHẨM"
-     Dùng hàm tự chạy ngay (IIFE) để các biến bên trong
-     không bị lẫn với biến của file js khác.
-     ========================================================== */
-  (() => {
-    // ---------- 1. Lấy các phần tử trên trang ----------
-    const grid = document.getElementById('product-grid');                      // khung chứa các thẻ sản phẩm
-    const cards = Array.from(grid.querySelectorAll('.product-card'));          // danh sách tất cả thẻ sản phẩm
-    const search = document.getElementById('product-search');                  // ô tìm kiếm
-    const sort = document.getElementById('sort-products');                     // ô chọn cách sắp xếp
-    const count = document.getElementById('result-count');                     // chỗ hiện "có X sản phẩm"
-    const empty = document.getElementById('empty-state');                      // thông báo "không tìm thấy"
-    const filterLabel = document.getElementById('active-filter-label');        // tên danh mục đang chọn
-
-    // Danh mục đang được chọn ('all' = tất cả)
-    let category = 'all';
-
-    // Tên hiển thị tương ứng với từng mã danh mục
-    const labels = {
-      all: 'Tất cả sản phẩm',
-      'FIGURE': 'Figure',
-      'COSPLAY': 'Cosplay',
-      'GẤU BÔNG': 'Gấu bông',
-      'ĐẠO CỤ': 'Đạo cụ',
-      'THỜI TRANG': 'Thời trang',
-      'QUÀ TẶNG': 'Quà tặng'
-    };
-    // ---------- 2. Hàm cập nhật danh sách (chạy mỗi khi lọc / tìm / sắp xếp) ----------
-    function update() {
-      // Từ khóa tìm kiếm: bỏ khoảng trắng thừa, chuyển về chữ thường
-      const query = search.value.trim().toLocaleLowerCase('vi');
-
-      // Giữ lại những thẻ đúng danh mục VÀ khớp từ khóa (theo tên hoặc nội dung thẻ)
-      let visible = cards.filter(card =>
-        (category === 'all' || card.dataset.category === category) &&
-        (card.dataset.name.includes(query) || card.textContent.toLocaleLowerCase('vi').includes(query))
-      );
-
-      // Sắp xếp theo lựa chọn: giá thấp -> cao, cao -> thấp, theo tên A-Z, hoặc thứ tự mặc định
-      visible.sort((a, b) => {
-        if (sort.value === 'low') {
-          return Number(a.dataset.price) - Number(b.dataset.price);
-        }
-        if (sort.value === 'high') {
-          return Number(b.dataset.price) - Number(a.dataset.price);
-        }
-        if (sort.value === 'name') {
-          return a.dataset.name.localeCompare(b.dataset.name, 'vi');
-        }
-        return cards.indexOf(a) - cards.indexOf(b);
-      });
-
-      // Ẩn tất cả thẻ trước, rồi chỉ hiện và tạo hiệu ứng xuất hiện mượt cho những thẻ phù hợp
-      cards.forEach(card => {
-        card.hidden = true;
-      });
-      visible.forEach((card, index) => {
-        card.hidden = false;
-        card.classList.remove('av-card-pop');
-        void card.offsetWidth;
-        card.style.animationDelay = Math.min(index * 20, 240) + 'ms';
-        card.classList.add('av-card-pop');
-        grid.appendChild(card);
-      });
-
-      // Cập nhật số lượng kết quả và thông báo "không có sản phẩm"
-      count.textContent = visible.length;
-      empty.hidden = visible.length !== 0;
-      grid.hidden = visible.length === 0;
-      filterLabel.textContent = labels[category] || labels.all;
-    }
-    // ---------- 3. Bấm vào nút danh mục (Figure, Cosplay, ...) ----------
-    document.querySelectorAll('.category-filter').forEach(button => button.addEventListener('click', () => {
-      category = button.dataset.filter;
-      // Chỉ nút vừa bấm mới có class "active" (được tô sáng)
-      document.querySelectorAll('.category-filter').forEach(item => item.classList.toggle('active', item === button));
-      update();
-    }));
-    // ---------- 4. Gõ vào ô tìm kiếm hoặc đổi cách sắp xếp ----------
-    search.addEventListener('input', update);
-    sort.addEventListener('change', update);
-    // ---------- 5. Nút "Xóa bộ lọc": đưa mọi thứ về mặc định ----------
-    function reset() {
-      category = 'all';
-      search.value = '';
-      sort.value = 'featured';
-      document.querySelectorAll('.category-filter').forEach(item => item.classList.toggle('active', item.dataset.filter === 'all'));
-      update();
-    }
-    document.getElementById('clear-filters').addEventListener('click', reset);
-    document.getElementById('reset-empty').addEventListener('click', reset);
-    // ---------- 6. Nút trái tim "yêu thích" trên mỗi thẻ ----------
-    document.querySelectorAll('.heart').forEach(button => button.addEventListener('click', () => {
-      // Đang chưa thích -> thành thích, và ngược lại
-      const liked = button.getAttribute('aria-pressed') !== 'true';
-      button.setAttribute('aria-pressed', String(liked));
-      button.classList.toggle('liked', liked);
-      button.textContent = liked ? '♥' : '♡';
-      // Cập nhật nhãn đọc cho người dùng trình đọc màn hình
-      button.setAttribute(
-        'aria-label',
-        (liked ? 'Bỏ yêu thích ' : 'Yêu thích ') + button.closest('.product-card').querySelector('h3').textContent
-      );
-    }));
-    // ---------- 7. Chạy lần đầu khi mở trang ----------
-    update();
-  })();
-  </script>
     <!--
-         MỤC CUỐI 2: NẠP 3 FILE JAVASCRIPT ("BỘ NÃO" CỦA WEBSITE)
-         📍 Tác dụng: 3 dòng script dưới đây nối trang HTML này với 3 file xử lý
-            thông minh nằm trong thư mục "js/":
-            1) js/site.js    : Quản lý Giỏ hàng, Yêu thích, So sánh, Mã giảm giá, Điểm VIP.
-            2) js/tech.js    : Chứa dữ liệu 50 sản phẩm, Đổi 4 giao diện, Vòng quay Gacha,
-                               AI chọn Size, Quiz, Tìm kiếm gợi ý, Đánh giá 5 sao, Chatbot AV-Bot.
-            3) js/upgrade.js : Giữ cho nhạc nền phát liên tục không bị ngắt khi chuyển trang
-                               và tối ưu nút bấm trên điện thoại.
-         ⚠️ LƯU Ý QUAN TRỌNG: TUYỆT ĐỐI KHÔNG XÓA 3 dòng script này, nếu xóa web sẽ
-            mất giỏ hàng, mất nhạc và các nút bấm không hoạt động!
+         MỤC CUỐI 2: NẠP 1 FILE JAVASCRIPT DUY NHẤT ("BỘ NÃO" CỦA WEBSITE)
+         📍 Tác dụng: Dòng script dưới đây nạp file xử lý thông minh toàn năng (js/script.js):
+            - Quản lý Giỏ hàng, Mã giảm giá, Yêu thích & Thanh toán (AVStore)
+            - Cơ sở dữ liệu 50 sản phẩm, Đổi 4 giao diện màu, Gacha, AI Size, Quiz, So sánh
+            - Trợ lý Chatbot AV-Bot 3.0 & Thanh tiện ích Otaku Quick Dock
+            - Đồng bộ nhạc nền MP3 phát xuyên trang & Tối ưu điện thoại
+            - Hiệu ứng 3D Card Tilt, vệt sáng phản chiếu & pháo hoa cánh hoa Sakura
+         ⚠️ LƯU Ý QUAN TRỌNG: TUYỆT ĐỐI KHÔNG XÓA dòng script này, nếu xóa web sẽ mất toàn bộ tính năng!
     -->
-    <script src="js/site.js" defer></script>
-    <script src="js/tech.js" defer></script>
-    <script src="js/upgrade.js" defer></script>
-    <script src="js/motion.js" defer></script>
+    <script src="js/script.js" defer></script>
 </body>
 </html>

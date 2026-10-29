@@ -64,7 +64,7 @@
               content="..." của thẻ <meta name="description"> và <meta property="og:description">.
             - ⚠️ KHÔNG XÓA dòng <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="css/bundle.css"> vì đó là file
+    <link rel="stylesheet" href="css/style.css"> vì đó là file
               CSS tổng hợp tô màu và dàn trang cho toàn bộ website.
     -->
     <meta charset="UTF-8">
@@ -73,7 +73,7 @@
     <title>Figure Raiden Shogun | AnimeVerse</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="css/bundle.css">
+    <link rel="stylesheet" href="css/style.css">
     <meta name="theme-color" content="#fff7fb">
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23090912'/%3E%3Ctext x='32' y='46' font-size='40' text-anchor='middle' fill='%23ff4fa3'%3E%E2%9C%A6%3C/text%3E%3C/svg%3E">
     <meta property="og:type" content="website">
@@ -396,21 +396,16 @@
         </div>
         <div class="copyright">© 2026 AnimeVerse. Made with ♡ for Otaku.</div>
     </footer>
-        <!--
-         MỤC CUỐI 2: NẠP 3 FILE JAVASCRIPT ("BỘ NÃO" CỦA WEBSITE)
-         📍 Tác dụng: 3 dòng script dưới đây nối trang HTML này với 3 file xử lý
-            thông minh nằm trong thư mục "js/":
-            1) js/site.js    : Quản lý Giỏ hàng, Yêu thích, So sánh, Mã giảm giá, Điểm VIP.
-            2) js/tech.js    : Chứa dữ liệu 50 sản phẩm, Đổi 4 giao diện, Vòng quay Gacha,
-                               AI chọn Size, Quiz, Tìm kiếm gợi ý, Đánh giá 5 sao, Chatbot AV-Bot.
-            3) js/upgrade.js : Giữ cho nhạc nền phát liên tục không bị ngắt khi chuyển trang
-                               và tối ưu nút bấm trên điện thoại.
-         ⚠️ LƯU Ý QUAN TRỌNG: TUYỆT ĐỐI KHÔNG XÓA 3 dòng script này, nếu xóa web sẽ
-            mất giỏ hàng, mất nhạc và các nút bấm không hoạt động!
-        -->
-    <script src="js/site.js" defer></script>
-    <script src="js/tech.js" defer></script>
-    <script src="js/upgrade.js" defer></script>
-    <script src="js/motion.js" defer></script>
+    <!--
+         MỤC CUỐI 2: NẠP 1 FILE JAVASCRIPT DUY NHẤT ("BỘ NÃO" CỦA WEBSITE)
+         📍 Tác dụng: Dòng script dưới đây nạp file xử lý thông minh toàn năng (js/script.js):
+            - Quản lý Giỏ hàng, Mã giảm giá, Yêu thích & Thanh toán (AVStore)
+            - Cơ sở dữ liệu 50 sản phẩm, Đổi 4 giao diện màu, Gacha, AI Size, Quiz, So sánh
+            - Trợ lý Chatbot AV-Bot 3.0 & Thanh tiện ích Otaku Quick Dock
+            - Đồng bộ nhạc nền MP3 phát xuyên trang & Tối ưu điện thoại
+            - Hiệu ứng 3D Card Tilt, vệt sáng phản chiếu & pháo hoa cánh hoa Sakura
+         ⚠️ LƯU Ý QUAN TRỌNG: TUYỆT ĐỐI KHÔNG XÓA dòng script này, nếu xóa web sẽ mất toàn bộ tính năng!
+    -->
+    <script src="js/script.js" defer></script>
 </body>
 </html>

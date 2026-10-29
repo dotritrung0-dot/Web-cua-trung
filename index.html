@@ -65,7 +65,7 @@
               content="..." của thẻ <meta name="description"> và <meta property="og:description">.
             - ⚠️ KHÔNG XÓA dòng <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="css/bundle.css"> vì đó là file
+    <link rel="stylesheet" href="css/style.css"> vì đó là file
               CSS tổng hợp tô màu và dàn trang cho toàn bộ website.
     -->
     <meta charset="UTF-8">
@@ -74,7 +74,7 @@
     <title>AnimeVerse | Shop Anime & Cosplay</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="css/bundle.css">
+    <link rel="stylesheet" href="css/style.css">
     <link rel="preload" as="image" href="anh/banner-animeverse.webp">
     <meta name="theme-color" content="#fff7fb">
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23090912'/%3E%3Ctext x='32' y='46' font-size='40' text-anchor='middle' fill='%23ff4fa3'%3E%E2%9C%A6%3C/text%3E%3C/svg%3E">
@@ -888,116 +888,17 @@
               Trong đó: số 2 là 2 ngày, 18 là 18 giờ, 42 là 42 phút. Bạn đổi các số đó
               thành số ngày/giờ/phút bạn muốn là đồng hồ sẽ tự đếm ngược theo!
     -->
-    <script>
-        // Danh mục tương ứng để dẫn hướng khi khách lọc trên Trang chủ (P2 Clarify)
-        const categoryMeta = {
-            fashion: { name: "Thời trang Anime", href: "thoi-trang.html", count: "15+", icon: "👘", desc: "Áo Haori, Kimono cách tân, Hoodie & T-shirt anime độc quyền" },
-            accessory: { name: "Phụ kiện & Đạo cụ", href: "dao-cu.html", count: "18+", icon: "⚔️", desc: "Kiếm Nichirin, quạt xếp, phụ kiện cosplay & mô hình vũ khí" },
-            cosplay: { name: "Trang phục Cosplay", href: "cosplay.html", count: "12+", icon: "🎭", desc: "Trọn bộ trang phục cosplay Demon Slayer, Jujutsu Kaisen, Genshin" },
-            plush: { name: "Gấu bông & Plushies", href: "plush.html", count: "10+", icon: "🧸", desc: "Pochita cưa máy, Pikachu, Chopper & linh vật anime siêu mềm" },
-            figure: { name: "Mô hình Figure", href: "figure.html", count: "25+", icon: "✨", desc: "Scale figure chính hãng, Nendoroid & phiên bản giới hạn" }
-        };
-
-        const filterMoreCard = document.getElementById("filterMoreCard");
-
-        // Tính năng click vào các bộ lọc (Tất cả, Mô hình, Cosplay...) để ẩn/hiện sản phẩm
-        document.querySelectorAll(".filter").forEach(button => {
-            button.addEventListener("click", () => {
-                const filterValue = button.getAttribute("data-filter");
-                const wasActive = button.classList.contains("active");
-
-                // Nếu click lại vào nút đang chọn (khác "Tất cả"), tự động uncheck và quay về "Tất cả"
-                if (wasActive && filterValue !== "all") {
-                    const allBtn = document.querySelector('.filter[data-filter="all"]');
-                    if (allBtn) {
-                        allBtn.click();
-                        return;
-                    }
-                }
-
-                // Xóa nút active cũ, thêm vào nút vừa click
-                document.querySelectorAll(".filter").forEach(item => item.classList.remove("active"));
-                button.classList.add("active");
-                
-                const allProducts = document.querySelectorAll(".product-card");
-
-                // Ẩn các thẻ không thuộc nhóm đang chọn và tạo hiệu ứng nảy mượt cho các thẻ hiện ra
-                allProducts.forEach((card, index) => {
-                    const isMatch = (filterValue === "all") || (card.getAttribute("data-category") === filterValue);
-                    if (isMatch) {
-                        card.style.display = "flex";
-                        card.classList.remove("av-card-pop");
-                        void card.offsetWidth;
-                        card.style.animationDelay = (index * 45) + "ms";
-                        card.classList.add("av-card-pop");
-                    } else {
-                        card.style.display = "none";
-                    }
-                });
-
-                // Xử lý thẻ dẫn hướng khi danh mục có ít sản phẩm mẫu trên trang chủ (P2)
-                if (filterMoreCard) {
-                    if (filterValue !== "all" && categoryMeta[filterValue]) {
-                        const meta = categoryMeta[filterValue];
-                        filterMoreCard.innerHTML = `
-                            <div class="filter-more-content">
-                                <span class="filter-more-icon" aria-hidden="true">${meta.icon}</span>
-                                <div class="filter-more-body">
-                                    <div class="filter-more-badge">BỘ SƯU TẬP ${meta.name.toUpperCase()}</div>
-                                    <h4>Khám phá trọn bộ ${meta.name}</h4>
-                                    <p>${meta.desc}. Còn hơn <strong>${meta.count}</strong> mẫu đang có sẵn tại kho AnimeVerse!</p>
-                                </div>
-                                <a href="${meta.href}" class="filter-more-cta" aria-label="Xem tất cả ${meta.name}">
-                                    Xem tất cả ${meta.name} (${meta.count}) →
-                                </a>
-                            </div>
-                        `;
-                        filterMoreCard.style.display = "block";
-                        filterMoreCard.classList.remove("av-card-pop");
-                        void filterMoreCard.offsetWidth;
-                        filterMoreCard.classList.add("av-card-pop");
-                    } else {
-                        filterMoreCard.style.display = "none";
-                    }
-                }
-            });
-        });
-
-        // Đồng hồ đếm ngược Sale
-        function startCountdown() {
-            let secondsLeft = 2 * 24 * 60 * 60 + 18 * 60 * 60 + 42 * 60;
-            setInterval(() => {
-                if (secondsLeft <= 0) return;
-                secondsLeft--;
-                const days = Math.floor(secondsLeft / 86400);
-                const hours = Math.floor((secondsLeft % 86400) / 3600);
-                const minutes = Math.floor((secondsLeft % 3600) / 60);
-                const seconds = secondsLeft % 60;
-
-                document.getElementById("days").textContent = String(days).padStart(2, "0");
-                document.getElementById("hours").textContent = String(hours).padStart(2, "0");
-                document.getElementById("minutes").textContent = String(minutes).padStart(2, "0");
-                document.getElementById("seconds").textContent = String(seconds).padStart(2, "0");
-            }, 1000);
-        }
-        startCountdown();
-    </script>
     <!--
-         MỤC CUỐI 2: NẠP 3 FILE JAVASCRIPT ("BỘ NÃO" CỦA WEBSITE)
-         📍 Tác dụng: 3 dòng script dưới đây nối trang HTML này với 3 file xử lý
-            thông minh nằm trong thư mục "js/":
-            1) js/site.js    : Quản lý Giỏ hàng, Yêu thích, So sánh, Mã giảm giá, Điểm VIP.
-            2) js/tech.js    : Chứa dữ liệu 50 sản phẩm, Đổi 4 giao diện, Vòng quay Gacha,
-                               AI chọn Size, Quiz, Tìm kiếm gợi ý, Đánh giá 5 sao, Chatbot AV-Bot.
-            3) js/upgrade.js : Giữ cho nhạc nền phát liên tục không bị ngắt khi chuyển trang
-                               và tối ưu nút bấm trên điện thoại.
-         ⚠️ LƯU Ý QUAN TRỌNG: TUYỆT ĐỐI KHÔNG XÓA 3 dòng script này, nếu xóa web sẽ
-            mất giỏ hàng, mất nhạc và các nút bấm không hoạt động!
+         MỤC CUỐI 2: NẠP 1 FILE JAVASCRIPT DUY NHẤT ("BỘ NÃO" CỦA WEBSITE)
+         📍 Tác dụng: Dòng script dưới đây nạp file xử lý thông minh toàn năng (js/script.js):
+            - Quản lý Giỏ hàng, Mã giảm giá, Yêu thích & Thanh toán (AVStore)
+            - Cơ sở dữ liệu 50 sản phẩm, Đổi 4 giao diện màu, Gacha, AI Size, Quiz, So sánh
+            - Trợ lý Chatbot AV-Bot 3.0 & Thanh tiện ích Otaku Quick Dock
+            - Đồng bộ nhạc nền MP3 phát xuyên trang & Tối ưu điện thoại
+            - Hiệu ứng 3D Card Tilt, vệt sáng phản chiếu & pháo hoa cánh hoa Sakura
+         ⚠️ LƯU Ý QUAN TRỌNG: TUYỆT ĐỐI KHÔNG XÓA dòng script này, nếu xóa web sẽ mất toàn bộ tính năng!
     -->
-    <script src="js/site.js" defer></script>
-    <script src="js/tech.js" defer></script>
-    <script src="js/upgrade.js" defer></script>
-    <script src="js/motion.js" defer></script>
+    <script src="js/script.js" defer></script>
 </body>
 
 </html>
