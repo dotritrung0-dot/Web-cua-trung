@@ -3405,20 +3405,20 @@
 
   // Chuẩn hóa mã chủ đề: Mặc định Cyberpunk Dark Anime
   function normalizeTheme(id) {
-    if (!id) return 'cyber';
+    if (!id) return 'sakura';
     var clean = String(id).toLowerCase().trim();
-    return THEME_ALIASES[clean] || 'cyber';
+    return THEME_ALIASES[clean] || 'sakura';
   }
 
   // Bộ nhớ đệm trong trường hợp trình duyệt chặn localStorage (Private Mode, QuotaExceededError)
-  var _themeMem = 'cyber';
+  var _themeMem = 'sakura';
 
   function getTheme() {
     try {
       var saved = localStorage.getItem('av_theme');
-      if (saved && THEME_ALIASES[saved]) return THEME_ALIASES[saved];
+      if (saved === 'sakura') return 'sakura'; return 'sakura';
     } catch (e) {}
-    return 'cyber';
+    return 'sakura';
   }
 
   function applyTheme(id, notify) {
