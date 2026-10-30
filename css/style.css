@@ -1,100 +1,25 @@
 @import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&display=swap');
 
-/* ============================================================================
-   ANIMEVERSE OFFICIAL STYLESHEET (css/style.css)
-   Vũ trụ mua sắm & giải trí Anime/Manga Otaku đa chiều
-   Phiên bản: Hoàn chỉnh v35 (Giao diện chuẩn Minimalist Sakura Pastel)
-   1 file CSS duy nhất nạp cho toàn bộ 65 trang HTML:
-     1. style_new.css  - Bố cục shop, biến nền tảng, danh mục & lưới sản phẩm
-     2. tech.css       - Tính năng công nghệ, Gacha, AV-Bot, Trung tâm Otaku
-     3. upgrade.css    - Quick Dock FAB, menu di động, khả năng tiếp cận WCAG AA
-     4. theme-fix.css  - Chuẩn 4 giao diện (Sakura, Cyberpunk, Gear 5, Gojo)
-     5. motion.css     - Hiệu ứng chuyển cảnh 3D Card Tilt & pháo hoa Sakura
-   ============================================================================ */
-
-/* ============================================================================
-   PHẦN 1: STYLE_NEW.CSS — BỐ CỤC NỀN TẢNG & GIAO DIỆN CƠ BẢN
-   ============================================================================ */
-/*
- * FILE: css/style_new.css — BỘ GIAO DIỆN GỐC CỦA TOÀN BỘ WEBSITE ANIMEVERSE
- *
- * Chào bạn! Nếu HTML là phần khung chữ và ảnh, thì file CSS này chính là
- * "lớp sơn màu và cách sắp xếp kệ hàng" của cửa hàng AnimeVerse.
- *
- * Mình đã chia file thành từng MỤC đánh số từ MỤC 1 đến MỤC 23 và viết tách dòng
- * thật thoáng để bạn dễ đọc, dễ tìm và tự sửa được ngay.
- *
- * BẢN ĐỒ CÁC MỤC TRONG FILE NÀY (Bấm Ctrl + F rồi gõ "MỤC 1", "MỤC 2"...):
- *   - MỤC 1 : Bảng màu gốc & kích thước chung (:root)
- *   - MỤC 2 : Cài đặt nền trang (body), khung căn giữa (.container) & thanh cuộn
- *   - MỤC 3 : Dải thông báo trên cùng (.topbar)
- *   - MỤC 4 : Thanh đầu trang (.header), Logo (.logo) & Ô tìm kiếm (.search)
- *   - MỤC 5 : Thanh Menu điều hướng 6 trang (.nav)
- *   - MỤC 6 : Kiểu dáng các nút bấm (.btn, .primary, .ghost, .light)
- *   - MỤC 7 : Khu vực mở đầu Trang chủ (.hero, .hero-copy, .hero-art)
- *   - MỤC 8 : Tiêu đề khu vực (.section-head), 6 Ô Danh mục (.categories) & Nút lọc (.filters)
- *   - MỤC 9 : Lưới sản phẩm (.product-grid) & Thẻ sản phẩm (.product-card)
- *   - MỤC 10: Khung khuyến mãi (.sale) & Đồng hồ đếm ngược (.countdown)
- *   - MỤC 11: Khu vực 4 ô cam kết quyền lợi (.benefits)
- *   - MỤC 12: Chân trang (.site-footer, .footer-grid, .copyright)
- *   - MỤC 13: Bảng giỏ hàng & Trang giỏ hàng (.cart-panel, .cart-page)
- *   - MỤC 14: Trang Chi tiết sản phẩm (.product-pro-layout), Bảng xếp hạng (.rank-1..3)
- *   - MỤC 15: Các hiệu ứng chuyển động cơ bản (@keyframes)
- *   - MỤC 16: Co giãn giao diện cho Máy tính bảng & Điện thoại đợt 1 (@media)
- *   - MỤC 17: Giao diện riêng cho Trang Khuyến Mãi (.promo-page, .deal-card)
- *   - MỤC 18: Giao diện riêng cho Trang Tất Cả Sản Phẩm (.products-page, .catalog-layout)
- *   - MỤC 19: Tinh chỉnh độ rộng khung 1500px, làm mịn thẻ sản phẩm & hộp thông báo
- *   - MỤC 20: Tinh chỉnh chi tiết cho Trang Sản phẩm, Khuyến mãi, Tư vấn
- *   - MỤC 21: Giao diện Trang Giỏ hàng hiện đại (.cart-layout, .cart-item) & Trang 404
- *   - MỤC 22: Giao diện riêng cho Trang Liên Hệ (.lh-hero, .lh-cards, .lh-team, .lh-form)
- *   - MỤC 23: Menu điện thoại (Mobile Menu) & Hiệu ứng hỗ trợ người dùng
- *
- * GIẢI THÍCH NHANH CÁC TỪ TIẾNG ANH HAY GẶP TRONG CSS:
- *   - background / background-color : Màu nền của khung hoặc nút bấm.
- *   - color                         : Màu chữ viết.
- *   - font-size                     : Cỡ chữ (số càng lớn chữ càng to, ví dụ: 16px, 24px).
- *   - font-weight                   : Độ đậm của chữ (400 là chữ thường, 700/800 là chữ in đậm).
- *   - padding                       : Khoảng trống đệm bên trong khung (giúp chữ không dính sát mép).
- *   - margin                        : Khoảng cách đẩy ra xa bên ngoài khung.
- *   - border                        : Đường viền bao quanh khung.
- *   - border-radius                 : Độ bo tròn 4 góc (0px là góc vuông, 16px là bo tròn vừa).
- *   - display: grid                 : Chia khung thành lưới nhiều cột đều nhau.
- *   - grid-template-columns         : Số cột của lưới (ví dụ: repeat(4, 1fr) là chia 4 cột).
- */
+/* AnimeVerse E-Commerce Platform Stylesheet */
 
 /* [Hoisted to top of bundle.css: @import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&display=swap');] */
 
-/* ============================================================================
-   MỤC 1: BIẾN MÀU SẮC & KÍCH THƯỚC TOÀN CỤC (:root)
-   📍 Tác dụng: Khai báo bảng màu dùng chung cho tất cả các trang.
-   🛠️ CÁCH SỬA MÀU TOÀN WEBSITE:
-      - --bg         : Màu nền tối chính của trang (#090912).
-      - --panel      : Màu nền của các tấm thẻ sản phẩm, hộp thông tin (#121220).
-      - --text       : Màu chữ chính (#f7f5ff - trắng ánh tím nhạt).
-      - --muted      : Màu chữ phụ / chữ mờ (#a7a4b8).
-      - --pink       : Màu điểm nhấn Hồng Neon chủ đạo (#ff4fa3).
-      - --purple     : Màu điểm nhấn Tím Neon chủ đạo (#8b5cf6).
-      - --line       : Màu đường kẻ viền mỏng quanh các khung (#29283b).
-      - --max-width  : Độ rộng tối đa của khung nội dung chính (1500px).
-      💡 Lưu ý: File css/upgrade.css ở cuối cũng có bảng :root nâng cấp màu sắc.
-         Nếu muốn đổi màu mặc định, bạn sửa ở cả đây và đầu file css/upgrade.css nhé!
-   ============================================================================ */
 :root {
-    /* ---- MÀU NỀN CHỦ ĐẠO: SAKURA PASTEL (TRẮNG HỒNG ANH ĐÀO) ---- */
-    --bg: #ffffff;                 /* nền chính của mọi trang */
-    --bg-deep: #fff0f7;            /* thanh thông báo + thanh menu (hồng phấn nhẹ) */
-    --bg-footer: #fce7f3;          /* chân trang */
-    /* Vệt sáng hồng phấn ở góc phải phía trên */
-    --page-bg: radial-gradient(circle at 85% 10%, rgba(255, 130, 190, 0.25) 0, transparent 32%), #ffffff;
-    --panel: #ffffff;
-    --panel-light: #fdf2f8;
-    --text: #24142c;
-    --muted: #6e5578;
-    --pink: #be185d;
-    --pink-glow: rgba(190, 24, 93, 0.25);
-    --purple: #9333ea;
-    --purple-glow: rgba(147, 51, 234, 0.25);
-    --line: #f2d0e2;
+    /* ---- MÀU NỀN: chỉ sửa ở đây là cả website đổi theo ---- */
+    --bg: #090912;                 /* nền chính của mọi trang */
+    --bg-deep: #0d0d17;            /* thanh thông báo + thanh menu (đậm hơn nền chút) */
+    --bg-footer: #07070e;          /* chân trang (tối nhất) */
+    /* Vệt sáng tím ở góc phải phía trên - giống nhau trên mọi trang */
+    --page-bg: radial-gradient(circle at 85% 10%, #24133d 0, transparent 28%), var(--bg);
+    --panel: #121220;
+    --panel-light: #181829;
+    --text: #f7f5ff;
+    --muted: #a7a4b8;
+    --pink: #ff4fa3;
+    --pink-glow: rgba(255, 79, 163, 0.4);
+    --purple: #8b5cf6;
+    --purple-glow: rgba(139, 92, 246, 0.4);
+    --line: #29283b;
     --max-width: 1500px;
 }
 
@@ -117,15 +42,6 @@ body {
     overflow-x: hidden;
 }
 
-/* ============================================================================
-   MỤC 2: CÀI ĐẶT CƠ BẢN, KHUNG BAO (.container) & THANH CUỘN (SCROLLBAR)
-   📍 Tác dụng:
-      - Chỉnh phông chữ mặc định cho nút bấm/ô nhập liệu.
-      - Tạo khung viền hồng (:focus-visible) khi khách dùng phím Tab trên bàn phím.
-      - Định nghĩa khung căn giữa trang (.container) và thanh cuộn dọc bên mép phải màn hình.
-   🛠️ Cách sửa:
-      - Đổi độ rộng thanh cuộn dọc: Sửa width: 8px trong ::-webkit-scrollbar.
-   ============================================================================ */
 button, input, textarea, select {
     font: inherit;
     outline: none;
@@ -143,7 +59,6 @@ input:focus-visible, textarea:focus-visible, select:focus-visible {
     outline-offset: 0;
 }
 
-
 /* Ảnh ở trang 404 (trước đây viết style trực tiếp trong HTML) */
 .error-img {
     width: 300px;
@@ -151,7 +66,6 @@ input:focus-visible, textarea:focus-visible, select:focus-visible {
     max-width: 100%;
     object-fit: contain;
 }
-
 
 button {
     cursor: pointer;
@@ -186,21 +100,12 @@ a {
     background: var(--pink);
 }
 
-
 /* Bôi đen chữ */
 ::selection {
     background: var(--pink);
     color: #fff;
 }
 
-
-/* ============================================================================
-   MỤC 3: DẢI THÔNG BÁO TRÊN CÙNG (.topbar)
-   📍 Vị trí: Thanh ngang nhỏ trên cùng chứa dòng chữ "🚚 Freeship đơn từ 500.000đ...".
-   🛠️ Cách sửa:
-      - Đổi cỡ chữ thông báo: Sửa font-size trong .topbar.
-      - Đổi khoảng cách trên/dưới của thanh: Sửa padding trong .topbar-inner.
-   ============================================================================ */
 .topbar {
     background: var(--bg-deep);
     border-bottom: 1px solid var(--line);
@@ -216,18 +121,6 @@ a {
     gap: 20px;
 }
 
-/* ============================================================================
-   MỤC 4: THANH ĐẦU TRANG (.header), LOGO (.logo) & Ô TÌM KIẾM (.search)
-   📍 Vị trí: Thanh chứa Logo ANIMEVERSE, ô tìm kiếm ở giữa và cụm nút Giỏ hàng bên phải.
-   🔍 Giải thích:
-      - backdrop-filter: blur(16px) : Làm nền Header mờ như kính mờ hiện đại.
-      - .logo                       : Chữ ANIMEVERSE cỡ lớn, có hiệu ứng phát sáng.
-      - .search                     : Khung tìm kiếm bo tròn (border-radius: 999px).
-      - .icon-btn                   : Các nút biểu tượng (Giỏ hàng, Hỗ trợ...) bên phải.
-   🛠️ Cách sửa:
-      - Đổi cỡ chữ Logo: Sửa font-size trong .logo.
-      - Đổi chiều cao ô tìm kiếm: Sửa height trong .search.
-   ============================================================================ */
 .header {
     position: sticky;
     top: 0;
@@ -288,7 +181,6 @@ a {
     color: #a4a0ba;
 }
 
-
 .search button {
     width: 56px;
     border: 0;
@@ -302,13 +194,11 @@ a {
     filter: brightness(1.2);
 }
 
-
 .header-actions {
     display: flex;
     align-items: center;
     gap: 14px;
 }
-
 
 .icon-btn, .cart-btn {
     border: 0;
@@ -321,7 +211,6 @@ a {
     color: var(--pink);
 }
 
-
 .icon-btn small {
     display: block;
     color: var(--muted);
@@ -332,7 +221,6 @@ a {
     position: relative;
     font-weight: 600;
 }
-
 
 .cart-btn b {
     position: absolute;
@@ -348,16 +236,6 @@ a {
     box-shadow: 0 0 10px var(--pink);
 }
 
-/* ============================================================================
-   MỤC 5: THANH MENU ĐIỀU HƯỚNG CHÍNH (.nav)
-   📍 Vị trí: Thanh ngang chứa 6 mục: Trang chủ, Sản phẩm, Tư vấn, Khuyến mãi, Bán chạy, Liên hệ.
-   🔍 Giải thích:
-      - .nav a::after : Tạo vạch kẻ màu hồng-tím chạy ngang bên dưới chân chữ khi rê chuột
-        vào hoặc khi đang đứng ở trang đó (.nav a.active).
-   🛠️ Cách sửa:
-      - Đổi cỡ chữ menu: Sửa font-size trong .nav a.
-      - Đổi khoảng cách giữa các mục menu: Sửa gap trong .nav-inner hoặc padding trong .nav a.
-   ============================================================================ */
 .nav {
     background: var(--bg-deep);
     border-bottom: 1px solid var(--line);
@@ -403,17 +281,6 @@ a {
     border-bottom-color: transparent;
 }
 
-
-/* ============================================================================
-   MỤC 6: KIỂU DÁNG CÁC NÚT BẤM CHUNG (.btn, .primary, .ghost, .light)
-   📍 Tác dụng: Định hình cho mọi nút bấm lớn trên web:
-      - .btn.primary : Nút chính màu chuyển sắc Hồng -> Tím (ví dụ: "Khám phá ngay →").
-      - .btn.ghost   : Nút phụ nền tối viền mỏng (ví dụ: "Xem danh mục").
-      - .btn.light   : Nút nền trắng chữ tối (dùng trong hộp Khuyến mãi).
-   🛠️ Cách sửa:
-      - Đổi độ bo tròn của nút: Sửa border-radius: 999px (đổi thành 12px nếu thích nút hình chữ nhật bo góc nhẹ).
-      - Đổi độ to của nút: Sửa padding trong .btn.
-   ============================================================================ */
 .btn {
     min-height: 44px;
     display: inline-flex;
@@ -457,19 +324,6 @@ a {
     color: #111;
 }
 
-
-/* ============================================================================
-   MỤC 7: KHU VỰC MỞ ĐẦU / SÂN KHẤU CHÍNH TRANG CHỦ (.hero)
-   📍 Vị trí: Phần giới thiệu lớn trên Trang chủ (chữ "Thế giới Anime thu nhỏ trong tay bạn"
-      bên trái và khung thẻ ảnh động bên phải).
-   🔍 Giải thích:
-      - .hero         : Chia 2 cột (cột chữ bên trái + cột ảnh bên phải).
-      - .hero h1      : Dòng tiêu đề to nhất trang.
-      - .hero-stats   : 3 con số thống kê (500+ Sản phẩm, 10M+ Khách hàng, 4.3/5 Đánh giá).
-      - .anime-card   : Tấm thẻ ảnh nhân vật bên phải có hiệu ứng bay lơ lửng (floatCard).
-   🛠️ Cách sửa:
-      - Đổi cỡ chữ tiêu đề lớn: Sửa font-size trong .hero h1.
-   ============================================================================ */
 .hero {
     min-height: 510px;
     display: grid;
@@ -483,7 +337,6 @@ a {
     padding: 70px 0;
 }
 
-
 .eyebrow {
     margin: 0 0 10px;
     color: var(--pink);
@@ -494,11 +347,9 @@ a {
 
 .hero h1 {
     margin: 0 0 18px;
-    font-size: 48px;  /* Cỡ chữ lớn hay nhỏ */
     line-height: 1.13;
     letter-spacing: -1px;
 }
-
 
 .hero h1 strong {
     background: linear-gradient(90deg, #fff, var(--pink));
@@ -513,13 +364,11 @@ a {
     font-size: 15px;
 }
 
-
 .hero-buttons {
     display: flex;
     gap: 12px;
     margin: 28px 0;
 }
-
 
 .hero-stats {
     display: flex;
@@ -538,7 +387,6 @@ a {
     color: #fff;
     font-size: 18px;
 }
-
 
 /* HERO ART ANIMATIONS (Của cậu rất đẹp, tớ thêm animation) */
 .hero-art {
@@ -583,7 +431,7 @@ a {
     background: linear-gradient(145deg, #22173c, #0f1020);
     box-shadow: 0 25px 70px #0009;
     transform: rotate(7deg);
-    transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .anime-card:hover {
@@ -609,7 +457,6 @@ a {
     text-align: center;
 }
 
-
 .floating-tag {
     position: absolute;
     top: 95px;
@@ -624,16 +471,6 @@ a {
     animation: floatUpDown 3s ease-in-out infinite;
 }
 
-/* ============================================================================
-   MỤC 8: BỐ CỤC KHU VỰC CHUNG (.section), 6 Ô DANH MỤC (.categories) & NÚT LỌC (.filters)
-   📍 Vị trí:
-      - .section-head : Phần tiêu đề của mỗi mục trên trang chủ.
-      - .categories   : Lưới 6 ô danh mục (Cosplay, Figure, Plush, Đạo cụ, Thời trang, Quà tặng).
-      - .filters      : Hàng nút bấm lọc nhanh (Tất cả, Figure, Cosplay...).
-   🛠️ Cách sửa:
-      - Đổi số cột của 6 ô danh mục trên máy tính: Sửa repeat(6, 1fr) trong .categories.
-      - Đổi kích thước ảnh icon trong ô danh mục: Sửa width/height trong .category span.
-   ============================================================================ */
 .section {
     padding: 62px 0;
 }
@@ -656,7 +493,6 @@ a {
     font-size: 12px;
     font-weight: 700;
 }
-
 
 .categories {
     display: grid;
@@ -705,7 +541,6 @@ a {
     font-size: 10px;
 }
 
-
 /* Lọc sản phẩm */
 .filters {
     display: flex;
@@ -730,27 +565,11 @@ a {
     box-shadow: 0 0 10px var(--purple-glow);
 }
 
-/* ============================================================================
-   MỤC 9: LƯỚI SẢN PHẨM (.product-grid) & THẺ SẢN PHẨM (.product-card)
-   📍 Vị trí: Áp dụng cho tất cả các thẻ món đồ trên Trang chủ, Trang sản phẩm, Trang danh mục.
-   🔍 Giải thích các phần bên trong 1 thẻ (.product-card):
-      - .product-grid  : Xếp 4 thẻ trên 1 hàng ngang (grid-template-columns: repeat(4, 1fr)).
-      - .product-image : Khung chứa ảnh sản phẩm phía trên thẻ.
-      - .badge         : Nhãn nhỏ góc trái trên ảnh (HOT, SALE, NEW).
-      - .heart         : Nút thả tim ♡ góc phải trên ảnh.
-      - .product-info  : Phần chữ bên dưới ảnh (tên bộ anime, tên món h3, sao .rating, giá .price).
-      - .add           : Nút "Xem chi tiết →" ở đáy thẻ.
-   🛠️ Cách sửa:
-      - Muốn đổi từ 4 sản phẩm/hàng thành 3 hoặc 5 sản phẩm/hàng trên máy tính:
-        Sửa số 4 trong repeat(4, 1fr) của .product-grid.
-      - Muốn đổi chiều cao khung ảnh sản phẩm: Sửa height trong .product-image.
-   ============================================================================ */
 .product-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 16px;
 }
-
 
 .product-card {
     overflow: hidden;
@@ -772,21 +591,25 @@ a {
     height: 260px;
     position: relative;
     overflow: hidden;
-    background: radial-gradient(circle at 50% 35%, #352052, #171727);
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    box-sizing: border-box;
 }
 
 .product-image img {
     width: 100%;
     height: 100%;
     display: block;
-    object-fit: cover;
+    object-fit: contain;
     transition: 0.4s;
 }
 
 .product-card:hover .product-image img {
     transform: scale(1.1);
 }
-
 
 .badge {
     position: absolute;
@@ -821,7 +644,6 @@ a {
     text-shadow: 0 0 10px var(--pink);
 }
 
-
 .product-info {
     padding: 14px;
     display: flex;
@@ -838,7 +660,6 @@ a {
 .product-info h3 {
     min-height: 38px;
     margin: 4px 0 7px;
-    font-size: 14px;  /* Cỡ chữ lớn hay nhỏ */
     line-height: 1.4;
     color: #fff;
 }
@@ -852,7 +673,6 @@ a {
     color: var(--muted);
 }
 
-
 .price {
     display: flex;
     align-items: center;
@@ -863,7 +683,6 @@ a {
 
 .price strong {
     color: #ff6eb4;
-    font-size: 16px;  /* Cỡ chữ lớn hay nhỏ */
     text-shadow: 0 0 5px rgba(255, 110, 180, 0.3);
 }
 
@@ -871,7 +690,6 @@ a {
     color: #a4a0ba;
     font-size: 12px;
 }
-
 
 .add {
     width: 100%;
@@ -900,14 +718,6 @@ a {
     text-align: center;
 }
 
-
-/* ============================================================================
-   MỤC 10: KHUNG KHUYẾN MÃI (.sale) & ĐỒNG HỒ ĐẾM NGƯỢC (.countdown)
-   📍 Vị trí: Khung "Tuần lễ Otaku Sale" màu hồng-tím có 4 ô đếm ngược Ngày : Giờ : Phút : Giây.
-   🛠️ Cách sửa:
-      - Đổi màu nền hộp Sale: Sửa linear-gradient(...) trong .sale.
-      - Đổi kích thước 4 ô số đếm ngược: Sửa min-width, padding và cỡ chữ trong .countdown span.
-   ============================================================================ */
 .sale {
     display: flex;
     align-items: center;
@@ -929,7 +739,6 @@ a {
 
 .sale h2 {
     margin: 0 0 5px;
-    font-size: 28px;  /* Cỡ chữ lớn hay nhỏ */
     color: #fff;
 }
 
@@ -942,7 +751,6 @@ a {
 .sale strong {
     color: #ff74b7;
 }
-
 
 .countdown {
     display: flex;
@@ -970,7 +778,6 @@ a {
 .countdown small {
     display: block;
     color: var(--muted);
-    font-size: 8px;  /* Cỡ chữ lớn hay nhỏ */
 }
 
 .countdown i {
@@ -978,16 +785,8 @@ a {
     font-style: normal;
 }
 
-
-/* ============================================================================
-   MỤC 11: KHU VỰC 4 CAM KẾT QUYỀN LỢI KHÁCH HÀNG (.benefits)
-   📍 Vị trí: 4 hộp ngang (Giao hàng nhanh, Hàng chọn lọc, Đổi trả dễ dàng, Hỗ trợ 24/7).
-   🛠️ Cách sửa:
-      - Sửa repeat(4, 1fr) nếu bạn muốn thêm/bớt số hộp trên 1 hàng.
-   ============================================================================ */
 .benefits {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);  /* Chia số cột hiển thị ngang */
     gap: 15px;
 }
 
@@ -1018,17 +817,8 @@ a {
 .benefits p {
     margin: 0;
     color: var(--muted);
-    font-size: 11px;  /* Cỡ chữ lớn hay nhỏ */
 }
 
-
-/* ============================================================================
-   MỤC 12: CHÂN TRANG (.site-footer, .footer-grid, .copyright)
-   📍 Vị trí: Phần dưới cùng của mọi trang web, chia làm 4 cột (.footer-grid).
-   🛠️ Cách sửa:
-      - Đổi màu nền chân trang: Sửa biến --bg-footer ở MỤC 1 hoặc background trong .site-footer.
-      - Đổi màu chữ đường link ở chân trang: Sửa color trong .site-footer a.
-   ============================================================================ */
 footer {
     padding-top: 48px;
     border-top: 1px solid var(--line);
@@ -1081,11 +871,6 @@ footer {
     text-align: center;
 }
 
-/* ============================================================================
-   MỤC 13: KHUNG GIỎ HÀNG TRƯỢT & CÁC THÀNH PHẦN GIỎ HÀNG CƠ BẢN
-   📍 Tác dụng: Định dạng khung trượt (.cart-panel), lớp nền mờ (.overlay) và các
-      nút tăng/giảm số lượng, nút thanh toán trong giỏ hàng.
-   ============================================================================ */
 .cart-panel {
     width: 390px;
     max-width: 92vw;
@@ -1124,7 +909,6 @@ footer {
     border: 0;
     background: none;
     color: #fff;
-    font-size: 28px;  /* Cỡ chữ lớn hay nhỏ */
     transition: 0.2s;
 }
 
@@ -1132,7 +916,6 @@ footer {
     color: var(--pink);
     transform: rotate(90deg);
 }
-
 
 .cart-items {
     flex: 1;
@@ -1220,7 +1003,6 @@ footer {
     transform: scale(1.2);
 }
 
-
 .cart-footer {
     padding: 20px;
     border-top: 1px solid var(--line);
@@ -1243,7 +1025,6 @@ footer {
     border: 0;
 }
 
-
 .overlay {
     position: fixed;
     inset: 0;
@@ -1260,19 +1041,6 @@ footer {
     pointer-events: auto;
 }
 
-
-/* ============================================================================
-   MỤC 14: GIAO DIỆN CÁC TRANG CON (CHI TIẾT SẢN PHẨM, BÁN CHẠY, TƯ VẤN)
-   📍 Vị trí:
-      - .page-header        : Khung tiêu đề đầu các trang Danh mục, Bán chạy, Tư vấn.
-      - .product-pro-layout : Bố cục 2 cột của 50 trang Chi tiết sản phẩm (chi-tiet-1..50.html).
-      - .pro-gallery        : Cột ảnh sản phẩm bên trái (ảnh lớn .gallery-main & ảnh nhỏ .gallery-thumbs).
-      - .pro-info           : Cột thông tin mua hàng bên phải (giá .pro-price, nút size .size-btn, nút mua).
-      - .pro-details-section: Khung bài viết mô tả chi tiết bên dưới.
-   🛠️ Cách sửa:
-      - Đổi cỡ chữ giá tiền ở trang chi tiết: Sửa font-size trong .pro-price.
-      - Đổi chiều cao nút Thêm vào giỏ / Mua ngay: Sửa padding hoặc height trong .btn-add-cart, .btn-buy-now.
-   ============================================================================ */
 .page-header {
     text-align: center;
     padding: 60px 0 40px;
@@ -1281,7 +1049,6 @@ footer {
 }
 
 .page-header h1 {
-    font-size: 38px;  /* Cỡ chữ lớn hay nhỏ */
     color: var(--pink);
     margin-bottom: 10px;
     text-shadow: 0 0 20px var(--pink-glow);
@@ -1291,7 +1058,6 @@ footer {
     color: var(--muted);
     font-size: 15px;
 }
-
 
 .breadcrumb {
     padding: 20px 0;
@@ -1308,11 +1074,9 @@ footer {
     text-decoration: underline;
 }
 
-
 /* Layout chi tiết sản phẩm chuẩn Shopee/Tiki */
 .product-pro-layout {
     display: grid;
-    grid-template-columns: 1fr 1.2fr;  /* Chia số cột hiển thị ngang */
     gap: 50px;
     margin-bottom: 60px;
 }
@@ -1321,14 +1085,16 @@ footer {
     width: 100%;
     height: 500px;
     border-radius: 15px;
-    object-fit: cover;
+    object-fit: contain;
+    background: #ffffff;
+    padding: 12px;
+    box-sizing: border-box;
     border: 1px solid var(--line);
     margin-bottom: 15px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.5);
 }
 
 .pro-title {
-    font-size: 32px;  /* Cỡ chữ lớn hay nhỏ */
     margin: 0 0 10px;
     line-height: 1.3;
     color: #fff;
@@ -1349,11 +1115,9 @@ footer {
 }
 
 .pro-price del {
-    font-size: 18px;  /* Cỡ chữ lớn hay nhỏ */
     color: var(--muted);
     font-weight: normal;
 }
-
 
 .variant-group {
     margin-bottom: 25px;
@@ -1405,7 +1169,6 @@ footer {
     transform: translateY(-3px);
     box-shadow: 0 12px 30px rgba(255, 79, 163, 0.6);
 }
-
 
 /* Khung bài viết mô tả, Blog tư vấn */
 .pro-details-section {
@@ -1463,12 +1226,6 @@ footer {
     box-shadow: 0 0 15px var(--pink-glow);
 }
 
-
-/* ============================================================================
-   MỤC 15: ĐỊNH NGHĨA CÁC HIỆU ỨNG CHUYỂN ĐỘNG TỰ CHẠY (@keyframes)
-   📍 Tác dụng: Tạo hiệu ứng xoay tròn (spinSlow), nhấp nháy nhịp thở (pulseGlow),
-      bay lơ lửng lên xuống (floatCard, floatTag) và hiện dần (fadeIn).
-   ============================================================================ */
 @keyframes fadeInUP {
     from {
         opacity: 0;
@@ -1484,7 +1241,6 @@ footer {
 .animate-fade {
     animation: fadeInUP 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
-
 
 @keyframes spin {
     100% {
@@ -1512,12 +1268,6 @@ footer {
     }
 }
 
-/* ============================================================================
-   MỤC 16: CO GIÃN GIAO DIỆN THEO MÀN HÌNH ĐỢT 1 (@media Tablet & Mobile)
-   📍 Tác dụng: Tự động giảm số cột (từ 4 cột xuống 2 cột hoặc 1 cột) và thu nhỏ cỡ chữ
-      khi khách mở web trên Máy tính bảng (<= 900px) hoặc Điện thoại (<= 600px, <= 400px).
- Tablet 
-   ============================================================================ */
 @media (max-width: 900px) {
     .hero {
         grid-template-columns: 1fr;
@@ -1532,7 +1282,6 @@ footer {
     }
 
     .product-grid {
-        grid-template-columns: repeat(2, 1fr);  /* Chia số cột hiển thị ngang */
     }
 
     .benefits {
@@ -1583,7 +1332,6 @@ footer {
     }
 
     .logo {
-        font-size: 16px;  /* Cỡ chữ lớn hay nhỏ */
     }
 
     .search {
@@ -1661,7 +1409,6 @@ footer {
     }
 
     .footer-grid {
-        grid-template-columns: 1fr 1fr;  /* Chia số cột hiển thị ngang */
         gap: 25px;
     }
 
@@ -1681,8 +1428,7 @@ footer {
     .pro-price {
         font-size: 24px;
     }
-    
-    
+
 }
 
 /* Small Mobile */
@@ -1712,15 +1458,6 @@ footer {
     }
 }
 
-/* ============================================================================
-   MỤC 17: GIAO DIỆN RIÊNG CHO TRANG KHUYẾN MÃI (khuyen-mai.html — .promo-page)
-   📍 Vị trí: Tất cả các quy tắc bắt đầu bằng .promo-page dưới đây dùng để trang trí
-      cho trang Khuyến mãi: phần mở đầu (.hero), nhãn giảm giá 30% (.sale-sticker),
-      đồng hồ đếm ngược (.countdown-section), lưới thẻ ưu đãi (.deal-grid, .deal-card),
-      và hộp tặng mã ưu đãi (.welcome-banner).
-   🛠️ Cách sửa:
-      - Chỉnh màu sắc hoặc kích thước thẻ ưu đãi: Tìm các dòng .promo-page .deal-card bên dưới.
-   ============================================================================ */
 .promo-page {
     /* Không khai báo lại --bg / --panel / --line nữa để dùng chung màu nền của cả site */
     --panel2: #1b1930;
@@ -1760,7 +1497,7 @@ footer {
 }
 
 .promo-page .wrap {
-    width: min(1500px,calc(100% - 80px));
+    width: min(1500px, calc(100% - 24px));
     margin-inline: auto;
 }
 
@@ -2031,7 +1768,6 @@ footer {
 }
 
 .promo-page .sale-sticker em {
-    font-size: 25px;  /* Cỡ chữ lớn hay nhỏ */
     font-style: normal;
     letter-spacing: 0;
 }
@@ -2048,25 +1784,21 @@ footer {
 }
 
 .promo-page .art-caption span {
-    font-size: 10px;  /* Cỡ chữ lớn hay nhỏ */
     letter-spacing: 5px;
     color: #d6c4ff;
 }
 
 .promo-page .art-caption b {
-    font-size: 28px;  /* Cỡ chữ lớn hay nhỏ */
     letter-spacing: 3px;
 }
 
 .promo-page .art-caption small {
     color: #c2b9d9;
-    font-size: 10px;  /* Cỡ chữ lớn hay nhỏ */
 }
 
 .promo-page .spark {
     position: absolute;
     color: #fff;
-    font-size: 28px;  /* Cỡ chữ lớn hay nhỏ */
     text-shadow: 0 0 16px var(--pink);
 }
 
@@ -2078,7 +1810,6 @@ footer {
 .promo-page .spark-two {
     right: 19%;
     bottom: 26%;
-    font-size: 36px;  /* Cỡ chữ lớn hay nhỏ */
 }
 
 @keyframes spin {
@@ -2381,7 +2112,6 @@ footer {
     padding: 6px 8px;
     color: #d9c9ff;
     background: #a78bfa15;
-    font-size: 9px;  /* Cỡ chữ lớn hay nhỏ */
     font-weight: 700;
     white-space: nowrap;
     transition: .2s;
@@ -2398,13 +2128,11 @@ footer {
     align-items: center;
     padding-top: 14px;
     color: #eee7ff;
-    font-size: 11px;  /* Cỡ chữ lớn hay nhỏ */
     font-weight: 700;
 }
 
 .promo-page .deal-cta span {
     color: var(--pink);
-    font-size: 17px;  /* Cỡ chữ lớn hay nhỏ */
 }
 
 .promo-page .demo-note {
@@ -2512,7 +2240,6 @@ footer {
 }
 
 .promo-page .benefits p {
-    font-size: 10px;  /* Cỡ chữ lớn hay nhỏ */
     color: var(--muted);
     margin: 0;
 }
@@ -2524,7 +2251,6 @@ footer {
 
 .promo-page .footer-grid {
     display: grid;
-    grid-template-columns: 1.5fr 1fr 1fr 1fr;  /* Chia số cột hiển thị ngang */
     gap: 32px;
     padding-top: 37px;
     padding-bottom: 35px;
@@ -2548,7 +2274,6 @@ footer {
 .promo-page .footer-grid a:not(.logo) {
     display: block;
     color: var(--muted);
-    font-size: 11px;  /* Cỡ chữ lớn hay nhỏ */
     margin: 7px 0;
 }
 
@@ -2634,7 +2359,6 @@ footer {
     }
 
     .promo-page .cart-link {
-        font-size: 10px;  /* Cỡ chữ lớn hay nhỏ */
         padding: 8px 10px;
     }
 
@@ -2764,17 +2488,6 @@ footer {
     }
 }
 
-/* ============================================================================
-   MỤC 18: GIAO DIỆN RIÊNG CHO TRANG TẤT CẢ SẢN PHẨM (san-pham.html — .products-page)
-   📍 Vị trí: Tất cả các quy tắc bắt đầu bằng .products-page dưới đây dùng để trang trí
-      cho trang Sản phẩm:
-      - .products-hero    : Khung banner giới thiệu đầu trang Sản phẩm.
-      - .catalog-toolbar  : Thanh công cụ gồm Ô tìm kiếm nhanh & Menu sắp xếp giá/tên.
-      - .catalog-layout   : Bố cục chia 2 cột (Cột lọc danh mục 260px bên trái + Lưới sản phẩm bên phải).
-      - .category-sidebar : Khung cột lọc danh mục bên trái.
-   🛠️ Cách sửa:
-      - Muốn đổi độ rộng cột danh mục bên trái: Sửa con số 260px trong .products-page .catalog-layout.
-   ============================================================================ */
 .products-page .products-hero {
     position: relative;
     overflow: hidden;
@@ -3310,7 +3023,6 @@ footer {
 }
 
 .products-page .benefits-row small {
-    font-size:10px;  /* Cỡ chữ lớn hay nhỏ */
     color:var(--muted)
 }
 
@@ -3432,7 +3144,6 @@ footer {
 
 @media (max-width:480px) {
     .products-page .products-hero h1 {
-        font-size: 39px;  /* Cỡ chữ lớn hay nhỏ */
     }
 
     .products-page .products-hero-art {
@@ -3445,7 +3156,6 @@ footer {
     }
 
     .products-page .hero-product-tile span {
-        font-size: 53px;  /* Cỡ chữ lớn hay nhỏ */
     }
 
     .products-page .tile-front b {
@@ -3497,7 +3207,6 @@ footer {
     }
 
     .products-page .add {
-        font-size: 10px;  /* Cỡ chữ lớn hay nhỏ */
         padding: 9px;
     }
 
@@ -3552,7 +3261,6 @@ footer {
     padding: 0;
     margin: 22px 0 0;
     color: var(--muted);
-    font-size: 13px;  /* Cỡ chữ lớn hay nhỏ */
 }
 
 .demo-note {
@@ -3584,7 +3292,6 @@ footer {
 .pro-pager a {
     color: var(--pink);
     font-weight: 600;
-    font-size: 14px;  /* Cỡ chữ lớn hay nhỏ */
 }
 
 .pro-pager a:hover {
@@ -3619,12 +3326,6 @@ footer {
     }
 }
 
-/* ============================================================================
-   MỤC 19: LỚP NÂNG CẤP THẨM MỸ & ĐỒNG BỘ KHUNG RỘNG 1500PX (POLISH LAYER)
-   📍 Tác dụng: Tinh chỉnh lại độ sắc nét, tỷ lệ chữ, khoảng cách, viền huy chương
-      bảng xếp hạng (.rank-1 Vàng, .rank-2 Bạc, .rank-3 Đồng), trang chi tiết sản phẩm
-      và thông báo nhỏ bật lên (.av-toast).
-   ============================================================================ */
 :root {
     --max-width: 1500px;
     --gutter: 40px;
@@ -3647,7 +3348,6 @@ img {
     outline: 2px solid var(--pink);
     outline-offset: 3px;
 }
-
 
 .container,
 .promo-page .wrap {
@@ -3722,7 +3422,6 @@ img {
     width: 100%;
 }
 
-
 /* ---------- Nút ---------- */
 .btn {
     min-height: 50px;
@@ -3734,14 +3433,11 @@ img {
 .btn-lg {
     min-height: 58px;
     padding: 16px 44px;
-    font-size: 17px;  /* Cỡ chữ lớn hay nhỏ */
     border-radius: 50px;
 }
 
 .eyebrow {
-    font-size: 12px;  /* Cỡ chữ lớn hay nhỏ */
 }
-
 
 /* ---------- Hero trang chủ ---------- */
 #home .hero {
@@ -3754,7 +3450,6 @@ img {
 }
 
 #home .hero h1 {
-    font-size: clamp(44px, 4.6vw, 72px);  /* Cỡ chữ lớn hay nhỏ */
     letter-spacing: -2px;
 }
 
@@ -3779,7 +3474,6 @@ img {
 }
 
 #home .hero-stats span {
-    font-size: 14px;  /* Cỡ chữ lớn hay nhỏ */
 }
 
 #home .hero-art {
@@ -3832,7 +3526,6 @@ img {
     font-size: 12px;
 }
 
-
 /* ---------- Section chung ---------- */
 .section {
     padding: 84px 0;
@@ -3850,7 +3543,6 @@ img {
 .section-head > a {
     font-size: 15px;
 }
-
 
 .categories {
     gap: 22px;
@@ -3882,7 +3574,6 @@ img {
     font-size: 13px;
 }
 
-
 .filters {
     gap: 10px;
 }
@@ -3892,10 +3583,8 @@ img {
     font-size: 14px;
 }
 
-
 /* ---------- Lưới sản phẩm ---------- */
 .product-grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));  /* Chia số cột hiển thị ngang */
     gap: 28px;
 }
 
@@ -3921,7 +3610,6 @@ img {
     top: 16px;
     left: 16px;
     padding: 6px 12px;
-    font-size: 12px;  /* Cỡ chữ lớn hay nhỏ */
     border-radius: 7px;
 }
 
@@ -3976,7 +3664,6 @@ a.add {
     text-align: center;
 }
 
-
 /* ---------- Sale + lợi ích ---------- */
 .sale {
     margin: 20px auto 40px;
@@ -3986,7 +3673,6 @@ a.add {
 }
 
 .sale h2 {
-    font-size: 38px;  /* Cỡ chữ lớn hay nhỏ */
 }
 
 .sale p {
@@ -4011,7 +3697,6 @@ a.add {
     font-size: 11px;
 }
 
-
 .benefits {
     gap: 24px;
 }
@@ -4031,9 +3716,7 @@ a.add {
 }
 
 .benefits p {
-    font-size: 14px;  /* Cỡ chữ lớn hay nhỏ */
 }
-
 
 /* ---------- Footer ---------- */
 footer {
@@ -4041,7 +3724,6 @@ footer {
 }
 
 .footer-grid {
-    grid-template-columns: 1.6fr 1fr 1fr 1.2fr;  /* Chia số cột hiển thị ngang */
     gap: 64px;
     padding-bottom: 56px;
 }
@@ -4072,7 +3754,6 @@ footer {
     font-size: 13px;
 }
 
-
 /* ---------- Trang danh mục (figure, cosplay, plush...) ---------- */
 .page-header {
     padding: 84px 0 60px;
@@ -4096,7 +3777,6 @@ footer {
 main.section {
     padding-top: 60px;
 }
-
 
 /* ---------- Bảng xếp hạng (Bán chạy) ---------- */
 .rank-title {
@@ -4153,10 +3833,8 @@ main.section {
     text-align: center;
 }
 
-
 /* ---------- Chi tiết sản phẩm ---------- */
 .product-pro-layout {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);  /* Chia số cột hiển thị ngang */
     gap: 80px;
     align-items: start;
     margin-bottom: 80px;
@@ -4183,7 +3861,6 @@ main.section {
 
 .gallery-thumbs {
     display: grid;
-    grid-template-columns: repeat(5, minmax(0, 1fr));  /* Chia số cột hiển thị ngang */
     gap: 14px;
 }
 
@@ -4254,7 +3931,6 @@ main.section {
     font-size: 14px;
 }
 
-
 .pro-details-section {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -4290,13 +3966,11 @@ main.section {
 }
 
 .related-section h3 {
-    font-size: 26px;  /* Cỡ chữ lớn hay nhỏ */
 }
 
 .pro-pager a {
     font-size: 15px;
 }
-
 
 /* ---------- Toast + nút lên đầu trang ---------- */
 .av-toast {
@@ -4352,7 +4026,6 @@ main.section {
     filter: brightness(1.15);
 }
 
-
 /* ============================================================================
    MỤC 20A: CĂN CHỈNH TRANG SẢN PHẨM (san-pham.html) THEO KHUNG 1500PX
    ============================================================================ */
@@ -4364,12 +4037,10 @@ main.section {
 }
 
 .products-page .products-hero h1 {
-    font-size: clamp(40px, 5vw, 76px);  /* Cỡ chữ lớn hay nhỏ */
 }
 
 .products-page .products-hero-copy > p:not(.eyebrow) {
     max-width: 620px;
-    font-size: 17px;  /* Cỡ chữ lớn hay nhỏ */
 }
 
 .products-page .eyebrow {
@@ -4449,7 +4120,6 @@ main.section {
 }
 
 .products-page .catalog-count span {
-    font-size: 12px;  /* Cỡ chữ lớn hay nhỏ */
 }
 
 .products-page .catalog-toolbar {
@@ -4459,7 +4129,6 @@ main.section {
 
 .products-page .product-search input {
     height: 48px;
-    font-size: 15px;  /* Cỡ chữ lớn hay nhỏ */
 }
 
 .products-page .sort-control {
@@ -4504,7 +4173,6 @@ main.section {
 }
 
 .products-page .sidebar-note p {
-    font-size: 13px;  /* Cỡ chữ lớn hay nhỏ */
 }
 
 .products-page .active-filter-row {
@@ -4539,7 +4207,6 @@ main.section {
 }
 
 .products-page .price strong {
-    font-size: 19px;  /* Cỡ chữ lớn hay nhỏ */
 }
 
 .products-page .price del {
@@ -4577,7 +4244,6 @@ main.section {
 .products-page .benefits-row small {
     font-size: 13px;
 }
-
 
 /* ============================================================================
    MỤC 20B: CĂN CHỈNH TRANG KHUYẾN MÃI (khuyen-mai.html) THEO KHUNG 1500PX
@@ -4686,7 +4352,6 @@ main.section {
 }
 
 .promo-page .sale-sticker em {
-    font-size: 32px;  /* Cỡ chữ lớn hay nhỏ */
 }
 
 .promo-page .art-caption span {
@@ -4706,7 +4371,6 @@ main.section {
 }
 
 .promo-page .countdown-inner h2 {
-    font-size: 32px;  /* Cỡ chữ lớn hay nhỏ */
 }
 
 .promo-page .countdown-inner p {
@@ -4807,7 +4471,6 @@ main.section {
 }
 
 .promo-page .deal-content h3 {
-    font-size: 21px;  /* Cỡ chữ lớn hay nhỏ */
 }
 
 .promo-page .deal-desc {
@@ -4837,7 +4500,6 @@ main.section {
 }
 
 .promo-page .demo-note {
-    font-size: 12px;  /* Cỡ chữ lớn hay nhỏ */
 }
 
 .promo-page .coupon-banner {
@@ -4857,7 +4519,6 @@ main.section {
 }
 
 .promo-page .coupon-banner p {
-    font-size: 14px;  /* Cỡ chữ lớn hay nhỏ */
 }
 
 .promo-page .welcome-code > span {
@@ -4882,7 +4543,6 @@ main.section {
 }
 
 .promo-page .benefits h3 {
-    font-size: 17px;  /* Cỡ chữ lớn hay nhỏ */
 }
 
 .promo-page .benefits p {
@@ -4903,12 +4563,6 @@ main.section {
     font-size: 15px;
 }
 
-
-/* ============================================================================
-   MỤC 20C: GIAO DIỆN TRANG GÓC TƯ VẤN (tu-van.html — .advice-layout, .advice-article)
-   📍 Tác dụng: Chia trang Tư vấn thành 2 cột (Bài viết lớn bên trái + Thanh tiện ích bên phải),
-      trang trí ảnh bìa bài viết (.article-cover), các hộp mẹo cosplay (.cosplay-tip) và checklist.
-   ============================================================================ */
 .advice-layout {
     display: grid;
     grid-template-columns: minmax(0, 1fr) 400px;
@@ -4929,7 +4583,6 @@ main.section {
     justify-content: flex-start;
     gap: 12px;
     color: var(--muted);
-    font-size: 14px;  /* Cỡ chữ lớn hay nhỏ */
 }
 
 .advice-article .article-meta span:first-child {
@@ -4978,7 +4631,6 @@ main.section {
 .image-note {
     margin: 0 0 36px;
     color: #7d7990;
-    font-size: 13px;  /* Cỡ chữ lớn hay nhỏ */
     font-style: italic;
 }
 
@@ -5155,7 +4807,6 @@ main.section {
     padding-left: 6px;
 }
 
-
 /* ============================================================================
    MỤC 20D: CO GIÃN GIAO DIỆN BỔ SUNG CHO MÀN HÌNH LỚN, TABLET & ĐIỆN THOẠI
    ============================================================================ */
@@ -5169,7 +4820,6 @@ main.section {
     }
 
     .products-page .catalog-layout {
-        grid-template-columns: 240px minmax(0, 1fr);  /* Chia số cột hiển thị ngang */
         gap: 28px;
     }
 
@@ -5182,7 +4832,6 @@ main.section {
     }
 
     .advice-layout {
-        grid-template-columns: minmax(0, 1fr) 340px;  /* Chia số cột hiển thị ngang */
         gap: 36px;
     }
 }
@@ -5231,7 +4880,6 @@ main.section {
 
     .advice-sidebar {
         position: static;
-        grid-template-columns: 1fr 1fr;  /* Chia số cột hiển thị ngang */
     }
 }
 
@@ -5348,7 +4996,6 @@ main.section {
     }
 
     #home .hero h1 {
-        font-size: 36px;  /* Cỡ chữ lớn hay nhỏ */
     }
 
     #home .hero-stats {
@@ -5387,7 +5034,6 @@ main.section {
 
     .product-info h3, .products-page .product-info h3 {
         min-height: 40px;
-        font-size: 14px;  /* Cỡ chữ lớn hay nhỏ */
     }
 
     .price strong, .products-page .price strong {
@@ -5400,7 +5046,6 @@ main.section {
     }
 
     .benefits {
-        grid-template-columns: 1fr;  /* Chia số cột hiển thị ngang */
     }
 
     .footer-grid {
@@ -5413,7 +5058,6 @@ main.section {
     }
 
     .pro-title {
-        font-size: 26px;  /* Cỡ chữ lớn hay nhỏ */
     }
 
     .pro-price {
@@ -5464,11 +5108,9 @@ main.section {
     color: #fff;
 }
 
-
 /* tiêu đề mục "Sản phẩm cùng danh mục" không đè lên tên sản phẩm trong thẻ */
 .related-section > h3 {
     color: var(--pink);
-    font-size: 26px;  /* Cỡ chữ lớn hay nhỏ */
     margin-bottom: 22px;
 }
 
@@ -5477,7 +5119,6 @@ main.section {
     color: #fff;
     font-size: 18px;
 }
-
 
 .page-header .eyebrow {
     color: var(--pink);
@@ -5542,7 +5183,6 @@ main.section {
     border-top: 1px solid var(--line);
 }
 
-
 @media (max-width: 900px) {
     .promo-page .footer-grid {
         grid-template-columns: repeat(2, 1fr);
@@ -5595,7 +5235,6 @@ main.section {
     border-radius: 10px;
     background: var(--pink);
     color: #fff;
-    font-size: 11px;  /* Cỡ chữ lớn hay nhỏ */
     font-weight: 800;
     box-shadow: 0 0 12px var(--pink-glow);
 }
@@ -5636,8 +5275,11 @@ main.section {
     inset: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    object-position: top;
+    object-fit: contain;
+    background: #ffffff;
+    padding: 10px;
+    box-sizing: border-box;
+    object-position: center;
     z-index: 0;
 }
 
@@ -5655,7 +5297,6 @@ main.section {
     color: var(--pink);
 }
 
-
 /* Giỏ hàng + 404 */
 .cart-page {
     padding: 30px 0 80px;
@@ -5668,7 +5309,6 @@ main.section {
 
 .cart-layout {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) 380px;  /* Chia số cột hiển thị ngang */
     gap: 28px;
     align-items: start;
 }
@@ -5692,9 +5332,11 @@ main.section {
 .cart-item img {
     width: 96px;
     height: 96px;
-    object-fit: cover;
+    object-fit: contain;
     border-radius: 12px;
-    background: var(--panel-light);
+    background: #ffffff;
+    padding: 4px;
+    box-sizing: border-box;
 }
 
 .cart-info h3 {
@@ -5783,7 +5425,6 @@ line-height: 1;
     grid-template-columns: 1fr auto;
     gap: 8px 12px;
     margin: 0 0 14px;
-    font-size: 14px;  /* Cỡ chữ lớn hay nhỏ */
 }
 
 .cart-summary dt {
@@ -5839,7 +5480,6 @@ line-height: 1;
 }
 
 .cart-total strong {
-    font-size: 24px;  /* Cỡ chữ lớn hay nhỏ */
     color: #ff75c1;
 }
 
@@ -5925,7 +5565,6 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
     white-space: nowrap;
 }
 
-
 /* ============================================================================
    MỤC 22: GIAO DIỆN RIÊNG CHO TRANG LIÊN HỆ (lien-he.html — Tiền tố .lh-)
    📍 Vị trí: Mọi tên lớp bắt đầu bằng ".lh-" đều dành riêng cho trang Liên hệ:
@@ -5947,7 +5586,6 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
     opacity: 1;
     transform: none;
 }
-
 
 /* ----- 1. HERO ----- */
 .lh-hero {
@@ -6056,7 +5694,6 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
     }
 }
 
-
 .lh-chat {
     position: relative;
     z-index: 2;
@@ -6108,7 +5745,6 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
     padding: 11px 14px;
     border-radius: 16px 16px 16px 4px;
     background: var(--panel-light);
-    font-size: 13px;  /* Cỡ chữ lớn hay nhỏ */
     line-height: 1.5;
 }
 
@@ -6171,7 +5807,6 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 .lh-spark.b {
     bottom: 8%;
     left: 4%;
-    font-size: 22px;  /* Cỡ chữ lớn hay nhỏ */
     animation-delay: 1.2s;
 }
 
@@ -6181,7 +5816,6 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
         transform: scale(.8) rotate(20deg);
     }
 }
-
 
 /* ----- Tiêu đề từng khu vực ----- */
 .lh-head {
@@ -6207,11 +5841,9 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
     padding: 36px 0 54px;
 }
 
-
 /* ----- 2. THẺ LIÊN LẠC NHANH ----- */
 .lh-cards {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));  /* Chia số cột hiển thị ngang */
     gap: 20px;
 }
 
@@ -6289,7 +5921,6 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
     border-radius: 8px;
     background: #a78bfa14;
     color: #e4d9ff;
-    font-size: 12px;  /* Cỡ chữ lớn hay nhỏ */
     font-weight: 700;
     transition: .2s;
 }
@@ -6298,7 +5929,6 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
     background: #a78bfa38;
     border-color: var(--purple);
 }
-
 
 /* ----- 3. ĐỘI NGŨ ----- */
 .lh-team {
@@ -6390,7 +6020,6 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 .lh-role {
     margin: 0 0 6px;
     color: var(--pink);
-    font-size: 11px;  /* Cỡ chữ lớn hay nhỏ */
     font-weight: 800;
     letter-spacing: 2px;
 }
@@ -6406,11 +6035,9 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
     font-size: 14px;
 }
 
-
 /* ----- 4. FORM + FAQ ----- */
 .lh-layout {
     display: grid;
-    grid-template-columns: 1.15fr .85fr;  /* Chia số cột hiển thị ngang */
     gap: 40px;
     align-items: start;
 }
@@ -6426,7 +6053,6 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 
 .lh-form-box h2 {
     margin: 0 0 6px;
-    font-size: 28px;  /* Cỡ chữ lớn hay nhỏ */
 }
 
 .lh-form-box > p, .lh-form > p {
@@ -6434,7 +6060,6 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
     color: var(--muted);
     font-size: 14px;
 }
-
 
 .lh-topics {
     display: flex;
@@ -6486,7 +6111,6 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
     outline: 2px solid var(--pink);
     outline-offset: 3px;
 }
-
 
 /* Ô nhập có nhãn "nổi": nhãn nằm trong ô, khi gõ thì bay lên trên */
 .lh-field {
@@ -6561,7 +6185,6 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
     gap: 16px;
 }
 
-
 .lh-submit {
     width: 100%;
     padding: 16px;
@@ -6592,7 +6215,6 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
     font-size: 12px;
     text-align: center;
 }
-
 
 /* Màn hình "gửi thành công" thay cho form */
 .lh-done {
@@ -6650,7 +6272,6 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
     }
 }
 
-
 /* FAQ dùng thẻ <details> có sẵn của trình duyệt, không cần JS */
 .lh-faq {
     display: grid;
@@ -6704,7 +6325,6 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
     margin: 0;
     padding: 0 20px 18px;
     color: var(--muted);
-    font-size: 14px;  /* Cỡ chữ lớn hay nhỏ */
     line-height: 1.8;
 }
 
@@ -6712,7 +6332,6 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
     color: var(--pink);
     font-weight: 700;
 }
-
 
 /* ----- 5. BANNER CUỐI TRANG ----- */
 .lh-cta {
@@ -6736,7 +6355,6 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
     margin: 0;
     color: var(--muted);
 }
-
 
 /* ----- Responsive ----- */
 @media (max-width: 1100px) {
@@ -6771,7 +6389,6 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
     }
 
     .lh-team {
-        grid-template-columns: 1fr;  /* Chia số cột hiển thị ngang */
     }
 
     .lh-cta {
@@ -6783,7 +6400,6 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 
 @media (max-width: 600px) {
     .lh-cards, .lh-row {
-        grid-template-columns: 1fr;  /* Chia số cột hiển thị ngang */
     }
 
     .lh-form-box {
@@ -6821,7 +6437,6 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
     padding-left: 0;
     color: var(--pink);
 }
-
 
 /* ============================================================================
    MỤC 23: MENU ĐIỆN THOẠI (MOBILE MENU) & HIỆU ỨNG TRUY CẬP NHANH
@@ -6970,37 +6585,6 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
             }
         }
 
-/* ============================================================================
-   PHẦN 2: TECH.CSS — TÍNH NĂNG TƯƠNG TÁC & HỆ THỐNG CÔNG NGHỆ OTAKU
-   ============================================================================ */
-/*
- * FILE: css/tech.css — GIAO DIỆN 4 CHỦ ĐỀ MÀU, CỬA SỔ TƯƠNG TÁC & HIỆU ỨNG CHUYỂN ĐỘNG
- *
- * Chào bạn! File CSS này phụ trách trang trí cho toàn bộ các tính năng tương tác mới:
- *   - 4 chế độ màu giao diện (Cyber Neon, Sakura Sáng, Gear 5 Vàng, Gojo Xanh)
- *   - Các nút tiện ích trên Header, Vòng quay Gacha, AI Tính Size, Quiz, Bàn cân So sánh
- *   - Cửa sổ Xem nhanh (Quick View), Ngăn kéo Giỏ hàng trượt, Khung Chat AV-Bot
- *   - Các hiệu ứng chuyển động: Ảnh bay vào giỏ hàng, Pháo hoa trái tim, Chấm đổi góc ảnh,
- *     Nút điểm danh nhận XP, Sân khấu Hero 3D và Thông báo hoạt động mua sắm trực tiếp.
- *
- * BẢN ĐỒ CÁC MỤC TRONG FILE NÀY (Bấm Ctrl + F rồi gõ "MỤC 1", "MỤC 2"...):
- *   - MỤC 1 : 4 chế độ giao diện màu sắc (html[data-theme="..."])
- *   - MỤC 2 : Nền lưới Cyber, Thanh tiến độ cuộn (#avProgress) & Hạt năng lượng (#avParticles)
- *   - MỤC 3 : Huy hiệu cấp độ VIP trên Topbar (.av-vip-pill)
- *   - MỤC 4 : Các nút công cụ trên Header (.header-actions .icon-btn)
- *   - MỤC 5 : Hiệu ứng chữ phát sáng chuyển màu trên Trang chủ (Hero & Typography Glow)
- *   - MỤC 6 : Thẻ sản phẩm nâng cấp (3D Tilt, Nút Xem nhanh, So sánh, + Giỏ)
- *   - MỤC 7 : Ô tìm kiếm gợi ý có ảnh thu nhỏ (#avSug)
- *   - MỤC 8 : Cửa sổ nổi & Ngăn kéo trượt (Quick View, Mini-Cart, Tủ Yêu thích, So sánh)
- *   - MỤC 9 : Giao diện Vòng quay Gacha, AI Tính Size & Bài trắc nghiệm Quiz
- *   - MỤC 10: Kính lúp phóng to ảnh (#avLightbox) & Khung Đánh giá 5 sao (.av-reviews-box)
- *   - MỤC 11: Bộ lọc nâng cao theo Bộ Anime (.av-adv-filters) & Chế độ xem Danh sách ngang
- *   - MỤC 12: Nút lên đầu trang (#avTop) & Khung Trợ lý ảo Chatbot (#avBot)
- *   - MỤC 13: Hiệu ứng cuộn trang (.av-reveal) & Quy tắc co giãn trên điện thoại
- *   - MỤC 14: Hiệu ứng chuyển động & tương tác mới (Bay vào giỏ, Bắn tim, Chấm góc ảnh,
- *             Điểm danh +50 XP, Sân khấu Hero 3D, Thông báo mua sắm trực tiếp)
- */
-
 :root {
   --neon: #ff4fa3;
   --cyan: #38e8ff;
@@ -7013,18 +6597,6 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
   --surface-elevated: #16162a;
 }
 
-/* ============================================================================
-   MỤC 1: 4 CHẾ ĐỘ GIAO DIỆN MÀU SẮC (THEME SWITCHER)
-   📍 Tác dụng: Khi khách bấm nút "Chủ đề" trên thanh đầu trang, JavaScript sẽ gắn
-      thuộc tính data-theme="sakura" (hoặc "gear5", "gojo") vào thẻ <html>.
-      - Mặc định (cyber) : Nền tối Tím - Hồng Neon.
-      - sakura           : Giao diện Sáng Hồng Anh Đào (nền trắng hồng dịu mắt).
-      - gear5            : Giao diện Vàng Hoàng Kim Nika (nền nâu đen ánh vàng cam).
-      - gojo             : Giao diện Vô Hạ Hạn (nền đen sâu ánh xanh băng tuyết).
-   🛠️ Cách sửa:
-      - Muốn chỉnh màu của chủ đề nào, bạn sửa các mã màu (#...) bên trong khối
-        html[data-theme="tên-chủ-đề"] tương ứng ở dưới đây.
-   ============================================================================ */
 html[data-theme="sakura"] {
   --bg: #fff7fb;
   --bg-deep: #fceef5;
@@ -7101,13 +6673,6 @@ html[data-theme="gojo"] {
   --surface-elevated: #0f2138;
 }
 
-/* ============================================================================
-   MỤC 2: NỀN LƯỚI CYBER, THANH TIẾN ĐỘ CUỘN (#avProgress) & HẠT SÁNG (#avParticles)
-   📍 Tác dụng:
-      - #avProgress  : Thanh vạch màu hồng-xanh mỏng 3px chạy ngang trên cùng màn hình khi cuộn trang.
-      - #avParticles : Khung vẽ các hạt đom đóm bay lơ lửng trên nền.
-      - #avGlow      : Quầng sáng mờ đi theo con trỏ chuột trên máy tính.
-   ============================================================================ */
 body {
   background-image:
     linear-gradient(rgba(56, 232, 255, 0.03) 1px, transparent 1px),
@@ -7154,7 +6719,6 @@ body {
         display: none;
     }
 }
-
 
 /* ============================================================================
    MỤC 3: HUY HIỆU CẤP ĐỘ VIP TRÊN TOPBAR (.av-vip-pill)
@@ -7259,7 +6823,6 @@ body {
     display: none !important;
 }
 
-
 /* ============================================================================
    MỤC 5: HIỆU ỨNG CHỮ PHÁT SÁNG NEON TRÊN TRANG CHỦ (HERO & TYPOGRAPHY GLOW)
    ============================================================================ */
@@ -7279,7 +6842,6 @@ body {
         background-position: 200% 0;
     }
 }
-
 
 .eyebrow {
   letter-spacing: 0.04em;
@@ -7329,7 +6891,6 @@ body {
     opacity: 1;
 }
 
-
 /* Cụm nút nổi trên ảnh sản phẩm (Quick View + So sánh) */
 .product-image, .deal-visual {
   position: relative;
@@ -7373,7 +6934,6 @@ body {
   background: rgba(12, 12, 24, 0.84);
   backdrop-filter: blur(8px);
   color: #fff;
-  font-size: 11.5px;  /* Cỡ chữ lớn hay nhỏ */
   font-weight: 600;
   padding: 6px 10px;
   border-radius: 8px;
@@ -7511,7 +7071,6 @@ body {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  font-size: 13.5px;  /* Cỡ chữ lớn hay nhỏ */
 }
 
 .av-sug-left span {
@@ -7645,7 +7204,6 @@ body {
 }
 
 .product-grid.av-list-view {
-  grid-template-columns: 1fr !important;  /* Chia số cột hiển thị ngang */
 }
 
 .product-grid.av-list-view .product-card {
@@ -7657,7 +7215,6 @@ body {
 
 @media (max-width: 640px) {
   .product-grid.av-list-view .product-card {
-    grid-template-columns: 120px 1fr;  /* Chia số cột hiển thị ngang */
     gap: 12px;
   }
 }
@@ -7734,7 +7291,6 @@ body {
 /* Quick View Layout */
 .av-qv-grid {
   display: grid;
-  grid-template-columns: 1fr 1.15fr;  /* Chia số cột hiển thị ngang */
   gap: 24px;
   align-items: start;
 }
@@ -7748,10 +7304,12 @@ body {
 .av-qv-main-img {
   width: 100%;
   aspect-ratio: 1 / 1;
-  object-fit: cover;
+  object-fit: contain;
   border-radius: 16px;
   border: 1px solid rgba(255, 255, 255, 0.12);
-  background: #0d0d18;
+  background: #ffffff;
+  padding: 8px;
+  box-sizing: border-box;
 }
 
 .av-qv-thumbs {
@@ -7922,7 +7480,6 @@ body {
 
 .av-mini-item {
   display: grid;
-  grid-template-columns: 64px 1fr auto;  /* Chia số cột hiển thị ngang */
   gap: 12px;
   align-items: center;
   padding: 10px;
@@ -8059,7 +7616,6 @@ body {
   background: rgba(255, 255, 255, 0.04);
   color: var(--text);
   font-weight: 700;
-  font-size: 13px;  /* Cỡ chữ lớn hay nhỏ */
   cursor: pointer;
 }
 
@@ -8087,7 +7643,6 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 52px;  /* Cỡ chữ lớn hay nhỏ */
   transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
@@ -8124,7 +7679,6 @@ body {
 .av-gacha-result.show {
     display: block;
 }
-
 
 /* AI Size Calculator */
 .av-size-calc {
@@ -8196,7 +7750,6 @@ body {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 6px;
-  font-size: 13px;  /* Cỡ chữ lớn hay nhỏ */
 }
 
 .av-rev-form {
@@ -8391,7 +7944,6 @@ body {
   color: #fff;
   padding: 0 16px;
   cursor: pointer;
-  font-size: 16px;  /* Cỡ chữ lớn hay nhỏ */
 }
 
 #avTop {
@@ -8425,7 +7977,6 @@ body {
     display: none !important;
 }   /* tránh trùng nút lên đầu trang cũ */
 
-
 /* QR Box trên trang giỏ hàng */
 .av-qr-box {
   margin: 12px 0;
@@ -8438,7 +7989,6 @@ body {
 
 .av-pay-methods {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);  /* Chia số cột hiển thị ngang */
   gap: 8px;
   margin: 10px 0;
 }
@@ -8449,7 +7999,6 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.15);
   background: rgba(255, 255, 255, 0.03);
   color: var(--text);
-  font-size: 12px;  /* Cỡ chữ lớn hay nhỏ */
   font-weight: 600;
   text-align: center;
   cursor: pointer;
@@ -8528,7 +8077,6 @@ body {
 .av-quiz-hint {
     margin: 0 0 12px;
     color: var(--muted);
-    font-size: 13px;  /* Cỡ chữ lớn hay nhỏ */
 }
 
 .av-quiz-opts {
@@ -8566,7 +8114,6 @@ body {
     margin-top: 2px;
     font-weight: 500;
     color: var(--muted);
-    font-size: 11.5px;  /* Cỡ chữ lớn hay nhỏ */
 }
 
 .av-quiz-opt.is-skip {
@@ -8586,7 +8133,6 @@ body {
   padding: 6px 2px;
   color: var(--muted);
   font: inherit;
-  font-size: 13px;  /* Cỡ chữ lớn hay nhỏ */
   cursor: pointer;
   text-decoration: underline;
 }
@@ -8691,7 +8237,6 @@ body {
 }
 
 .av-quiz-tags span {
-  font-size: 10.5px;  /* Cỡ chữ lớn hay nhỏ */
   font-weight: 800;
   padding: 2px 8px;
   border-radius: 999px;
@@ -8742,7 +8287,6 @@ body {
     margin-left: 5px;
     font-weight: 400;
 }
-
 
 /* ============================================================================
    MỤC 14: HIỆU ỨNG CHUYỂN ĐỘNG & TƯƠNG TÁC MỚI (LÀM WEB SỐNG ĐỘNG HƠN)
@@ -9538,35 +9082,6 @@ body {
   }
 }
 
-/* ============================================================================
-   PHẦN 3: UPGRADE.CSS — TIỆN ÍCH QUICK DOCK, ĐIỀU HƯỚNG DI ĐỘNG & BẢNG MÀU
-   ============================================================================ */
-/*
- * FILE: css/upgrade.css — BẢNG MÀU CHỦ ĐẠO & TỐI ƯU GIAO DIỆN ĐIỆN THOẠI (ƯU TIÊN CAO NHẤT)
- *
- * Chào bạn! Trong tất cả các trang HTML, file "css/upgrade.css" này luôn được nạp CUỐI CÙNG.
- * Trong CSS, file nào nạp sau cùng sẽ có quyền quyết định cao nhất!
- * Vì vậy, khi bạn muốn đổi màu nền chính, đổi màu nút bấm, hay chỉnh giao diện điện thoại,
- * bạn sửa trực tiếp trong file này là thấy thay đổi ngay lập tức.
- *
- * BẢN ĐỒ CÁC MỤC TRONG FILE NÀY (Bấm Ctrl + F rồi gõ "MỤC 1", "MỤC 2"...):
- *   - MỤC 1 : Bảng màu chủ đạo Tím - Hồng Neon (:root) & Nền trang chính
- *   - MỤC 2 : Khung viền sáng rõ khi dùng phím Tab trên bàn phím (:focus-visible)
- *   - MỤC 3 : Chuẩn hóa mọi ô nhập liệu (chữ >= 16px, cao >= 44px)
- *   - MỤC 4 : Đảm bảo các nút bấm chính cao tối thiểu 44px (dễ chạm trên điện thoại)
- *   - MỤC 5 : Đồng bộ màu chuyển sắc Hồng - Tím cho tất cả các nút bấm chính
- *   - MỤC 6 : Tinh chỉnh gọn gàng cho Topbar, Header và Thanh Menu (.nav)
- *   - MỤC 7 : Làm nổi bật Sân khấu chính (.hero) trên Trang chủ
- *   - MỤC 8 : Khu vực 6 ô Danh mục trên Trang chủ (.categories > .category)
- *   - MỤC 9 : Đồng bộ kiểu dáng Thẻ sản phẩm (.product-card) & Thẻ khuyến mãi (.deal-card)
- *   - MỤC 10: Tinh chỉnh các cửa sổ nổi (Modal, Drawer, Gacha, Size, Quiz, So sánh)
- *   - MỤC 11: Chống tràn khung lưới trên Trang Chi tiết, Sản phẩm & Giỏ hàng
- *   - MỤC 12: Giao diện dành riêng cho Điện thoại & Máy tính bảng (@media max-width: 768px)
- *   - MỤC 13: Tắt bớt hiệu ứng khi bật chế độ tiết kiệm chuyển động & Nút Nhạc đang phát
- *   - MỤC 14: Thích ứng đa thiết bị toàn diện (Safe Area, Touch Targets, Tablet, 4K & Print)
- *   - MỤC 15: Tối ưu hóa hiệu năng render & Core Web Vitals (Containment, CLS, GPU Compositing)
- */
-
 :root,
 html:not([data-theme="sakura"]):not([data-theme="gear5"]):not([data-theme="gojo"]) {
   --bg: #07060f;
@@ -9636,11 +9151,6 @@ summary:focus-visible,
   box-shadow: 0 0 0 4px rgba(255, 61, 154, 0.25) !important;
 }
 
-/* ============================================================================
-   MỤC 3: CHUẨN HÓA MỌI Ô NHẬP LIỆU (CHỮ >= 16PX & CHIỀU CAO >= 44PX)
-   📍 Tác dụng: Giúp các ô tìm kiếm, ô nhập số lượng, ô điền tên/SĐT/địa chỉ
-      đủ rộng rãi và không bị trình duyệt Safari trên iPhone tự động phóng to màn hình.
-   ============================================================================ */
 input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="hidden"]),
 select,
 textarea,
@@ -9662,7 +9172,6 @@ textarea,
 .lh-field textarea,
 .cart-form input,
 .cart-form textarea {
-  font-size: 16px !important;  /* Cỡ chữ lớn hay nhỏ */
   min-height: 44px;
 }
 
@@ -9757,11 +9266,6 @@ a.deal-cta,
   transform: none !important;
 }
 
-/* ============================================================================
-   MỤC 5: ĐỒNG BỘ MÀU CHUYỂN SẮC HỒNG - TÍM CHO CÁC NÚT BẤM CHÍNH
-   🛠️ Cách sửa: Muốn đổi màu tất cả các nút bấm chính ("Khám phá ngay", "Thêm vào giỏ",
-      "Thanh toán", "Gửi lời nhắn"), bạn sửa dòng background: linear-gradient(...) ở dưới đây.
-   ============================================================================ */
 .btn.primary,
 .btn-primary,
 .btn-buy-now,
@@ -9882,7 +9386,6 @@ a.deal-cta,
 }
 
 #home .hero h1 {
-  font-size: clamp(32px, 4.2vw, 58px) !important;  /* Cỡ chữ lớn hay nhỏ */
   line-height: 1.12;
   letter-spacing: -1px !important;
 }
@@ -9943,7 +9446,7 @@ a.deal-cta,
 /* ============================================================================
    MỤC 8: KHU VỰC 6 Ô DANH MỤC TRANG CHỦ (.categories > .category)
  --- KHU DANH MỤC TRANG CHỦ (6 Ô: COSPLAY, FIGURE, PLUSH, ĐẠO CỤ, THỜI TRANG, QUÀ TẶNG)
-       Chỉ áp dụng cho .categories > .category để không ảnh hưởng tới span.category trong thẻ Deal --- 
+       Chỉ áp dụng cho .categories > .category để không ảnh hưởng tới span.category trong thẻ Deal ---
    ============================================================================ */
 .categories {
   display: grid !important;
@@ -10156,12 +9659,6 @@ a.deal-cta,
   border-color: #2b2552 !important;
 }
 
-/* ============================================================================
-   MỤC 12: GIAO DIỆN DÀNH RIÊNG CHO ĐIỆN THOẠI & MÁY TÍNH BẢNG (@media <= 768px)
-   📍 Tác dụng: Toàn bộ phần bên dưới điều khiển cách trang web hiển thị khi xem
-      trên màn hình điện thoại (chiều ngang nhỏ hơn hoặc bằng 768px), được chia
-      thành 11 mục nhỏ đánh số từ 1 đến 11 (như chú thích bên dưới).
-   ============================================================================ */
 @media (max-width: 768px) {
   :root {
     --gutter: 12px !important;
@@ -10242,7 +9739,6 @@ a.deal-cta,
 
   .topbar-inner > span:first-child,
   .promo-page .topbar-inner > span:first-child {
-    font-size: 11.5px !important;  /* Cỡ chữ lớn hay nhỏ */
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -10414,7 +9910,6 @@ a.deal-cta,
   #home .hero-buttons .btn {
     width: 100% !important;
     padding: 10px 12px !important;
-    font-size: 14px !important;  /* Cỡ chữ lớn hay nhỏ */
   }
 
   #home .hero-stats {
@@ -10426,7 +9921,6 @@ a.deal-cta,
   #home .hero-stats span {
     padding: 8px 6px !important;
     text-align: center;
-    font-size: 12px !important;  /* Cỡ chữ lớn hay nhỏ */
   }
 
   #home .hero-stats b {
@@ -10523,7 +10017,6 @@ a.deal-cta,
   }
 
   .categories > .category b {
-    font-size: 13.5px !important;  /* Cỡ chữ lớn hay nhỏ */
   }
 
   .categories > .category small {
@@ -10633,7 +10126,6 @@ a.deal-cta,
 
   .price del,
   .products-page .price del {
-    font-size: 11.5px !important;  /* Cỡ chữ lớn hay nhỏ */
   }
 
   .av-card-cta-row {
@@ -11180,7 +10672,6 @@ a.deal-cta,
   .av-compare-table td {
     min-width: 0 !important;
     padding: 6px 4px !important;
-    font-size: 11.5px !important;  /* Cỡ chữ lớn hay nhỏ */
     word-break: break-word;
   }
 
@@ -11192,7 +10683,6 @@ a.deal-cta,
   .av-compare-table td .btn {
     width: 100% !important;
     padding: 6px 4px !important;
-    font-size: 11px !important;  /* Cỡ chữ lớn hay nhỏ */
     margin-bottom: 4px;
   }
 
@@ -11236,7 +10726,7 @@ a.deal-cta,
 #avMusicBtn.is-playing {
   border-color: var(--pink) !important;
   background: linear-gradient(135deg, rgba(255, 61, 154, 0.24), rgba(155, 107, 255, 0.26)) !important;
-  box-shadow: 0 0 14px rgba(255, 61, 154, 0.35) !important;
+  box-shadow: 0 0 14px rgba(255, 61, 154, 0.35);
   color: #ffffff !important;
 }
 
@@ -11245,12 +10735,6 @@ a.deal-cta,
   font-weight: 700 !important;
 }
 
-/* ============================================================================
-   BỔ SUNG SAU KHI GỘP: GIẢM ĐỘ SÁNG HIỆU ỨNG NỀN TRÊN ĐIỆN THOẠI
-   📍 Tác dụng: Trên máy tính giữ hiệu ứng neon rực như bản A; trên điện thoại
-      (<= 768px) làm dịu bớt (lấy từ bản B) để chữ dễ đọc và máy đỡ nặng.
-   🛠️ Cách sửa: Muốn nền rực hơn trên điện thoại, tăng các số opacity bên dưới.
-   ============================================================================ */
 @media (max-width: 768px) {
   #avGlow { opacity: 0.25 !important; }
   #avParticles { opacity: 0.18 !important; }
@@ -11846,17 +11330,6 @@ html[data-theme="gojo"] .av-stream-item:hover {
   opacity: 0 !important;
 }
 
-/* ============================================================================
-   MỤC 14: BỘ THÍCH ỨNG TOÀN DIỆN ĐA THIẾT BỊ (RESPONSIVE ADAPTATION SUITE)
-   📍 Tác dụng: Cung cấp chuẩn thích ứng hoàn chỉnh theo tài liệu Impeccable Adapt:
-      - Tai thỏ, cằm vuốt (Safe Area Inset) trên iOS & Android
-      - Thao tác ngón cái & cảm ứng (Touch ergonomics @media pointer: coarse)
-      - Chống dính hover trên màn hình cảm ứng (@media hover: none)
-      - Bố cục lai trên Máy tính bảng (Tablet 769px - 1024px)
-      - Khống chế chiều rộng tối đa trên Desktop 4K & Siêu rộng (>= 1440px)
-      - Chế độ in ấn sạch đẹp (@media print) cho Hóa đơn & Đơn hàng
-   ============================================================================ */
-
 /* 1. KHAI BÁO BIẾN SAFE AREA INSET TOÀN CỤC */
 :root {
   --av-sat: env(safe-area-inset-top, 0px);
@@ -12106,7 +11579,7 @@ body {
   }
 
   .container {
-    width: min(var(--max-width), calc(100% - 64px)) !important;
+    width: min(1500px, calc(100% - 24px)) !important;
     max-width: 1500px !important;
     margin-inline: auto !important;
   }
@@ -12219,15 +11692,6 @@ body {
   }
 }
 
-/* ============================================================================
-   MỤC 15: TỐI ƯU HIỆU NĂNG RENDER & TẢI TRANG (CORE WEB VITALS & PERF)
-   📍 Tác dụng: Cung cấp giải pháp tối ưu hóa hiệu năng theo chuẩn Impeccable Optimize:
-      - Tăng tốc độ hiển thị đầu tiên (FCP/LCP) qua content-visibility: auto
-      - Triệt tiêu độ lệch bố cục tích lũy (CLS < 0.1) qua aspect-ratio cố định
-      - Tối ưu hóa GPU Compositing & Hardware Acceleration cho chuyển động
-      - Cô lập phạm vi vẽ lại (CSS Containment) chống Layout Thrashing
-   ============================================================================ */
-
 /* 1. CSS CONTAINMENT & CONTENT-VISIBILITY (BỎ QUA VẼ THẺ NGOÀI KHUNG NHÌN) */
 .product-card,
 .deal-card {
@@ -12241,15 +11705,24 @@ body {
 }
 
 /* 2. KHÓA TỶ LỆ HÌNH ẢNH TRIỆT TIÊU HIỆN TƯỢNG GIẬT KHUNG HÌNH (ZERO CLS) */
-.product-card img,
+.product-card .product-image img,
 .deal-card img,
-.category img,
-.gallery-main img,
 #main-img {
   aspect-ratio: 1 / 1;
-  object-fit: cover;
+  object-fit: contain;
   width: 100%;
   height: auto;
+}
+
+.category img {
+  width: 56px !important;
+  height: 56px !important;
+  max-width: 56px !important;
+  max-height: 56px !important;
+  aspect-ratio: 1 / 1 !important;
+  object-fit: contain !important;
+  margin: 0 auto 10px !important;
+  display: block !important;
 }
 
 .home-banner img {
@@ -12286,97 +11759,6 @@ html {
   -moz-osx-font-smoothing: grayscale;
 }
 
-
-
-
-
-/* ĐẢM BẢO CHATBOT & QUICK DOCK LUÔN HIỂN THỊ HOÀN HẢO */
-#avBot {
-  position: fixed !important;
-  right: 20px !important;
-  bottom: 24px !important;
-  z-index: 9999 !important;
-  display: block !important;
-}
-
-#avBotBtn {
-  width: 56px !important;
-  height: 56px !important;
-  border-radius: 50% !important;
-  border: none !important;
-  cursor: pointer !important;
-  font-size: 26px !important;
-  color: #ffffff !important;
-  background: linear-gradient(135deg, #be185d, #9333ea) !important;
-  box-shadow: 0 8px 24px rgba(190, 24, 93, 0.35) !important;
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-}
-
-.av-quick-dock {
-  position: fixed !important;
-  bottom: 24px !important;
-  left: 20px !important;
-  z-index: 9980 !important;
-  display: flex !important;
-  align-items: center !important;
-  gap: 8px !important;
-  padding: 6px 12px !important;
-  background: rgba(255, 255, 255, 0.95) !important;
-  backdrop-filter: blur(16px) !important;
-  -webkit-backdrop-filter: blur(16px) !important;
-  border: 1px solid rgba(236, 72, 153, 0.35) !important;
-  border-radius: 999px !important;
-  box-shadow: 0 10px 30px rgba(236, 72, 153, 0.15) !important;
-}
-
-.av-quick-dock .icon-btn {
-  background: #fdf2f8 !important;
-  border: 1px solid #fce7f3 !important;
-  color: #24142c !important;
-  height: 38px !important;
-  padding: 0 12px !important;
-  border-radius: 999px !important;
-  font-size: 14px !important;
-  display: inline-flex !important;
-  align-items: center !important;
-  gap: 6px !important;
-}
-
-.av-quick-dock .icon-btn small {
-  color: #6e5578 !important;
-  font-size: 12px !important;
-  font-weight: 600 !important;
-}
-
-@media (max-width: 768px) {
-  #avBot {
-    right: 12px !important;
-    bottom: 74px !important;
-  }
-  .av-quick-dock {
-    bottom: 14px !important;
-    left: 10px !important;
-    padding: 4px 8px !important;
-    gap: 4px !important;
-  }
-  .av-quick-dock .icon-btn {
-    width: 36px !important;
-    height: 36px !important;
-    padding: 0 !important;
-    border-radius: 50% !important;
-    justify-content: center !important;
-  }
-  .av-quick-dock .icon-btn small {
-    display: none !important;
-  }
-}
-
-
-/* ============================================================================
-   PHẦN 4: THEME-FIX.CSS — BỘ SỬA MÀU CHỦ ĐỀ, TƯƠNG PHẢN WCAG AA & SHOWCASE TỐI GIẢN
-   ============================================================================ */
 /* ============================================================================
    THEME-FIX.CSS — SỬA LỖI ĐỔI MÀU CHỦ ĐỀ (chữ trùng màu nền)
    📍 Vấn đề cũ: nhiều quy tắc trong style_new.css / tech.css / upgrade.css ghi cứng
@@ -13531,14 +12913,15 @@ html[data-theme="sakura"] .av-kbd {
 /* 0. Thanh thông báo (Topbar), Đầu trang (Header) & Menu điều hướng (Nav) — Tiết kiệm không gian hiển thị */
 .topbar,
 .promo-page .topbar {
-  padding: 3px 14px !important;
-  font-size: 12px !important;
+  padding: 8px 16px !important;
+  font-size: 13px !important;
+  line-height: 1.4 !important;
 }
 
 .topbar-inner,
 .promo-page .topbar-inner {
-  min-height: 28px !important;
-  padding: 2px 6px !important;
+  min-height: 36px !important;
+  padding: 4px 8px !important;
 }
 
 .header,
@@ -13603,12 +12986,13 @@ html[data-theme="sakura"] .av-kbd {
 @media (max-width: 768px) {
   .topbar,
   .promo-page .topbar {
-    padding: 2px 8px !important;
-    font-size: 11px !important;
+    padding: 6px 12px !important;
+    font-size: 12.5px !important;
+    line-height: 1.4 !important;
   }
   .topbar-inner,
   .promo-page .topbar-inner {
-    min-height: 24px !important;
+    min-height: 32px !important;
   }
   .header-inner,
   .promo-page .header-inner {
@@ -15338,21 +14722,261 @@ html[data-theme="sakura"] .minimal-status.live {
   }
 }
 
-
-
-
-
-
-
-
-
-
 /* ============================================================================
-   PHẦN 5: MOTION.CSS — HIỆU ỨNG CHUYỂN CẢNH & CHUYỂN ĐỘNG TRANG
+   BỘ STYLE TỐI GIẢN TOÀN DIỆN CHO ANIMEVERSE (MINIMALIST SAKURA PASTEL)
+   - Nguyên tắc: "Cánh hoa rơi nhẹ + Băng chuyền êm ái, mọi thứ khác đứng yên"
+   - Giao diện phẳng, tinh tế, khoảng trắng rộng rãi, bỏ các chi tiết thừa
    ============================================================================ */
+
+/* 1. Ẩn triệt để các tiện ích và widget rườm rà */
+#avProgress,
+#avGlow,
+#avQuickDock,
+#avDockFab,
+#avDockMenu,
+#avBot,
+#avHubModal,
+#avLiveTicker,
+.av-angle-dots,
+.av-checkin-btn,
+.av-vip-pill,
+.av-xp-float,
+.av-confetti-piece,
+.av-click-ripple,
+.av-card-glare,
+.av-motion-flyer {
+  display: none !important;
+}
+
+/* 2. Cánh hoa rơi tự nhiên, nhẹ nhàng, không cản trở thao tác */
+#avParticles {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none !important;
+  z-index: 1;
+}
+
+/* 3. Nút cuộn lên đầu trang tối giản (#avTop) */
+#avTop.av-top-btn {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 1px solid rgba(225, 29, 116, 0.25);
+  color: #be185d;
+  font-size: 18px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+  z-index: 990;
+}
+
+#avTop.av-top-btn.visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+#avTop.av-top-btn:hover {
+  background: #fdf2f8;
+  border-color: #be185d;
+  transform: translateY(-2px);
+}
+
+/* 4. Nút tiện ích trên thanh Header (.av-header-utility) */
+.av-header-utility {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: #ffffff;
+  border: 1px solid rgba(225, 29, 116, 0.18);
+  color: #2b1f2d;
+  font-size: 13px;
+  font-weight: 600;
+  transition: all 0.15s ease;
+  cursor: pointer;
+}
+
+.av-header-utility:hover {
+  background: #fdf2f8;
+  border-color: #be185d;
+  color: #be185d;
+}
+
+.av-header-utility small {
+  font-size: 11.5px;
+  font-weight: 500;
+  color: #6b5c6f;
+}
+
+/* 5. Thẻ sản phẩm phẳng, thanh lịch, bỏ nghiêng 3D & phóng to quá đà */
+.product-card,
+.deal-card {
+  background: #ffffff !important;
+  border: 1px solid rgba(225, 29, 116, 0.12) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease !important;
+  transform: none !important;
+}
+
+.product-card:hover,
+.deal-card:hover {
+  border-color: rgba(225, 29, 116, 0.38) !important;
+  box-shadow: 0 4px 16px rgba(225, 29, 116, 0.08) !important;
+  transform: none !important;
+}
+
+.product-card .product-image img,
+.deal-card .deal-visual img {
+  transition: opacity 0.2s ease !important;
+  transform: none !important;
+}
+
+/* 6. Băng chuyền sản phẩm: chạy êm, rê chuột dừng, thẻ phẳng sạch sẽ */
+.av-stream-section {
+  background: transparent !important;
+  border-top: 1px solid rgba(225, 29, 116, 0.08);
+  border-bottom: 1px solid rgba(225, 29, 116, 0.08);
+  padding: 24px 0 !important;
+}
+
+.av-stream-track:hover {
+  animation-play-state: paused;
+}
+
+.av-stream-item {
+  background: #ffffff !important;
+  border: 1px solid rgba(225, 29, 116, 0.12) !important;
+  border-radius: 10px !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03) !important;
+  transition: border-color 0.15s ease !important;
+}
+
+.av-stream-item:hover {
+  border-color: rgba(225, 29, 116, 0.35) !important;
+}
+
+/* 7. Hệ thống nút bấm tối giản: Chính (Hồng đậm) & Phụ (Viền mảnh) */
+.btn.primary,
+button.btn-add,
+.btn-primary {
+  background: #be185d !important;
+  color: #ffffff !important;
+  border: 1px solid #be185d !important;
+  border-radius: 8px !important;
+  box-shadow: none !important;
+  transition: background 0.15s ease, border-color 0.15s ease !important;
+}
+
+.btn.primary:hover,
+button.btn-add:hover,
+.btn-primary:hover {
+  background: #9d174d !important;
+  border-color: #9d174d !important;
+  transform: none !important;
+}
+
+.btn.ghost,
+.btn.secondary,
+.btn-secondary {
+  background: #ffffff !important;
+  color: #be185d !important;
+  border: 1px solid rgba(225, 29, 116, 0.28) !important;
+  border-radius: 8px !important;
+  box-shadow: none !important;
+  transition: all 0.15s ease !important;
+}
+
+.btn.ghost:hover,
+.btn.secondary:hover,
+.btn-secondary:hover {
+  background: #fdf2f8 !important;
+  border-color: #be185d !important;
+  color: #9d174d !important;
+  transform: none !important;
+}
+
+/* 8. Nút Mua Nhanh (+ Giỏ) & CTA trên thẻ sản phẩm chuẩn Sakura */
+.av-card-cta-row {
+  display: flex !important;
+  gap: 8px !important;
+  align-items: center !important;
+  width: 100% !important;
+  margin-top: 12px !important;
+}
+
+.av-card-cta-row a.add,
+.av-card-cta-row a.deal-cta {
+  flex: 1 !important;
+  height: 40px !important;
+  min-height: 40px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0 12px !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  background: #ffffff !important;
+  color: #be185d !important;
+  border: 1px solid rgba(225, 29, 116, 0.28) !important;
+  border-radius: 8px !important;
+  text-decoration: none !important;
+  transition: all 0.15s ease !important;
+  margin: 0 !important;
+}
+
+.av-card-cta-row a.add:hover,
+.av-card-cta-row a.deal-cta:hover {
+  background: #fdf2f8 !important;
+  border-color: #be185d !important;
+  color: #9d174d !important;
+}
+
+.av-quick-cart-btn {
+  flex: 0 0 auto !important;
+  height: 40px !important;
+  min-height: 40px !important;
+  padding: 0 14px !important;
+  border-radius: 8px !important;
+  background: #be185d !important;
+  color: #ffffff !important;
+  border: 1px solid #be185d !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 4px !important;
+  cursor: pointer !important;
+  transition: all 0.15s ease !important;
+  box-shadow: none !important;
+  margin: 0 !important;
+}
+
+.av-quick-cart-btn:hover {
+  background: #9d174d !important;
+  border-color: #9d174d !important;
+  color: #ffffff !important;
+  transform: none !important;
+}
+
 /* ============================================================================
  * FILE: css/motion.css — BỘ HIỆU ỨNG CHUYỂN ĐỘNG NÂNG CẤP ANIMEVERSE (MILESTONE 4)
- * 
+ *
  * Quy tắc thiết kế:
  *   - Chỉ animate thuộc tính transform và opacity để đạt chuẩn 60fps/120fps trên PC & di động.
  *   - Tôn trọng triệt để chế độ người dùng giảm chuyển động (prefers-reduced-motion).
@@ -15561,7 +15185,7 @@ html[data-theme="gojo"] .av-motion-flyer {
 /* Nảy nhanh huy hiệu khi cập nhật số lượng */
 .av-badge-pop,
 .cart-badge.bump {
-    animation: avBadgePop 0.42s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    animation: avBadgePop 0.42s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @keyframes avBadgePop {
@@ -15644,379 +15268,663 @@ html[data-theme="gojo"] .av-motion-flyer {
 }
 
 
-
 /* ============================================================================
-   MASTER OVERRIDE: KHÔI PHỤC NGUYÊN BẢN 100% TIỆN ÍCH DƯỚI (QUICK DOCK) & CHATBOT AI (AV-BOT)
-   Định vị chuẩn mực:
-     - Góc dưới bên TRÁI: Thanh tiện ích nổi Otaku Quick Dock (#avQuickDock) gồm đủ 6 nút:
-       🎰 Gacha | ♥ Đã thích | ⚖️ So sánh | 🎨 Chủ đề | 🔇 Nhạc nền | ⏭️ Bài tiếp
-     - Góc dưới bên PHẢI: Nút tròn Trợ lý AI Otaku AV-Bot 3.0 (#avBot) & Cửa sổ Chatbot (#avBotBox)
-   Tông màu: Chuẩn Sakura Pastel (Nền trắng kính mờ, viền hoa anh đào, chữ đậm sắc nét, hiệu ứng neon hồng)
+   RESPONSIVE MOBILE POLISH & CHỐNG LỆCH GIAO DIỆN ĐIỆN THOẠI
    ============================================================================ */
-
-/* 1. THANH TIỆN ÍCH NỔI OTAKU QUICK DOCK (GÓC DƯỚI TRÁI) */
-#avQuickDock,
-.av-quick-dock {
-  position: fixed !important;
-  left: 20px !important;
-  right: auto !important;
-  bottom: 24px !important;
-  top: auto !important;
-  z-index: 9980 !important;
-  display: flex !important;
-  flex-direction: row !important;
-  align-items: center !important;
-  gap: 8px !important;
-  padding: 6px 12px !important;
-  background: rgba(255, 255, 255, 0.96) !important;
-  backdrop-filter: blur(16px) !important;
-  -webkit-backdrop-filter: blur(16px) !important;
-  border: 1.5px solid rgba(225, 29, 116, 0.35) !important;
-  border-radius: 999px !important;
-  box-shadow: 0 10px 30px rgba(190, 24, 93, 0.18), 0 2px 8px rgba(0, 0, 0, 0.06) !important;
-  pointer-events: auto !important;
-  opacity: 1 !important;
-  visibility: visible !important;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+*, *::before, *::after {
+    box-sizing: border-box;
 }
 
-#avQuickDock:hover,
-.av-quick-dock:hover {
-  border-color: rgba(225, 29, 116, 0.6) !important;
-  box-shadow: 0 12px 36px rgba(190, 24, 93, 0.28), 0 0 15px rgba(225, 29, 116, 0.2) !important;
-  transform: translateY(-2px) !important;
+html, body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+    position: relative;
+    margin: 0;
+    padding: 0;
 }
 
-/* Các nút bên trong Quick Dock */
-#avQuickDock .icon-btn,
-.av-quick-dock .icon-btn {
-  position: relative !important;
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  gap: 6px !important;
-  height: 38px !important;
-  padding: 0 12px !important;
-  border-radius: 999px !important;
-  border: 1px solid rgba(225, 29, 116, 0.25) !important;
-  background: rgba(255, 240, 246, 0.95) !important;
-  color: #24142c !important;
-  font-size: 14px !important;
-  font-weight: 700 !important;
-  cursor: pointer !important;
-  pointer-events: auto !important;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
-  white-space: nowrap !important;
-  user-select: none !important;
-  -webkit-tap-highlight-color: transparent !important;
-}
-
-#avQuickDock .icon-btn small,
-.av-quick-dock .icon-btn small {
-  font-size: 12px !important;
-  font-weight: 700 !important;
-  color: #5b4366 !important;
-  line-height: 1 !important;
-  transition: color 0.2s ease !important;
-}
-
-#avQuickDock .icon-btn:hover,
-.av-quick-dock .icon-btn:hover {
-  background: rgba(225, 29, 116, 0.15) !important;
-  border-color: #be185d !important;
-  color: #be185d !important;
-  transform: translateY(-2px) !important;
-}
-
-#avQuickDock .icon-btn:hover small,
-.av-quick-dock .icon-btn:hover small {
-  color: #be185d !important;
-}
-
-#avQuickDock .icon-btn:focus-visible,
-.av-quick-dock .icon-btn:focus-visible {
-  outline: 2px solid #be185d !important;
-  outline-offset: 2px !important;
-}
-
-/* Huy hiệu số đếm trên nút Yêu thích & So sánh */
-#avQuickDock .av-badge-count,
-.av-quick-dock .av-badge-count {
-  position: absolute !important;
-  top: -5px !important;
-  right: -5px !important;
-  min-width: 18px !important;
-  height: 18px !important;
-  padding: 0 4px !important;
-  border-radius: 999px !important;
-  background: linear-gradient(135deg, #be185d, #ec4899) !important;
-  color: #ffffff !important;
-  font-size: 10px !important;
-  font-weight: 800 !important;
-  line-height: 18px !important;
-  text-align: center !important;
-  box-shadow: 0 2px 6px rgba(190, 24, 93, 0.4) !important;
-}
-
-/* 2. TRỢ LÝ ẢO AI CHATBOT AV-BOT 3.0 (GÓC DƯỚI PHẢI) */
-#avBot {
-  position: fixed !important;
-  right: 20px !important;
-  left: auto !important;
-  bottom: 24px !important;
-  top: auto !important;
-  z-index: 9985 !important;
-  display: block !important;
-  pointer-events: auto !important;
-  font-family: inherit !important;
-}
-
-#avBotBtn {
-  width: 58px !important;
-  height: 58px !important;
-  border-radius: 50% !important;
-  border: 2.5px solid #ffffff !important;
-  cursor: pointer !important;
-  font-size: 26px !important;
-  color: #ffffff !important;
-  background: linear-gradient(135deg, #be185d, #9333ea) !important;
-  box-shadow: 0 8px 26px rgba(190, 24, 93, 0.4) !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease !important;
-  animation: avBotPulse 2.4s infinite !important;
-  pointer-events: auto !important;
-}
-
-#avBotBtn:hover {
-  transform: scale(1.1) !important;
-  box-shadow: 0 12px 30px rgba(190, 24, 93, 0.55) !important;
-}
-
-@keyframes avBotPulse {
-  0% {
-    box-shadow: 0 0 0 0 rgba(225, 29, 116, 0.7);
-  }
-  70% {
-    box-shadow: 0 0 0 16px rgba(225, 29, 116, 0);
-  }
-  100% {
-    box-shadow: 0 0 0 0 rgba(225, 29, 116, 0);
-  }
-}
-
-/* Khung trò chuyện Chatbot khi bật */
-#avBotBox {
-  display: none;
-  position: absolute !important;
-  right: 0 !important;
-  bottom: 70px !important;
-  width: min(360px, calc(100vw - 32px)) !important;
-  height: 480px !important;
-  max-height: 75vh !important;
-  flex-direction: column !important;
-  background: #ffffff !important;
-  border: 1.5px solid rgba(225, 29, 116, 0.35) !important;
-  border-radius: 20px !important;
-  overflow: hidden !important;
-  box-shadow: 0 16px 48px rgba(190, 24, 93, 0.22), 0 4px 16px rgba(0, 0, 0, 0.08) !important;
-  z-index: 9995 !important;
-}
-
-#avBotBox.open {
-  display: flex !important;
-}
-
-#avBotHead {
-  padding: 12px 16px !important;
-  font-weight: 700 !important;
-  color: #ffffff !important;
-  background: linear-gradient(135deg, #be185d, #9333ea) !important;
-  display: flex !important;
-  justify-content: space-between !important;
-  align-items: center !important;
-  font-size: 14.5px !important;
-}
-
-#avBotHead small {
-  display: block !important;
-  font-weight: 400 !important;
-  opacity: 0.92 !important;
-  font-size: 11px !important;
-  color: rgba(255, 255, 255, 0.9) !important;
-  margin-top: 2px !important;
-}
-
-#avBotClose {
-  background: none !important;
-  border: 0 !important;
-  color: #ffffff !important;
-  font-size: 22px !important;
-  cursor: pointer !important;
-  padding: 4px 8px !important;
-  line-height: 1 !important;
-  transition: opacity 0.2s ease !important;
-}
-
-#avBotClose:hover {
-  opacity: 0.75 !important;
-}
-
-#avMsgs {
-  flex: 1 !important;
-  overflow-y: auto !important;
-  padding: 14px !important;
-  display: flex !important;
-  flex-direction: column !important;
-  gap: 10px !important;
-  background: #fffbfd !important;
-}
-
-.avm {
-  max-width: 86% !important;
-  padding: 10px 14px !important;
-  border-radius: 14px !important;
-  font-size: 13.5px !important;
-  line-height: 1.5 !important;
-  color: #24142c !important;
-  background: #fdf2f8 !important;
-  border: 1px solid rgba(225, 29, 116, 0.18) !important;
-  align-self: flex-start !important;
-}
-
-.avm.u {
-  align-self: flex-end !important;
-  background: linear-gradient(135deg, #be185d, #9333ea) !important;
-  color: #ffffff !important;
-  border-color: transparent !important;
-}
-
-.avm a {
-  color: #be185d !important;
-  font-weight: 700 !important;
-  text-decoration: underline !important;
-}
-
-#avChips {
-  display: flex !important;
-  gap: 6px !important;
-  flex-wrap: wrap !important;
-  padding: 6px 14px 10px !important;
-  background: #fffbfd !important;
-}
-
-#avChips button {
-  background: #ffffff !important;
-  border: 1px solid rgba(225, 29, 116, 0.3) !important;
-  color: #be185d !important;
-  padding: 4px 10px !important;
-  border-radius: 999px !important;
-  font-size: 12px !important;
-  font-weight: 600 !important;
-  cursor: pointer !important;
-  transition: all 0.2s ease !important;
-}
-
-#avChips button:hover {
-  background: #be185d !important;
-  color: #ffffff !important;
-}
-
-#avForm {
-  display: flex !important;
-  padding: 10px 14px !important;
-  border-top: 1px solid rgba(225, 29, 116, 0.15) !important;
-  gap: 8px !important;
-  background: #ffffff !important;
-}
-
-#avIn {
-  flex: 1 !important;
-  padding: 9px 14px !important;
-  border-radius: 999px !important;
-  border: 1.5px solid rgba(225, 29, 116, 0.3) !important;
-  font-size: 13px !important;
-  color: #24142c !important;
-  background: #fdf2f8 !important;
-  outline: none !important;
-}
-
-#avIn:focus {
-  border-color: #be185d !important;
-  background: #ffffff !important;
-  box-shadow: 0 0 0 3px rgba(190, 24, 93, 0.15) !important;
-}
-
-#avForm button {
-  padding: 0 16px !important;
-  border-radius: 999px !important;
-  border: none !important;
-  background: linear-gradient(135deg, #be185d, #9333ea) !important;
-  color: #ffffff !important;
-  font-size: 14px !important;
-  font-weight: 700 !important;
-  cursor: pointer !important;
-  transition: transform 0.2s ease !important;
-}
-
-#avForm button:hover {
-  transform: scale(1.05) !important;
-}
-
-/* 3. TỐI ƯU GIAO DIỆN TRÊN ĐIỆN THOẠI DI ĐỘNG (MOBILE RESPONSIVE) */
 @media (max-width: 768px) {
-  #avQuickDock,
-  .av-quick-dock {
-    bottom: 14px !important;
-    left: 10px !important;
-    padding: 4px 6px !important;
-    gap: 4px !important;
-    max-width: calc(100vw - 72px) !important;
-    overflow-x: auto !important;
-    -webkit-overflow-scrolling: touch !important;
-  }
-  #avQuickDock::-webkit-scrollbar,
-  .av-quick-dock::-webkit-scrollbar {
-    display: none !important;
-  }
-  #avQuickDock .icon-btn,
-  .av-quick-dock .icon-btn {
-    width: 36px !important;
-    height: 36px !important;
-    min-width: 36px !important;
-    padding: 0 !important;
-    border-radius: 50% !important;
-    font-size: 15px !important;
-    justify-content: center !important;
-  }
-  #avQuickDock .icon-btn small,
-  .av-quick-dock .icon-btn small {
-    display: none !important;
-  }
-  
-  #avBot {
-    bottom: 14px !important;
-    right: 10px !important;
-  }
-  #avBotBtn {
-    width: 46px !important;
-    height: 46px !important;
-    font-size: 20px !important;
-  }
-  #avBotBox {
-    bottom: 60px !important;
-    right: 0 !important;
-    width: calc(100vw - 20px) !important;
-    max-height: 70vh !important;
+    .container,
+    .wrap {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding-left: 14px !important;
+        padding-right: 14px !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        box-sizing: border-box !important;
+    }
+
+    .topbar-inner {
+        width: 100% !important;
+        padding-left: 8px !important;
+        padding-right: 8px !important;
+        box-sizing: border-box !important;
+        justify-content: center !important;
+        text-align: center !important;
+    }
+
+    .header-inner {
+        width: 100% !important;
+        box-sizing: border-box !important;
+        padding: 8px 10px !important;
+        gap: 8px !important;
+    }
+
+    .product-grid {
+        display: grid !important;
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 12px !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+    }
+
+    .product-card {
+        width: 100% !important;
+        min-width: 0 !important;
+        box-sizing: border-box !important;
+        overflow: hidden !important;
+    }
+
+    .product-image {
+        width: 100% !important;
+        height: auto !important;
+        aspect-ratio: 1 / 1 !important;
+        object-fit: cover !important;
+    }
+
+    .product-info {
+        padding: 10px !important;
+        min-width: 0 !important;
+        box-sizing: border-box !important;
+    }
+
+    .product-info h3,
+    .product-info .title {
+        word-break: break-word !important;
+        overflow-wrap: break-word !important;
+    }
+
+    .product-pro-layout,
+    .pro-details-layout,
+    .cart-layout,
+    .checkout-layout {
+        display: flex !important;
+        flex-direction: column !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+        gap: 16px !important;
+    }
+
+    .pro-gallery,
+    .pro-info,
+    .cart-table-wrap,
+    .cart-summary {
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+    }
+
+    table,
+    .table,
+    .cart-table {
+        display: block !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+    }
+
+    .modal,
+    .av-modal,
+    .modal-content,
+    .quick-view-modal {
+        max-width: calc(100vw - 20px) !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        box-sizing: border-box !important;
+    }
+
+    .filters-wrap,
+    .category-scroll,
+    .nav-inner {
+        max-width: 100% !important;
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+        scrollbar-width: none !important;
+    }
+
+    .filters-wrap::-webkit-scrollbar,
+    .category-scroll::-webkit-scrollbar,
+    .nav-inner::-webkit-scrollbar {
+        display: none !important;
+    }
+
+    img, video, iframe {
+        max-width: 100% !important;
+        height: auto !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .product-grid {
+        gap: 8px !important;
+    }
+
+    .product-info {
+        padding: 8px !important;
+    }
+
+    .header-inner {
+        padding: 6px 8px !important;
+    }
+
+    .logo {
+        font-size: 16px !important;
+    }
+
+    .home-banner {
+        width: calc(100% - 16px) !important;
+        margin: 10px auto 14px !important;
+        border-radius: 12px !important;
+    }
+}
+
+/* ==========================================================================
+   TỐI ƯU HIỂN THỊ TRÊN PC
+   Khối ghi đè đặt cuối file. Chỉ có hiệu lực từ 901px trở lên,
+   không ảnh hưởng giao diện điện thoại / máy tính bảng dọc.
+   ========================================================================== */
+
+/* ---------- 1. Khung nội dung 1500px, mọi khối dùng chung một chiều rộng ---------- */
+@media (min-width: 901px) {
+  :root {
+    --max-width: 1500px;
+    --gutter: 16px;
   }
 
-  /* Khi trang có thanh mua hàng cố định dưới đáy mobile (như chi tiết sản phẩm) */
-  body.has-sticky-action #avQuickDock,
-  body.has-sticky-action .av-quick-dock {
-    bottom: 78px !important;
+  .container,
+  .promo-page .wrap,
+  .home-banner,
+  #home .home-banner {
+    width: min(1500px, calc(100% - 24px)) !important;
+    max-width: 1500px !important;
+    margin-inline: auto !important;
   }
-  body.has-sticky-action #avBot {
-    bottom: 78px !important;
+
+  .topbar,
+  .promo-page .topbar,
+  .topbar .topbar-inner,
+  .promo-page .topbar-inner {
+    padding-inline: 0 !important;
   }
+}
+
+@media (min-width: 1530px) {
+  .container,
+  .promo-page .wrap,
+  .home-banner,
+  #home .home-banner {
+    width: 1500px !important;
+    max-width: 1500px !important;
+  }
+}
+
+/* ---------- 2. Thẻ sản phẩm: khung ảnh vuông khớp ảnh gốc, nội dung thẳng hàng ---------- */
+@media (min-width: 901px) {
+  .product-card .product-image,
+  .products-page .product-card .product-image {
+    aspect-ratio: 1 / 1 !important;
+    height: auto;
+    background: #ffffff !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 8px !important;
+    box-sizing: border-box !important;
+  }
+
+  .product-card .product-image img {
+    width: 100%;
+    height: 100%;
+    aspect-ratio: auto;
+    object-fit: contain !important;
+    object-position: center;
+    transition: transform 0.35s ease;
+  }
+
+  .product-card:hover .product-image img {
+    transform: scale(1.06);
+  }
+
+  .product-card {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .product-card .product-info {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+  }
+
+  .product-card .product-info small {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  /* Nút luôn nằm đáy thẻ, các thẻ cùng hàng thẳng nhau */
+  .product-card .av-card-cta-row,
+  .product-card .product-info > .add {
+    margin-top: auto;
+  }
+}
+
+/* ---------- 3. Trang chủ: khối "Mua sắm an tâm" trải 4 cột ---------- */
+@media (min-width: 901px) {
+  #best .benefits {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+/* ---------- 4. Trang chi tiết sản phẩm: ảnh bên trái, thông tin bên phải ---------- */
+@media (min-width: 901px) {
+  .product-pro-layout {
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+    gap: 56px;
+    align-items: start;
+  }
+
+  .pro-gallery {
+    position: static;
+  }
+
+  .pro-info {
+    position: sticky;
+    top: 150px;
+  }
+
+  .gallery-main {
+    max-height: min(640px, 78vh);
+    margin-inline: auto;
+    object-fit: contain !important;
+    background: #ffffff !important;
+    padding: 14px !important;
+    box-sizing: border-box !important;
+  }
+
+  .gallery-thumbs {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 12px;
+    overflow: visible;
+  }
+
+  .gallery-thumbs img {
+    flex: none;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    object-fit: contain !important;
+    background: #ffffff !important;
+    padding: 4px !important;
+    box-sizing: border-box !important;
+    border: 2px solid var(--line, #f3cfe2) !important;
+    border-radius: 10px !important;
+    cursor: pointer;
+    transition: all 0.25s ease;
+  }
+
+  .gallery-thumbs img:hover,
+  .gallery-thumbs img.active {
+    border-color: var(--pink, #ff4fa3) !important;
+    box-shadow: 0 0 10px rgba(255, 79, 163, 0.35) !important;
+    transform: translateY(-2px);
+  }
+}
+
+/* ---------- 5. Xem nhanh sản phẩm (popup): ảnh và thông tin chia 2 cột ---------- */
+@media (min-width: 721px) {
+  .av-qv-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+}
+
+/* ---------- 6. Giỏ hàng: danh sách bên trái, tóm tắt đơn bên phải ---------- */
+@media (min-width: 901px) {
+  .cart-layout {
+    grid-template-columns: minmax(0, 1fr) 380px;
+    gap: 32px;
+  }
+
+  .cart-layout .cart-summary {
+    position: sticky;
+    top: 150px;
+  }
+}
+
+/* ---------- 7. Trang Liên hệ: 4 thẻ liên hệ một hàng, form + FAQ chia 2 cột ---------- */
+@media (min-width: 1101px) {
+  .lh-cards {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .lh-layout {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  }
+}
+
+
+/* ---------- 8. Thu gọn khoảng trống (tiết kiệm chiều cao màn hình PC) ---------- */
+@media (min-width: 901px) {
+  /* Topbar + menu mỏng hơn */
+  .topbar,
+  .promo-page .topbar {
+    padding-block: 3px !important;
+  }
+
+  .topbar .topbar-inner,
+  .promo-page .topbar-inner {
+    min-height: 26px !important;
+    padding-block: 0 !important;
+  }
+
+  .nav a {
+    padding-block: 8px !important;
+  }
+
+  /* Khoảng cách giữa các khối */
+  .section {
+    padding-block: 14px !important;
+  }
+
+  .section-head {
+    margin-bottom: 10px !important;
+  }
+
+  .section-head h2 {
+    font-size: 24px !important;
+  }
+
+  #home .hero {
+    padding-block: 14px !important;
+    margin-bottom: 8px !important;
+  }
+
+  .home-banner,
+  #home .home-banner {
+    margin: 6px auto 8px !important;
+  }
+
+  .av-stream-section {
+    padding-block: 12px !important;
+    margin-block: 6px 4px !important;
+  }
+
+  .sale {
+    padding: 14px 22px !important;
+    margin-block: 8px 10px !important;
+  }
+
+  /* Thẻ tính năng / lợi ích / danh mục gọn hơn */
+  .benefits > div,
+  .otaku-hub-grid > div {
+    padding: 16px 18px !important;
+  }
+
+  .benefits,
+  .otaku-hub-grid {
+    gap: 14px !important;
+  }
+
+  .category {
+    padding: 14px 10px !important;
+  }
+
+  .product-grid {
+    gap: 14px !important;
+  }
+
+  .product-card .product-info {
+    padding: 8px 6px 6px !important;
+  }
+
+  /* Footer */
+  .site-footer {
+    padding-top: 18px !important;
+  }
+
+  .footer-grid {
+    padding-bottom: 12px !important;
+  }
+
+  /* Trang chi tiết sản phẩm */
+  .breadcrumb {
+    padding-block: 14px !important;
+  }
+
+  .product-pro-layout {
+    gap: 40px !important;
+    margin-bottom: 36px !important;
+  }
+
+  .pro-title {
+    font-size: 34px !important;
+    margin-bottom: 8px !important;
+  }
+
+  .pro-price {
+    padding: 14px 20px !important;
+    margin-bottom: 16px !important;
+    font-size: 34px !important;
+  }
+
+  .action-group {
+    margin-top: 18px !important;
+  }
+
+  .pro-details-section {
+    padding: 28px 36px !important;
+    margin-bottom: 30px !important;
+  }
+
+  .related-section {
+    margin-bottom: 30px !important;
+  }
+
+  .gallery-main {
+    max-height: min(560px, 72vh) !important;
+  }
+}
+
+/* ---------- 9. Thu gọn: selector mạnh hơn cho các rule theo theme ---------- */
+@media (min-width: 901px) {
+  :root[data-theme] .sale {
+    padding: 14px 22px !important;
+    margin-block: 8px 10px !important;
+  }
+
+  :root[data-theme] .benefits > div,
+  :root[data-theme] .otaku-hub-grid > div {
+    padding: 16px 18px !important;
+  }
+
+  :root[data-theme] .category {
+    padding: 14px 10px !important;
+  }
+
+  :root[data-theme] #home .hero {
+    margin-top: 2px !important;
+  }
+
+  :root[data-theme] .promo-page .hero.wrap,
+  :root[data-theme] .hero.wrap {
+    padding-block: 36px !important;
+    gap: 32px !important;
+  }
+
+  :root[data-theme] .promo-page .section.wrap,
+  :root[data-theme] .section.wrap {
+    padding-block: 14px !important;
+  }
+}
+
+@media (min-width: 901px) {
+  #sale,
+  .sale#sale {
+    padding: 14px 22px !important;
+  }
+
+  #best .benefits > div,
+  #otaku-hub-showcase .benefits > div {
+    padding: 16px 18px !important;
+  }
+}
+
+/* ==========================================================================
+   TỐI ƯU HIỂN THỊ HÌNH ẢNH TOÀN DIỆN (IMAGE DISPLAY PERFECTION)
+   1. Chống cắt xén (anti-crop): mọi ảnh sản phẩm dùng object-fit: contain
+   2. Khung ảnh vuông chuẩn 1:1, nền trắng studio tôn dáng nhân vật
+   3. Icon danh mục hiển thị cân đối (56x56px), không bị biến dạng
+   4. Ảnh chi tiết gallery & Quick View hiển thị sắc nét, trọn vẹn 100%
+   ========================================================================== */
+.product-image,
+.product-card .product-image,
+.products-page .product-card .product-image {
+  aspect-ratio: 1 / 1 !important;
+  width: 100% !important;
+  height: auto !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  position: relative !important;
+  overflow: hidden !important;
+  background: #ffffff !important;
+  border-radius: 14px 14px 0 0 !important;
+  padding: 8px !important;
+  box-sizing: border-box !important;
+}
+
+.product-image img,
+.product-card .product-image img,
+.products-page .product-card .product-image img {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  object-fit: contain !important;
+  object-position: center !important;
+  display: block !important;
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
+}
+
+.product-card:hover .product-image img {
+  transform: scale(1.06) !important;
+}
+
+/* Thẻ icon danh mục */
+.category img {
+  width: 56px !important;
+  height: 56px !important;
+  max-width: 56px !important;
+  max-height: 56px !important;
+  aspect-ratio: 1 / 1 !important;
+  object-fit: contain !important;
+  margin: 0 auto 10px !important;
+  display: block !important;
+  transition: transform 0.3s ease !important;
+}
+
+.category:hover img {
+  transform: scale(1.15) !important;
+}
+
+/* Gallery trang chi tiết sản phẩm */
+.gallery-main,
+#main-img {
+  width: 100% !important;
+  max-width: 100% !important;
+  aspect-ratio: 1 / 1 !important;
+  max-height: 540px !important;
+  object-fit: contain !important;
+  object-position: center !important;
+  background: #ffffff !important;
+  border-radius: 16px !important;
+  border: 1px solid var(--line, #f3cfe2) !important;
+  padding: 14px !important;
+  box-sizing: border-box !important;
+  box-shadow: 0 4px 20px rgba(225, 29, 116, 0.06) !important;
+  display: block !important;
+}
+
+.gallery-thumbs img {
+  aspect-ratio: 1 / 1 !important;
+  object-fit: contain !important;
+  object-position: center !important;
+  background: #ffffff !important;
+  border-radius: 10px !important;
+  border: 2px solid var(--line, #f3cfe2) !important;
+  padding: 4px !important;
+  box-sizing: border-box !important;
+  cursor: pointer !important;
+  transition: all 0.25s ease !important;
+}
+
+.gallery-thumbs img:hover,
+.gallery-thumbs img.active {
+  border-color: var(--pink, #ff4fa3) !important;
+  box-shadow: 0 0 10px rgba(255, 79, 163, 0.35) !important;
+  transform: translateY(-2px) !important;
+}
+
+/* Banner trang chủ */
+.home-banner,
+#home .home-banner {
+  width: min(1500px, calc(100% - 24px)) !important;
+  max-width: 1500px !important;
+  margin: 10px auto 14px !important;
+  border-radius: 18px !important;
+  overflow: hidden !important;
+  box-shadow: 0 8px 30px rgba(225, 29, 116, 0.12) !important;
+  line-height: 0 !important;
+  background: #fff0f6 !important;
+}
+
+.home-banner img,
+#home .home-banner img {
+  width: 100% !important;
+  height: auto !important;
+  max-height: 480px !important;
+  object-fit: cover !important;
+  object-position: center !important;
+  display: block !important;
+  border-radius: 18px !important;
+}
+
+/* Giỏ hàng & Popup Quick View */
+.cart-item img {
+  width: 84px !important;
+  height: 84px !important;
+  aspect-ratio: 1 / 1 !important;
+  object-fit: contain !important;
+  object-position: center !important;
+  border-radius: 12px !important;
+  background: #ffffff !important;
+  border: 1px solid var(--line, #f3cfe2) !important;
+  padding: 4px !important;
+  box-sizing: border-box !important;
+}
+
+.av-qv-main-img {
+  width: 100% !important;
+  aspect-ratio: 1 / 1 !important;
+  object-fit: contain !important;
+  object-position: center !important;
+  border-radius: 16px !important;
+  border: 1px solid var(--line, #f3cfe2) !important;
+  background: #ffffff !important;
+  padding: 10px !important;
+  box-sizing: border-box !important;
 }

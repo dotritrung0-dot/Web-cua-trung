@@ -690,8 +690,6 @@
             var s = img.getAttribute('src') || '';
             if (/placeholder\.svg$/i.test(s) || /placehold\.co|via\.placeholder/i.test(s)) {
                 applyFallback(img);
-            } else if (img.complete && img.naturalWidth === 0) {
-                applyFallback(img);
             }
         });
     }

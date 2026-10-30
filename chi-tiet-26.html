@@ -1,72 +1,8 @@
 <!DOCTYPE html>
 <html lang="vi" data-theme="sakura">
-<!--
-📦 FILE: chi-tiet-26.html — TRANG CHI TIẾT SẢN PHẨM #26: "Chó máy Pochita (Chainsaw Man)"
-📌 CẤU TRÚC CÁC MỤC TRONG TRANG CHI TIẾT NÀY:
-   - MỤC 1 : Phần HEAD (Tiêu đề tab "Chó máy Pochita (Chainsaw Man)", nạp file CSS gộp (bundle.css)).
-   - MỤC 2 : Dải thông báo trên cùng (.topbar).
-   - MỤC 3 : Thanh đầu trang (.header - Logo, Ô tìm kiếm, Nút Giỏ hàng & Hỗ trợ).
-   - MỤC 4 : Thanh Menu điều hướng (.nav).
-   - MỤC 5 : Thanh đường dẫn vị trí (.breadcrumb: Trang chủ > Danh mục > Tên món).
-   - MỤC 6 : Khung thông tin chính của sản phẩm (.product-pro-layout), gồm 2 cột:
-             + MỤC 6A (Bên trái - .pro-gallery): Ảnh lớn & hàng ảnh nhỏ bên dưới.
-             + MỤC 6B (Bên phải - .pro-info)   : Tên, Giá, Chọn Size, Số lượng, Nút Thêm Giỏ / Mua Ngay.
-   - MỤC 7 : Khung Mô tả chi tiết & Thông số kỹ thuật (.pro-details-section).
-             (Khi trang chạy, file js/tech.js sẽ tự động gắn thêm Khung Đánh Giá 5 Sao
-              và Kệ "Sản phẩm vừa xem" ngay bên dưới mục này).
-   - MỤC 8 : Khu vực 4 Sản phẩm cùng danh mục gợi ý (.related-section).
-   - MỤC 9 : Thanh chuyển nhanh Sản phẩm trước / Sản phẩm sau (.pro-pager).
-   - MỤC CUỐI 1 & 2: Chân trang (.site-footer) và nạp 3 file JS chính.
--->
-<!--
-📘 CẨM NANG ĐỌC & SỬA FILE HTML NÀY (DÀNH CHO NGƯỜI CHƯA BIẾT CODE)
-1. HTML LÀ GÌ?
-   - HTML giống như "bộ khung và nội dung chữ/ảnh" của trang web.
-   - Mọi thứ bạn nhìn thấy trên trang (chữ, hình ảnh, nút bấm, đường link) đều được viết ở đây.
 
-2. CÁCH ĐỌC CÁC THẺ (TAG) CƠ BẢN TRONG FILE NÀY:
-   - Cặp thẻ mở và đóng: <ten-the> Nội dung ở giữa </ten-the>
-   - <h1>, <h2>, <h3>, <h4> : Các dòng TIÊU ĐỀ (h1 là to nhất, h4 là nhỏ nhất).
-   - <p> ... </p>           : Một ĐOẠN VĂN BẢN bình thường.
-   - <span>, <small>        : Một cụm chữ nhỏ hoặc nhãn ngắn.
-   - <strong>, <b>          : Chữ IN ĐẬM (thường dùng để viết GIÁ TIỀN hoặc từ quan trọng).
-   - <del> ... </del>       : Chữ GẠCH NGANG ở giữa (thường dùng để viết GIÁ CŨ trước khi giảm).
-   - <a href="địa-chỉ.html">Chữ hiện ra</a> : ĐƯỜNG LINK bấm vào để chuyển sang trang khác.
-     + href="..." là tên file trang web sẽ mở ra khi bấm vào.
-   - <img src="đường-dẫn-ảnh" alt="mô tả">  : HÌNH ẢNH hiển thị trên trang.
-     + src="..." là đường dẫn chỉ tới tấm ảnh trong thư mục "anh/..."
-     + alt="..." là dòng mô tả ảnh (hiện ra nếu ảnh bị lỗi).
-   - <button> ... </button> : NÚT BẤM để thực hiện hành động (lọc đồ, thêm giỏ hàng, thả tim...).
-   - <div>, <section>, <article>, <header>, <nav>, <main>, <footer>:
-     + Là các "CHIẾC HỘP" gom nhóm các phần lại với nhau để chia bố cục trang web.
-
-3. ⚠️ QUY TẮC VÀNG KHI TỰ SỬA CODE (ĐỌC KỸ ĐỂ KHÔNG BỊ LỖI GIAO DIỆN):
-   - ✅ ĐƯỢC SỬA:
-     + Sửa chữ tiếng Việt nằm GIỮA cặp dấu > và < (Ví dụ: <h3>Tên mới</h3>, <strong>500.000đ</strong>).
-     + Sửa đường dẫn ảnh trong src="anh/..." (nhưng phải giữ nguyên cặp dấu ngoặc kép "").
-     + Sửa đường dẫn trang trong href="..." (giữ nguyên cặp dấu ngoặc kép "").
-   - ❌ TUYỆT ĐỐI KHÔNG XÓA / KHÔNG SỬA:
-     + Không xóa các dấu đóng mở ngoặc nhọn < , > , </...>.
-     + Không tự ý đổi tên tiếng Anh trong class="..." hoặc id="..." (Vì file CSS và JS dựa vào
-       đúng tên class/id đó để tô màu và chạy tính năng. Đổi tên là mất màu hoặc hỏng nút!).
-   - 💡 MẸO: Lỡ tay sửa nhầm làm hỏng giao diện? Bấm tổ hợp phím Ctrl + Z (hoặc Cmd + Z trên Mac)
-     để quay lại bước trước đó ngay lập tức!
--->
 <head>
-    <!--
-         MỤC 1: PHẦN ĐẦU TÀI LIỆU (Thẻ head) — CÀI ĐẶT TRANG & NẠP FILE CSS
-         📍 Tác dụng: Phần head chứa thông tin cài đặt ngầm cho trình duyệt.
-            Khách vào web không nhìn thấy trực tiếp phần này trên màn hình chính,
-            ngoại trừ dòng <title> hiện ở thanh Tab phía trên cùng của trình duyệt.
-         🛠️ Cách sửa:
-            - Muốn đổi TÊN TAB TRÌNH DUYỆT: Sửa chữ nằm giữa <title> ... </title>.
-            - Muốn đổi MÔ TẢ TRANG (khi chia sẻ link lên Facebook/Zalo): Sửa chữ trong
-              content="..." của thẻ <meta name="description"> và <meta property="og:description">.
-            - ⚠️ KHÔNG XÓA dòng <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="css/style.css"> vì đó là file
-              CSS tổng hợp tô màu và dàn trang cho toàn bộ website.
-    -->
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="description" content="Pochita phiên bản bông với đôi tai cưa tròn trịa, ôm êm và dễ thương.">
@@ -84,16 +20,7 @@
     <link rel="manifest" href="manifest.json">
 </head>
 <body>
-    <!--
-         MỤC 2: DẢI THÔNG BÁO TRÊN CÙNG (.topbar)
-         📍 Vị trí: Thanh ngang nhỏ nằm ở sát mép trên cùng của màn hình.
-         🛠️ Cách sửa:
-            - Mỗi dòng <span>...</span> là một câu thông báo ngắn.
-            - Muốn đổi nội dung thông báo (ví dụ đổi "500.000đ" thành "300.000đ"),
-              bạn chỉ cần sửa chữ tiếng Việt nằm giữa <span> và </span>.
-            - Lưu ý: Khi web chạy, file js/tech.js sẽ tự động gắn thêm dòng chữ chạy
-              và huy hiệu Cấp độ VIP (Tân Binh / Thợ Săn / Trụ Cột / Tứ Hoàng) vào thanh này.
-    -->
+
     <div class="topbar">
         <div class="container topbar-inner">
             <span>🚚 Freeship đơn từ 500.000đ</span>
@@ -101,19 +28,7 @@
             <span>↩ Đổi trả trong 7 ngày</span>
         </div>
     </div>
-    <!--
-         MỤC 3: THANH ĐẦU TRANG (.header) — LOGO, Ô TÌM KIẾM & NÚT CÔNG CỤ
-         📍 Vị trí: Nằm ngay dưới dải thông báo trên cùng, gồm 3 phần xếp ngang:
-            1) Logo thương hiệu "✦ ANIMEVERSE" bên trái (bấm vào sẽ về Trang chủ).
-            2) Ô tìm kiếm sản phẩm ở giữa (gõ tên sản phẩm sẽ tự xổ ra gợi ý có ảnh).
-            3) Cụm nút công cụ bên phải (.header-actions): Giỏ hàng, Hỗ trợ.
-         💡 Điều thú vị: Khi mở trang, file js/tech.js sẽ tự động gắn thêm 5 nút tiện ích
-            nữa vào trong <div class="header-actions"> (gồm: Gacha, So sánh, Đã thích,
-            Chủ đề giao diện, và Nhạc nền).
-         🛠️ Cách sửa:
-            - Đổi tên shop trên Logo: sửa chữ ANIME và VERSE trong thẻ <a class="logo">.
-            - Đổi chữ gợi ý mờ trong ô tìm kiếm: sửa chữ trong placeholder="...".
-    -->
+
     <header class="header">
         <div class="container header-inner">
             <a class="logo" href="trang-chu.html" aria-label="AnimeVerse - Trang chủ">
@@ -125,14 +40,13 @@
                 <button type="submit" aria-label="Tìm kiếm">⌕</button>
             </form>
             <div class="header-actions">
-                <!-- Nút mở Giỏ hàng -->
+
                 <a class="icon-btn cart-nav" href="gio-hang.html" title="Giỏ hàng" aria-label="Giỏ hàng">
                     🛒
                     <small>Giỏ hàng</small>
                     <span class="cart-badge" hidden>0</span>
                 </a>
-                
-                <!-- Nút chuyển sang trang Liên hệ hỗ trợ -->
+
                 <a class="icon-btn" href="lien-he.html" title="Liên hệ hỗ trợ">
                     🎧
                     <small>Hỗ trợ</small>
@@ -140,18 +54,7 @@
             </div>
         </div>
     </header>
-    <!--
-         MỤC 4: THANH MENU ĐIỀU HƯỚNG CHÍNH (Thẻ nav.nav)
-         📍 Vị trí: Thanh menu nằm ngay dưới Header, giúp khách bấm chuyển qua lại
-            giữa 6 trang chính: Trang chủ, Sản phẩm, Tư vấn, Khuyến mãi, Bán chạy, Liên hệ.
-         🔍 Giải thích:
-            - Mỗi thẻ <a href="ten-file.html">Tên Mục</a> là 1 nút trên thanh menu.
-            - Nút nào có thêm chữ class="active" thì nút đó sẽ sáng màu hồng/tím để báo
-              cho khách biết họ đang đứng ở trang đó.
-         🛠️ Cách sửa:
-            - Muốn đổi tên mục trên menu: Sửa chữ tiếng Việt giữa > và </a>.
-            - Muốn đổi trang đích khi bấm vào: Sửa tên file trong href="...".
-                -->
+
     <nav class="nav" aria-label="Điều hướng chính">
         <div class="container nav-inner">
             <a href="trang-chu.html">Trang chủ</a>
@@ -164,34 +67,15 @@
     </nav>
 
     <main class="container animate-fade">
-        <!--
-             MỤC 5: THANH ĐƯỜNG DẪN VỊ TRÍ (.breadcrumb)
-             📍 Vị trí: Dòng chữ nhỏ đầu trang (Trang chủ > Danh mục > Tên sản phẩm)
-                giúp khách biết mình đang xem món đồ thuộc nhóm nào và bấm quay lại nhanh.
-        -->
+
         <div class="breadcrumb">
             <a href="trang-chu.html">Trang chủ</a> &gt;
             <a href="plush.html">Gấu bông</a> &gt;
             <span>Chó máy Pochita (Chainsaw Man)</span>
         </div>
-        <!--
-             MỤC 6: KHUNG THÔNG TIN CHÍNH CỦA SẢN PHẨM (.product-pro-layout)
-        -->
+
         <section class="product-pro-layout">
-            <!--
-                 MỤC 6A: CỘT TRÁI — THƯ VIỆN ẢNH SẢN PHẨM (.pro-gallery)
-                 📍 Cấu trúc:
-                    - <img class="gallery-main" src="..."> : Tấm ảnh TO NHẤT hiện ở trên.
-                      (Khi khách bấm vào ảnh to này, kính lúp Lightbox sẽ phóng to ảnh lên).
-                    - <div class="gallery-thumbs">         : Hàng ảnh nhỏ bên dưới. Khách bấm
-                      vào ảnh nhỏ nào thì ảnh to ở trên sẽ tự động đổi sang ảnh đó!
-                 🛠️ Cách sửa ảnh:
-                    - Đổi ảnh chính: Sửa đường dẫn trong src="..." của <img class="gallery-main" decoding="async" loading="lazy">
-                      VÀ tấm ảnh nhỏ đầu tiên trong .gallery-thumbs.
-                    - Đổi hoặc thêm ảnh phụ: Sửa src="..." của các thẻ <img> trong .gallery-thumbs,
-                      hoặc copy thêm 1 dòng <img loading="lazy" decoding="async" src="anh/..." alt="...">
-                      dán vào trong <div class="gallery-thumbs"> là có thêm ảnh mới!
-            -->
+
             <div class="pro-gallery">
                 <img class="gallery-main" src="anh/sp26/sp26_1.webp" alt="Chó máy Pochita (Chainsaw Man)" decoding="async" loading="lazy">
                 <div class="gallery-thumbs">
@@ -203,31 +87,12 @@
 
 </div>
 
-            <!--
-                 MỤC 6B: CỘT PHẢI — TÊN, GIÁ, CHỌN SIZE, SỐ LƯỢNG & NÚT MUA (.pro-info)
-                 🛠️ Cách sửa thông tin sản phẩm ở cột này:
-                    1) Dòng danh mục & tên bộ Anime : Sửa trong <p class="pro-series">...</p>
-                    2) Tên lớn của sản phẩm         : Sửa trong <h1 class="pro-title">...</h1>
-                    3) Giá bán & Nhãn giảm giá      : Sửa trong <div class="pro-price">
-                       - Giá đang bán viết trực tiếp ở đầu (ví dụ: 590.000đ).
-                       - Giá cũ (nếu có giảm) nằm trong <del>...</del>.
-                       - Nhãn nổi bật nằm trong <span class="badge">HOT</span>.
-                    4) Câu giới thiệu ngắn          : Sửa trong <p class="pro-short">...</p>
-                    5) Các nút chọn Size (nếu có)   : Mỗi <button class="size-btn">S</button> là 1 cỡ.
-                       Nút nào có thêm chữ "selected" là cỡ được chọn sẵn mặc định.
-                    6) Ô chọn số lượng (#qty)       : Mặc định value="1", nhỏ nhất min="1".
-                    7) Hai nút mua hàng (.action-group):
-                       - #add-cart-btn : Bấm vào sẽ thêm món đồ vào Giỏ hàng (xử lý bởi js/site.js).
-                       - #buy-btn      : Bấm vào sẽ thêm vào giỏ và chuyển thẳng sang trang Giỏ hàng.
-                 💡 Lưu ý: Để giá và tên đồng bộ khi Xem Nhanh / Giỏ hàng / Tìm kiếm, nếu đổi giá
-                    hoặc tên ở đây, bạn nhớ sửa cả sản phẩm tương ứng trong biến CATALOG ở đầu file js/tech.js nhé!
-            -->
             <div class="pro-info">
                 <p class="pro-series">GẤU BÔNG · Chainsaw Man</p>
                 <h1 class="pro-title">Chó máy Pochita (Chainsaw Man)</h1>
                 <div class="pro-price">220.000đ </div>
                 <p class="pro-short">Pochita phiên bản bông với đôi tai cưa tròn trịa, ôm êm và dễ thương.</p>
-                
+
                 <div class="variant-group">
                     <h4>Số lượng:</h4>
                     <input id="qty" class="qty-input" type="number" value="1" min="1">
@@ -244,18 +109,6 @@
             </div>
         </section>
 
-        <!--
-             MỤC 7: KHUNG MÔ TẢ CHI TIẾT & THÔNG SỐ KỸ THUẬT (.pro-details-section)
-             📍 Vị trí: Khung hộp nằm ngay dưới phần ảnh và giá sản phẩm.
-             🛠️ Cách sửa:
-                - Sửa đoạn văn mô tả trong thẻ <p>...</p>.
-                - Sửa các dòng thông số (Chất liệu, Chiều cao, Đóng gói...) trong các thẻ
-                  <li><strong>Tên thông số:</strong> Nội dung</li>.
-                - Muốn thêm 1 dòng thông số mới: Chỉ cần copy thêm 1 dòng <li>...</li> đặt vào trong <ul>.
-             💡 Lưu ý: Ngay bên dưới mục này, file js/tech.js sẽ tự động vẽ thêm:
-                1) Khung Đánh giá 5 sao của khách hàng (có bộ lọc sao & form viết đánh giá mới).
-                2) Kệ "Sản phẩm bạn vừa xem gần đây".
-        -->
         <section class="pro-details-section">
             <h3>📝 Mô tả chi tiết</h3>
             <p>Pochita phiên bản bông với đôi tai cưa tròn trịa, ôm êm và dễ thương.</p>
@@ -267,19 +120,11 @@
             <p class="demo-note">*Thông tin và giá sản phẩm là nội dung mẫu cho giao diện demo. Vui lòng kiểm tra trước khi đặt hàng.</p>
         </section>
 
-        <!--
-             MỤC 8: KHU VỰC 4 SẢN PHẨM CÙNG DANH MỤC GỢI Ý (.related-section)
-             📍 Vị trí: Hiển thị 4 món đồ liên quan ở gần cuối trang để khách tham khảo thêm.
-             🛠️ Cách sửa:
-                - Mỗi             <article class="product-card">
-                    là 1 món gợi ý (gồm ảnh <img>, loại <small>,
-                    tên <h3>, giá <div class="price"> và link <a href="chi-tiet-X.html">).
-                    -->
                     <section class="related-section">
                     <h3>✦ Sản phẩm cùng danh mục</h3>
                     <div class="product-grid">
                     <article class="product-card">
-                <!-- Khung ảnh sản phẩm -->
+
                 <div class="product-image">
                     <img loading="lazy" decoding="async" src="anh/sp27/sp27_1.webp" alt="Gấu bông Pikachu (50cm)">
                 </div>
@@ -295,7 +140,7 @@
             </article>
 
                             <article class="product-card">
-                <!-- Khung ảnh sản phẩm -->
+
                 <div class="product-image">
                     <img loading="lazy" decoding="async" src="anh/sp28/sp28_1.webp" alt="Tony Tony Chopper">
                 </div>
@@ -310,7 +155,7 @@
             </article>
 
                             <article class="product-card">
-                <!-- Khung ảnh sản phẩm -->
+
                 <div class="product-image">
                     <img loading="lazy" decoding="async" src="anh/gojo/gojo_2.webp" alt="Gojo Satoru phiên bản Mèo">
                 </div>
@@ -325,7 +170,7 @@
             </article>
 
                             <article class="product-card">
-                <!-- Khung ảnh sản phẩm -->
+
                 <div class="product-image">
                     <img loading="lazy" decoding="async" src="anh/sp30/sp30_1.webp" alt="Gấu mập Doraemon">
                 </div>
@@ -342,24 +187,8 @@
             </div>
         </section>
 
-        <!--
-             MỤC 9: THANH CHUYỂN NHANH SẢN PHẨM TRƯỚC / TIẾP THEO (.pro-pager)
-        -->
         <nav class="pro-pager"  aria-label="Chuyển sản phẩm"><a href="chi-tiet-25.html">← Sản phẩm trước</a><a href="san-pham.html">Tất cả sản phẩm</a><a href="chi-tiet-27.html">Sản phẩm sau →</a></nav>
     </main>
-    <!--
-         MỤC CUỐI 1: CHÂN TRANG (Thẻ footer.site-footer)
-         📍 Vị trí: Phần dưới cùng của trang web, chia làm 4 cột thông tin:
-            - Cột 1: Logo và câu giới thiệu ngắn về cửa hàng AnimeVerse.
-            - Cột 2 (Danh mục): Các đường link dẫn tới 6 trang danh mục sản phẩm.
-            - Cột 3 (Khám phá): Các đường link dẫn tới các trang chính.
-            - Cột 4 (Liên hệ): Địa chỉ, Số điện thoại và Email của shop.
-         🛠️ Cách sửa:
-            - Đổi địa chỉ: Sửa chữ sau biểu tượng 📍 (hiện tại là "CUWC").
-            - Đổi số điện thoại: Sửa số trong href="tel:0936271107" VÀ số hiển thị bên ngoài.
-            - Đổi email: Sửa địa chỉ email trong href="mailto:..." VÀ chữ hiển thị bên ngoài.
-            - Đổi dòng bản quyền dưới cùng: Sửa chữ trong <div class="copyright">.
-    -->
 
     <footer class="site-footer">
         <div class="container footer-grid">
@@ -397,16 +226,7 @@
         </div>
         <div class="copyright">© 2026 AnimeVerse. Made with ♡ for Otaku.</div>
     </footer>
-    <!--
-         MỤC CUỐI 2: NẠP 1 FILE JAVASCRIPT DUY NHẤT ("BỘ NÃO" CỦA WEBSITE)
-         📍 Tác dụng: Dòng script dưới đây nạp file xử lý thông minh toàn năng (js/script.js):
-            - Quản lý Giỏ hàng, Mã giảm giá, Yêu thích & Thanh toán (AVStore)
-            - Cơ sở dữ liệu 50 sản phẩm, Đổi 4 giao diện màu, Gacha, AI Size, Quiz, So sánh
-            - Trợ lý Chatbot AV-Bot 3.0 & Thanh tiện ích Otaku Quick Dock
-            - Đồng bộ nhạc nền MP3 phát xuyên trang & Tối ưu điện thoại
-            - Hiệu ứng 3D Card Tilt, vệt sáng phản chiếu & pháo hoa cánh hoa Sakura
-         ⚠️ LƯU Ý QUAN TRỌNG: TUYỆT ĐỐI KHÔNG XÓA dòng script này, nếu xóa web sẽ mất toàn bộ tính năng!
-    -->
-    <script src="js/script.js" defer></script>
+
+    <script src="js/main.js" defer></script>
 </body>
 </html>
