@@ -9111,8 +9111,7 @@ html:not([data-theme="sakura"]):not([data-theme="gear5"]):not([data-theme="gojo"
 }
 
 html {
-  overflow-x: hidden;
-  max-width: 100%;
+  min-width: 1500px;
   -webkit-text-size-adjust: 100%;
 }
 
@@ -9123,8 +9122,7 @@ body {
     radial-gradient(circle at 12% 30%, rgba(255, 61, 154, 0.06), transparent 45%) !important;
   background-size: auto !important;
   color: var(--text);
-  overflow-x: hidden;
-  max-width: 100%;
+  min-width: 1500px;
 }
 
 /* Giảm nhiễu hạt sáng nền để tập trung vào điểm nhấn Hero */
@@ -15927,4 +15925,30 @@ html, body {
   background: #ffffff !important;
   padding: 10px !important;
   box-sizing: border-box !important;
+}
+
+/* ==========================================================================
+   CỐ ĐỊNH KÍCH THƯỚC CHUẨN 1500PX CHO TOÀN BỘ WEBSITE PC
+   Đảm bảo khi DevTools inspect thẻ html/body luôn hiển thị chiều rộng 1500px
+   ========================================================================== */
+html {
+  min-width: 1500px !important;
+  max-width: none !important;
+}
+
+body {
+  min-width: 1500px !important;
+  max-width: none !important;
+  overflow-x: auto !important;
+}
+
+.container,
+.wrap,
+.promo-page .wrap,
+.home-banner,
+#home .home-banner {
+  width: 1500px !important;
+  min-width: 1500px !important;
+  max-width: 1500px !important;
+  margin-inline: auto !important;
 }
