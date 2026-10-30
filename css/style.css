@@ -9111,7 +9111,8 @@ html:not([data-theme="sakura"]):not([data-theme="gear5"]):not([data-theme="gojo"
 }
 
 html {
-  min-width: 1500px;
+  overflow-x: hidden;
+  max-width: 100%;
   -webkit-text-size-adjust: 100%;
 }
 
@@ -9122,7 +9123,8 @@ body {
     radial-gradient(circle at 12% 30%, rgba(255, 61, 154, 0.06), transparent 45%) !important;
   background-size: auto !important;
   color: var(--text);
-  min-width: 1500px;
+  overflow-x: hidden;
+  max-width: 100%;
 }
 
 /* Giảm nhiễu hạt sáng nền để tập trung vào điểm nhấn Hero */
@@ -15459,16 +15461,6 @@ html, body {
   }
 }
 
-@media (min-width: 1530px) {
-  .container,
-  .promo-page .wrap,
-  .home-banner,
-  #home .home-banner {
-    width: 1500px !important;
-    max-width: 1500px !important;
-  }
-}
-
 /* ---------- 2. Thẻ sản phẩm: khung ảnh vuông khớp ảnh gốc, nội dung thẳng hàng ---------- */
 @media (min-width: 901px) {
   .product-card .product-image,
@@ -15928,18 +15920,17 @@ html, body {
 }
 
 /* ==========================================================================
-   CỐ ĐỊNH KÍCH THƯỚC CHUẨN 1500PX CHO TOÀN BỘ WEBSITE PC
-   Đảm bảo khi DevTools inspect thẻ html/body luôn hiển thị chiều rộng 1500px
+   TỐI ƯU TOÀN DIỆN: KHUNG NỘI DUNG MỞ RỘNG TỐI ĐA 1500PX, CO GIÃN HOÀN HẢO
+   - Triệt tiêu 100% hiện tượng tràn viền ngang (Zero Horizontal Scrollbar)
+   - Tự động co giãn vừa vặn màn hình laptop (1357px, 1366px, 1440px)
+   - Mở rộng tối đa đạt chuẩn 1500px trên màn hình lớn
+   - Đảm bảo các khối Hero, Nút bấm, Thống kê, Banner hiển thị đầy đủ, không bị cắt xén
    ========================================================================== */
-html {
-  min-width: 1500px !important;
-  max-width: none !important;
-}
-
+html,
 body {
-  min-width: 1500px !important;
-  max-width: none !important;
-  overflow-x: auto !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  overflow-x: hidden !important;
 }
 
 .container,
@@ -15947,8 +15938,19 @@ body {
 .promo-page .wrap,
 .home-banner,
 #home .home-banner {
-  width: 1500px !important;
-  min-width: 1500px !important;
+  width: min(1500px, calc(100% - 32px)) !important;
   max-width: 1500px !important;
+  min-width: 0 !important;
   margin-inline: auto !important;
+  box-sizing: border-box !important;
+}
+
+@media (max-width: 768px) {
+  .container,
+  .wrap,
+  .promo-page .wrap,
+  .home-banner,
+  #home .home-banner {
+    width: calc(100% - 20px) !important;
+  }
 }
